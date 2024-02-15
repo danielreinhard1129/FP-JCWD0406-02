@@ -1,0 +1,12 @@
+import prisma from '@/prisma';
+import { IUser } from '@/types/user.types';
+
+export const register = async (data: any) => {
+  try {
+    const user = await prisma.user.create({ data });
+
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};

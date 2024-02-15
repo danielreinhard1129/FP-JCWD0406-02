@@ -19,3 +19,40 @@ model Sample {
 
   @@map("samples") // if you want to use snake_case format
 }
+
+model User {
+  id              Int      @id @default(autoincrement())
+  first_name      String?
+  last_name       String?
+  username        String   @unique
+  email           String   @unique
+  password        String
+  contact         String?  @default("62")
+  roleId          Int?
+  isDeleted       Boolean  @default(false)
+  profile_picture String?
+  updatedAt       DateTime @updatedAt
+  created_at      DateTime @default(now())
+  userAddress_id  Int?     @unique
+
+  Role       Role?        @relation(fields: [roleId], references: [id])
+  UserAddess UserAddress? @relation(fields: [userAddress_id], references: [id])
+}
+
+model Role {
+  id        Int    @id @default(autoincrement())
+  role_name String
+  user      User[]
+}
+
+model UserAddress {
+  id          Int    @id @default(autoincrement())
+  name        String
+  contact     String @default("62")
+  street      String
+  distric     String
+  city        String
+  province    String
+  postal_code Int
+  user        User[]
+}
