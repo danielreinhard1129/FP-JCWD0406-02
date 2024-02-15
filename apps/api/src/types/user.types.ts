@@ -1,19 +1,21 @@
 export interface IUser {
-  id: Number;
-  first_name: String;
-  last_name: String;
-  username: String;
-  email: String;
-  password: String;
-  contact: String;
-  roleId: Number;
-  profile_picture: String;
+  id: number;
+  first_name: string;
+  last_name: string;
+  username: string;
+  email: string;
+  password: string;
+  contact: string;
+  roleId: number;
+  isDeleted: boolean;
+  isVerified: boolean;
+  profile_picture: string;
   created_at: Date;
   updatedAt: Date;
-  userAddress_id: Number;
+  userAddress_id: number;
 }
 
-export interface Iaddress {
+export interface IAddress {
   id: Number;
   name: String;
   contact: String;
@@ -24,7 +26,12 @@ export interface Iaddress {
   postal_code: Number;
 }
 
-export interface Irole {
+export interface IRole {
   id: Number;
   role_name: String;
+}
+
+export interface ILogin {
+  usernameOrEmail: string;
+  password: string;
 }

@@ -1,13 +1,22 @@
+import { hashPassword } from '@/lib/bcrypt';
 import { register } from '@/repositories/user/Register';
+import { getUserByEmail } from '@/repositories/user/getUserByEmail';
+import { IUser } from '@/types/user.types';
 
-export const registerAction = async (data: any) => {
+export const registerAction = async (data: IUser) => {
   try {
-    const user = await register(data);
+    const { email, password } = data;
+
+    const user = await getUserByEmail(email);
+
+    if (user) throw new Error('This email already exist');
+
+    const hashedPassword = await hashPassword(password);
+    data.password = hashedPassword;
+    await register(data);
 
     return {
-      status: 200,
       message: 'create account success',
-      data: user,
     };
   } catch (error) {
     throw error;
