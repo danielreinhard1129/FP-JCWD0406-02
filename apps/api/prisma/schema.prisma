@@ -30,6 +30,7 @@ model User {
   contact         String?  @default("62")
   roleId          Int?
   isDeleted       Boolean  @default(false)
+  isVerified      Boolean  @default(false)
   profile_picture String?
   updatedAt       DateTime @updatedAt
   created_at      DateTime @default(now())
