@@ -16,19 +16,19 @@ export interface IUser {
 }
 
 export interface IAddress {
-  id: Number;
-  name: String;
-  contact: String;
-  street: String;
-  distric: String;
-  city: String;
-  province: String;
-  postal_code: Number;
+  id: number;
+  name: string;
+  contact: string;
+  street: string;
+  distric: string;
+  city: string;
+  province: string;
+  postal_code: number;
 }
 
 export interface IRole {
-  id: Number;
-  role_name: String;
+  id: number;
+  role_name: string;
 }
 
 export interface ILogin {

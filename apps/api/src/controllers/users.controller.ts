@@ -2,6 +2,7 @@ import { findAllUserAction } from '@/actions/user/FindAllUserAction';
 import { keepLoginAction } from '@/actions/user/KeepLoginAction';
 import { loginAction } from '@/actions/user/LoginAction';
 import { registerAction } from '@/actions/user/RegisterAction';
+import { editUserAction } from '@/actions/user/editUserAction';
 import { NextFunction, Request, Response } from 'express';
 
 export class UserController {
@@ -42,6 +43,19 @@ export class UserController {
       const email = req.user?.email;
 
       const result = await keepLoginAction(email as string);
+
+      res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async editUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const data = req.body;
+
+      const result = await editUserAction(data, Number(id));
 
       res.status(200).send(result);
     } catch (error) {
