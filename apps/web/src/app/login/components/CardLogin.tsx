@@ -67,7 +67,7 @@ export default function CardLogin() {
         </form>
         <hr className="mt-4" />
         <div className="text-center mt-4">
-          <span className="text-sm text-gray-600">
+          <span className="text-xs text-gray-600">
             If you dont have an account,{' '}
           </span>
           <a
