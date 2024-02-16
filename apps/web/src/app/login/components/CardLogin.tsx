@@ -1,6 +1,6 @@
 export default function CardLogin() {
   return (
-    <div className="h-fit flex md:mt-10 mt-4 justify-center">
+    <div className="h-fit flex md:mt-4 mt-4 justify-center">
       <div className=" max-w-md w-full bg-white shadow-md rounded-xl px-8 pt-6 pb-8 mb-4">
         <div className="flex flex-col items-center">
           <img
@@ -59,7 +59,7 @@ export default function CardLogin() {
             </button>
             <a
               className="inline-block align-baseline font-normal text-xs text-teal-600 hover:text-dark-blue"
-              href="#"
+              href="/forgot-password"
             >
               Forgot Password?
             </a>
