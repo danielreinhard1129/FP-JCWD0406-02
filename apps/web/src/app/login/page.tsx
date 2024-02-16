@@ -1,7 +1,12 @@
 import React from 'react';
+import CardLogin from './components/CardLogin';
 
-const Loginpage = () => {
-  return <div className="font-bold text-[200px]">loginn page</div>;
+const LoginPage = () => {
+  return (
+    <div>
+      <CardLogin />
+    </div>
+  );
 };
 
-export default Loginpage;
+export default LoginPage;
