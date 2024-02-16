@@ -35,3 +35,8 @@ export interface ILogin {
   usernameOrEmail: string;
   password: string;
 }
+
+export interface IReset {
+  password: string;
+  confirmPassword: string;
+}
