@@ -18,6 +18,12 @@ export class UserRouter {
     this.router.post('/login', this.userController.loginUser);
     this.router.get('/keeplogin', verifyToken, this.userController.keeplogin);
     this.router.patch('/edituser/:id', this.userController.editUser);
+    this.router.post('/forgot-password', this.userController.forgotPassword);
+    this.router.patch(
+      '/reset-password',
+      verifyToken,
+      this.userController.resetPassword,
+    );
   }
 
   getRouter(): Router {

@@ -3,6 +3,8 @@ import { keepLoginAction } from '@/actions/user/KeepLoginAction';
 import { loginAction } from '@/actions/user/LoginAction';
 import { registerAction } from '@/actions/user/RegisterAction';
 import { editUserAction } from '@/actions/user/editUserAction';
+import { forgotPasswordAction } from '@/actions/user/forgotPasswordAction';
+import { resetPasswordAction } from '@/actions/user/resetPasswordAction';
 import { NextFunction, Request, Response } from 'express';
 
 export class UserController {
@@ -56,6 +58,27 @@ export class UserController {
       const data = req.body;
 
       const result = await editUserAction(data, Number(id));
+
+      res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async forgotPassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await forgotPasswordAction(req.body.email);
+
+      res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async resetPassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const email = req.user?.email;
+      const result = await resetPasswordAction(String(email), req.body);
 
       res.status(200).send(result);
     } catch (error) {
