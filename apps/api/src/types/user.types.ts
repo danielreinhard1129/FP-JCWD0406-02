@@ -17,6 +17,7 @@ export interface IUser {
 
 export interface IAddress {
   id: number;
+  userId: number;
   name: string;
   contact: string;
   street: string;

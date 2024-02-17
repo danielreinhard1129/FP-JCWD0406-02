@@ -21,23 +21,22 @@ model Sample {
 }
 
 model User {
-  id              Int      @id @default(autoincrement())
+  id              Int           @id @default(autoincrement())
   first_name      String?
   last_name       String?
-  username        String   @unique
-  email           String   @unique
+  username        String        @unique
+  email           String        @unique
   password        String
-  contact         String?  @default("62")
+  contact         String?       @default("62")
   roleId          Int?
-  isDeleted       Boolean  @default(false)
-  isVerified      Boolean  @default(false)
+  isDeleted       Boolean       @default(false)
+  isVerified      Boolean       @default(false)
   profile_picture String?
-  updatedAt       DateTime @updatedAt
-  created_at      DateTime @default(now())
-  userAddress_id  Int?     @unique
+  updatedAt       DateTime      @updatedAt
+  created_at      DateTime      @default(now())
+  userAddress     UserAddress[]
 
-  Role       Role?        @relation(fields: [roleId], references: [id])
-  UserAddess UserAddress? @relation(fields: [userAddress_id], references: [id])
+  Role Role? @relation(fields: [roleId], references: [id])
 }
 
 model Role {
@@ -48,6 +47,7 @@ model Role {
 
 model UserAddress {
   id          Int    @id @default(autoincrement())
+  userId      Int
   name        String
   contact     String @default("62")
   street      String
@@ -55,5 +55,6 @@ model UserAddress {
   city        String
   province    String
   postal_code Int
-  user        User[]
+
+  user User @relation(fields: [userId], references: [id])
 }
