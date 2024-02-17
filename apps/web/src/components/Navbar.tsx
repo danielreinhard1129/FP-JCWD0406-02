@@ -1,12 +1,49 @@
 'use client';
 
+import { baseUrl } from '@/app/utils/database';
+import { loginAction, logoutAction } from '@/lib/features/userSlice';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { FiPackage, FiSearch, FiShoppingCart } from 'react-icons/fi';
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const user = useAppSelector((state) => state.user);
+  const router = useRouter();
+  const dispacth = useAppDispatch();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token_auth');
+    dispacth(logoutAction());
+    router.push('/');
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token_auth');
+
+    const keepLogin = async () => {
+      try {
+        const { data } = await axios.get(baseUrl + '/users/keeplogin', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const keep = data.data;
+        keep.roleId = data.data.roleId.roleId;
+        console.log(data);
+
+        dispacth(loginAction(keep));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    keepLogin();
+  }, [user]);
 
   const closeMenu = () => {
     setIsMenuOpen(false);
