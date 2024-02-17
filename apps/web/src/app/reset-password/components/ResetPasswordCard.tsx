@@ -1,6 +1,49 @@
+'use client';
+import { baseUrl } from '@/app/utils/database';
+import axios, { AxiosError } from 'axios';
+import { useFormik } from 'formik';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function ResetPasswordCard() {
+  const router = useRouter();
+  const searchToken = useSearchParams();
+  const token = searchToken.get('token');
+
+  const formik = useFormik({
+    initialValues: {
+      password: '',
+      confirmPassword: '',
+    },
+    onSubmit: async (values) => {
+      try {
+        const { password, confirmPassword } = values;
+        console.log(values);
+
+        const { data } = await axios.patch(
+          `${baseUrl}/users/reset`,
+          {
+            password,
+            confirmPassword,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        console.log(data);
+
+        alert('reset succes');
+        router.push('/login');
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          const errorMsg = error.response?.data || error.message;
+          alert(errorMsg);
+        }
+      }
+    },
+  });
   return (
     <div className="relative h-fit md:h-screen">
       {/* Full Picture */}
@@ -22,11 +65,12 @@ export default function ResetPasswordCard() {
           <p className="text-xs text-gray-600 text-center mt-1 mb-4">
             Enter new password below to reset your password
           </p>
-          <form>
+          <form onSubmit={formik.handleSubmit}>
             <div className="mb-4">
               <input
                 type="password"
                 id="pasword"
+                onChange={formik.handleChange}
                 placeholder="New Password"
                 className="shadow appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring"
               />
@@ -35,6 +79,7 @@ export default function ResetPasswordCard() {
               <input
                 type="password"
                 id="password"
+                onChange={formik.handleChange}
                 placeholder="Confirm New Password"
                 className="shadow appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring"
               />
