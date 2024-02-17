@@ -1,6 +1,33 @@
+'use client';
 import Link from 'next/link';
+import { useFormik } from 'formik';
+import axios, { AxiosError } from 'axios';
+import { baseUrl } from '@/app/utils/database';
 
 export default function ForgotPasswordCard() {
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+    },
+    onSubmit: async (values) => {
+      // TODO: Implement forgot password functionality.
+      try {
+        const { email } = values;
+
+        const { data } = await axios.post(`${baseUrl}/users/forgot-password`, {
+          email,
+        });
+
+        alert('Forgot succes, Please Check your email');
+        // router.push('/login');
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          const errorMsg = error.response?.data || error.message;
+          alert(errorMsg);
+        }
+      }
+    },
+  });
   return (
     <div className="relative h-fit md:h-screen">
       {/* Full Picture as Background */}
@@ -22,12 +49,13 @@ export default function ForgotPasswordCard() {
           <p className="text-xs text-gray-600 text-center mt-1 mb-4">
             Enter Email below to reset your password
           </p>
-          <form>
+          <form onSubmit={formik.handleSubmit}>
             <div className="mb-4">
               <input
                 type="email"
                 id="email"
                 placeholder="Email"
+                onChange={formik.handleChange}
                 className="shadow appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring"
               />
             </div>
