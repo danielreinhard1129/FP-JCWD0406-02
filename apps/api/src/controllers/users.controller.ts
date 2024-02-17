@@ -6,7 +6,12 @@ import { editUserAction } from '@/actions/user/editUserAction';
 import { forgotPasswordAction } from '@/actions/user/forgotPasswordAction';
 import { resetPasswordAction } from '@/actions/user/resetPasswordAction';
 import { addUserAddressAction } from '@/actions/userAddress/addUserAddressAction';
+import { deleteUserAddressAction } from '@/actions/userAddress/deleteUserAddressAction';
+import { editUserAddressAction } from '@/actions/userAddress/editUserAddressAction';
+import { getAddresByUserIdAction } from '@/actions/userAddress/getAddressByUserIdAction';
 import { getAllUserAddressAction } from '@/actions/userAddress/getAllUserAddressAction';
+import { getUserAddressByIdAction } from '@/actions/userAddress/getUserAddressByIdAction';
+import { deleteUserAddress } from '@/repositories/userAddress/deleteUserAddress';
 import { NextFunction, Request, Response } from 'express';
 
 export class UserController {
@@ -105,6 +110,55 @@ export class UserController {
       const userAddress = await getAllUserAddressAction();
 
       res.status(200).send(userAddress);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getAddresByUserId(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+
+      const userAddresses = await getAddresByUserIdAction(Number(id));
+
+      res.status(200).send(userAddresses);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getUserAddressById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+
+      const userAddress = await getUserAddressByIdAction(Number(id));
+
+      res.status(200).send(userAddress);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async editUserAddress(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const data = req.body;
+
+      const userAddress = await editUserAddressAction(data, Number(id));
+
+      res.status(200).send(userAddress);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async deleteUserAddress(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+
+      const userAdress = await deleteUserAddressAction(Number(id));
+
+      res.status(200).send(userAdress);
     } catch (error) {
       next(error);
     }
