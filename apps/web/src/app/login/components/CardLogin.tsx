@@ -1,4 +1,59 @@
-export default function CardLogin() {
+'use client';
+
+import { loginAction } from '@/lib/features/userSlice';
+import axios, { AxiosError } from 'axios';
+import { useFormik } from 'formik';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import * as yup from 'yup';
+import YupPassword from 'yup-password';
+import { toast } from 'sonner';
+import { baseUrl } from '@/app/utils/database';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+YupPassword(yup);
+
+const validationSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email('Invalid email address')
+    .required('Email cannot be empety'),
+  password: yup.string().required('Password cannot be empety'),
+});
+
+const CardLogin = () => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const user = useAppSelector((state) => state.user);
+
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validationSchema,
+    onSubmit: async (values) => {
+      try {
+        const { data } = await axios.post(baseUrl + '/users/login', {
+          email: values.email,
+          password: values.password,
+        });
+
+        dispatch(loginAction(data.data));
+
+        localStorage.setItem('token_auth', data.token);
+
+        toast.success('Login success');
+
+        router.push('/');
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          const errorMsg = error.response?.data || error.message;
+          toast.error(errorMsg);
+        }
+      }
+    },
+  });
+
   return (
     <div className="h-fit flex md:mt-4 mt-4 justify-center">
       <div className=" max-w-md w-full bg-white shadow-md rounded-xl px-8 pt-6 pb-8 mb-4">
@@ -21,7 +76,9 @@ export default function CardLogin() {
             or continue with
           </span>
         </div>
-        <form>
+        <div>{user.id ? <h1>Babi Kau jordy</h1> : <h1>Apasih Anjeng</h1>}</div>
+
+        <form onSubmit={formik.handleSubmit}>
           <div className="mb-3">
             <label
               className="block text-teal-700 text-sm font-semibold mb-1"
@@ -34,7 +91,13 @@ export default function CardLogin() {
               id="email"
               type="email"
               placeholder="name@example.com"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
             />
+            {formik.errors.email && formik.touched.email && (
+              <p className="text-sm text-red-500 mt-2">{formik.errors.email}</p>
+            )}
           </div>
           <div className="mb-2">
             <label
@@ -48,12 +111,20 @@ export default function CardLogin() {
               id="password"
               type="password"
               placeholder="******************"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
             />
+            {formik.errors.password && formik.touched.password && (
+              <p className="text-sm text-red-500 mt-2">
+                {formik.errors.password}
+              </p>
+            )}
           </div>
           <div className="flex items-center justify-between">
             <button
               className="bg-teal-600 hover:bg-teal-700 text-white w-7/12 text-sm font-normal py-2 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-50"
-              type="button"
+              type="submit"
             >
               Sign In
             </button>
@@ -80,4 +151,6 @@ export default function CardLogin() {
       </div>
     </div>
   );
-}
+};
+
+export default CardLogin;

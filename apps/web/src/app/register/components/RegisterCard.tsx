@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import { toast } from 'sonner';
 import YupPassword from 'yup-password';
 import { useState } from 'react';
+import { baseUrl } from '@/app/utils/database';
 YupPassword(yup);
 
 const validationSchema = yup.object().shape({
@@ -22,9 +23,8 @@ const validationSchema = yup.object().shape({
     .required('Password cannot be empty'),
 });
 
-export default function RegisterCard() {
+const RegisterCard = () => {
   const [success, setSuccess] = useState(false);
-  const baseUrl = 'http://localhost:8000/api';
   const router = useRouter();
 
   const formik = useFormik({
@@ -211,4 +211,6 @@ export default function RegisterCard() {
       </div>
     </div>
   );
-}
+};
+
+export default RegisterCard;
