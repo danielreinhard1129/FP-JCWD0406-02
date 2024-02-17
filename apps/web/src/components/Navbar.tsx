@@ -8,10 +8,18 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { FiPackage, FiSearch, FiShoppingCart } from 'react-icons/fi';
+import {
+  FiLogOut,
+  FiPackage,
+  FiSearch,
+  FiSettings,
+  FiShoppingCart,
+  FiUser,
+} from 'react-icons/fi';
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const user = useAppSelector((state) => state.user);
   const router = useRouter();
   const dispacth = useAppDispatch();
@@ -58,13 +66,12 @@ export const Navbar = () => {
         className="mx-auto flex max-w-7xl items-center justify-between p-3"
         aria-label="Global"
       >
-        <div className="flex px-3">
-          <Link href="/" className="-m-1.5 p-1.5 lg:block">
-            <span className="sr-only z">BORDL LOGO</span>
+        <div className="flex pl-1 lg:px-3">
+          <Link href="/" className="lg:block">
             <Image
               width="100"
               height="100"
-              className="h-8 w-auto"
+              className="h-8 w-auto hidden lg:block"
               src="/LOGOBRDL.png"
               alt=""
             />
@@ -81,7 +88,7 @@ export const Navbar = () => {
             All Product
           </Link>
         </div>
-        <div className="flex w-auto max-w-3xl">
+        <div className="flex w-full max-w-3xl">
           <input
             type="search"
             placeholder="Search product..."
@@ -94,6 +101,7 @@ export const Navbar = () => {
             <FiSearch className="h-5 w-5" />
           </button>
         </div>
+
         <div className="ml-4 flex lg:gap-x-12 items-center">
           <a
             href="#"
@@ -133,16 +141,65 @@ export const Navbar = () => {
             </svg>
           </button>
         </div>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Link
-            href="/login"
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            Log in <span aria-hidden="true">&rarr;</span>
-          </Link>
-        </div>
-      </nav>
+        {user.id ? (
+          <div className="relative hidden lg:block">
+            {/* Profile Icon Button */}
+            <button
+              onClick={() => setDropdownOpen((prev) => !prev)}
+              className="flex items-center justify-center w-10 h-10 bg-teal-300 rounded-full hover:bg-teal-200"
+              id="user-menu-button"
+              aria-expanded="false"
+              data-dropdown-toggle="dropdown"
+            >
+              <span className="sr-only">Open profile menu</span>
+              <FiUser />
+              {/* <img
+                className="w-8 h-8 rounded-full"
+                src="/path/to/your/profile/image.jpg"
+                alt="User menu"
+              /> */}
+            </button>
 
+            {/* Dropdown menu */}
+            <div
+              className={`${
+                dropdownOpen ? 'block' : 'hidden'
+              } absolute right-0 z-50 mt-2 w-48 py-1 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
+              role="menu"
+              aria-orientation="vertical"
+              aria-labelledby="user-menu-button"
+              onMouseLeave={() => setDropdownOpen(false)}
+            >
+              <a
+                href="#" // Link to settings page
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                role="menuitem"
+              >
+                <FiSettings className="inline-block w-5 h-5 mr-3" />
+                Settings
+              </a>
+              <a
+                onClick={handleLogout}
+                href="/"
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                role="menuitem"
+              >
+                <FiLogOut className="inline-block w-5 h-5 mr-3" />
+                Log Out
+              </a>
+            </div>
+          </div>
+        ) : (
+          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+            <Link
+              href="/login"
+              className="text-sm font-semibold leading-6 text-gray-900"
+            >
+              Log in <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </div>
+        )}
+      </nav>
       <div
         className={`${isMenuOpen ? 'block' : 'hidden'} lg:hidden`}
         role="dialog"
@@ -235,7 +292,7 @@ export const Navbar = () => {
                   href="/login"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  Log in
+                  Login
                 </Link>
               </div>
             </div>
