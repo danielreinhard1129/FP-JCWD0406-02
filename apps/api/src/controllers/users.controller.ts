@@ -5,6 +5,8 @@ import { registerAction } from '@/actions/user/RegisterAction';
 import { editUserAction } from '@/actions/user/editUserAction';
 import { forgotPasswordAction } from '@/actions/user/forgotPasswordAction';
 import { resetPasswordAction } from '@/actions/user/resetPasswordAction';
+import { addUserAddressAction } from '@/actions/userAddress/addUserAddressAction';
+import { getAllUserAddressAction } from '@/actions/userAddress/getAllUserAddressAction';
 import { NextFunction, Request, Response } from 'express';
 
 export class UserController {
@@ -81,6 +83,28 @@ export class UserController {
       const result = await resetPasswordAction(String(email), req.body);
 
       res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async AddUserAddress(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = req.body;
+
+      const userAddress = await addUserAddressAction(data);
+
+      res.status(200).send(userAddress);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getAllUserAddress(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userAddress = await getAllUserAddressAction();
+
+      res.status(200).send(userAddress);
     } catch (error) {
       next(error);
     }

@@ -24,6 +24,8 @@ export class UserRouter {
       verifyToken,
       this.userController.resetPassword,
     );
+    this.router.get('/user-address', this.userController.getAllUserAddress);
+    this.router.post('/add-address', this.userController.AddUserAddress);
   }
 
   getRouter(): Router {
