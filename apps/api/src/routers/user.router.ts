@@ -26,6 +26,19 @@ export class UserRouter {
     );
     this.router.get('/user-address', this.userController.getAllUserAddress);
     this.router.post('/add-address', this.userController.AddUserAddress);
+    this.router.get(
+      '/user-addresses/:id',
+      this.userController.getAddresByUserId,
+    );
+    this.router.get(
+      '/user-address/:id',
+      this.userController.getUserAddressById,
+    );
+    this.router.patch('/edit-address/:id', this.userController.editUserAddress);
+    this.router.delete(
+      '/delete-address/:id',
+      this.userController.deleteUserAddress,
+    );
   }
 
   getRouter(): Router {
