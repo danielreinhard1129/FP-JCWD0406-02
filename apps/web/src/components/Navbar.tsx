@@ -4,6 +4,7 @@ import { baseUrl } from '@/app/utils/database';
 import { loginAction, logoutAction } from '@/lib/features/userSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import axios from 'axios';
+import { data } from 'cypress/types/jquery';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -43,7 +44,14 @@ export const Navbar = () => {
 
         const keep = data.data;
         keep.roleId = data.data.roleId.roleId;
-        console.log(data);
+
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem('dataUser', data.data);
+        } else {
+          console.log('Web Storage is not supported in this environment.');
+        }
+
+        localStorage.setItem('dataUser', JSON.stringify(data.data));
 
         dispacth(loginAction(keep));
       } catch (error) {

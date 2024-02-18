@@ -1,14 +1,8 @@
 'use client';
-
-import { useState } from 'react';
-
+import React, { useState, FormEvent } from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { FaPlus } from 'react-icons/fa6';
+import { FaPlus } from 'react-icons/fa';
 import AddressCardComp from './AddressCard';
-interface AddressProps {
-  // Define additional props if needed
-}
 
 interface Address {
   name: string;
@@ -20,41 +14,17 @@ interface Address {
   postalCode: string;
 }
 
-const Address: React.FC<AddressProps> = () => {
+const AddressComponent: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [addresses, setAddresses] = useState<Address[]>([]);
-  const router = useRouter();
 
   const openEditModal = () => setIsEditModalOpen(true);
   const closeEditModal = () => setIsEditModalOpen(false);
 
-  const address = [
-    {
-      id: 1,
-      name: 'Jordy Juniqno',
-      contact: '085155318112',
-      street: 'Jl.Pak Gatot 1, gg Sarbini 2 42a',
-      district: 'Sukasari',
-      city: 'Kota Bandung',
-      province: 'Jawa Barat',
-      postalcode: '40153',
-    },
-    {
-      id: 2,
-      name: 'Jordy Juniqno',
-      contact: '085155318112',
-      street: 'Jl. Kabil, Nongsa TB 06 kamar 120',
-      district: 'Kabil',
-      city: 'Batam',
-      province: 'Kepulauan Riau',
-      postalcode: '12345',
-    },
-  ];
-
-  const submitAddress = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitAddress = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
-    // const address: Address = {
+    // const newAddress: Address = {
     //   name: form.name.value,
     //   contact: form.contact.value,
     //   street: form.street.value,
@@ -63,13 +33,13 @@ const Address: React.FC<AddressProps> = () => {
     //   province: form.province.value,
     //   postalCode: form.postalCode.value,
     // };
-    // setAddresses([...addresses, address]);
+    // setAddresses([...addresses, newAddress]);
     closeEditModal();
   };
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
-      <div className="flex justify-between border-b-2  items-center w-full p-4 md:py-6">
+      <div className="flex justify-between border-b-2 items-center w-full p-4 md:py-6">
         <h2 className="text-2xl font-semibold">Address</h2>
         <button
           onClick={openEditModal}
@@ -78,21 +48,22 @@ const Address: React.FC<AddressProps> = () => {
           <FaPlus className="mr-2" /> Add Address
         </button>
       </div>
-      <hr className="border- " />
       <div className="w-full flex-grow p-4">
         {/* {addresses.length === 0 ? ( */}
-        <div className="flex justify-center items-center h-fit">
-          {/* <div className="h-80 w-80 relative">
+        {/* <div className="flex justify-center items-center h-full">
             <Image
-              src="/address/address1.png" // Replace with your image path
-              alt="Address Placeholder"
-              layout="fill"
+              src="/address/address1.png" // Ensure you have this image in your public folder
+              alt="No Address"
+              width={400} 
+              height={400} 
               objectFit="contain"
             />
           </div> */}
-        </div>
         {/* ) : ( */}
         <AddressCardComp />
+        {/* addresses.map((address, index) => (
+            <AddressCardComp key={index} address={address} />
+          )) */}
         {/* )} */}
       </div>
       {isEditModalOpen && (
@@ -164,4 +135,4 @@ const Address: React.FC<AddressProps> = () => {
   );
 };
 
-export default Address;
+export default AddressComponent;
