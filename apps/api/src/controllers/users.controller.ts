@@ -4,6 +4,7 @@ import { loginAction } from '@/actions/user/LoginAction';
 import { registerAction } from '@/actions/user/RegisterAction';
 import { editUserAction } from '@/actions/user/editUserAction';
 import { forgotPasswordAction } from '@/actions/user/forgotPasswordAction';
+import { getUserByIdAction } from '@/actions/user/getUserByIdAction';
 import { resetPasswordAction } from '@/actions/user/resetPasswordAction';
 import { addUserAddressAction } from '@/actions/userAddress/addUserAddressAction';
 import { deleteUserAddressAction } from '@/actions/userAddress/deleteUserAddressAction';
@@ -19,6 +20,18 @@ export class UserController {
     try {
       const result = await findAllUserAction();
       res.status(result.status).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getUserById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+
+      const user = await getUserByIdAction(Number(id));
+
+      res.status(200).send(user);
     } catch (error) {
       next(error);
     }
