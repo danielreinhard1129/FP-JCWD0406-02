@@ -171,7 +171,7 @@ export const Navbar = () => {
               onMouseLeave={() => setDropdownOpen(false)}
             >
               <a
-                href="#" // Link to settings page
+                href="/user"
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 role="menuitem"
               >
@@ -263,37 +263,48 @@ export const Navbar = () => {
               </div>
               <div className="space-y-2 py-6">
                 <a
-                  href="#"
+                  href="/user"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-normal leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   My Profile
                 </a>
                 <a
-                  href="#"
+                  href="/user/address"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-normal leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   My Address
                 </a>
                 <a
-                  href="#"
+                  href="/transaction"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-normal leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Transaction
                 </a>
                 <a
-                  href="#"
+                  href="admin/dashboard"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-normal leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Dashboard
                 </a>
               </div>
+
               <div className="py-6">
-                <Link
-                  href="/login"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Login
-                </Link>
+                {user.id ? (
+                  <Link
+                    onClick={handleLogout}
+                    href="/"
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    Log out
+                  </Link>
+                ) : (
+                  <Link
+                    href="/login"
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    Log in
+                  </Link>
+                )}
               </div>
             </div>
           </div>
