@@ -3,8 +3,13 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { IUser } from '../page';
 
 const ProfilePageComp = () => {
+  const userDetails = useSelector((state: IUser) => state.user);
+  console.log(userDetails);
+
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const router = useRouter();
 

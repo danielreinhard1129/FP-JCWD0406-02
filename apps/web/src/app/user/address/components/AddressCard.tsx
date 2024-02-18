@@ -1,9 +1,10 @@
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-
-interface AddressProps {
-  // Define additional props if needed
-}
+'use client';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { baseUrl } from '@/app/utils/database';
+import { useParams } from 'next/navigation';
+import { param } from 'cypress/types/jquery';
 
 interface Address {
   name: string;
@@ -13,6 +14,24 @@ interface Address {
   city: string;
   province: string;
   postalCode: string;
+}
+
+export interface IUser {
+  user: any;
+  id: number;
+  first_name: string;
+  last_name: string;
+  username: string;
+  email: string;
+  password: string;
+  contact: string;
+  roleId: number;
+  isDeleted: boolean;
+  isVerified: boolean;
+  profile_picture: string;
+  created_at: Date;
+  updatedAt: Date;
+  userAddress_id: number;
 }
 
 const AddressCard: React.FC<{ address: Address }> = ({ address }) => (
@@ -27,25 +46,29 @@ const AddressCard: React.FC<{ address: Address }> = ({ address }) => (
   </div>
 );
 
-const AddressCardComp: React.FC<AddressProps> = () => {
+const AddressCardComp = () => {
   const [addresses, setAddresses] = useState<Address[]>([]);
-  const router = useRouter();
 
-  // Dummy data for demonstration
-  // Remove this once you integrate with real data
-  useState(() => {
-    setAddresses([
-      {
-        name: 'John Doe',
-        contact: '123-456-7890',
-        street: '123 Main St',
-        district: 'Downtown',
-        city: 'Metropolis',
-        province: 'Central',
-        postalCode: '12345',
-      },
-    ]);
-  });
+  const userId = localStorage.getItem('dataUser');
+  console.log('yestttttt', userId);
+
+  // const userId = useSelector((state: IUser) => state.user.id);
+  // console.log(userId);
+
+  // const fetchAddresses = async () => {
+  //   try {
+  //     const response = await axios.get(`${baseUrl}/user-addresses/`);
+  //     // console.log('hello', response.data);
+  //     setAddresses(response.data);
+  //     console.log('testttttttt', response.data);
+  //   } catch (error) {
+  //     console.error('Error fetching addresses:', error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (userId) fetchAddresses();
+  // }, [userId]);
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-screen">
