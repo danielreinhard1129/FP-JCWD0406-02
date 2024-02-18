@@ -110,7 +110,7 @@ const CardLogin = () => {
               className="shadow appearance-none border rounded-xl w-full py-2 px-3 text-dark-blue mb-3 leading-tight focus:outline-none focus:ring-teal-500"
               id="password"
               type="password"
-              placeholder="******************"
+              placeholder="******"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.password}
