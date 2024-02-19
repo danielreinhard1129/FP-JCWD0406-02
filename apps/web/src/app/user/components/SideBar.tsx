@@ -5,12 +5,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FaAddressCard, FaUser } from 'react-icons/fa6';
 
-const Sidebar = () => {
+const Sidebar = (data: any) => {
+  const dataUser = data.data;
+  // console.log('sidebaaaaar', data.data);
+
   const router = useRouter();
 
   return (
     <div className="md:w-64 w-full bg-white p-4 md:border-r-2 border-gray-200 lg:mt-20 mt-2">
-      {/* Profile section */}
       <div className="flex flex-col items-center mb-6">
         {/* Profile icon */}
         <div className="bg-teal-500 rounded-full overflow-hidden w-44 h-44 mb-3">
@@ -22,7 +24,9 @@ const Sidebar = () => {
             className="object-cover"
           />
         </div>
-        <h2 className="text-gray-900 text-lg font-semibold">Jordy Juniqno</h2>
+        <h1 className="text-gray-900 text-lg font-semibold">
+          {dataUser?.username}
+        </h1>
       </div>
 
       {/* Navigation */}

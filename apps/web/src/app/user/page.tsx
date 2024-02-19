@@ -1,10 +1,10 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ProfilePageComp from './components/ProfilePage';
 import Sidebar from './components/SideBar';
 import { useSelector } from 'react-redux';
-import { data } from 'cypress/types/jquery';
-import { useParams } from 'next/navigation';
+import axios from 'axios';
+import { baseUrl } from '../utils/database';
 
 export interface IUser {
   user: any;
@@ -24,17 +24,30 @@ export interface IUser {
   userAddress_id: number;
 }
 
-const ProfilePage = () => {
-  const user = localStorage.getItem('dataUser');
-  const userr = JSON.stringify(user);
+const ProfilePage: React.FC = () => {
+  const userId = useSelector((state: IUser) => state.user?.id);
+  // console.log(userId);
+
+  const [userData, setUserData] = useState<Partial<IUser> | null>(null);
+
+  const getDataUser = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/users/user/${userId}`);
+      setUserData(response.data.data);
+      // console.log('berhasillllll peepepeekkk asuu', response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    user;
-  }, []);
+    getDataUser();
+  }, [userId]);
+
   return (
     <div className="md:flex max-w-7xl mx-auto px-8 lg:px-0">
-      <Sidebar />
-      <ProfilePageComp />
+      <Sidebar data={userData} />
+      <ProfilePageComp data={userData} />
     </div>
   );
 };
