@@ -1,12 +1,62 @@
-import React from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/SideBar';
-import Address from './components/Address';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { baseUrl } from '@/app/utils/database';
+import AddressCardComp from './components/AddressCard';
 
-const UserAddress = () => {
+interface IAddress {
+  name: string;
+  contact: string;
+  street: string;
+  district: string;
+  city: string;
+  province: string;
+  postalCode: string;
+}
+
+export interface IUser {
+  user: any;
+  id: number;
+  first_name: string;
+  last_name: string;
+  username: string;
+  email: string;
+  password: string;
+  contact: string;
+  roleId: number;
+  isDeleted: boolean;
+  isVerified: boolean;
+  profile_picture: string;
+  created_at: Date;
+  updatedAt: Date;
+  userAddress_id: number;
+}
+const UserAddress: React.FC = () => {
+  const userId = useSelector((state: IUser) => state.user?.id);
+  const [addresses, setAddresses] = useState<Partial<IAddress>[] | null>(null);
+
+  const fetchAddresses = async () => {
+    try {
+      const response = await axios.get(
+        `${baseUrl}/users/user-addresses/${userId}`,
+      );
+      console.log('data address iniiiiii', response.data.data);
+
+      setAddresses(response.data.data);
+    } catch (error) {
+      console.error('Error fetching addresses:', error);
+    }
+  };
+  useEffect(() => {
+    fetchAddresses();
+  }, [userId]);
+
   return (
     <div className="md:flex max-w-7xl mx-auto px-8 lg:px-0">
       <Sidebar />
-      <Address />
+      <AddressCardComp addressData={addresses} />
     </div>
   );
 };

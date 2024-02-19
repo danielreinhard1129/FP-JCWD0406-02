@@ -1,14 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useSelector } from 'react-redux';
-import { IUser } from '../page';
+import { useState } from 'react';
 
-const ProfilePageComp = () => {
-  const userDetails = useSelector((state: IUser) => state.user);
-  console.log(userDetails);
+const ProfilePageComp = (data: any) => {
+  // console.log('pepek anjinggg', data.data);
+  const dataUser = data.data;
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const router = useRouter();
@@ -22,7 +19,6 @@ const ProfilePageComp = () => {
 
   return (
     <div className="flex w-full md:ml-6 lg:max-w-xl h-screen">
-      {/* Main content */}
       <div className="flex-1 lg:mt-20 mt-5 lg:ml-6">
         <h1 className="text-dark-blue text-2xl mb-4 p-6 font-semibold">
           Account Detail
@@ -30,19 +26,19 @@ const ProfilePageComp = () => {
         <div className="bg-white shadow-md rounded-xl p-6">
           <div className="mb-4 flex justify-between lg:justify-normal lg:gap-24">
             <h1 className="">First Name</h1>
-            <h1 className="font-bold">Raget</h1>
+            <h1 className="font-bold">{dataUser?.first_name}</h1>
           </div>
           <div className="mb-4 flex justify-between lg:justify-normal lg:gap-24">
             <h1>Last Name</h1>
-            <h1 className="font-bold">Iwafa</h1>
+            <h1 className="font-bold">{dataUser?.last_name}</h1>
           </div>
           <div className="mb-4 flex justify-between lg:justify-normal lg:gap-24">
             <h1>Username</h1>
-            <h1 className="font-bold ml-1">ragetiwafa</h1>
+            <h1 className="font-bold ml-1">{dataUser?.username}</h1>
           </div>
           <div className="mb-4 flex justify-between lg:justify-normal lg:gap-x-32">
             <h1>Email</h1>
-            <h1 className="font-bold ml-2">iwaferaget@gmail.com</h1>
+            <h1 className="font-bold ml-2">{dataUser?.email}</h1>
           </div>
           <div className="mb-4 flex justify-between lg:justify-normal lg:gap-32">
             <h1>Status</h1>

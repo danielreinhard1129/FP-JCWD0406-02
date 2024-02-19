@@ -60,7 +60,7 @@ const AddressComponent: React.FC = () => {
             />
           </div> */}
         {/* ) : ( */}
-        <AddressCardComp />
+        {/* <AddressCardComp /> */}
         {/* addresses.map((address, index) => (
             <AddressCardComp key={index} address={address} />
           )) */}
