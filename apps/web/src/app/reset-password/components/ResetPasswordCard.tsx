@@ -20,8 +20,8 @@ export default function ResetPasswordCard() {
         const { password, confirmPassword } = values;
         console.log(values);
 
-        const { data } = await axios.patch(
-          `${baseUrl}/users/reset`,
+        const response = await axios.patch(
+          `${baseUrl}/users/reset-password`,
           {
             password,
             confirmPassword,
@@ -32,7 +32,7 @@ export default function ResetPasswordCard() {
             },
           },
         );
-        console.log(data);
+        console.log(response);
 
         alert('reset succes');
         router.push('/login');
@@ -69,7 +69,9 @@ export default function ResetPasswordCard() {
             <div className="mb-4">
               <input
                 type="password"
-                id="pasword"
+                id="password"
+                name="password"
+                value={formik.values.password}
                 onChange={formik.handleChange}
                 placeholder="New Password"
                 className="shadow appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring"
@@ -78,8 +80,11 @@ export default function ResetPasswordCard() {
             <div className="mb-4">
               <input
                 type="password"
-                id="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formik.values.confirmPassword}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 placeholder="Confirm New Password"
                 className="shadow appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring"
               />

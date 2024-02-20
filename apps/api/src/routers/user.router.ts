@@ -40,6 +40,11 @@ export class UserRouter {
       '/delete-address/:id',
       this.userController.deleteUserAddress,
     );
+    this.router.patch(
+      '/user-verification/:id',
+      this.userController.userVerification,
+    );
+    this.router.post('/checkemail', this.userController.sendEmailForVerif);
   }
 
   getRouter(): Router {
