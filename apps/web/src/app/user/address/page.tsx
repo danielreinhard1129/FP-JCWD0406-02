@@ -6,14 +6,17 @@ import axios from 'axios';
 import { baseUrl } from '@/app/utils/database';
 import AddressCardComp from './components/AddressCard';
 
-interface IAddress {
+export interface IAddress {
+  addressData: any;
+  id: number;
+  userId: number;
   name: string;
   contact: string;
   street: string;
-  district: string;
+  distric: string;
   city: string;
   province: string;
-  postalCode: string;
+  postal_code: number;
 }
 
 export interface IUser {
@@ -35,20 +38,24 @@ export interface IUser {
 }
 const UserAddress: React.FC = () => {
   const userId = useSelector((state: IUser) => state.user?.id);
-  const [addresses, setAddresses] = useState<Partial<IAddress>[] | null>(null);
+  const [addresses, setAddresses] = useState<Partial<IAddress>[]>([]);
 
   const fetchAddresses = async () => {
     try {
       const response = await axios.get(
         `${baseUrl}/users/user-addresses/${userId}`,
       );
-      console.log('data address iniiiiii', response.data.data);
+      // console.log('data address iniiiiii', response.data.data);
 
       setAddresses(response.data.data);
     } catch (error) {
       console.error('Error fetching addresses:', error);
     }
   };
+
+  // const updateAddressesAfterDelete = () => {
+  //   fetchAddresses(); // Memanggil fungsi fetchAddresses untuk memperbarui daftar alamat
+  // };
   useEffect(() => {
     fetchAddresses();
   }, [userId]);
@@ -56,7 +63,10 @@ const UserAddress: React.FC = () => {
   return (
     <div className="md:flex max-w-7xl mx-auto px-8 lg:px-0">
       <Sidebar />
-      <AddressCardComp addressData={addresses} />
+      <AddressCardComp
+        addressData={addresses}
+        // onUpdate={updateAddressesAfterDelete}
+      />
     </div>
   );
 };
