@@ -6,6 +6,8 @@ import { editUserAction } from '@/actions/user/editUserAction';
 import { forgotPasswordAction } from '@/actions/user/forgotPasswordAction';
 import { getUserByIdAction } from '@/actions/user/getUserByIdAction';
 import { resetPasswordAction } from '@/actions/user/resetPasswordAction';
+import { sendEmailForVerifAction } from '@/actions/user/sendEmailForVerifAction';
+import { userVerificationAction } from '@/actions/user/userVerificationAction';
 import { addUserAddressAction } from '@/actions/userAddress/addUserAddressAction';
 import { deleteUserAddressAction } from '@/actions/userAddress/deleteUserAddressAction';
 import { editUserAddressAction } from '@/actions/userAddress/editUserAddressAction';
@@ -172,6 +174,30 @@ export class UserController {
       const userAdress = await deleteUserAddressAction(Number(id));
 
       res.status(200).send(userAdress);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async userVerification(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const result = await userVerificationAction(Number(id));
+
+      res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async sendEmailForVerif(req: Request, res: Response, next: NextFunction) {
+    try {
+      // const { email } = req.body;
+      // console.log('bodyyyyy', email);
+
+      const result = await sendEmailForVerifAction(req.body.email);
+
+      res.status(200).send(result);
     } catch (error) {
       next(error);
     }
