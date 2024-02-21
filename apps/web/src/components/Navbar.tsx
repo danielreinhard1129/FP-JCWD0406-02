@@ -1,5 +1,6 @@
 'use client';
 
+import { UserAuth } from '@/app/utils/context/authContext';
 import { baseUrl } from '@/app/utils/database';
 import { loginAction, logoutAction } from '@/lib/features/userSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
@@ -23,8 +24,10 @@ export const Navbar = () => {
   const user = useAppSelector((state) => state.user);
   const router = useRouter();
   const dispacth = useAppDispatch();
+  const { userGoogle, logOut } = UserAuth();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await logOut();
     localStorage.removeItem('token_auth');
     dispacth(logoutAction());
     router.push('/');
@@ -141,7 +144,7 @@ export const Navbar = () => {
             </svg>
           </button>
         </div>
-        {user.id ? (
+        {user.id || userGoogle ? (
           <div className="relative hidden lg:block">
             {/* Profile Icon Button */}
             <button
@@ -289,7 +292,7 @@ export const Navbar = () => {
               </div>
 
               <div className="py-6">
-                {user.id ? (
+                {user.id || userGoogle ? (
                   <Link
                     onClick={handleLogout}
                     href="/"
