@@ -1,15 +1,29 @@
+// EditAddressComp.tsx
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useFormik } from 'formik';
+import { FormikValues, useFormik } from 'formik';
 import * as yup from 'yup';
-import { FaPlus } from 'react-icons/fa';
 import { toast } from 'sonner';
 import { baseUrl } from '@/app/utils/database';
-import { useSelector } from 'react-redux';
-import { IAddress } from '../page';
 
+interface IAddress {
+  id: number;
+  userId: number;
+  name: string;
+  contact: string;
+  street: string;
+  distric: string;
+  city: string;
+  province: string;
+  postal_code: number;
+}
+
+interface EditAddressProps {
+  address: IAddress;
+  onSuccess: () => void;
+}
 const validationSchema = yup.object({
-  name: yup.string().required('Recipient name is required'),
+  name: yup.string().required('Name is required'),
   contact: yup.string().required('Contact is required'),
   street: yup.string().required('Street is required'),
   distric: yup.string().required('District is required'),
@@ -22,78 +36,66 @@ const validationSchema = yup.object({
     .integer(),
 });
 
-interface CreateAddressProps {
-  onSuccess: () => void;
-}
+const EditAddressComp: React.FC<EditAddressProps> = ({
+  address,
+  onSuccess,
+}) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-const CreateAddress: React.FC<CreateAddressProps> = ({ onSuccess }) => {
-  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
-  const userId = useSelector((state: any) => state.user.id);
   const formik = useFormik({
     initialValues: {
-      name: '',
-      contact: '',
-      street: '',
-      distric: '',
-      city: '',
-      province: '',
-      postal_code: '',
-    },
+      name: address.name,
+      contact: address.contact,
+      street: address.street,
+      distric: address.distric,
+      city: address.city,
+      province: address.province,
+      postal_code: address.postal_code,
+    } as FormikValues,
     validationSchema,
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
-        const intUserId = parseInt(userId, 10);
-        if (!isNaN(intUserId)) {
-          const payload = {
-            userId: intUserId,
-            name: values.name,
-            contact: values.contact,
-            street: values.street,
-            distric: values.distric,
-            city: values.city,
-            province: values.province,
-            postal_code: parseInt(values.postal_code, 10),
-          };
-          await axios.post(`${baseUrl}/users/add-address`, payload);
-          toast.success('Address added successfully');
-          resetForm();
-          onSuccess();
-          setIsEditModalOpen(false);
-        } else {
-          toast.error('Invalid user ID');
-        }
+        await axios.patch(`${baseUrl}/users/edit-address/${address.id}`, {
+          ...values,
+          postal_code: parseInt(values.postal_code, 10),
+        });
+
+        toast.success('Address updated successfully');
+
+        onSuccess();
+        setIsModalOpen(false);
+        resetForm({
+          values: { ...values, postal_code: values.postal_code },
+        });
+        setSubmitting(false);
       } catch (error) {
-        toast.error('Failed to add address');
+        toast.error('Failed to update address');
         console.error(error);
       }
     },
   });
 
   return (
-    <div>
+    <>
       <button
-        onClick={() => setIsEditModalOpen(true)}
-        className="bg-teal-600 text-white flex items-center font-semibold text-md py-4 px-4 rounded-xl focus:outline-none focus:shadow-outline"
+        className="bg-transparent w-full mr-1 hover:bg-teal-700 text-teal-600 font-normal text-xs hover:text-white py-1 px-4 border hover:border-transparent rounded-lg"
+        onClick={() => setIsModalOpen(true)}
       >
-        <FaPlus className="mr-2" /> Add Address
+        Edit
       </button>
-      {isEditModalOpen && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50  flex justify-center items-center">
-          <div className="bg-white p-8 rounded-lg">
-            <form
-              className="space-y-4 max-w-2xl"
-              onSubmit={formik.handleSubmit}
-            >
-              <h1 className="font-bold">Add Your Address</h1>
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center">
+          <div className="bg-white rounded-lg p-8">
+            <h2 className="text-lg font-semibold mb-4">Edit Address</h2>
+
+            <form onSubmit={formik.handleSubmit} className="space-y-4">
               <div className="flex gap-5">
                 <div className="">
                   <label className="text-sm font-medium">Recipient Name</label>
                   <input
                     name="name"
-                    placeholder=""
                     className="w-full p-2 border border-gray-300 rounded"
                     onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
                     value={formik.values.name}
                   />
                 </div>
@@ -101,10 +103,8 @@ const CreateAddress: React.FC<CreateAddressProps> = ({ onSuccess }) => {
                   <label className="text-sm font-medium">Contact</label>
                   <input
                     name="contact"
-                    placeholder=""
                     className="w-full p-2 border border-gray-300 rounded"
                     onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
                     value={formik.values.contact}
                   />
                 </div>
@@ -113,10 +113,8 @@ const CreateAddress: React.FC<CreateAddressProps> = ({ onSuccess }) => {
                 <label className="text-sm font-medium">Street</label>
                 <textarea
                   name="street"
-                  placeholder=""
                   className="w-full p-2 border border-gray-300 rounded h-20"
                   onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
                   value={formik.values.street}
                 />
               </div>
@@ -125,10 +123,8 @@ const CreateAddress: React.FC<CreateAddressProps> = ({ onSuccess }) => {
                   <label className="text-sm font-medium">District</label>
                   <input
                     name="distric"
-                    placeholder=""
                     className="w-full p-2 border border-gray-300 rounded"
                     onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
                     value={formik.values.distric}
                   />
                 </div>
@@ -136,10 +132,8 @@ const CreateAddress: React.FC<CreateAddressProps> = ({ onSuccess }) => {
                   <label className="text-sm font-medium">City</label>
                   <input
                     name="city"
-                    placeholder=""
                     className="w-full p-2 border border-gray-300 rounded"
                     onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
                     value={formik.values.city}
                   />
                 </div>
@@ -149,10 +143,8 @@ const CreateAddress: React.FC<CreateAddressProps> = ({ onSuccess }) => {
                   <label className="text-sm font-medium">Province</label>
                   <input
                     name="province"
-                    placeholder=""
                     className="w-full p-2 border border-gray-300 rounded"
                     onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
                     value={formik.values.province}
                   />
                 </div>
@@ -160,36 +152,34 @@ const CreateAddress: React.FC<CreateAddressProps> = ({ onSuccess }) => {
                   <label className="text-sm font-medium">Postal Code</label>
                   <input
                     name="postal_code"
-                    placeholder=""
                     type="text"
                     className="w-full p-2 border border-gray-300 rounded"
                     onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
                     value={formik.values.postal_code}
                   />
                 </div>
               </div>
-              <div className="flex justify-end space-x-2">
+              <div className="flex justify-end gap-3">
                 <button
-                  type="button"
-                  onClick={() => setIsEditModalOpen(false)}
                   className="px-4 py-2 text-sm text-white bg-red-500 rounded-xl hover:bg-red-700"
+                  onClick={() => setIsModalOpen(false)}
                 >
                   Later
                 </button>
                 <button
-                  type="submit"
                   className="px-4 py-2 text-sm font-normal text-white bg-teal-600 rounded-xl hover:bg-teal-700"
+                  type="submit"
+                  disabled={formik.isSubmitting}
                 >
-                  Continue
+                  Save Changes
                 </button>
               </div>
             </form>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
-export default CreateAddress;
+export default EditAddressComp;
