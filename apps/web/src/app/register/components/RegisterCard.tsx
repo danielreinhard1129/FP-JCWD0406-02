@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import YupPassword from 'yup-password';
 import { useState } from 'react';
 import { baseUrl } from '@/app/utils/database';
+import { UserAuth } from '@/app/utils/context/authContext';
 YupPassword(yup);
 
 const validationSchema = yup.object().shape({
@@ -26,6 +27,17 @@ const validationSchema = yup.object().shape({
 const RegisterCard = () => {
   const [success, setSuccess] = useState(false);
   const router = useRouter();
+  const { userGoogle, googleSignIn } = UserAuth();
+
+  const handleSignIn = async () => {
+    try {
+      await googleSignIn();
+      await router.push('/login');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(userGoogle);
 
   const formik = useFormik({
     initialValues: {
@@ -192,7 +204,10 @@ const RegisterCard = () => {
             <span className="inline-block mb-4 bg-white px-4 text-xs text-gray-500">
               or
             </span>
-            <button className="bg-[#f1eed8] hover:bg-[#b0cac1] text-gray-700 font-semibold text-sm py-2 px-4 rounded-xl w-full mb-3">
+            <button
+              onClick={handleSignIn}
+              className="bg-[#f1eed8] hover:bg-[#b0cac1] text-gray-700 font-semibold text-sm py-2 px-4 rounded-xl w-full mb-3"
+            >
               Continue with Google
             </button>
           </div>

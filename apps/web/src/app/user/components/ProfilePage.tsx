@@ -1,10 +1,14 @@
 'use client';
 
+import { UserAuth } from '@/app/utils/context/authContext';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 const ProfilePageComp = (data: any) => {
   // console.log('pepek anjinggg', data.data);
+  const { userGoogle } = UserAuth();
+  console.log(userGoogle);
+
   const dataUser = data.data;
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -34,11 +38,15 @@ const ProfilePageComp = (data: any) => {
           </div>
           <div className="mb-4 flex justify-between lg:justify-normal lg:gap-24">
             <h1>Username</h1>
-            <h1 className="font-bold ml-1">{dataUser?.username}</h1>
+            <h1 className="font-bold ml-1">
+              {dataUser?.username || userGoogle?.displayName}
+            </h1>
           </div>
           <div className="mb-4 flex justify-between lg:justify-normal lg:gap-x-32">
             <h1>Email</h1>
-            <h1 className="font-bold ml-2">{dataUser?.email}</h1>
+            <h1 className="font-bold ml-2">
+              {dataUser?.email || userGoogle?.email}
+            </h1>
           </div>
           <div className="mb-4 flex justify-between lg:justify-normal lg:gap-32">
             <h1>Status</h1>

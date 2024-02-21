@@ -10,6 +10,7 @@ import YupPassword from 'yup-password';
 import { toast } from 'sonner';
 import { baseUrl } from '@/app/utils/database';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { UserAuth } from '@/app/utils/context/authContext';
 YupPassword(yup);
 
 const validationSchema = yup.object().shape({
@@ -24,6 +25,18 @@ const CardLogin = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const user = useAppSelector((state) => state.user);
+
+  const { userGoogle, googleSignIn } = UserAuth();
+
+  const handleSignIn = async () => {
+    try {
+      await googleSignIn();
+
+      router.push('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -67,6 +80,7 @@ const CardLogin = () => {
         <button
           className="bg-[#f1eed8] hover:bg-[#b0cac1] text-teal text-sm font-normal py-2 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-opacity-50 w-full mb-3"
           type="button"
+          onClick={handleSignIn}
         >
           Login with Google
         </button>
