@@ -35,6 +35,7 @@ export interface IUser {
   created_at: Date;
   updatedAt: Date;
   userAddress_id: number;
+  refreshAddresses: any;
 }
 const UserAddress: React.FC = () => {
   const userId = useSelector((state: IUser) => state.user?.id);
@@ -53,19 +54,20 @@ const UserAddress: React.FC = () => {
     }
   };
 
-  // const updateAddressesAfterDelete = () => {
-  //   fetchAddresses(); // Memanggil fungsi fetchAddresses untuk memperbarui daftar alamat
-  // };
   useEffect(() => {
     fetchAddresses();
   }, [userId]);
+
+  const refreshAddresses = async () => {
+    fetchAddresses();
+  };
 
   return (
     <div className="md:flex max-w-7xl mx-auto px-8 lg:px-0">
       <Sidebar />
       <AddressCardComp
         addressData={addresses}
-        // onUpdate={updateAddressesAfterDelete}
+        refreshAddresses={refreshAddresses}
       />
     </div>
   );
