@@ -41,7 +41,6 @@ const EditAddressComp: React.FC<EditAddressProps> = ({
   onSuccess,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const formik = useFormik({
     initialValues: {
       name: address.name,

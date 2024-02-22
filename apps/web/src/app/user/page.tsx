@@ -44,10 +44,16 @@ const ProfilePage: React.FC = () => {
     getDataUser();
   }, [userId]);
 
+  const refreshProfile = async () => {
+    getDataUser();
+  };
+
   return (
-    <div className="md:flex max-w-7xl mx-auto px-8 lg:px-0">
+    <div className="md:flex h-screen max-w-7xl mx-auto px-8 lg:px-0">
       <Sidebar data={userData} />
-      <ProfilePageComp data={userData} />
+      {userData && (
+        <ProfilePageComp data={userData} onSuccess={refreshProfile} />
+      )}
     </div>
   );
 };

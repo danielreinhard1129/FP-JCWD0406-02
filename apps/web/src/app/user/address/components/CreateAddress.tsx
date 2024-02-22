@@ -6,7 +6,6 @@ import { FaPlus } from 'react-icons/fa';
 import { toast } from 'sonner';
 import { baseUrl } from '@/app/utils/database';
 import { useSelector } from 'react-redux';
-import { IAddress } from '../page';
 
 const validationSchema = yup.object({
   name: yup.string().required('Recipient name is required'),
