@@ -7,7 +7,6 @@ import { FaAddressCard, FaUser } from 'react-icons/fa6';
 
 const Sidebar = (data: any) => {
   const dataUser = data.data;
-  // console.log('sidebaaaaar', data.data);
 
   const router = useRouter();
 

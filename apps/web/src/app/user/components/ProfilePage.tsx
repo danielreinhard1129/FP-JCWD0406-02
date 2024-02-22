@@ -3,23 +3,35 @@
 import { UserAuth } from '@/app/utils/context/authContext';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import EditProfileComp from './EditProfile';
+import { useSelector } from 'react-redux';
 
-const ProfilePageComp = (data: any) => {
-  // console.log('pepek anjinggg', data.data);
+interface IUser {
+  data: any;
+  id: number;
+  first_name: string;
+  last_name: string;
+  username: string;
+  email: string;
+  contact: string;
+  profile_picture?: string;
+}
+
+interface ProfilePageCompProps {
+  data: Partial<IUser>;
+  onSuccess: () => void;
+}
+
+const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
+  data,
+  onSuccess,
+}) => {
   const { userGoogle } = UserAuth();
-  console.log(userGoogle);
+  const dataUser = data;
 
-  const dataUser = data.data;
+  console.log('dataaaaaaaa', dataUser);
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const router = useRouter();
-
-  const openEditModal = () => setIsEditModalOpen(true);
-  const closeEditModal = () => setIsEditModalOpen(false);
-
-  const goToAddressPage = () => {
-    router.push('/user/address');
-  };
 
   return (
     <div className="flex w-full md:ml-6 lg:max-w-xl h-screen">
@@ -56,60 +68,17 @@ const ProfilePageComp = (data: any) => {
             <div className="pl-4 py-1">
               <button
                 // onClick={openEditModal}
-                className="bg-[#f1eed8] hover:bg-[#b0cac1] self-center text-teal text-sm font-semibold py-2 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-opacity-50"
+                className="bg-[#f1eed8] hover:bg-[#b0cac1] self-center text-teal text-xs font-medium py-2 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-opacity-50"
               >
                 Change Profile Picture
               </button>
             </div>
             <div className="pl-4 py-1">
-              <button
-                onClick={openEditModal}
-                className="bg-[#f1eed8] hover:bg-[#b0cac1] self-center text-teal text-sm font-semibold py-2 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-opacity-50"
-              >
-                Edit Profile
-              </button>
+              <EditProfileComp user={dataUser} onSuccess={onSuccess} />
             </div>
           </div>
         </div>
       </div>
-
-      {/* Edit Modal */}
-      {isEditModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-8 rounded-xl">
-            <form>
-              <div className="flex gap-6">
-                <div>
-                  <label className="font-semibold">First Name</label>
-                  <input className="mb-4 shadow appearance-none border rounded-xl w-full py-2 px-3 text-dark-blue leading-tight focus:outline-none focus:ring-teal-500" />
-                </div>
-                <div>
-                  <label className="font-semibold">Last Name</label>
-                  <input className="mb-4 shadow appearance-none border rounded-xl w-full py-2 px-3 text-dark-blue leading-tight focus:outline-none focus:ring-teal-500" />
-                </div>
-              </div>
-              <div>
-                <label className="font-semibold">Username</label>
-                <input className="mb-4 shadow appearance-none border rounded-xl w-full py-2 px-3 text-dark-blue leading-tight focus:outline-none focus:ring-teal-500" />
-              </div>
-              <div className="flex gap-4 justify-end">
-                <button
-                  onClick={closeEditModal}
-                  className="text-white bg-red-500  py-2 px-4 rounded-xl"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="bg-teal-600 text-white py-2 px-4 rounded-xl"
-                >
-                  Submit
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

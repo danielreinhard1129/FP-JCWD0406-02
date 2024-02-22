@@ -63,7 +63,7 @@ const UserAddress: React.FC = () => {
   };
 
   return (
-    <div className="md:flex max-w-7xl mx-auto px-8 lg:px-0">
+    <div className="md:flex h-screen max-w-7xl mx-auto px-8 lg:px-0">
       <Sidebar />
       <AddressCardComp
         addressData={addresses}
