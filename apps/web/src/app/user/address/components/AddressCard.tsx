@@ -4,6 +4,7 @@ import { IAddress } from '../page';
 import CreateAddress from './CreateAddress';
 import DeleteAddressComp from './DeleteAddress';
 import EditAddressComp from './EditAddress';
+import SetDefaultAddress from './SetDefaultAddress';
 
 export interface IUser {
   user: any;
@@ -24,15 +25,17 @@ export interface IUser {
 }
 
 interface AddressCardCompProps {
+  userId: number;
   addressData: Partial<IAddress>[];
   refreshAddresses: () => Promise<void>;
 }
 
 const AddressCardComp: React.FC<AddressCardCompProps> = ({
+  userId,
   addressData,
   refreshAddresses,
 }) => {
-  console.log('log di carddddd adredssdasds', addressData);
+  console.log('log di carddddd adredssdasds', userId);
 
   const addressDataUser = addressData;
 
@@ -75,19 +78,23 @@ const AddressCardComp: React.FC<AddressCardCompProps> = ({
                   </div>
                 </div>
                 <div className="space-y-1 mt-3">
-                  <div className="flex">
+                  <div className="flex justify-end gap-1">
                     <EditAddressComp
                       address={address as IAddress}
                       onSuccess={refreshAddresses}
                     />
                     <DeleteAddressComp
+                      isPrimary={address.isPrimary || false}
                       addressId={address.id!}
                       onSuccess={refreshAddresses}
                     />
                   </div>
-                  <button className="bg-teal-500 hover:bg-teal-700 text-white w-full text-xs font-normal py-2 px-4 rounded-lg">
-                    Set as Default
-                  </button>
+                  <SetDefaultAddress
+                    userId={userId}
+                    addressId={address.id!}
+                    isPrimary={address.isPrimary || false}
+                    onSuccess={refreshAddresses}
+                  />
                 </div>
               </div>
             ))}

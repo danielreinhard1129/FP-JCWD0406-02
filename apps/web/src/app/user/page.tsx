@@ -26,7 +26,6 @@ export interface IUser {
 
 const ProfilePage: React.FC = () => {
   const userId = useSelector((state: IUser) => state.user?.id);
-  // console.log(userId);
 
   const [userData, setUserData] = useState<Partial<IUser> | null>(null);
 
@@ -34,7 +33,6 @@ const ProfilePage: React.FC = () => {
     try {
       const response = await axios.get(`${baseUrl}/users/user/${userId}`);
       setUserData(response.data.data);
-      // console.log('berhasillllll peepepeekkk asuu', response.data);
     } catch (error) {
       console.log(error);
     }
