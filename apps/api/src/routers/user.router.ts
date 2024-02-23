@@ -41,6 +41,10 @@ export class UserRouter {
       this.userController.deleteUserAddress,
     );
     this.router.patch(
+      '/default-address/:id',
+      this.userController.setDefaultAddressController,
+    );
+    this.router.patch(
       '/user-verification/:id',
       this.userController.userVerification,
     );

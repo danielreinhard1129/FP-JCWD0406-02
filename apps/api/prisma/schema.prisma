@@ -46,15 +46,44 @@ model Role {
 }
 
 model UserAddress {
-  id          Int    @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   userId      Int
   name        String
-  contact     String @default("62")
+  contact     String  @default("62")
   street      String
   distric     String
   city        String
   province    String
   postal_code Int
+  isDeleted   Boolean @default(false)
+  isPrimary   Boolean @default(false)
 
   user User @relation(fields: [userId], references: [id])
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  price       Float
+  weight      Float
+  qty         Int
+  isDeleted   Boolean  @default(false)
+  created_at  DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  categoryId  Int
+  Category    Category @relation(fields: [categoryId], references: [id])
+}
+
+model Category {
+  id            Int       @id @default(autoincrement())
+  category_name String
+  isDeleted     Boolean   @default(false)
+  created_at    DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  products      Product[]
+}
+
+model ProductPhotos {
+  id Int @id @default(autoincrement())
 }

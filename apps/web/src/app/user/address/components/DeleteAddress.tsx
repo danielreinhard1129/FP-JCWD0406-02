@@ -4,11 +4,13 @@ import axios from 'axios';
 import { baseUrl } from '@/app/utils/database';
 
 interface DeleteAddressProps {
+  isPrimary: boolean;
   addressId?: number;
   onSuccess: () => void;
 }
 
 const DeleteAddressComp: React.FC<DeleteAddressProps> = ({
+  isPrimary,
   addressId,
   onSuccess,
 }) => {
@@ -24,11 +26,11 @@ const DeleteAddressComp: React.FC<DeleteAddressProps> = ({
     }
   };
 
-  return (
+  return !isPrimary ? (
     <>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="bg-transparent w-full mr-1 hover:bg-red-600 text-teal-600 font-normal text-xs hover:text-white py-1 px-4 border hover:border-transparent rounded-lg"
+        className="bg-transparent w-full hover:bg-red-600 text-teal-600 font-normal text-xs hover:text-white py-1 px-4 border hover:border-transparent rounded-lg"
       >
         Delete
       </button>
@@ -55,7 +57,7 @@ const DeleteAddressComp: React.FC<DeleteAddressProps> = ({
         </div>
       )}
     </>
-  );
+  ) : null;
 };
 
 export default DeleteAddressComp;

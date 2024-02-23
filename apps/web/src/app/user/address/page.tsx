@@ -17,6 +17,7 @@ export interface IAddress {
   city: string;
   province: string;
   postal_code: number;
+  isPrimary?: boolean;
 }
 
 export interface IUser {
@@ -68,6 +69,7 @@ const UserAddress: React.FC = () => {
       <AddressCardComp
         addressData={addresses}
         refreshAddresses={refreshAddresses}
+        userId={userId}
       />
     </div>
   );

@@ -9,6 +9,7 @@ import { resetPasswordAction } from '@/actions/user/resetPasswordAction';
 import { sendEmailForVerifAction } from '@/actions/user/sendEmailForVerifAction';
 import { userVerificationAction } from '@/actions/user/userVerificationAction';
 import { addUserAddressAction } from '@/actions/userAddress/addUserAddressAction';
+import { setDefaultAddressAction } from '@/actions/userAddress/setDefaultAddressAction';
 import { deleteUserAddressAction } from '@/actions/userAddress/deleteUserAddressAction';
 import { editUserAddressAction } from '@/actions/userAddress/editUserAddressAction';
 import { getAddresByUserIdAction } from '@/actions/userAddress/getAddressByUserIdAction';
@@ -174,6 +175,30 @@ export class UserController {
       const userAdress = await deleteUserAddressAction(Number(id));
 
       res.status(200).send(userAdress);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async setDefaultAddressController(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const addressId = Number(req.params.id); // Address ID from URL parameter
+      const { userId } = req.body; // User ID from request body
+
+      // Validate both userId and addressId
+      if (!userId) {
+        return res.status(400).send({ message: 'UserId is required' });
+      }
+      if (isNaN(addressId)) {
+        return res.status(400).send({ message: 'Valid addressId is required' });
+      }
+
+      const result = await setDefaultAddressAction(userId, addressId);
+      res.status(200).send(result);
     } catch (error) {
       next(error);
     }
