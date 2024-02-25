@@ -1,13 +1,13 @@
 import prisma from '@/prisma';
 
-export const deleteUserAddress = async (id: number) => {
+export const deleteProduct = async (id: number) => {
   try {
-    const userAddress = await prisma.userAddress.update({
+    const deleteProduct = await prisma.product.update({
       where: { id },
       data: { isDeleted: true },
     });
 
-    return userAddress;
+    return deleteProduct;
   } catch (error) {
     throw error;
   }

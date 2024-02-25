@@ -21,7 +21,7 @@ export interface IAddress {
   name: string;
   contact: string;
   street: string;
-  distric: string;
+  district: string;
   city: string;
   province: string;
   postal_code: number;
