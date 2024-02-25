@@ -1,15 +1,16 @@
+import cors from 'cors';
 import express, {
-  json,
-  urlencoded,
   Express,
+  NextFunction,
   Request,
   Response,
-  NextFunction,
+  json,
+  urlencoded,
 } from 'express';
-import cors from 'cors';
 import { PORT } from './config';
 import { SampleRouter } from './routers/sample.router';
 import { UserRouter } from './routers/user.router';
+import { WarehouseRouter } from './routers/warehouse.router';
 
 export default class App {
   private app: Express;
@@ -53,9 +54,11 @@ export default class App {
   private routes(): void {
     const sampleRouter = new SampleRouter();
     const userRouter = new UserRouter();
+    const warehouseRouter = new WarehouseRouter();
 
     this.app.use('/api/users', userRouter.getRouter());
     this.app.use('/api/samples', sampleRouter.getRouter());
+    this.app.use('/api/warehouses', warehouseRouter.getRouter());
   }
 
   public start(): void {

@@ -3,7 +3,7 @@ import { IAddress } from '@/types/user.types';
 
 export const editUserAddress = async (body: Partial<IAddress>, id: number) => {
   try {
-    const { name, contact, street, distric, city, province, postal_code } =
+    const { name, contact, street, district, city, province, postal_code } =
       body;
 
     const userAddress = await prisma.userAddress.update({
@@ -12,7 +12,7 @@ export const editUserAddress = async (body: Partial<IAddress>, id: number) => {
         name,
         contact,
         street,
-        distric,
+        district,
         city,
         province,
         postal_code,

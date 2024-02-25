@@ -35,6 +35,7 @@ model User {
   updatedAt       DateTime      @updatedAt
   created_at      DateTime      @default(now())
   userAddress     UserAddress[]
+  product         Product[]
 
   Role Role? @relation(fields: [roleId], references: [id])
 }
@@ -51,7 +52,7 @@ model UserAddress {
   name        String
   contact     String  @default("62")
   street      String
-  distric     String
+  district    String
   city        String
   province    String
   postal_code Int
@@ -62,28 +63,36 @@ model UserAddress {
 }
 
 model Product {
-  id          Int      @id @default(autoincrement())
-  name        String
-  description String
-  price       Float
-  weight      Float
-  qty         Int
-  isDeleted   Boolean  @default(false)
-  created_at  DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  categoryId  Int
-  Category    Category @relation(fields: [categoryId], references: [id])
+
+  id           Int            @id @default(autoincrement())
+  userId       Int
+  title        String         @unique
+  description  String
+  price        Float
+  weight       Float
+  qty          Int
+  categoryId   Int
+  isDeleted    Boolean        @default(false)
+  created_at   DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  productPhoto ProductPhoto[]
+  User         User           @relation(fields: [userId], references: [id])
+  Category     Category       @relation(fields: [categoryId], references: [id])
 }
 
 model Category {
   id            Int       @id @default(autoincrement())
-  category_name String
+  category_name String    @unique
   isDeleted     Boolean   @default(false)
   created_at    DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  products      Product[]
+  product       Product[]
 }
 
-model ProductPhotos {
-  id Int @id @default(autoincrement())
+model ProductPhoto {
+  id            Int     @id @default(autoincrement())
+  photo_product String
+  productId     Int
+  Product       Product @relation(fields: [productId], references: [id])
 }
+
