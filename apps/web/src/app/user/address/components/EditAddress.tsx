@@ -41,7 +41,6 @@ const EditAddressComp: React.FC<EditAddressProps> = ({
   onSuccess,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const formik = useFormik({
     initialValues: {
       name: address.name,
@@ -78,7 +77,7 @@ const EditAddressComp: React.FC<EditAddressProps> = ({
   return (
     <>
       <button
-        className="bg-transparent w-full mr-1 hover:bg-teal-700 text-teal-600 font-normal text-xs hover:text-white py-1 px-4 border hover:border-transparent rounded-lg"
+        className="bg-transparent hover:bg-teal-700 text-teal-600 font-normal text-xs hover:text-white py-1 px-4 border hover:border-transparent rounded-lg"
         onClick={() => setIsModalOpen(true)}
       >
         Edit

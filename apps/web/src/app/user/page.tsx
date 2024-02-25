@@ -26,7 +26,6 @@ export interface IUser {
 
 const ProfilePage: React.FC = () => {
   const userId = useSelector((state: IUser) => state.user?.id);
-  // console.log(userId);
 
   const [userData, setUserData] = useState<Partial<IUser> | null>(null);
 
@@ -34,7 +33,6 @@ const ProfilePage: React.FC = () => {
     try {
       const response = await axios.get(`${baseUrl}/users/user/${userId}`);
       setUserData(response.data.data);
-      // console.log('berhasillllll peepepeekkk asuu', response.data);
     } catch (error) {
       console.log(error);
     }
@@ -44,10 +42,16 @@ const ProfilePage: React.FC = () => {
     getDataUser();
   }, [userId]);
 
+  const refreshProfile = async () => {
+    getDataUser();
+  };
+
   return (
-    <div className="md:flex max-w-7xl mx-auto px-8 lg:px-0">
+    <div className="md:flex h-screen max-w-7xl mx-auto px-8 lg:px-0">
       <Sidebar data={userData} />
-      <ProfilePageComp data={userData} />
+      {userData && (
+        <ProfilePageComp data={userData} onSuccess={refreshProfile} />
+      )}
     </div>
   );
 };

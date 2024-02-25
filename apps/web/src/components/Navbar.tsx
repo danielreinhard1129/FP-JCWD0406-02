@@ -107,7 +107,7 @@ export const Navbar = () => {
 
         <div className="ml-4 flex lg:gap-x-12 items-center">
           <a
-            href="#"
+            href="/cart"
             className="text-sm font-semibold leading-6 text-gray-900 mr-4"
           >
             <FiShoppingCart className="h-6 w-6" />

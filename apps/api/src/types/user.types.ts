@@ -25,6 +25,7 @@ export interface IAddress {
   city: string;
   province: string;
   postal_code: number;
+  isDefault: boolean;
 }
 
 export interface IRole {
