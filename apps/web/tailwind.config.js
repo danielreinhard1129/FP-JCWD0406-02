@@ -5,10 +5,10 @@ module.exports = {
     '../../node_modules/flowbite-react/lib/esm/**/*.js',
   ],
   theme: {
-    extend: {},
+    fontFamily: {
+      sans: ['"PT Sans"', 'sans-serif'],
+    },
   },
-  plugins: [
-    require('flowbite/plugin'),
-  ],
-}
 
+  plugins: [require('flowbite/plugin')],
+};
