@@ -18,6 +18,9 @@ import { getAllUserAddressAction } from '@/actions/userAddress/getAllUserAddress
 import { getUserAddressByIdAction } from '@/actions/userAddress/getUserAddressByIdAction';
 import { deleteUserAddress } from '@/repositories/userAddress/deleteUserAddress';
 import { NextFunction, Request, Response } from 'express';
+import { createAdminAction } from '@/actions/superAdmin/createAdminAction';
+import { deleteUserAction } from '@/actions/user/deleteUserAction';
+import { deleteAdminAction } from '@/actions/superAdmin/deleteAdminAction';
 
 export class UserController {
   async getUserData(req: Request, res: Response, next: NextFunction) {
@@ -232,6 +235,38 @@ export class UserController {
       const result = await sendEmailForVerifAction(req.body.email);
 
       res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async createAdmin(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+
+      const admin = await createAdminAction(Number(id));
+
+      res.status(200).send(admin);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async deleteUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const deleteUser = await deleteUserAction(Number(id));
+      res.status(200).send(deleteUser);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async deleteAdmin(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const admin = await deleteAdminAction(Number(id));
+      res.status(200).send(admin);
     } catch (error) {
       next(error);
     }
