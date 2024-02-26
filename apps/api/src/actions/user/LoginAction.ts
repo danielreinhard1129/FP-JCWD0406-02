@@ -14,6 +14,10 @@ export const loginAction = async (data: IUser) => {
       throw new Error('Account not found');
     }
 
+    if (user.isDeleted === true) {
+      throw new Error('This account has been deleted');
+    }
+
     const isPasswordValid = await comparePassword(password, user.password);
 
     if (!isPasswordValid) {

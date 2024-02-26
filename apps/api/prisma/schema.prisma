@@ -37,7 +37,8 @@ model User {
   userAddress     UserAddress[]
   product         Product[]
 
-  Role Role? @relation(fields: [roleId], references: [id])
+  Role      Role?       @relation(fields: [roleId], references: [id])
+  warehouse Warehouse[]
 }
 
 model Role {
@@ -63,7 +64,6 @@ model UserAddress {
 }
 
 model Product {
-
   id           Int            @id @default(autoincrement())
   userId       Int
   title        String         @unique
@@ -78,6 +78,7 @@ model Product {
   productPhoto ProductPhoto[]
   User         User           @relation(fields: [userId], references: [id])
   Category     Category       @relation(fields: [categoryId], references: [id])
+  Stock        Stock[]
 }
 
 model Category {
@@ -96,3 +97,37 @@ model ProductPhoto {
   Product       Product @relation(fields: [productId], references: [id])
 }
 
+model Warehouse {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  address   String
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  stocks    Stock[]
+  User      User?    @relation(fields: [userId], references: [id])
+}
+
+model Stock {
+  id          Int            @id @default(autoincrement())
+  warehouseId Int
+  productId   Int
+  quantity    Int
+  journal     StockJournal[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  warehouse Warehouse @relation(fields: [warehouseId], references: [id])
+  product   Product   @relation(fields: [productId], references: [id])
+}
+
+model StockJournal {
+  id        Int      @id @default(autoincrement())
+  stockId   Int
+  action    String // 'add' or 'reduce'
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  stock Stock @relation(fields: [stockId], references: [id])
+}

@@ -50,6 +50,9 @@ export class UserRouter {
       this.userController.userVerification,
     );
     this.router.post('/checkemail', this.userController.sendEmailForVerif);
+    this.router.patch('/create-admin/:id', this.userController.createAdmin);
+    this.router.delete('/delete-user/:id', this.userController.deleteUser);
+    this.router.delete('/delete-admin/:id', this.userController.deleteAdmin);
   }
 
   getRouter(): Router {
