@@ -1,0 +1,154 @@
+'use client';
+import Link from 'next/link';
+import React, { useState } from 'react';
+import { FaUserCircle } from 'react-icons/fa';
+import { FaChevronDown, FaChevronRight } from 'react-icons/fa6';
+import { FiHome, FiPackage, FiShoppingBag, FiUsers } from 'react-icons/fi';
+import { LuWarehouse } from 'react-icons/lu';
+
+const AdminSidebar: React.FC = () => {
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
+  const [collapsed, setCollapsed] = useState<{ [key: string]: boolean }>({});
+
+  const toggleSubMenu = (menu: string) => {
+    setCollapsed((prev) => ({
+      ...prev,
+      [menu]: !prev[menu],
+    }));
+  };
+  const toggleSidebar = () => {
+    setIsSidebarExpanded(!isSidebarExpanded);
+  };
+
+  return (
+    <div className="w-60 h-screen bg-white text-gray-800 flex flex-col shadow">
+      {/* Admin Profile */}
+      <div className="p-4 flex items-center">
+        <FaUserCircle className="mr-2 text-3xl text-gray-600" />
+        <div>
+          <p className="font-semibold text-gray-800">Admin Name</p>
+          <p className="text-sm text-gray-600">Administrator</p>
+        </div>
+      </div>
+
+      <hr className="border-gray-300" />
+
+      {/* Sidebar Navigation */}
+      <div className="flex-grow p-4 text-sm">
+        <ul className="flex flex-col space-y-6">
+          <Link
+            href="/admin/dashboard"
+            className="flex items-center cursor-pointer"
+          >
+            <FiHome className="mr-2 size-5" />
+            <span className="font-semibold hover:text-teal-600">Home</span>
+          </Link>
+          <li className="flex items-center cursor-pointer">
+            <FiShoppingBag className="mr-2 size-5" />
+            <span className="font-semibold hover:text-teal-600 size-6">
+              Orders
+            </span>
+          </li>
+          <li>
+            <div
+              className="flex items-center justify-between cursor-pointer"
+              onClick={() => toggleSubMenu('userManagement')}
+            >
+              <span className="flex items-center">
+                <FiUsers className="mr-2 size-5" />
+                <span className="font-semibold hover:text-teal-600">
+                  User & Admin
+                </span>
+              </span>
+              {collapsed['userManagement'] ? (
+                <FaChevronDown className="ml-2" />
+              ) : (
+                <FaChevronRight className="ml-2" />
+              )}
+            </div>
+            {collapsed['userManagement'] && (
+              <ul className="ml-10 mt-1 space-y-1 flex flex-col">
+                <Link
+                  href="/admin/dashboard/user-management"
+                  className="cursor-pointer hover:text-teal-600"
+                >
+                  User Management
+                </Link>
+                <Link
+                  href="/admin/dashboard/admin-management"
+                  className="cursor-pointer hover:text-teal-600"
+                >
+                  Admin Management
+                </Link>
+              </ul>
+            )}
+          </li>
+          <li>
+            <div
+              className="flex items-center justify-between cursor-pointer"
+              onClick={() => toggleSubMenu('productManagement')}
+            >
+              <span className="flex items-center">
+                <FiPackage className="mr-2 size-5" />
+                <span className="font-semibold hover:text-teal-600">
+                  Product
+                </span>
+              </span>
+              {collapsed['productManagement'] ? (
+                <FaChevronDown className="ml-2" />
+              ) : (
+                <FaChevronRight className="ml-2" />
+              )}
+            </div>
+            {collapsed['productManagement'] && (
+              <div className="ml-10 mt-1 space-y-1 flex flex-col">
+                <Link
+                  href="/admin/dashboard/create-product"
+                  className="cursor-pointer hover:text-teal-600"
+                >
+                  Create Product
+                </Link>
+                <Link
+                  href="/admin/dashboard/product-management"
+                  className="cursor-pointer hover:text-teal-600"
+                >
+                  Product Management
+                </Link>
+              </div>
+            )}
+          </li>
+          <li>
+            <div
+              className="flex items-center justify-between cursor-pointer"
+              onClick={() => toggleSubMenu('warehouse')}
+            >
+              <span className="flex items-center">
+                <LuWarehouse className="mr-2 size-5" />
+                <span className="font-semibold cursor-pointer hover:text-teal-600">
+                  Warehouse
+                </span>
+              </span>
+              {collapsed['warehouse'] ? (
+                <FaChevronDown className="ml-2" />
+              ) : (
+                <FaChevronRight className="ml-2" />
+              )}
+            </div>
+            {collapsed['warehouse'] && (
+              <ul className="ml-10 mt-1 space-y-1 flex flex-col">
+                <Link
+                  href="/admin/dashboard/warehouse"
+                  className="cursor-pointer hover:text-teal-600"
+                >
+                  Warehouse Management
+                </Link>
+              </ul>
+            )}
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default AdminSidebar;
