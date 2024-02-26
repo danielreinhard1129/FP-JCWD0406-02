@@ -5,6 +5,7 @@ import { registerAction } from '@/actions/user/RegisterAction';
 import { editUserAction } from '@/actions/user/editUserAction';
 import { forgotPasswordAction } from '@/actions/user/forgotPasswordAction';
 import { getUserByIdAction } from '@/actions/user/getUserByIdAction';
+import { getUserByRoleIdAction } from '@/actions/user/getUserByRoleIdAction';
 import { resetPasswordAction } from '@/actions/user/resetPasswordAction';
 import { sendEmailForVerifAction } from '@/actions/user/sendEmailForVerifAction';
 import { userVerificationAction } from '@/actions/user/userVerificationAction';
@@ -33,6 +34,17 @@ export class UserController {
       const { id } = req.params;
 
       const user = await getUserByIdAction(Number(id));
+
+      res.status(200).send(user);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getUserByRoleId(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { roleId } = req.body;
+      const user = await getUserByRoleIdAction(roleId);
 
       res.status(200).send(user);
     } catch (error) {
@@ -217,9 +229,6 @@ export class UserController {
 
   async sendEmailForVerif(req: Request, res: Response, next: NextFunction) {
     try {
-      // const { email } = req.body;
-      // console.log('bodyyyyy', email);
-
       const result = await sendEmailForVerifAction(req.body.email);
 
       res.status(200).send(result);

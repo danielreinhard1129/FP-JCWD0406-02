@@ -6,6 +6,7 @@ export const deleteUserAddressAction = async (id: number) => {
 
     return {
       message: 'delete address success',
+      data: userAddress,
     };
   } catch (error) {
     throw error;

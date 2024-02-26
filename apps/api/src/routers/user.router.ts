@@ -15,6 +15,7 @@ export class UserRouter {
   private initializeRoutes(): void {
     this.router.get('/getdata', this.userController.getUserData);
     this.router.get('/user/:id', this.userController.getUserById);
+    this.router.get('/with-role', this.userController.getUserByRoleId);
     this.router.post('/register', this.userController.registerController);
     this.router.post('/login', this.userController.loginUser);
     this.router.get('/keeplogin', verifyToken, this.userController.keeplogin);
