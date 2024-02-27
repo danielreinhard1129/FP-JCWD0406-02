@@ -38,6 +38,15 @@ export class WarehouseRouter {
       '/delete-category/:id',
       this.warehouseController.deleteCategory,
     );
+    this.router.post('/req-stock', this.warehouseController.reqStockProduct);
+    this.router.post(
+      '/create-stock-mutation',
+      this.warehouseController.createStockMutation,
+    );
+    this.router.patch(
+      '/update-status-stock/:id',
+      this.warehouseController.updateStatusStockMutation,
+    );
   }
 
   getRouter(): Router {

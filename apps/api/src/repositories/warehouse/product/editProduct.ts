@@ -3,7 +3,7 @@ import { IProduct } from '@/types/warehouse.types';
 
 export const editProduct = async (body: IProduct, id: number) => {
   try {
-    const { title, description, price, qty, weight } = body;
+    const { title, description, price, weight } = body;
 
     const product = await prisma.product.update({
       where: { id },
@@ -11,7 +11,6 @@ export const editProduct = async (body: IProduct, id: number) => {
         title,
         description,
         price,
-        qty,
         weight,
       },
     });

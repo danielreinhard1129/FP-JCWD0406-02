@@ -1,3 +1,5 @@
+import { reqStockProductAction } from '@/actions/warehouse/admin/reqStockProductAction';
+import { updateStatusStockMutationAction } from '@/actions/warehouse/admin/updateStatusStockMutationAction';
 import { createCategoryAction } from '@/actions/warehouse/category/createCategoryAction';
 import { deleteCategoryAction } from '@/actions/warehouse/category/deleteCategoryAction';
 import { getAllCategoriesAction } from '@/actions/warehouse/category/getAllCategoriesAction';
@@ -6,6 +8,7 @@ import { createProductAction } from '@/actions/warehouse/product/createProductAc
 import { deleteProductAction } from '@/actions/warehouse/product/deleteProductAction';
 import { editProductAction } from '@/actions/warehouse/product/editProductAction';
 import { getAllProductsAction } from '@/actions/warehouse/product/getAllProductsAction';
+import { createStockMutationAction } from '@/actions/warehouse/stockMutation/createStockMutation';
 import { NextFunction, Request, Response } from 'express';
 
 export class WarehouseController {
@@ -92,6 +95,44 @@ export class WarehouseController {
       const { id } = req.params;
       const category = await deleteCategoryAction(Number(id));
       res.status(200).send(category);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async reqStockProduct(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = req.body;
+
+      const stock = await reqStockProductAction(data);
+      res.status(200).send(stock);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async createStockMutation(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = req.body;
+      const stock = await createStockMutationAction(data);
+      res.status(200).send(stock);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updateStatusStockMutation(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+
+      const stock = await updateStatusStockMutationAction(Number(id), status);
+
+      res.status(200).send(stock);
     } catch (error) {
       next(error);
     }
