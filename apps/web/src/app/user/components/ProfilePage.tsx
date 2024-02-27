@@ -13,7 +13,7 @@ interface IUser {
   last_name: string;
   username: string;
   email: string;
-  contact: string;
+  contact: number;
   profile_picture?: string;
 }
 
@@ -52,6 +52,12 @@ const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
             <h1>Username</h1>
             <h1 className="font-bold ml-1">
               {dataUser?.username || userGoogle?.displayName}
+            </h1>
+          </div>
+          <div className="mb-4 flex justify-between lg:justify-normal lg:gap-28">
+            <h1>Contact</h1>
+            <h1 className="font-bold ml-1">
+              {dataUser?.contact || userGoogle?.contact}
             </h1>
           </div>
           <div className="mb-4 flex justify-between lg:justify-normal lg:gap-x-32">

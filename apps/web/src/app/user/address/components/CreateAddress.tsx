@@ -11,7 +11,7 @@ const validationSchema = yup.object({
   name: yup.string().required('Recipient name is required'),
   contact: yup.string().required('Contact is required'),
   street: yup.string().required('Street is required'),
-  distric: yup.string().required('District is required'),
+  district: yup.string().required('District is required'),
   city: yup.string().required('City is required'),
   province: yup.string().required('Province is required'),
   postal_code: yup
@@ -33,7 +33,7 @@ const CreateAddress: React.FC<CreateAddressProps> = ({ onSuccess }) => {
       name: '',
       contact: '',
       street: '',
-      distric: '',
+      district: '',
       city: '',
       province: '',
       postal_code: '',
@@ -48,7 +48,7 @@ const CreateAddress: React.FC<CreateAddressProps> = ({ onSuccess }) => {
             name: values.name,
             contact: values.contact,
             street: values.street,
-            distric: values.distric,
+            district: values.district,
             city: values.city,
             province: values.province,
             postal_code: parseInt(values.postal_code, 10),
@@ -121,14 +121,14 @@ const CreateAddress: React.FC<CreateAddressProps> = ({ onSuccess }) => {
               </div>
               <div className="flex gap-5">
                 <div className="">
-                  <label className="text-sm font-medium">District</label>
+                  <label className="text-sm font-medium">district</label>
                   <input
-                    name="distric"
+                    name="district"
                     placeholder=""
                     className="w-full p-2 border border-gray-300 rounded"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    value={formik.values.distric}
+                    value={formik.values.district}
                   />
                 </div>
                 <div>

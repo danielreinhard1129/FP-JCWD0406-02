@@ -13,7 +13,7 @@ export interface IAddress {
   name: string;
   contact: string;
   street: string;
-  distric: string;
+  district: string;
   city: string;
   province: string;
   postal_code: number;
@@ -38,6 +38,7 @@ export interface IUser {
   userAddress_id: number;
   refreshAddresses: any;
 }
+
 const UserAddress: React.FC = () => {
   const userId = useSelector((state: IUser) => state.user?.id);
   const [addresses, setAddresses] = useState<Partial<IAddress>[]>([]);

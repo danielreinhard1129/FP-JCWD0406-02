@@ -39,6 +39,7 @@ model User {
 
   Role      Role?       @relation(fields: [roleId], references: [id])
   warehouse Warehouse[]
+  cart      Cart[]
 }
 
 model Role {
@@ -64,21 +65,23 @@ model UserAddress {
 }
 
 model Product {
-  id           Int            @id @default(autoincrement())
-  userId       Int
-  title        String         @unique
-  description  String
-  price        Float
-  weight       Float
-  qty          Int
-  categoryId   Int
-  isDeleted    Boolean        @default(false)
-  created_at   DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  productPhoto ProductPhoto[]
-  User         User           @relation(fields: [userId], references: [id])
-  Category     Category       @relation(fields: [categoryId], references: [id])
-  Stock        Stock[]
+  id            Int             @id @default(autoincrement())
+  userId        Int
+  title         String          @unique
+  description   String
+  price         Float
+  weight        Float
+  categoryId    Int
+  isDeleted     Boolean         @default(false)
+  created_at    DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  productPhoto  ProductPhoto[]
+  User          User            @relation(fields: [userId], references: [id])
+  Category      Category        @relation(fields: [categoryId], references: [id])
+  Stock         Stock[]
+  StockMutation StockMutation[]
+  ReqStock      ReqStock[]
+  cart          Cart[]
 }
 
 model Category {
@@ -98,36 +101,93 @@ model ProductPhoto {
 }
 
 model Warehouse {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique
-  address   String
-  userId    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  stocks    Stock[]
-  User      User?    @relation(fields: [userId], references: [id])
+  id                       Int             @id @default(autoincrement())
+  name                     String          @unique
+  userId                   Int
+  contact                  String          @default("62")
+  street                   String
+  district                 String
+  city                     String
+  province                 String
+  postal_code              Int
+  isDeleted                Boolean         @default(false)
+  createdAt                DateTime        @default(now())
+  updatedAt                DateTime        @updatedAt
+  stocks                   Stock[]
+  user                     User            @relation(fields: [userId], references: [id])
+  requestedStockMutations  StockMutation[] @relation("RequestWarehouse")
+  destinationStockMutation StockMutation[] @relation("DestinationWarehouse")
+  ReqStock                 ReqStock[]
+  transaction              Transaction[]
 }
 
 model Stock {
-  id          Int            @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   warehouseId Int
   productId   Int
   quantity    Int
-  journal     StockJournal[]
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  warehouse   Warehouse @relation(fields: [warehouseId], references: [id])
+  product     Product   @relation(fields: [productId], references: [id])
+}
+
+model StockMutation {
+  id                   Int       @id @default(autoincrement())
+  reqWarehouseId       Int
+  quantity             Int
+  productId            Int
+  warehouseId          Int
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  status               Status
+  product              Product   @relation(fields: [productId], references: [id])
+  destinationWarehouse Warehouse @relation("DestinationWarehouse", fields: [warehouseId], references: [id])
+  requestWarehouse     Warehouse @relation("RequestWarehouse", fields: [reqWarehouseId], references: [id])
+}
+
+model ReqStock {
+  id          Int      @id @default(autoincrement())
+  warehouseId Int
+  productId   Int
+  quantity    Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  status      Status
 
   warehouse Warehouse @relation(fields: [warehouseId], references: [id])
   product   Product   @relation(fields: [productId], references: [id])
 }
 
-model StockJournal {
-  id        Int      @id @default(autoincrement())
-  stockId   Int
-  action    String // 'add' or 'reduce'
-  quantity  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Cart {
+  id          Int           @id @default(autoincrement())
+  userId      Int
+  productId   Int
+  quantity    Int
+  Product     Product       @relation(fields: [productId], references: [id])
+  User        User          @relation(fields: [userId], references: [id])
+  transaction Transaction[]
+}
 
-  stock Stock @relation(fields: [stockId], references: [id])
+model Transaction {
+  id           Int       @id @default(autoincrement())
+  uuid         String    @unique @default(uuid())
+  warehouseId  Int
+  qty          Int
+  shippingCost Int
+  totalPrice   Int
+  cartId       Int
+  paymentImg   String?
+  status       Status
+  createdAt    DateTime  @default(now())
+  updaetdAt    DateTime  @updatedAt
+  Warehouse    Warehouse @relation(fields: [warehouseId], references: [id])
+  Cart         Cart      @relation(fields: [cartId], references: [id])
+}
+
+enum Status {
+  PENDING
+  CANCELLED
+  CONFIRM
+  INPROGRESS
 }
