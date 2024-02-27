@@ -74,7 +74,7 @@ const AddressCardComp: React.FC<AddressCardCompProps> = ({
                   <div className="text-md font-medium">{address.name}</div>
                   <div className="text-sm">{address.contact}</div>
                   <div className="text-sm">
-                    {`${address.street}, ${address.distric}, ${address.city}, ${address.province}, ${address.postal_code}`}
+                    {`${address.street}, ${address.district}, ${address.city}, ${address.province}, ${address.postal_code}`}
                   </div>
                 </div>
                 <div className="space-y-1 mt-3">

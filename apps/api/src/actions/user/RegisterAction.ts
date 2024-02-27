@@ -20,30 +20,42 @@ export const registerAction = async (data: IUser) => {
 
     const compileTemplate = Handlebars.compile(templateSource);
 
-    const { email, password } = data;
+    const { email, password, roleId } = data;
 
-    const user = await getUserByEmail(email);
+    if (roleId == 2) {
+      const user = await getUserByEmail(email);
 
-    if (user?.email) throw new Error('This email already exist');
-    if (user?.username) throw new Error('This username already exist');
+      if (user?.email) throw new Error('This email already exist');
+      if (user?.username) throw new Error('This username already exist');
 
-    const hashedPassword = await hashPassword(password);
-    data.password = hashedPassword;
-    await register(data);
+      const hashedPassword = await hashPassword(password);
+      data.password = hashedPassword;
+      await register(data);
+    }
+    if (roleId == 3) {
+      const user = await getUserByEmail(email);
 
-    const token = createToken({ email: user?.email, expiresIn: '1h' });
+      if (user?.email) throw new Error('This email already exist');
+      if (user?.username) throw new Error('This username already exist');
 
-    const baseUrl = 'http://localhost:3000';
-    const link = `${baseUrl}/register/verification?token=${token}`;
-    const html = compileTemplate({ link });
+      const hashedPassword = await hashPassword(password);
+      data.password = hashedPassword;
+      await register(data);
 
-    await transporter.sendMail({
-      from: 'smartbordlhouse@gmail.com',
-      to: email,
-      subject: 'Smart Bord House - Verify your account',
+      const token = createToken({ email: user?.email, expiresIn: '1h' });
 
-      html,
-    });
+      const baseUrl = 'http://localhost:3000';
+      const link = `${baseUrl}/register/verification?token=${token}`;
+      const html = compileTemplate({ link });
+
+      await transporter.sendMail({
+        from: 'smartbordlhouse@gmail.com',
+        to: email,
+        subject: 'Smart Bord House - Verify your account',
+
+        html,
+      });
+    }
 
     return {
       message: 'create account success',

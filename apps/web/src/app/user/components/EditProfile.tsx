@@ -12,7 +12,7 @@ interface IUser {
   last_name: string;
   username: string;
   email: string;
-  contact: string;
+  contact: number;
   profile_picture?: string;
 }
 
@@ -25,6 +25,7 @@ const validationSchema = yup.object({
   first_name: yup.string().required('First name is required'),
   last_name: yup.string().required('Last name is required'),
   username: yup.string().required('Username is required'),
+  contact: yup.number().required('Username is required'),
   // You can add more fields here as necessary
 });
 
@@ -36,6 +37,7 @@ const EditProfileComp: React.FC<EditProfileProps> = ({ user, onSuccess }) => {
       first_name: user?.first_name || '',
       last_name: user?.last_name || '',
       username: user?.username || '',
+      contact: user?.contact || '',
     },
     validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
@@ -106,6 +108,17 @@ const EditProfileComp: React.FC<EditProfileProps> = ({ user, onSuccess }) => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.username}
+                />
+              </div>
+              <div>
+                <label className="font-medium">Contact</label>
+                <input
+                  name="contact"
+                  type="text"
+                  className="w-full p-2 border border-gray-300 rounded-lg"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.contact}
                 />
               </div>
               {/* Buttons */}

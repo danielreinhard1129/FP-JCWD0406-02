@@ -1,7 +1,8 @@
 // DeleteAddressComp.tsx
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { baseUrl } from '@/app/utils/database';
+import { toast } from 'sonner';
 
 interface DeleteAddressProps {
   isPrimary: boolean;
@@ -21,8 +22,12 @@ const DeleteAddressComp: React.FC<DeleteAddressProps> = ({
       await axios.delete(`${baseUrl}/users/delete-address/${addressId}`);
       onSuccess();
       setIsModalOpen(false);
+      toast.success('Address delete successfully');
     } catch (error) {
-      console.error('Error deleting address:', error);
+      if (error instanceof AxiosError) {
+        const errorMsg = error.response?.data || error.message;
+        toast.error(errorMsg);
+      }
     }
   };
 
