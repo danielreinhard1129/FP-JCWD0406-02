@@ -1,16 +1,44 @@
-import React from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
 import AdminSidebar from '../../components/SidebarDashboard';
 import HeaderAdminManagement from './components/HeaderAdminManagement';
 import CardAllUser from '../user-management/components/CardAllUser';
+import { baseUrl } from '@/app/utils/database';
+import axios from 'axios';
 
 const UserManagement = () => {
+  const [users, setUsers] = useState([]);
+
+  const getUsersByRoleId = async () => {
+    const roleId = 2;
+    try {
+      const response = await axios.get(`${baseUrl}/users/with-role`, {
+        params: { roleId },
+      });
+      console.log('mana roleId', response);
+      // console.log('roleId', roleId);
+
+      setUsers(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUsersByRoleId();
+  }, []);
+
+  const refreshAdminPage = async () => {
+    getUsersByRoleId();
+  };
+
   return (
     <div className="flex gap-4 mx-auto max-w-7xl mt-8">
       <AdminSidebar />
       <div className="w-full space-y-4">
-        <HeaderAdminManagement />
-        <div className="flex">
-          <CardAllUser />
+        <HeaderAdminManagement refreshAdminPage={refreshAdminPage} />
+        <div className="flex-wrap">
+          <CardAllUser userData={users} refreshAdminPage={refreshAdminPage} />
         </div>
       </div>
     </div>

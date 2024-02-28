@@ -12,7 +12,7 @@ interface IAddress {
   name: string;
   contact: string;
   street: string;
-  distric: string;
+  district: string;
   city: string;
   province: string;
   postal_code: number;
@@ -26,7 +26,7 @@ const validationSchema = yup.object({
   name: yup.string().required('Name is required'),
   contact: yup.string().required('Contact is required'),
   street: yup.string().required('Street is required'),
-  distric: yup.string().required('District is required'),
+  district: yup.string().required('district is required'),
   city: yup.string().required('City is required'),
   province: yup.string().required('Province is required'),
   postal_code: yup
@@ -46,7 +46,7 @@ const EditAddressComp: React.FC<EditAddressProps> = ({
       name: address.name,
       contact: address.contact,
       street: address.street,
-      distric: address.distric,
+      district: address.district,
       city: address.city,
       province: address.province,
       postal_code: address.postal_code,
@@ -119,12 +119,12 @@ const EditAddressComp: React.FC<EditAddressProps> = ({
               </div>
               <div className="flex gap-5">
                 <div className="">
-                  <label className="text-sm font-medium">District</label>
+                  <label className="text-sm font-medium">district</label>
                   <input
-                    name="distric"
+                    name="district"
                     className="w-full p-2 border border-gray-300 rounded"
                     onChange={formik.handleChange}
-                    value={formik.values.distric}
+                    value={formik.values.district}
                   />
                 </div>
                 <div>

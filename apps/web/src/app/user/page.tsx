@@ -14,7 +14,7 @@ export interface IUser {
   username: string;
   email: string;
   password: string;
-  contact: string;
+  contact: number;
   roleId: number;
   isDeleted: boolean;
   isVerified: boolean;

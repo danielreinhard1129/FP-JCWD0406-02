@@ -8,7 +8,6 @@ import {
   FaRegTrashAlt,
 } from 'react-icons/fa';
 
-// Define the product type
 interface Product {
   id: number;
   imageUrl: string;
@@ -45,7 +44,6 @@ const CardProductManagement: React.FC = () => {
       stock: 1,
       isActive: false,
     },
-    // ... other products
   ]);
 
   // Function to handle dropdown toggle

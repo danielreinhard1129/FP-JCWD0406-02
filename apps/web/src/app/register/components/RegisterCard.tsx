@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import * as yup from 'yup';
 import { toast } from 'sonner';
 import YupPassword from 'yup-password';
-import { useState } from 'react';
 import { baseUrl } from '@/app/utils/database';
 import { UserAuth } from '@/app/utils/context/authContext';
 YupPassword(yup);
@@ -25,7 +24,6 @@ const validationSchema = yup.object().shape({
 });
 
 const RegisterCard = () => {
-  const [success, setSuccess] = useState(false);
   const router = useRouter();
   const { userGoogle, googleSignIn } = UserAuth();
 
@@ -53,6 +51,7 @@ const RegisterCard = () => {
           username: values.username,
           email: values.email,
           password: values.password,
+          roleId: 3,
         });
 
         toast.success('Register success');

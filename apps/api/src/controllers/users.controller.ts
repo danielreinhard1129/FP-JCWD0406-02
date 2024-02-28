@@ -46,7 +46,7 @@ export class UserController {
 
   async getUserByRoleId(req: Request, res: Response, next: NextFunction) {
     try {
-      const { roleId } = req.body;
+       const roleId = parseInt(req.query.roleId as string);
       const user = await getUserByRoleIdAction(roleId);
 
       res.status(200).send(user);
