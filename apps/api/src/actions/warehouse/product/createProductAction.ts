@@ -1,4 +1,3 @@
-import { getUserById } from '@/repositories/user/getUserById';
 import { createProduct } from '@/repositories/warehouse/product/createProduct';
 import { getProductByTitle } from '@/repositories/warehouse/product/getProductByTitle';
 import { updateProduct } from '@/repositories/warehouse/product/updateProduck';

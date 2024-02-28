@@ -31,6 +31,7 @@ const UserManagement = () => {
   const refreshAdminPage = async () => {
     getUsersByRoleId();
   };
+
   return (
     <div className="flex gap-4 mx-auto max-w-7xl mt-8">
       <AdminSidebar />

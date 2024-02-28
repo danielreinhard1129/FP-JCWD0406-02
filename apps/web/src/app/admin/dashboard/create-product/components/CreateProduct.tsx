@@ -1,175 +1,184 @@
 import React from 'react';
+import axios from 'axios';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { toast } from 'sonner'; // Ensure you have installed and correctly imported sonner for toast notifications
+import { baseUrl } from '@/app/utils/database';
 
-const CreateProductForm = () => {
+interface IProduct {
+  title: string;
+  description: string;
+  price: string;
+  weight: string;
+  categoryId: string;
+}
+
+const CreateProductForm: React.FC = () => {
+  const formik = useFormik<IProduct>({
+    initialValues: {
+      title: '',
+      description: '',
+      price: '',
+      weight: '',
+      categoryId: '',
+    },
+    validationSchema: yup.object({
+      title: yup.string().required('Title is required'),
+      description: yup.string().required('Description is required'),
+      price: yup
+        .number()
+        .required('Price is required')
+        .positive('Price must be positive'),
+      weight: yup
+        .number()
+        .required('Weight is required')
+        .positive('Weight must be positive'),
+      categoryId: yup.string().required('Category is required'),
+    }),
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        await axios.post(`${baseUrl}/warehouses/create-product`, values);
+        toast.success('Product created successfully');
+        resetForm();
+      } catch (error) {
+        toast.error('Failed to create product');
+        console.error('Error creating product:', error);
+      }
+    },
+  });
+
   return (
     <div className="rounded-3xl max-w-6xl mx-auto shadow-md h-fit py-4 px-6">
       <h1 className="text-center text-3xl font-bold">CREATE PRODUCT</h1>
-      <hr className="m-6" />
-
-      {/* PRODUCT NAME */}
-      <div className="my-6 md:flex md:justify-between">
-        <div className="flex flex-col md:mr-4">
-          <label
-            htmlFor="productName"
-            className="text-md font-medium md:text-lg md:font-semibold"
-          >
+      <form onSubmit={formik.handleSubmit}>
+        {/* PRODUCT NAME */}
+        <div className="my-6">
+          <label htmlFor="title" className="block mb-2 text-md font-medium">
             Product Name
           </label>
-          <span className="text-xs font-thin">
-            Use a clear and concise name for your product, avoiding excessive
-            capitalization.
-          </span>
+          <input
+            id="title"
+            name="title"
+            type="text"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.title}
+            placeholder="Enter product name"
+            className="form-input mt-1 block w-full rounded-md"
+          />
+          {formik.errors.title && formik.touched.title && (
+            <p className="text-red-500 text-xs italic">{formik.errors.title}</p>
+          )}
         </div>
-        <input
-          id="productName"
-          type="text"
-          placeholder="BORDL Smart Bohlam 12W"
-          className="rounded-lg form-input mt-1 block w-full max-w-sm md:max-w-xl lg:max-w-xl"
-        />
-      </div>
 
-      {/* PRODUCT DESCRIPTION */}
-      <div className="my-6 md:flex md:justify-between">
-        <div className="flex flex-col md:mr-4">
+        {/* PRODUCT DESCRIPTION */}
+        <div className="my-6">
           <label
-            htmlFor="productDescription"
-            className="text-md font-medium md:text-lg md:font-semibold"
+            htmlFor="description"
+            className="block mb-2 text-md font-medium"
           >
             Description
           </label>
-          <span className="text-xs font-thin">
-            Provide as much detail as possible about the product.
-          </span>
+          <textarea
+            id="description"
+            name="description"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.description}
+            placeholder="Enter product description"
+            rows={3}
+            className="form-textarea mt-1 block w-full rounded-md"
+          />
+          {formik.errors.description && formik.touched.description && (
+            <p className="text-red-500 text-xs italic">
+              {formik.errors.description}
+            </p>
+          )}
         </div>
-        <textarea
-          id="productDescription"
-          placeholder="Detailed description of the product."
-          rows={4}
-          className="rounded-lg form-textarea mt-1 block w-full max-w-sm md:max-w-xl lg:max-w-xl"
-        ></textarea>
-      </div>
 
-      {/* PRODUCT PRICE */}
-      <div className="my-6 md:flex md:justify-between">
-        <div className="flex flex-col md:mr-4">
-          <label
-            htmlFor="productPrice"
-            className="rounded-lg text-md font-medium md:text-lg md:font-semibold"
-          >
+        {/* PRODUCT PRICE */}
+        <div className="my-6">
+          <label htmlFor="price" className="block mb-2 text-md font-medium">
             Price
           </label>
-          <span className="text-xs font-thin">Make sure price is correct.</span>
+          <input
+            id="price"
+            name="price"
+            type="number"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.price}
+            placeholder="Enter product price"
+            className="form-input mt-1 block w-full rounded-md"
+          />
+          {formik.errors.price && formik.touched.price && (
+            <p className="text-red-500 text-xs italic">{formik.errors.price}</p>
+          )}
         </div>
-        <input
-          id="productPrice"
-          type="text"
-          placeholder="299.99"
-          className=" rounded-lg form-input mt-1 block w-full max-w-sm md:max-w-xl lg:max-w-xl"
-        />
-      </div>
 
-      {/* PRODUCT WEIGHT */}
-      <div className="my-6 md:flex md:justify-between">
-        <div className="flex flex-col md:mr-4">
-          <label
-            htmlFor="productWeight"
-            className="text-md font-medium md:text-lg md:font-semibold"
-          >
-            Weight
+        {/* PRODUCT WEIGHT */}
+        <div className="my-6">
+          <label htmlFor="weight" className="block mb-2 text-md font-medium">
+            Weight (grams)
           </label>
-          <span className="text-xs font-thin">
-            Make sure you input correct weight in gram (Grams).
-          </span>
+          <input
+            id="weight"
+            name="weight"
+            type="number"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.weight}
+            placeholder="Enter product weight in grams"
+            className="form-input mt-1 block w-full rounded-md"
+          />
+          {formik.errors.weight && formik.touched.weight && (
+            <p className="text-red-500 text-xs italic">
+              {formik.errors.weight}
+            </p>
+          )}
         </div>
-        <input
-          id="productWeight"
-          type="text"
-          placeholder="0.5 kg"
-          className="rounded-lg form-input mt-1 block w-full max-w-sm md:max-w-xl lg:max-w-xl"
-        />
-      </div>
 
-      {/* PRODUCT QUANTITY */}
-      <div className="my-6 md:flex md:justify-between">
-        <div className="flex flex-col md:mr-4">
+        {/* PRODUCT CATEGORY */}
+        <div className="my-6">
           <label
-            htmlFor="productQuantity"
-            className="rounded-lg text-md font-medium md:text-lg md:font-semibold"
-          >
-            Quantity
-          </label>
-          <span className="text-xs font-thin">
-            Make sure you input the quantity of each product item correctly.
-          </span>
-        </div>
-        <input
-          id="productQuantity"
-          type="text"
-          placeholder="100"
-          className="rounded-lg form-input mt-1 block w-full max-w-sm md:max-w-xl lg:max-w-xl"
-        />
-      </div>
-
-      {/* PRODUCT CATEGORY */}
-      <div className="my-6 md:flex md:justify-between">
-        <div className="flex flex-col md:mr-4">
-          <label
-            htmlFor="productCategory"
-            className="text-md font-medium md:text-lg md:font-semibold"
+            htmlFor="categoryId"
+            className="block mb-2 text-md font-medium"
           >
             Category
           </label>
-          <span className="text-xs font-thin">
-            Make sure to put the category correctly.
-          </span>
+          <select
+            id="categoryId"
+            name="categoryId"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.categoryId}
+            className="form-select mt-1 block w-full rounded-md"
+          >
+            <option value="">Select a category</option>
+            <option value="1">Security</option>
+            <option value="2">Lighting</option>
+            <option value="3">Electrical</option>
+            <option value="4">Curtain</option>
+            <option value="5">Home & Living</option>
+            <option value="6">Pet Series</option>
+          </select>
+          {formik.errors.categoryId && formik.touched.categoryId && (
+            <p className="text-red-500 text-xs italic">
+              {formik.errors.categoryId}
+            </p>
+          )}
         </div>
-        <select
-          id="productCategory"
-          className=" rounded-lg form-select mt-1 block w-full max-w-sm md:max-w-xl lg:max-w-xl"
-        >
-          <option value="0">Choose Your Category</option>
-          <option value="1">Security</option>
-          <option value="2">Lighting</option>
-          <option value="3">Electrical</option>
-          <option value="4">Curtain</option>
-          <option value="5">Home & Living</option>
-          <option value="6">Pet Series</option>
-        </select>
-      </div>
 
-      {/* PRODUCT IMAGES */}
-      <div className="my-6 md:flex md:gap-40 md:justify-between">
-        <div className="flex flex-col md:mr-4">
-          <label className="text-md font-medium md:text-lg md:font-semibold">
-            Product Images
-          </label>
-          <span className="text-xs font-thin">
-            Upload up to 3 images for your product.
-          </span>
+        {/* SUBMIT BUTTON */}
+        <div className="flex justify-end mt-6">
+          <button
+            type="submit"
+            className="bg-teal-600 hover:bg-teal-800 text-white font-medium py-2 px-4 rounded-lg"
+          >
+            Create Product
+          </button>
         </div>
-        <div className="w-full max-w-sm md:max-w-2xl lg:max-w-2xl">
-          {[...Array(3)].map((_, index) => (
-            <input
-              key={index}
-              type="file"
-              className="file:mr-4 file:py-2 file:px-4
-                         file:rounded-lg file:border-0
-                         file:text-sm file:font-semibold
-                         file:bg-blue-50 file:text-blue-700
-                         hover:file:bg-blue-100
-                         my-2 w-full"
-              accept="image/png, image/jpeg, image/gif, image/jpg"
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* SUBMIT BUTTON */}
-      <div className="flex justify-end mt-6">
-        <button className="bg-teal-600 hover:bg-teal-800 text-white font-medium py-2 px-4 rounded-lg">
-          Create Product
-        </button>
-      </div>
+      </form>
     </div>
   );
 };
