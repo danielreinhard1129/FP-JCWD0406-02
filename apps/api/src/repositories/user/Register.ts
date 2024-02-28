@@ -6,7 +6,6 @@ export const register = async (data: IUser) => {
     const user = await prisma.user.create({
       data: {
         ...data,
-        roleId: 3,
       },
     });
 
