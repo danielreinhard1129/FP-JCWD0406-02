@@ -18,7 +18,7 @@ const WarehouseDetail = () => {
             <AdminIdentityCard />
           </div>
           <h1 className="text-xl font-semibold mb-4">Manage Product Stock</h1>
-          <CardProductManagement />
+          {/* <CardProductManagement /> */}
         </div>
       </div>
     </div>

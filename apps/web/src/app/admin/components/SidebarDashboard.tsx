@@ -114,6 +114,12 @@ const AdminSidebar: React.FC = () => {
                 >
                   Product Management
                 </Link>
+                <Link
+                  href="/admin/dashboard/category-management"
+                  className="cursor-pointer hover:text-teal-600"
+                >
+                  Category Management
+                </Link>
               </div>
             )}
           </li>

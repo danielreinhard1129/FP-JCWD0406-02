@@ -35,7 +35,6 @@ model User {
   updatedAt       DateTime      @updatedAt
   created_at      DateTime      @default(now())
   userAddress     UserAddress[]
-  product         Product[]
 
   Role      Role?       @relation(fields: [roleId], references: [id])
   warehouse Warehouse[]
@@ -66,7 +65,6 @@ model UserAddress {
 
 model Product {
   id            Int             @id @default(autoincrement())
-  userId        Int
   title         String          @unique
   description   String
   price         Float
@@ -76,14 +74,11 @@ model Product {
   created_at    DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   productPhoto  ProductPhoto[]
-  User          User            @relation(fields: [userId], references: [id])
   Category      Category        @relation(fields: [categoryId], references: [id])
   Stock         Stock[]
   StockMutation StockMutation[]
   ReqStock      ReqStock[]
-
   cart          Cart[]
-
 }
 
 model Category {
@@ -107,11 +102,14 @@ model Warehouse {
   name                     String          @unique
   userId                   Int
   contact                  String          @default("62")
-  street                   String
-  district                 String
+  road                     String
+  subdistrict              String
   city                     String
-  province                 String
-  postal_code              Int
+  state                    String
+  postcode                 Int
+  village                  String
+  latitude                 Float?
+  longitude                Float?
   isDeleted                Boolean         @default(false)
   createdAt                DateTime        @default(now())
   updatedAt                DateTime        @updatedAt
@@ -120,9 +118,7 @@ model Warehouse {
   requestedStockMutations  StockMutation[] @relation("RequestWarehouse")
   destinationStockMutation StockMutation[] @relation("DestinationWarehouse")
   ReqStock                 ReqStock[]
-
   transaction              Transaction[]
-
 }
 
 model Stock {
@@ -162,7 +158,6 @@ model ReqStock {
   warehouse Warehouse @relation(fields: [warehouseId], references: [id])
   product   Product   @relation(fields: [productId], references: [id])
 }
-
 
 model Cart {
   id          Int           @id @default(autoincrement())
