@@ -20,7 +20,6 @@ export interface IWarehouse {
 
 export interface IProduct {
   id: number;
-  userId: number;
   title: string;
   description: string;
   price: number;

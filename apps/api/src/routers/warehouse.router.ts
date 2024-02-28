@@ -13,10 +13,7 @@ export class WarehouseRouter {
 
   private initializeRoutes(): void {
     this.router.get('/products', this.warehouseController.getProducts);
-    this.router.post(
-      '/create-product/:id',
-      this.warehouseController.createProduct,
-    );
+    this.router.post('/create-product', this.warehouseController.createProduct);
     this.router.patch(
       '/edit-product/:id',
       this.warehouseController.editProduct,
@@ -51,6 +48,15 @@ export class WarehouseRouter {
     this.router.post(
       '/create-warehouse',
       this.warehouseController.createWarehouse,
+    );
+    this.router.get(
+      '/get-all-warehouses',
+      this.warehouseController.getAllWarehouses,
+    );
+    this.router.get('/branch/:id', this.warehouseController.getWarehouseById);
+    this.router.patch(
+      '/set-warehouse-admin/:id',
+      this.warehouseController.setWarehouseAdmin,
     );
   }
 
