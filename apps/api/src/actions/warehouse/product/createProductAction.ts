@@ -4,12 +4,8 @@ import { getProductByTitle } from '@/repositories/warehouse/product/getProductBy
 import { updateProduct } from '@/repositories/warehouse/product/updateProduck';
 import { IProduct } from '@/types/warehouse.types';
 
-export const createProductAction = async (data: IProduct, id: number) => {
+export const createProductAction = async (data: IProduct) => {
   try {
-    const user = await getUserById(id);
-    if (user?.Role?.id !== 1)
-      throw new Error('You do not have permission to create a product');
-
     const checkTitle = await getProductByTitle(data.title);
     if (checkTitle) {
       if (checkTitle.isDeleted) {
@@ -21,7 +17,7 @@ export const createProductAction = async (data: IProduct, id: number) => {
         throw new Error(`Product with this ${data.title} title already exists`);
       }
     } else {
-      const product = await createProduct(data, id);
+      const product = await createProduct(data);
 
       return {
         message: 'Create Product Success',
