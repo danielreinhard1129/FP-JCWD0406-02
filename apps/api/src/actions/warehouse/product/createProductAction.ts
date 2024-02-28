@@ -19,7 +19,7 @@ export const createProductAction = async (data: IProduct) => {
       const product = await createProduct(data);
 
       return {
-        message: 'Create Product Success',
+        message: 'Create Product Success!',
         data: product,
       };
     }
