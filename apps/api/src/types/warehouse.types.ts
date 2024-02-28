@@ -1,8 +1,25 @@
 import { Status } from '@prisma/client';
 
+export interface IWarehouse {
+  id: number;
+  name: string;
+  userId: number;
+  contact: string;
+  road: string;
+  subdistrict: string;
+  city: string;
+  state: string;
+  postcode: number;
+  village: string;
+  latitude: number;
+  longitude: number;
+  isDeleted: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface IProduct {
   id: number;
-  userId: number;
   title: string;
   description: string;
   price: number;

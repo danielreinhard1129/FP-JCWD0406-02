@@ -1,3 +1,4 @@
+import { automaticMutationAction } from '@/actions/warehouse/admin/automaticMutationAction';
 import { reqStockProductAction } from '@/actions/warehouse/admin/reqStockProductAction';
 import { updateStatusStockMutationAction } from '@/actions/warehouse/admin/updateStatusStockMutationAction';
 import { createCategoryAction } from '@/actions/warehouse/category/createCategoryAction';
@@ -9,6 +10,10 @@ import { deleteProductAction } from '@/actions/warehouse/product/deleteProductAc
 import { editProductAction } from '@/actions/warehouse/product/editProductAction';
 import { getAllProductsAction } from '@/actions/warehouse/product/getAllProductsAction';
 import { createStockMutationAction } from '@/actions/warehouse/stockMutation/createStockMutation';
+import { createWarehouseAction } from '@/actions/warehouse/warehouse/createWarehouseAction';
+import { getAllWarehousesAction } from '@/actions/warehouse/warehouse/getAllWarehousesAction';
+import { getWarehouseByIdAction } from '@/actions/warehouse/warehouse/getWarehouseByIdAction';
+import { setWarehouseAdminAction } from '@/actions/warehouse/warehouse/setWarehouseAdminAction';
 import { NextFunction, Request, Response } from 'express';
 
 export class WarehouseController {
@@ -24,9 +29,8 @@ export class WarehouseController {
 
   async createProduct(req: Request, res: Response, next: NextFunction) {
     try {
-      const id = req.params.id;
       const data = req.body;
-      const product = await createProductAction(data, Number(id));
+      const product = await createProductAction(data);
 
       res.status(200).send(product);
     } catch (error) {
@@ -128,11 +132,63 @@ export class WarehouseController {
   ) {
     try {
       const { id } = req.params;
-      const { status } = req.body;
+      const data = req.body;
 
-      const stock = await updateStatusStockMutationAction(Number(id), status);
+      const stock = await updateStatusStockMutationAction(Number(id), data);
 
       res.status(200).send(stock);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async automaticMutation(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await automaticMutationAction();
+
+      res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async createWarehouse(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = req.body;
+
+      const warehouse = await createWarehouseAction(data);
+      res.status(200).send(warehouse);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getAllWarehouses(req: Request, res: Response, next: NextFunction) {
+    try {
+      const warehouses = await getAllWarehousesAction();
+      res.status(200).send(warehouses);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getWarehouseById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const warehouse = await getWarehouseByIdAction(Number(id));
+      res.status(200).send(warehouse);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async setWarehouseAdmin(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const data = req.body;
+      const result = await setWarehouseAdminAction(Number(id), data);
+
+      res.status(200).send(result);
     } catch (error) {
       next(error);
     }
