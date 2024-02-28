@@ -47,6 +47,11 @@ export class WarehouseRouter {
       '/update-status-stock/:id',
       this.warehouseController.updateStatusStockMutation,
     );
+    this.router.get('/get-geo', this.warehouseController.automaticMutation);
+    this.router.post(
+      '/create-warehouse',
+      this.warehouseController.createWarehouse,
+    );
   }
 
   getRouter(): Router {
