@@ -55,13 +55,18 @@ export interface IStock {
 
 export interface IStockMutation {
   id: number;
-  reqWarehouseId: number;
-  quantity: number;
-  productId: number;
-  warehouseId: number;
+  initaialWarehouseId: number;
+  destinationWarehouseId: number;
   createdAt: Date;
   updatedAt: Date;
   status: Status;
+}
+
+export interface IStockMutationDetail {
+  id: number;
+  stockMutationId: number;
+  productId: number;
+  quantity: number;
 }
 
 export interface IReqStock {

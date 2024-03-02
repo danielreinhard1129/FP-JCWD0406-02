@@ -6,11 +6,13 @@ import express, {
   Response,
   json,
   urlencoded,
+  static as static_,
 } from 'express';
 import { PORT } from './config';
 import { SampleRouter } from './routers/sample.router';
 import { UserRouter } from './routers/user.router';
 import { WarehouseRouter } from './routers/warehouse.router';
+import { join } from 'path';
 
 export default class App {
   private app: Express;
@@ -26,6 +28,7 @@ export default class App {
     this.app.use(cors());
     this.app.use(json());
     this.app.use(urlencoded({ extended: true }));
+    this.app.use('/', static_(join(__dirname, '../public')));
   }
 
   private handleError(): void {
