@@ -35,6 +35,7 @@ model User {
   updatedAt       DateTime      @updatedAt
   created_at      DateTime      @default(now())
   userAddress     UserAddress[]
+  transaction     Transaction[]
 
   Role      Role?       @relation(fields: [roleId], references: [id])
   warehouse Warehouse[]
@@ -64,21 +65,22 @@ model UserAddress {
 }
 
 model Product {
-  id            Int             @id @default(autoincrement())
-  title         String          @unique
-  description   String
-  price         Float
-  weight        Float
-  categoryId    Int
-  isDeleted     Boolean         @default(false)
-  created_at    DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  productPhoto  ProductPhoto[]
-  Category      Category        @relation(fields: [categoryId], references: [id])
-  Stock         Stock[]
-  StockMutation StockMutation[]
-  ReqStock      ReqStock[]
-  cart          Cart[]
+  id                  Int                   @id @default(autoincrement())
+  title               String                @unique
+  description         String                @db.LongText
+  price               Float
+  weight              Float
+  categoryId          Int
+  isDeleted           Boolean               @default(false)
+  created_at          DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  productPhoto        ProductPhoto[]
+  Category            Category              @relation(fields: [categoryId], references: [id])
+  Stock               Stock[]
+  ReqStock            ReqStock[]
+  cart                Cart[]
+  stockMutationDetail StockMutationDetail[]
+  transactionDetails  TransactionDetails[]
 }
 
 model Category {
@@ -133,17 +135,25 @@ model Stock {
 }
 
 model StockMutation {
-  id                   Int       @id @default(autoincrement())
-  reqWarehouseId       Int
-  quantity             Int
-  productId            Int
-  warehouseId          Int
-  createdAt            DateTime  @default(now())
-  updatedAt            DateTime  @updatedAt
-  status               Status
-  product              Product   @relation(fields: [productId], references: [id])
-  destinationWarehouse Warehouse @relation("DestinationWarehouse", fields: [warehouseId], references: [id])
-  requestWarehouse     Warehouse @relation("RequestWarehouse", fields: [reqWarehouseId], references: [id])
+  id                     Int                   @id @default(autoincrement())
+  initialWarehouseId     Int
+  destinationWarehouseId Int
+  createdAt              DateTime              @default(now())
+  updatedAt              DateTime              @updatedAt
+  status                 Status
+  destinationWarehouse   Warehouse             @relation("DestinationWarehouse", fields: [destinationWarehouseId], references: [id])
+  requestWarehouse       Warehouse             @relation("RequestWarehouse", fields: [initialWarehouseId], references: [id])
+  stockMutationDetail    StockMutationDetail[]
+}
+
+model StockMutationDetail {
+  id              Int @id @default(autoincrement())
+  stockMutationId Int
+  productId       Int
+  quantity        Int
+
+  StockMutation StockMutation @relation(fields: [stockMutationId], references: [id])
+  Product       Product       @relation(fields: [productId], references: [id])
 }
 
 model ReqStock {
@@ -160,29 +170,38 @@ model ReqStock {
 }
 
 model Cart {
-  id          Int           @id @default(autoincrement())
-  userId      Int
-  productId   Int
-  quantity    Int
-  Product     Product       @relation(fields: [productId], references: [id])
-  User        User          @relation(fields: [userId], references: [id])
-  transaction Transaction[]
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  productId Int
+  quantity  Int
+  Product   Product @relation(fields: [productId], references: [id])
+  User      User    @relation(fields: [userId], references: [id])
 }
 
 model Transaction {
-  id           Int       @id @default(autoincrement())
-  uuid         String    @unique @default(uuid())
-  warehouseId  Int
-  qty          Int
-  shippingCost Int
-  totalPrice   Int
-  cartId       Int
-  paymentImg   String?
-  status       Status
-  createdAt    DateTime  @default(now())
-  updaetdAt    DateTime  @updatedAt
-  Warehouse    Warehouse @relation(fields: [warehouseId], references: [id])
-  Cart         Cart      @relation(fields: [cartId], references: [id])
+  id                 Int                  @id @default(autoincrement())
+  uuid               String               @unique @default(uuid())
+  userId             Int
+  warehouseId        Int
+  shippingCost       Int
+  totalPrice         Int
+  paymentImg         String?
+  status             Status
+  createdAt          DateTime             @default(now())
+  updaetdAt          DateTime             @updatedAt
+  Warehouse          Warehouse            @relation(fields: [warehouseId], references: [id])
+  transactionDetails TransactionDetails[]
+  User               User                 @relation(fields: [userId], references: [id])
+}
+
+model TransactionDetails {
+  id            Int @id @default(autoincrement())
+  transactionId Int
+  productId     Int
+  quantity      Int
+
+  Transaction Transaction @relation(fields: [transactionId], references: [id])
+  Product     Product     @relation(fields: [productId], references: [id])
 }
 
 enum Status {

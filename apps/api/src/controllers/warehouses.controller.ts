@@ -11,11 +11,15 @@ import { editProductAction } from '@/actions/warehouse/product/editProductAction
 import { getAllProductsAction } from '@/actions/warehouse/product/getAllProductsAction';
 import { getProductByTitleAction } from '@/actions/warehouse/product/getProductByTitleAction';
 import { getRandomProductsAction } from '@/actions/warehouse/product/getRandomProductsAction';
+import { uploadProductPhotosAction } from '@/actions/warehouse/product/uploadProductPhotosAction';
 import { createStockMutationAction } from '@/actions/warehouse/stockMutation/createStockMutation';
 import { createWarehouseAction } from '@/actions/warehouse/warehouse/createWarehouseAction';
 import { getAllWarehousesAction } from '@/actions/warehouse/warehouse/getAllWarehousesAction';
 import { getWarehouseByIdAction } from '@/actions/warehouse/warehouse/getWarehouseByIdAction';
 import { setWarehouseAdminAction } from '@/actions/warehouse/warehouse/setWarehouseAdminAction';
+import prisma from '@/prisma';
+import { createProductPhotos } from '@/repositories/warehouse/product/createPhotoProduct';
+import { getPhotoProductByProductId } from '@/repositories/warehouse/product/getPhotoProductByProductId';
 import { NextFunction, Request, Response } from 'express';
 
 export class WarehouseController {
@@ -29,12 +33,57 @@ export class WarehouseController {
     }
   }
 
+  // async createProduct(req: Request, res: Response, next: NextFunction) {
+  //   try {
+  //     console.log('checkkk dataaa : ', req.files);
+
+  //     const data = req.body;
+  //     console.log('controllerrr', data);
+
+  //     const files = (req as any).files as Express.Multer.File[];
+
+  //     const product = await createProductAction(data, files);
+  //     res.status(200).send(product);
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // }
+
   async createProduct(req: Request, res: Response, next: NextFunction) {
     try {
-      const data = req.body;
-      const product = await createProductAction(data);
+      console.log('reqqqqqq value', req.body.data);
 
-      res.status(200).send(product);
+      let { title, description, price, weight, categoryId } = JSON.parse(
+        req.body,
+      );
+      const files = req.files;
+
+      if (!files || !Array.isArray(files)) {
+        // Handle case where no files were uploaded
+        return res
+          .status(400)
+          .json({ success: false, error: 'No files uploaded' });
+      }
+
+      const create = await prisma.$transaction(async (tx) => {
+        const product = await tx.product.create({
+          data: {
+            title,
+            description,
+            price,
+            weight,
+            categoryId,
+          },
+        });
+
+        const productId = product.id;
+
+        await createProductPhotos(prisma, productId, files);
+
+        return product;
+      });
+
+      return create;
     } catch (error) {
       next(error);
     }
@@ -146,8 +195,8 @@ export class WarehouseController {
 
   async automaticMutation(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = await automaticMutationAction();
-
+      const { id } = req.params;
+      const result = await automaticMutationAction(Number(id));
       res.status(200).send(result);
     } catch (error) {
       next(error);
@@ -195,7 +244,7 @@ export class WarehouseController {
       next(error);
     }
   }
-
+  
   async getRandomProducts(req: Request, res: Response, next: NextFunction) {
     try {
       const randomProducts = await getRandomProductsAction();
@@ -212,6 +261,16 @@ export class WarehouseController {
 
       const product = await getProductByTitleAction(String(title));
       res.status(200).send(product);
+
+  async uploadPhotosProduct(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const productId = Number(id);
+      const files = (req as any).files as Express.Multer.File[]; // Assuming you're uploading multiple files
+
+      const result = await uploadProductPhotosAction(productId, files);
+
+      res.status(200).send(result);
     } catch (error) {
       next(error);
     }

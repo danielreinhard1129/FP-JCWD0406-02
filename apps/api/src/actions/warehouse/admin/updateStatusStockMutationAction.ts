@@ -13,28 +13,29 @@ export const updateStatusStockMutationAction = async (
       throw new Error('This product has been cancelled');
 
     if (updateStock.status === 'CONFIRM') {
-      // Ensure the data contains necessary properties
-      if (updateStock.warehouseId && updateStock.quantity) {
-        await prisma.stock.update({
-          where: { id: updateStock.warehouseId },
-          data: {
-            quantity: { decrement: updateStock.quantity },
-          },
-        });
-      } else {
-        throw new Error('Warehouse ID or quantity is missing.');
-      }
-
-      if (updateStock.reqWarehouseId && updateStock.quantity) {
-        await prisma.stock.update({
-          where: { id: updateStock.reqWarehouseId },
-          data: {
-            quantity: { increment: updateStock.quantity },
-          },
-        });
-      } else {
-        throw new Error('Request warehouse ID or quantity is missing.');
-      }
+      // if (updateStock.warehouseId && updateStock.quantity) {
+      //   await prisma.stock.update({
+      //     where: { id: updateStock.warehouseId },
+      //     data: {
+      //       quantity: { decrement: updateStock.quantity },
+      //     },
+      //   });
+      // } else {
+      //   throw new Error('Warehouse ID or quantity is missing.');
+      // }
+      // if (updateStock.reqWarehouseId && updateStock.quantity) {
+      //   await prisma.stock.update({
+      //     where: {
+      //       warehouseId: updateStock.reqWarehouseId,
+      //       productId: updateStock.productId,
+      //     },
+      //     data: {
+      //       quantity: { increment: updateStock.quantity },
+      //     },
+      // });
+      // } else {
+      // throw new Error('Request warehouse ID or quantity is missing.');
+      // }
     }
 
     return {
