@@ -1,4 +1,5 @@
 import { WarehouseController } from '@/controllers/warehouses.controller';
+import { uploader } from '@/middleware/uploader';
 import { Router } from 'express';
 
 export class WarehouseRouter {
@@ -13,7 +14,11 @@ export class WarehouseRouter {
 
   private initializeRoutes(): void {
     this.router.get('/products', this.warehouseController.getProducts);
-    this.router.post('/create-product', this.warehouseController.createProduct);
+    this.router.post(
+      '/create-product',
+      uploader('IMG', '/photo-product').array('files'),
+      this.warehouseController.createProduct,
+    );
     this.router.patch(
       '/edit-product/:id',
       this.warehouseController.editProduct,
@@ -44,7 +49,10 @@ export class WarehouseRouter {
       '/update-status-stock/:id',
       this.warehouseController.updateStatusStockMutation,
     );
-    this.router.get('/get-geo', this.warehouseController.automaticMutation);
+    this.router.get(
+      '/auto-mutation/:id',
+      this.warehouseController.automaticMutation,
+    );
     this.router.post(
       '/create-warehouse',
       this.warehouseController.createWarehouse,
@@ -57,6 +65,11 @@ export class WarehouseRouter {
     this.router.patch(
       '/set-warehouse-admin/:id',
       this.warehouseController.setWarehouseAdmin,
+    );
+    this.router.patch(
+      '/upload-photos-product/:id',
+      uploader('IMG', '/photo-product').array('files'),
+      this.warehouseController.uploadPhotosProduct,
     );
   }
 
