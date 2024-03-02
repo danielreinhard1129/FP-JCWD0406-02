@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { FaPlus, FaTimes } from 'react-icons/fa';
 import { baseUrl } from '@/app/utils/database'; // Adjust the import path as necessary
 import { toast } from 'sonner'; // Assuming you have a toast notification system
@@ -32,12 +32,14 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
           category_name: values.categoryName,
         });
         toast.success('Category created successfully');
-        resetForm();
+        formik.resetForm();
         onSuccess();
         setIsModalOpen(false); // Optionally, invoke a parent component callback to refresh the category list
       } catch (error) {
-        toast.error('Failed to create category');
-        console.error('Error creating category:', error);
+        if (error instanceof AxiosError) {
+          const errorMsg = error.response?.data || error.message;
+          toast.error(errorMsg);
+        }
       }
     },
   });

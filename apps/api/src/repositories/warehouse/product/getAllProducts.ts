@@ -5,6 +5,7 @@ export const getAllProducts = async () => {
     const products = await prisma.product.findMany({
       include: {
         productPhoto: true,
+        Category: true,
       },
       where: { isDeleted: false },
     });

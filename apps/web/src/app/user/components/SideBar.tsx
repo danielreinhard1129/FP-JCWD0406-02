@@ -1,5 +1,6 @@
 'use client';
 
+import isAuth from '@/components/isAuth';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';

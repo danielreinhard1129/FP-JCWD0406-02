@@ -50,7 +50,7 @@ const CategoryManagement = () => {
           categories={categories}
           refreshCategories={refreshCategories}
         />
-        <SelectOptionCategory />
+        {/* <SelectOptionCategory /> */}
       </div>
     </div>
   );

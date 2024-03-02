@@ -5,8 +5,21 @@ import { FaUserCircle } from 'react-icons/fa';
 import { FaChevronDown, FaChevronRight } from 'react-icons/fa6';
 import { FiHome, FiPackage, FiShoppingBag, FiUsers } from 'react-icons/fi';
 import { LuWarehouse } from 'react-icons/lu';
+import { useSelector } from 'react-redux';
 
+export interface IUser {
+  user: any;
+  id: number;
+  first_name: string;
+  last_name: string;
+  username: string;
+  email: string;
+  password: string;
+  contact: number;
+  roleId: number;
+}
 const AdminSidebar: React.FC = () => {
+  const user = useSelector((state: IUser) => state.user);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
   const [collapsed, setCollapsed] = useState<{ [key: string]: boolean }>({});
 
@@ -49,80 +62,86 @@ const AdminSidebar: React.FC = () => {
               Orders
             </span>
           </li>
-          <li>
-            <div
-              className="flex items-center justify-between cursor-pointer"
-              onClick={() => toggleSubMenu('userManagement')}
-            >
-              <span className="flex items-center">
-                <FiUsers className="mr-2 size-5" />
-                <span className="font-semibold hover:text-teal-600">
-                  User & Admin
+          {user.roleId === 1 ? (
+            <li>
+              <div
+                className="flex items-center justify-between cursor-pointer"
+                onClick={() => toggleSubMenu('userManagement')}
+              >
+                <span className="flex items-center">
+                  <FiUsers className="mr-2 size-5" />
+                  <span className="font-semibold hover:text-teal-600">
+                    User & Admin
+                  </span>
                 </span>
-              </span>
-              {collapsed['userManagement'] ? (
-                <FaChevronDown className="ml-2" />
-              ) : (
-                <FaChevronRight className="ml-2" />
-              )}
-            </div>
-            {collapsed['userManagement'] && (
-              <ul className="ml-10 mt-1 space-y-1 flex flex-col">
-                <Link
-                  href="/admin/dashboard/user-management"
-                  className="cursor-pointer hover:text-teal-600"
-                >
-                  User Management
-                </Link>
-                <Link
-                  href="/admin/dashboard/admin-management"
-                  className="cursor-pointer hover:text-teal-600"
-                >
-                  Admin Management
-                </Link>
-              </ul>
-            )}
-          </li>
-          <li>
-            <div
-              className="flex items-center justify-between cursor-pointer"
-              onClick={() => toggleSubMenu('productManagement')}
-            >
-              <span className="flex items-center">
-                <FiPackage className="mr-2 size-5" />
-                <span className="font-semibold hover:text-teal-600">
-                  Product
-                </span>
-              </span>
-              {collapsed['productManagement'] ? (
-                <FaChevronDown className="ml-2" />
-              ) : (
-                <FaChevronRight className="ml-2" />
-              )}
-            </div>
-            {collapsed['productManagement'] && (
-              <div className="ml-10 mt-1 space-y-1 flex flex-col">
-                <Link
-                  href="/admin/dashboard/create-product"
-                  className="cursor-pointer hover:text-teal-600"
-                >
-                  Create Product
-                </Link>
-                <Link
-                  href="/admin/dashboard/product-management"
-                  className="cursor-pointer hover:text-teal-600"
-                >
-                  Product Management
-                </Link>
-                <Link
-                  href="/admin/dashboard/category-management"
-                  className="cursor-pointer hover:text-teal-600"
-                >
-                  Category Management
-                </Link>
+                {collapsed['userManagement'] ? (
+                  <FaChevronDown className="ml-2" />
+                ) : (
+                  <FaChevronRight className="ml-2" />
+                )}
               </div>
-            )}
-          </li>
+
+              {collapsed['userManagement'] && (
+                <ul className="ml-10 mt-1 space-y-1 flex flex-col">
+                  <Link
+                    href="/admin/dashboard/user-management"
+                    className="cursor-pointer hover:text-teal-600"
+                  >
+                    User Management
+                  </Link>
+                  <Link
+                    href="/admin/dashboard/admin-management"
+                    className="cursor-pointer hover:text-teal-600"
+                  >
+                    Admin Management
+                  </Link>
+                </ul>
+              )}
+            </li>
+          ) : null}
+          {user.roleId === 1 ? (
+            <li>
+              <div
+                className="flex items-center justify-between cursor-pointer"
+                onClick={() => toggleSubMenu('productManagement')}
+              >
+                <span className="flex items-center">
+                  <FiPackage className="mr-2 size-5" />
+                  <span className="font-semibold hover:text-teal-600">
+                    Product
+                  </span>
+                </span>
+                {collapsed['productManagement'] ? (
+                  <FaChevronDown className="ml-2" />
+                ) : (
+                  <FaChevronRight className="ml-2" />
+                )}
+              </div>
+              {collapsed['productManagement'] && (
+                <div className="ml-10 mt-1 space-y-1 flex flex-col">
+                  <Link
+                    href="/admin/dashboard/create-product"
+                    className="cursor-pointer hover:text-teal-600"
+                  >
+                    Create Product
+                  </Link>
+                  <Link
+                    href="/admin/dashboard/product-management"
+                    className="cursor-pointer hover:text-teal-600"
+                  >
+                    Product Management
+                  </Link>
+
+                  <Link
+                    href="/admin/dashboard/category-management"
+                    className="cursor-pointer hover:text-teal-600"
+                  >
+                    Category Management
+                  </Link>
+                </div>
+              )}
+            </li>
+          ) : null}
           <li>
             <div
               className="flex items-center justify-between cursor-pointer"

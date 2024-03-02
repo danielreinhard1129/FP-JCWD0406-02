@@ -15,9 +15,6 @@ const UserManagement = () => {
       const response = await axios.get(`${baseUrl}/users/with-role`, {
         params: { roleId },
       });
-      // console.log('mana isverified', response);
-      // console.log('roleId', roleId);
-
       setUsers(response.data.data);
     } catch (error) {
       console.log(error);

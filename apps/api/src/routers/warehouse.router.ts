@@ -58,6 +58,15 @@ export class WarehouseRouter {
       '/set-warehouse-admin/:id',
       this.warehouseController.setWarehouseAdmin,
     );
+
+    this.router.get(
+      '/random-products',
+      this.warehouseController.getRandomProducts,
+    );
+    this.router.get(
+      '/get-product-by-title/filter',
+      this.warehouseController.getProductByTitle,
+    );
   }
 
   getRouter(): Router {

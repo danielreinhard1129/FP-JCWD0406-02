@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import EditProfileComp from './EditProfile';
 import { useSelector } from 'react-redux';
+import isAuth from '@/components/isAuth';
 
 interface IUser {
   data: any;
@@ -89,4 +90,4 @@ const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
   );
 };
 
-export default ProfilePageComp;
+export default isAuth(ProfilePageComp);

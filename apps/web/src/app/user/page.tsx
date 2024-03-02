@@ -1,10 +1,11 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import ProfilePageComp from './components/ProfilePage';
+import ProfilePageComp from './components/ProfilePageComp';
 import Sidebar from './components/SideBar';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { baseUrl } from '../utils/database';
+import isAuth from '@/components/isAuth';
 
 export interface IUser {
   user: any;
@@ -25,7 +26,7 @@ export interface IUser {
 }
 
 const ProfilePage: React.FC = () => {
-  const userId = useSelector((state: IUser) => state.user?.id);
+  const userId = useSelector((state: IUser) => state.user.id);
 
   const [userData, setUserData] = useState<Partial<IUser> | null>(null);
 
