@@ -14,7 +14,7 @@ interface ProductPhoto {
   url: string;
 }
 
-interface Product {
+interface IProduct {
   id: number;
   title: string;
   description: string;
@@ -26,7 +26,7 @@ interface Product {
 }
 
 interface CardProductManagementProps {
-  productsData: Product[];
+  productsData: IProduct[];
   parseProduct: () => void;
 }
 

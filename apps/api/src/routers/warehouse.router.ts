@@ -66,10 +66,20 @@ export class WarehouseRouter {
       '/set-warehouse-admin/:id',
       this.warehouseController.setWarehouseAdmin,
     );
+
+    this.router.get(
+      '/random-products',
+      this.warehouseController.getRandomProducts,
+    );
+    this.router.get(
+      '/get-product-by-title/filter',
+      this.warehouseController.getProductByTitle,
+
     this.router.patch(
       '/upload-photos-product/:id',
       uploader('IMG', '/photo-product').array('files'),
       this.warehouseController.uploadPhotosProduct,
+
     );
   }
 

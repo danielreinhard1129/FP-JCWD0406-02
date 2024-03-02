@@ -25,7 +25,6 @@ interface Product {
 
 const ProductManagementSuperAdmin = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [error, setError] = useState<string | null>(null);
 
   const fetchProducts = async () => {
     try {
@@ -33,7 +32,6 @@ const ProductManagementSuperAdmin = () => {
       setProducts(response.data.data);
     } catch (err) {
       console.error('Error fetching products:', err);
-      setError('Failed to fetch products');
     }
   };
 
@@ -44,6 +42,7 @@ const ProductManagementSuperAdmin = () => {
   const refreshProductList = async () => {
     fetchProducts();
   };
+
   return (
     <div className="flex gap-4 mx-auto max-w-7xl mt-8">
       <AdminSidebar />

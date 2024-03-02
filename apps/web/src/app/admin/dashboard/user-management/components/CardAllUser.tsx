@@ -33,7 +33,6 @@ const CardAllUser: React.FC<CardAllUserProps> = ({
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  console.log('akjsndkajbska', refreshAdminPage);
 
   return (
     <div className="flex flex-wrap">

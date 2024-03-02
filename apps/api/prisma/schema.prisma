@@ -102,7 +102,7 @@ model ProductPhoto {
 model Warehouse {
   id                       Int             @id @default(autoincrement())
   name                     String          @unique
-  userId                   Int
+  userId                   Int?
   contact                  String          @default("62")
   road                     String
   subdistrict              String
@@ -116,7 +116,7 @@ model Warehouse {
   createdAt                DateTime        @default(now())
   updatedAt                DateTime        @updatedAt
   stocks                   Stock[]
-  user                     User            @relation(fields: [userId], references: [id])
+  user                     User?           @relation(fields: [userId], references: [id])
   requestedStockMutations  StockMutation[] @relation("RequestWarehouse")
   destinationStockMutation StockMutation[] @relation("DestinationWarehouse")
   ReqStock                 ReqStock[]

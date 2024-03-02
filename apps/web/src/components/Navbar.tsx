@@ -17,6 +17,7 @@ import {
   FiShoppingCart,
   FiUser,
 } from 'react-icons/fi';
+import { LuLayoutDashboard } from 'react-icons/lu';
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,7 +36,6 @@ export const Navbar = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token_auth');
-
     const keepLogin = async () => {
       try {
         const { data } = await axios.get(baseUrl + '/users/keeplogin', {
@@ -45,7 +45,7 @@ export const Navbar = () => {
         });
 
         const keep = data.data;
-        keep.roleId = data.data.roleId.roleId;
+        keep.roleId = data.data.roleId;
         console.log('IMAM DISPEN TEROOOOS PANTEK!!', keep);
 
         dispacth(loginAction(keep));
@@ -163,7 +163,6 @@ export const Navbar = () => {
               /> */}
             </button>
 
-            {/* Dropdown menu */}
             <div
               className={`${
                 dropdownOpen ? 'block' : 'hidden'
@@ -173,6 +172,17 @@ export const Navbar = () => {
               aria-labelledby="user-menu-button"
               onMouseLeave={() => setDropdownOpen(false)}
             >
+              {user.roleId === 1 || user.roleId === 2 ? (
+                <Link
+                  href="/admin/dashboard"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  <div role="menuitem">
+                    <LuLayoutDashboard className="font-extrabold inline-block w-5 h-5 mr-3" />
+                    Dashboard
+                  </div>
+                </Link>
+              ) : null}
               <a
                 href="/user"
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -181,6 +191,7 @@ export const Navbar = () => {
                 <FiSettings className="inline-block w-5 h-5 mr-3" />
                 Settings
               </a>
+
               <a
                 onClick={handleLogout}
                 href="/"
@@ -256,10 +267,10 @@ export const Navbar = () => {
                   />
                   <div>
                     <div className="text-base font-medium leading-7 text-gray-900">
-                      Jordy Fucking Repi
+                      {user.username}
                     </div>
                     <div className="text-sm font-normal leading-7 text-gray-500">
-                      email@example.com
+                      {user.email}
                     </div>
                   </div>
                 </div>
@@ -283,12 +294,14 @@ export const Navbar = () => {
                 >
                   Transaction
                 </a>
-                <a
-                  href="admin/dashboard"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-normal leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Dashboard
-                </a>
+                {user.roleId === 1 || user.roleId === 2 ? (
+                  <a
+                    href="admin/dashboard"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-normal leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    Dashboard
+                  </a>
+                ) : null}
               </div>
 
               <div className="py-6">

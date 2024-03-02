@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface UserState {
+  roleId: number;
   id: number;
   username: string;
   role: string;
@@ -13,6 +14,7 @@ const initialState: UserState = {
   username: '',
   role: '',
   email: '',
+  roleId: 0,
 };
 
 export const userSlice = createSlice({
@@ -24,11 +26,13 @@ export const userSlice = createSlice({
       state.username = action.payload.username;
       state.role = action.payload.role;
       state.email = action.payload.email;
+      state.roleId = action.payload.roleId;
     },
     logoutAction: (state) => {
       state.id = 0;
       (state.username = ''), (state.role = '');
       state.email = '';
+      state.roleId = 0;
     },
   },
 });

@@ -9,6 +9,8 @@ import { createProductAction } from '@/actions/warehouse/product/createProductAc
 import { deleteProductAction } from '@/actions/warehouse/product/deleteProductAction';
 import { editProductAction } from '@/actions/warehouse/product/editProductAction';
 import { getAllProductsAction } from '@/actions/warehouse/product/getAllProductsAction';
+import { getProductByTitleAction } from '@/actions/warehouse/product/getProductByTitleAction';
+import { getRandomProductsAction } from '@/actions/warehouse/product/getRandomProductsAction';
 import { uploadProductPhotosAction } from '@/actions/warehouse/product/uploadProductPhotosAction';
 import { createStockMutationAction } from '@/actions/warehouse/stockMutation/createStockMutation';
 import { createWarehouseAction } from '@/actions/warehouse/warehouse/createWarehouseAction';
@@ -242,6 +244,23 @@ export class WarehouseController {
       next(error);
     }
   }
+  
+  async getRandomProducts(req: Request, res: Response, next: NextFunction) {
+    try {
+      const randomProducts = await getRandomProductsAction();
+      res.status(200).send(randomProducts);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getProductByTitle(req: Request, res: Response, next: NextFunction) {
+    try {
+      const title = req.query.title;
+      console.log('querrryyyy', title);
+
+      const product = await getProductByTitleAction(String(title));
+      res.status(200).send(product);
 
   async uploadPhotosProduct(req: Request, res: Response, next: NextFunction) {
     try {
