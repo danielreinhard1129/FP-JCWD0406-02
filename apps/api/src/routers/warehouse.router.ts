@@ -16,7 +16,7 @@ export class WarehouseRouter {
     this.router.get('/products', this.warehouseController.getProducts);
     this.router.post(
       '/create-product',
-      uploader('IMG', '/photo-product').array('files'),
+      uploader('IMG', '/photo-product').array('files', 4),
       this.warehouseController.createProduct,
     );
     this.router.patch(
@@ -74,12 +74,12 @@ export class WarehouseRouter {
     this.router.get(
       '/get-product-by-title/filter',
       this.warehouseController.getProductByTitle,
+    );
 
     this.router.patch(
       '/upload-photos-product/:id',
       uploader('IMG', '/photo-product').array('files'),
       this.warehouseController.uploadPhotosProduct,
-
     );
   }
 

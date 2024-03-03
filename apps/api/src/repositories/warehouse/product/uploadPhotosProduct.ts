@@ -11,7 +11,7 @@ export const uploadProductPhotos = async (
 
     await prisma.product.update({
       where: { id: productId },
-      data: { productPhoto: { createMany: { data: productPhotos } } },
+      data: { productPhotos: { createMany: { data: productPhotos } } },
     });
 
     return productPhotos;
