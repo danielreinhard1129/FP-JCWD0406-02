@@ -1,5 +1,6 @@
 import { UserController } from '@/controllers/users.controller';
 import { verifyToken } from '@/middleware/jwtVerifyToken';
+import { uploader } from '@/middleware/uploader';
 import { Router } from 'express';
 
 export class UserRouter {
@@ -53,6 +54,12 @@ export class UserRouter {
     this.router.patch('/create-admin/:id', this.userController.createAdmin);
     this.router.delete('/delete-user/:id', this.userController.deleteUser);
     this.router.delete('/delete-admin/:id', this.userController.deleteAdmin);
+    this.router.patch(
+      '/photo-profile/:id',
+      verifyToken,
+      uploader('IMG', '/photo-profile').single('file'),
+      this.userController.uploadPhotoProfile,
+    );
   }
 
   getRouter(): Router {
