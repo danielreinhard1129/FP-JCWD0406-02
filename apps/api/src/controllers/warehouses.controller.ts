@@ -5,7 +5,6 @@ import { createCategoryAction } from '@/actions/warehouse/category/createCategor
 import { deleteCategoryAction } from '@/actions/warehouse/category/deleteCategoryAction';
 import { getAllCategoriesAction } from '@/actions/warehouse/category/getAllCategoriesAction';
 import { getCategoryByIdAction } from '@/actions/warehouse/category/getCategoryByIdAction';
-import { createProductAction } from '@/actions/warehouse/product/createProductAction';
 import { deleteProductAction } from '@/actions/warehouse/product/deleteProductAction';
 import { editProductAction } from '@/actions/warehouse/product/editProductAction';
 import { getAllProductsAction } from '@/actions/warehouse/product/getAllProductsAction';
@@ -19,8 +18,8 @@ import { getAllWarehousesAction } from '@/actions/warehouse/warehouse/getAllWare
 import { getWarehouseByIdAction } from '@/actions/warehouse/warehouse/getWarehouseByIdAction';
 import { setWarehouseAdminAction } from '@/actions/warehouse/warehouse/setWarehouseAdminAction';
 import prisma from '@/prisma';
-import { createProductPhotos } from '@/repositories/warehouse/product/createPhotoProduct';
-import { getPhotoProductByProductId } from '@/repositories/warehouse/product/getPhotoProductByProductId';
+import { getProductByTitle } from '@/repositories/warehouse/product/getProductByTitle';
+import { updateProduct } from '@/repositories/warehouse/product/updateProduck';
 import { NextFunction, Request, Response } from 'express';
 
 export class WarehouseController {
@@ -34,58 +33,81 @@ export class WarehouseController {
     }
   }
 
-  // async createProduct(req: Request, res: Response, next: NextFunction) {
-  //   try {
-  //     console.log('checkkk dataaa : ', req.files);
-
-  //     const data = req.body;
-  //     console.log('controllerrr', data);
-
-  //     const files = (req as any).files as Express.Multer.File[];
-
-  //     const product = await createProductAction(data, files);
-  //     res.status(200).send(product);
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // }
-
   async createProduct(req: Request, res: Response, next: NextFunction) {
     try {
-      console.log('reqqqqqq value', req.body.data);
+      console.log('reqqqqqq value', req.body);
+      const { title, description, price, weight, categoryId } = req.body;
+      console.log('reqqq filesss', req.files);
 
-      let { title, description, price, weight, categoryId } = JSON.parse(
-        req.body,
-      );
       const files = req.files;
 
       if (!files || !Array.isArray(files)) {
-        // Handle case where no files were uploaded
+        // Handle case where multer encountered an error or no files were uploaded
         return res
           .status(400)
           .json({ success: false, error: 'No files uploaded' });
+      }
+
+      for (const file of files) {
+        if (
+          !['.jpg', '.jpeg', '.png', '.gif'].includes(file?.mimetype) ||
+          file.size > 1024 * 1024
+        ) {
+          return res.status(400).json({
+            success: false,
+            error:
+              'Invalid file. Please upload files with .jpg, .jpeg, .png, or .gif extension, and maximum size of 1MB.',
+          });
+        }
+      }
+
+      const checkTitle = await getProductByTitle(title);
+
+      if (checkTitle) {
+        if (checkTitle.isDeleted) {
+          await updateProduct({ ...checkTitle, isDeleted: false });
+          return res.status(200).json({
+            success: true,
+            message: 'Product with the same title was restored',
+          });
+        } else {
+          return res.status(400).json({
+            success: false,
+            error: `Product with this ${title} title already exists`,
+          });
+        }
       }
 
       const create = await prisma.$transaction(async (tx) => {
         const product = await tx.product.create({
           data: {
             title,
+            price: parseFloat(price),
             description,
-            price,
-            weight,
-            categoryId,
+            weight: parseFloat(weight),
+            categoryId: parseInt(categoryId),
           },
         });
 
         const productId = product.id;
 
-        await createProductPhotos(prisma, productId, files);
+        const productPhotoWithId = files.map((file) => ({
+          productId,
+          photo_product: file.filename,
+        }));
+
+        await tx.productPhoto.createMany({
+          data: productPhotoWithId,
+        });
+
+        console.log('Photos saved successfully for product:', productId);
 
         return product;
       });
 
-      return create;
+      res.status(200).send(create);
     } catch (error) {
+      // Handle other errors
       next(error);
     }
   }

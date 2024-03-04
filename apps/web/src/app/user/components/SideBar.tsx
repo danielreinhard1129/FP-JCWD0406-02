@@ -1,8 +1,7 @@
 'use client';
 
-import isAuth from '@/components/isAuth';
+import { baseUrll } from '@/app/utils/database';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FaAddressCard, FaUser } from 'react-icons/fa6';
 
@@ -17,7 +16,7 @@ const Sidebar = (data: any) => {
         {/* Profile icon */}
         <div className="bg-teal-500 rounded-full overflow-hidden w-44 h-44 mb-3">
           <Image
-            src="/pp.jpg"
+            src={`${baseUrll}/photo-profile/${dataUser?.profile_picture}`}
             alt="Profile Picture"
             width={200}
             height={200}

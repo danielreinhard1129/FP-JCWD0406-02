@@ -2,10 +2,13 @@
 
 import { UserAuth } from '@/app/utils/context/authContext';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import EditProfileComp from './EditProfile';
 import { useSelector } from 'react-redux';
 import isAuth from '@/components/isAuth';
+import { FileInput } from 'flowbite-react';
+import axios from 'axios';
+import { baseUrl } from '@/app/utils/database';
 
 interface IUser {
   data: any;
@@ -29,6 +32,31 @@ const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
 }) => {
   const { userGoogle } = UserAuth();
   const dataUser = data;
+  const uplaoadPhotoProfile = async (formdata: FormData) => {
+    try {
+      const token = localStorage.getItem('token_auth');
+
+      const { data } = await axios.patch(
+        `${baseUrl}/users/photo-profile/${dataUser.id}`,
+        formdata,
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onChangeFile = async (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+
+    if (selectedFile) {
+      const formdata = new FormData();
+      formdata.append('file', selectedFile);
+      await uplaoadPhotoProfile(formdata);
+    }
+  };
 
   console.log('dataaaaaaaa', dataUser);
 
@@ -72,13 +100,16 @@ const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
             <h1 className="font-bold">Verified</h1>
           </div>
           <div className="flex-cols md:flex items-center">
-            <div className="pl-4 py-1">
+            {/* <div className="pl-4 py-1">
               <button
                 // onClick={openEditModal}
                 className="bg-[#f1eed8] hover:bg-[#b0cac1] self-center text-teal text-xs font-medium py-2 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-opacity-50"
               >
                 Change Profile Picture
               </button>
+            </div> */}
+            <div>
+              <FileInput name="file" onChange={onChangeFile} />
             </div>
             <div className="pl-4 py-1">
               <EditProfileComp user={dataUser} onSuccess={onSuccess} />

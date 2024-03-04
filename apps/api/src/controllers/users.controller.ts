@@ -1,7 +1,10 @@
+import { createAdminAction } from '@/actions/superAdmin/createAdminAction';
+import { deleteAdminAction } from '@/actions/superAdmin/deleteAdminAction';
 import { findAllUserAction } from '@/actions/user/FindAllUserAction';
 import { keepLoginAction } from '@/actions/user/KeepLoginAction';
 import { loginAction } from '@/actions/user/LoginAction';
 import { registerAction } from '@/actions/user/RegisterAction';
+import { deleteUserAction } from '@/actions/user/deleteUserAction';
 import { editUserAction } from '@/actions/user/editUserAction';
 import { forgotPasswordAction } from '@/actions/user/forgotPasswordAction';
 import { getUserByIdAction } from '@/actions/user/getUserByIdAction';
@@ -10,17 +13,16 @@ import { resetPasswordAction } from '@/actions/user/resetPasswordAction';
 import { sendEmailForVerifAction } from '@/actions/user/sendEmailForVerifAction';
 import { userVerificationAction } from '@/actions/user/userVerificationAction';
 import { addUserAddressAction } from '@/actions/userAddress/addUserAddressAction';
-import { setDefaultAddressAction } from '@/actions/userAddress/setDefaultAddressAction';
 import { deleteUserAddressAction } from '@/actions/userAddress/deleteUserAddressAction';
 import { editUserAddressAction } from '@/actions/userAddress/editUserAddressAction';
 import { getAddresByUserIdAction } from '@/actions/userAddress/getAddressByUserIdAction';
 import { getAllUserAddressAction } from '@/actions/userAddress/getAllUserAddressAction';
 import { getUserAddressByIdAction } from '@/actions/userAddress/getUserAddressByIdAction';
-import { deleteUserAddress } from '@/repositories/userAddress/deleteUserAddress';
+import { setDefaultAddressAction } from '@/actions/userAddress/setDefaultAddressAction';
+import prisma from '@/prisma';
 import { NextFunction, Request, Response } from 'express';
-import { createAdminAction } from '@/actions/superAdmin/createAdminAction';
-import { deleteUserAction } from '@/actions/user/deleteUserAction';
-import { deleteAdminAction } from '@/actions/superAdmin/deleteAdminAction';
+import fs from 'fs';
+import { join } from 'path';
 
 export class UserController {
   async getUserData(req: Request, res: Response, next: NextFunction) {
@@ -46,7 +48,7 @@ export class UserController {
 
   async getUserByRoleId(req: Request, res: Response, next: NextFunction) {
     try {
-       const roleId = parseInt(req.query.roleId as string);
+      const roleId = parseInt(req.query.roleId as string);
       const user = await getUserByRoleIdAction(roleId);
 
       res.status(200).send(user);
@@ -267,6 +269,48 @@ export class UserController {
       const { id } = req.params;
       const admin = await deleteAdminAction(Number(id));
       res.status(200).send(admin);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async uploadPhotoProfile(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { file } = req;
+      const { id } = req.params;
+      const userId = parseInt(id);
+
+      if (
+        !file ||
+        !['.jpg', '.jpeg', '.png', '.gif'].includes(file?.mimetype) ||
+        file.size > 1024 * 1024
+      ) {
+        return res
+          .status(400)
+          .send(
+            'Invalid file. Please upload a file with .jpg, .jpeg, .png, or .gif extension, and maximum size of 1MB.',
+          );
+      }
+
+      const userData = await getUserByIdAction(Number(id));
+
+      const defaultDir = '../../public/photo-profile';
+      const isOldImageExist = fs.existsSync(
+        join(__dirname, defaultDir + userData.data?.profile_picture),
+      );
+
+      if (isOldImageExist) {
+        fs.unlinkSync(
+          join(__dirname, defaultDir + userData.data?.profile_picture),
+        );
+      }
+
+      await prisma.user.update({
+        where: { id: userId },
+        data: { profile_picture: `/${file?.filename}` },
+      });
+
+      res.status(200).send('update photo profile success');
     } catch (error) {
       next(error);
     }

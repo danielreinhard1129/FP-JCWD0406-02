@@ -16,7 +16,7 @@ export class WarehouseRouter {
     this.router.get('/products', this.warehouseController.getProducts);
     this.router.post(
       '/create-product',
-      uploader('IMG', '/photo-product').array('files'),
+      uploader('IMG', '/photo-product').array('files', 4),
       this.warehouseController.createProduct,
     );
     this.router.patch(

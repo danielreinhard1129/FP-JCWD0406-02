@@ -35,7 +35,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ productsData }) => {
           <Link href={`/products/product/${product.id}`}>
             <div className="relative w-full h-48">
               <img
-                src={product.productPhoto[0]?.url || '/default-product.webp'}
+                // src={product.productPhoto[0]?.url || '/default-product.webp'}
                 alt={product.title}
                 className="absolute inset-0 w-full h-full object-cover"
               />
