@@ -6,11 +6,11 @@ interface ProductImageGalleryProps {
   images: string[]; // Array of image URLs
   altText: string;
 }
-
 const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
   images,
   altText,
 }) => {
+  // Initialize selectedImage with the first image from the props
   const [selectedImage, setSelectedImage] = useState(images[0]);
 
   return (
@@ -25,7 +25,7 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
       </div>
 
       {/* Thumbnails */}
-      <div className="flex justify-center items-center space-x-2">
+      <div className="flex justify-center items-center space-x-2 overflow-x-auto">
         {images.map((image, index) => (
           <img
             key={index}

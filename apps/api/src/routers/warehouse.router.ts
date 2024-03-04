@@ -74,13 +74,13 @@ export class WarehouseRouter {
     this.router.get(
       '/get-product-by-title/filter',
       this.warehouseController.getProductByTitle,
-
+    );
     this.router.patch(
       '/upload-photos-product/:id',
       uploader('IMG', '/photo-product').array('files'),
       this.warehouseController.uploadPhotosProduct,
-
     );
+    this.router.get('/product/:id', this.warehouseController.getProductById);
   }
 
   getRouter(): Router {

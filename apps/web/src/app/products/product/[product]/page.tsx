@@ -1,42 +1,77 @@
-// ProductDetailPage.tsx
-import React from 'react';
-import ProductImageGallery from './components/PhotoSection';
+// pages/products/[productId].tsx
+'use client';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useParams } from 'next/navigation';
+import { baseUrl } from '@/app/utils/database';
+import { toast } from 'sonner';
+import ProductImageGallery from './components/ProductImageGalery';
 import ProductDetails from './components/ProductDetail';
-// Import additional components and types as necessary
+import AddToCartButton from './components/AddToCartButton';
+import { Spinner } from 'flowbite-react';
+
+interface ProductPhoto {
+  url: string;
+}
+
+export interface Category {
+  id: number;
+  category_name: string;
+}
+interface IProduct {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  weight: number;
+  productPhoto: ProductPhoto[];
+  Category: Category;
+}
+const sampleImages = [
+  '/default-product.webp',
+  '/default-avatar.png',
+  '/default-product.webp',
+  '/default-avatar.png',
+  '/default-product.webp',
+];
 
 const ProductDetailPage: React.FC = () => {
-  // Dummy data or fetch real product data
-  const product = {
-    title: 'Whiskas® Dry Adult Dewasa 7+, Cat food Rasa Mackerel',
-    category: 'Cat Food',
-    description: 'Complete meal for senior cats with 41 essential nutrients.',
-    price: 'Price: $20.00',
-    weightOptions: ['1.5 kg', '1 kg', '500 gr'],
-    stock: 'In Stock: 50 units',
-  };
+  const [product, setProduct] = useState<IProduct | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const params = useParams();
+  const altText = 'Sample Product Image';
+  useEffect(() => {
+    const fetchProductDetails = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(
+          `${baseUrl}/warehouses/product/${params.product}`,
+        );
+        setProduct(response.data.data);
+      } catch (error) {
+        toast.error('Error fetching product details');
+      }
+    };
 
-  const productImages = [
-    '/default-product.webp', // Replace with your actual image paths
-    '/default-avatar.png',
-    '/default-product.webp',
-    '/default-avatar.png',
-    '/default-product.webp',
-  ];
+    if (params.product) {
+      fetchProductDetails();
+    }
+  }, [params.product]);
+
+  if (!product) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <Spinner aria-label="Loading products..." />
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-8">
-        {/* Product Image */}
-        <ProductImageGallery images={productImages} altText={product.title} />
-        {/* Product Details */}
-        <ProductDetails
-          title={product.title}
-          category={product.category}
-          description={product.description}
-          price={product.price}
-          weightOptions={product.weightOptions}
-          stock={product.stock}
-        />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-28 py-8">
+        <ProductImageGallery images={sampleImages} altText={altText} />
+
+        <ProductDetails detailProduct={product} />
       </div>
     </div>
   );

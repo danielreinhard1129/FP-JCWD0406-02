@@ -1,38 +1,78 @@
 // ProductDetails.tsx
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
+import AddToCartButton from './AddToCartButton';
 
-interface ProductDetailsProps {
-  title: string;
-  category: string;
-  description: string;
-  price: string;
-  weightOptions: string[];
-  stock: string;
+interface ProductPhoto {
+  url: string;
 }
 
-const ProductDetails: React.FC<ProductDetailsProps> = ({
-  title,
-  category,
-  description,
-  price,
-  weightOptions,
-  stock,
-}) => {
+export interface Category {
+  id: number;
+  category_name: string;
+}
+interface IProduct {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  weight: number;
+  Category: Category;
+}
+
+interface ProductDetailsProps {
+  detailProduct: IProduct;
+}
+
+const ProductDetails: React.FC<ProductDetailsProps> = ({ detailProduct }) => {
+  const [isReadMore, setIsReadMore] = useState(true);
+
+  const toggleReadMore = () => {
+    setIsReadMore(!isReadMore);
+  };
+  const formattedPrice = new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(detailProduct.price);
+
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold">{title}</h1>
-      <div className="text-sm uppercase text-gray-500">{category}</div>
-      <p className="text-gray-700">{description}</p>
-      <div className="text-lg font-semibold">{price}</div>
+    <div className="space-y-3 bg-white p-4 rounded-lg ">
       <div>
-        {weightOptions.map((weight, index) => (
-          <span key={index} className="text-sm mr-2">
-            {weight}
-          </span>
-        ))}
+        <h1 className="text-4xl font-bold text-gray-900">
+          {detailProduct.title}
+        </h1>
+        <div className="mt-2 text-sm font-medium uppercase text-gray-500">
+          {detailProduct.Category.category_name}
+        </div>
       </div>
-      <div className="text-green-600">{stock}</div>
-      {/* Add to cart and quantity selection would go here */}
+      <div className="mt-4 text-2xl font-semibold text-red-600">
+        {formattedPrice}
+      </div>
+      <div className="space-y-2">
+        <h5 className="text-gray-900 font-semibold text-lg">Description</h5>
+        <p className="mt-4 text-gray-600 overflow-hidden ">
+          {isReadMore
+            ? `${detailProduct.description.slice(0, 300)}...`
+            : detailProduct.description}
+          <span
+            className="text-blue-600 cursor-pointer"
+            onClick={toggleReadMore}
+          >
+            {isReadMore ? ' Read More' : ' Show Less'}
+          </span>
+        </p>
+      </div>
+      <div className="mt-4 text-base font-medium text-green-600">
+        Weight: {detailProduct.weight} grams
+      </div>
+
+      <AddToCartButton
+        productName={detailProduct.title}
+        category={detailProduct.Category.category_name}
+        price={detailProduct.price}
+      />
     </div>
   );
 };

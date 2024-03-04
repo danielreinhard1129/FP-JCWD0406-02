@@ -6,6 +6,7 @@ import { FaPlus } from 'react-icons/fa';
 import { toast } from 'sonner';
 import { baseUrl } from '@/app/utils/database';
 import { useSelector } from 'react-redux';
+import CitySelect from './CitySelect';
 
 const validationSchema = yup.object({
   name: yup.string().required('Recipient name is required'),
@@ -67,6 +68,10 @@ const CreateAddress: React.FC<CreateAddressProps> = ({ onSuccess }) => {
       }
     },
   });
+
+  const handleCityChange = (cityId: string) => {
+    formik.setFieldValue('city_id', cityId);
+  };
 
   return (
     <div>
@@ -131,7 +136,8 @@ const CreateAddress: React.FC<CreateAddressProps> = ({ onSuccess }) => {
                     value={formik.values.district}
                   />
                 </div>
-                <div>
+                <CitySelect onCityChange={handleCityChange} />
+                {/* <div>
                   <label className="text-sm font-medium">City</label>
                   <input
                     name="city"
@@ -141,7 +147,7 @@ const CreateAddress: React.FC<CreateAddressProps> = ({ onSuccess }) => {
                     onBlur={formik.handleBlur}
                     value={formik.values.city}
                   />
-                </div>
+                </div> */}
               </div>
               <div className="flex gap-5">
                 <div className="">

@@ -4,6 +4,9 @@ import axios from 'axios';
 import { baseUrl } from '@/app/utils/database'; // Adjust this import based on your project structure
 import ProductCard, { Category } from './components/ProductCard';
 import CategorySelector from './components/CategoryCardDiscovery';
+import { Spinner } from 'flowbite-react';
+import Loading from '@/components/Loading';
+import Carousel from '@/components/Carousel';
 
 export interface ProductPhoto {
   url: string;
@@ -32,13 +35,14 @@ const ProductPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchProducts = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.get(`${baseUrl}/warehouses/products`);
       setAllProducts(response.data.data); // Save all products
       setFilteredProducts(response.data.data); // Initially display all products
-      setIsLoading(false);
     } catch (err) {
       console.error('Failed to fetch products:', err);
+    } finally {
       setIsLoading(false);
     }
   };
@@ -72,10 +76,9 @@ const ProductPage = () => {
 
   return (
     <>
-      <div className="flex flex-col">
-        {/* Carousel Promo */}
-        <div className="carousel h-64 bg-gray-300">
-          {/* Carousel content */}
+      <div>
+        <div className="carousel bg-gray-300">
+          <Carousel />
         </div>
 
         {/* Main Content */}
@@ -90,7 +93,9 @@ const ProductPage = () => {
           {/* Products Grid */}
           <section className="col-span-4 p-4">
             {isLoading ? (
-              <p>Loading...</p>
+              <div className="flex justify-center items-center h-full">
+                <Spinner aria-label="Loading products..." />
+              </div>
             ) : (
               <div>
                 <ProductCard productsData={filteredProducts} />

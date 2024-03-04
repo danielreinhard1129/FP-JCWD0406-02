@@ -2,6 +2,7 @@
 
 import { UserAuth } from '@/app/utils/context/authContext';
 import { baseUrl } from '@/app/utils/database';
+import { fetchAllProducts } from '@/app/utils/helper/fetchAllProduct';
 import { loginAction, logoutAction } from '@/lib/features/userSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import axios from 'axios';
@@ -18,8 +19,29 @@ import {
   FiUser,
 } from 'react-icons/fi';
 import { LuLayoutDashboard } from 'react-icons/lu';
+import SearchBar2 from './SearchBar2';
 
+export interface ProductPhoto {
+  url: string;
+}
+
+export interface IProduct {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  productPhoto: ProductPhoto[];
+  categoryId: number;
+  Category: ICategory;
+}
+
+export interface ICategory {
+  id: number;
+  category_name: string;
+}
 export const Navbar = () => {
+  const [allProducts, setAllProducts] = useState<IProduct[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const user = useAppSelector((state) => state.user);
@@ -33,6 +55,15 @@ export const Navbar = () => {
     dispacth(logoutAction());
     router.push('/');
   };
+
+  useEffect(() => {
+    const getProducts = async () => {
+      const products = await fetchAllProducts();
+      setAllProducts(products);
+      setIsLoading(false); // Set loading to false after the fetch completes
+    };
+    getProducts();
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem('token_auth');
@@ -92,17 +123,7 @@ export const Navbar = () => {
           </Link>
         </div>
         <div className="flex w-full max-w-3xl">
-          <input
-            type="search"
-            placeholder="Search product..."
-            className="text-sm rounded-l-md pl-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full border-gray-300"
-          />
-          <button
-            type="submit"
-            className="px-3 rounded-r-md bg-gray-200 text-gray-600 hover:bg-gray-300 flex items-center justify-center"
-          >
-            <FiSearch className="h-5 w-5" />
-          </button>
+          {!isLoading && <SearchBar2 allProducts={allProducts} />}
         </div>
 
         <div className="ml-4 flex lg:gap-x-12 items-center">
