@@ -17,7 +17,6 @@ export interface IProduct {
   description: string;
   price: number;
   productPhoto: ProductPhoto[];
-  categoryId: number;
   Category: Category;
 }
 
@@ -33,7 +32,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ productsData }) => {
           key={product.id}
           className="bg-white rounded-lg overflow-hidden shadow-sm"
         >
-          <Link href={`/products/product/${product.title}`}>
+          <Link href={`/products/product/${product.id}`}>
             <div className="relative w-full h-48">
               <img
                 // src={product.productPhoto[0]?.url || '/default-product.webp'}

@@ -8,6 +8,7 @@ import { getCategoryByIdAction } from '@/actions/warehouse/category/getCategoryB
 import { deleteProductAction } from '@/actions/warehouse/product/deleteProductAction';
 import { editProductAction } from '@/actions/warehouse/product/editProductAction';
 import { getAllProductsAction } from '@/actions/warehouse/product/getAllProductsAction';
+import { getProductByIdAction } from '@/actions/warehouse/product/getProductByIdAction';
 import { getProductByTitleAction } from '@/actions/warehouse/product/getProductByTitleAction';
 import { getRandomProductsAction } from '@/actions/warehouse/product/getRandomProductsAction';
 import { uploadProductPhotosAction } from '@/actions/warehouse/product/uploadProductPhotosAction';
@@ -295,6 +296,22 @@ export class WarehouseController {
       const files = (req as any).files as Express.Multer.File[]; // Assuming you're uploading multiple files
 
       const result = await uploadProductPhotosAction(productId, files);
+
+      res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getProductById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = parseInt(req.params.id);
+      const result = await getProductByIdAction(id);
+
+      if (result.data === null) {
+        res.status(404).send({ message: 'Product not found' });
+        return;
+      }
 
       res.status(200).send(result);
     } catch (error) {
