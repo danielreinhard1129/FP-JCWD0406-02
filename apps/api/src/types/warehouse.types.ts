@@ -55,7 +55,7 @@ export interface IStock {
 
 export interface IStockMutation {
   id: number;
-  initaialWarehouseId: number;
+  initialWarehouseId: number;
   destinationWarehouseId: number;
   createdAt: Date;
   updatedAt: Date;

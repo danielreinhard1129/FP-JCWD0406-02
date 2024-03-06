@@ -13,6 +13,7 @@ import { SampleRouter } from './routers/sample.router';
 import { UserRouter } from './routers/user.router';
 import { WarehouseRouter } from './routers/warehouse.router';
 import { join } from 'path';
+import { TransactionRouter } from './routers/transaction.router';
 
 export default class App {
   private app: Express;
@@ -58,10 +59,12 @@ export default class App {
     const sampleRouter = new SampleRouter();
     const userRouter = new UserRouter();
     const warehouseRouter = new WarehouseRouter();
+    const transactionRouter = new TransactionRouter();
 
     this.app.use('/api/users', userRouter.getRouter());
     this.app.use('/api/samples', sampleRouter.getRouter());
     this.app.use('/api/warehouses', warehouseRouter.getRouter());
+    this.app.use('/api/transactions', transactionRouter.getRouter());
   }
 
   public start(): void {

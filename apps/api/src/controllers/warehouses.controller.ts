@@ -191,8 +191,8 @@ export class WarehouseController {
 
   async createStockMutation(req: Request, res: Response, next: NextFunction) {
     try {
-      const data = req.body;
-      const stock = await createStockMutationAction(data);
+      const { data, dataDetail } = req.body;
+      const stock = await createStockMutationAction(data, dataDetail);
       res.status(200).send(stock);
     } catch (error) {
       next(error);
@@ -220,6 +220,7 @@ export class WarehouseController {
     try {
       const { id } = req.params;
       const result = await automaticMutationAction(Number(id));
+
       res.status(200).send(result);
     } catch (error) {
       next(error);
