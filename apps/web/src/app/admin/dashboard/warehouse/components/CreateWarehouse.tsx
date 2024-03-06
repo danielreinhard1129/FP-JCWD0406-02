@@ -7,6 +7,9 @@ import axios from 'axios';
 import { FaPlus, FaTimes } from 'react-icons/fa';
 import { toast } from 'sonner'; // Adjust based on your toast notification utility
 import { baseUrl } from '@/app/utils/database'; // Adjust based on your API base URL
+import CitySelect from '@/app/user/address/components/CitySelect';
+import ProvinceAutocomplete from '@/app/user/address/components/ProvinceSelect';
+import AutocompleteState from './AutocompleteState';
 
 // Define the validation schema
 const validationSchema = yup.object({
@@ -33,8 +36,9 @@ const CreateWarehouseForm: React.FC = () => {
       contact: '',
       road: '',
       subdistrict: '',
-      city: '',
       state: '',
+      city: '',
+      cityId: '',
       postcode: '',
       village: '',
     },
@@ -60,6 +64,17 @@ const CreateWarehouseForm: React.FC = () => {
     },
   });
 
+  const handleCitySelect = (cityId: string, cityName: string) => {
+    formik.setFieldValue('city', cityName);
+    console.log('ini city name', cityName);
+    formik.setFieldValue('cityId', cityId);
+    console.log('ini city id', cityId);
+  };
+
+  const handleAutocompleteState = (provinceName: string) => {
+    console.log('ini state', provinceName);
+    formik.setFieldValue('state', provinceName);
+  };
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
@@ -213,16 +228,7 @@ const CreateWarehouseForm: React.FC = () => {
                   >
                     Kota
                   </label>
-                  <input
-                    type="text"
-                    name="city"
-                    id="city"
-                    required
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.city}
-                    className="mt-1 focus:ring-teal-500 focus:border-teal-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                  />
+                  <CitySelect onCitySelect={handleCitySelect} />
                   {formik.touched.city && formik.errors.city && (
                     <p className="text-red-500 text-xs mt-1">
                       {formik.errors.city}
@@ -237,15 +243,8 @@ const CreateWarehouseForm: React.FC = () => {
                   >
                     Provinsi
                   </label>
-                  <input
-                    type="text"
-                    name="state"
-                    id="state"
-                    required
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.state}
-                    className="mt-1 focus:ring-teal-500 focus:border-teal-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                  <AutocompleteState
+                    onProvinceChange={handleAutocompleteState}
                   />
                   {formik.touched.state && formik.errors.state && (
                     <p className="text-red-500 text-xs mt-1">
@@ -254,7 +253,6 @@ const CreateWarehouseForm: React.FC = () => {
                   )}
                 </div>
               </div>
-
               <div>
                 <label
                   htmlFor="postcode"
@@ -278,8 +276,6 @@ const CreateWarehouseForm: React.FC = () => {
                   </p>
                 )}
               </div>
-
-              {/* Similar structure for other fields */}
               <div className="flex justify-end">
                 <button
                   type="submit"

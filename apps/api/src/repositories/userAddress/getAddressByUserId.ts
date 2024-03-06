@@ -7,6 +7,7 @@ export const getAddresByUserId = async (userId: number) => {
         userId,
         isDeleted: false,
       },
+      include: { City: true },
     });
 
     return userAddresses;

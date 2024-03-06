@@ -1,7 +1,13 @@
 import { UserController } from '@/controllers/users.controller';
 import { verifyToken } from '@/middleware/jwtVerifyToken';
 import { uploader } from '@/middleware/uploader';
+import axios from 'axios';
 import { Router } from 'express';
+
+axios.defaults.baseURL = 'https://api.rajaongkir.com/starter/';
+axios.defaults.headers.common['key'] = '9dc867b8d79c2897da40488350f03a07';
+axios.defaults.headers.post['Content-Type'] =
+  'application/x-www-form-urlencoded';
 
 export class UserRouter {
   private router: Router;
@@ -50,7 +56,9 @@ export class UserRouter {
       '/user-verification/:id',
       this.userController.userVerification,
     );
+    // this.router.post('/ongkirdata', this.userController.createGetOngkir);
     this.router.post('/checkemail', this.userController.sendEmailForVerif);
+    this.router.post('/checkongkir', this.userController.createGetOngkir);
     this.router.patch('/create-admin/:id', this.userController.createAdmin);
     this.router.delete('/delete-user/:id', this.userController.deleteUser);
     this.router.delete('/delete-admin/:id', this.userController.deleteAdmin);
@@ -60,6 +68,8 @@ export class UserRouter {
       uploader('IMG', '/photo-profile').single('file'),
       this.userController.uploadPhotoProfile,
     );
+    this.router.get('/cities', this.userController.getAllCities);
+    this.router.post('/post-city', this.userController.createCities);
   }
 
   getRouter(): Router {

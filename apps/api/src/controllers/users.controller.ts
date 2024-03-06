@@ -16,7 +16,9 @@ import { addUserAddressAction } from '@/actions/userAddress/addUserAddressAction
 import { deleteUserAddressAction } from '@/actions/userAddress/deleteUserAddressAction';
 import { editUserAddressAction } from '@/actions/userAddress/editUserAddressAction';
 import { getAddresByUserIdAction } from '@/actions/userAddress/getAddressByUserIdAction';
+import { getAllCitiesAction } from '@/actions/userAddress/getAllCitiesAction';
 import { getAllUserAddressAction } from '@/actions/userAddress/getAllUserAddressAction';
+import { getOngkirAction } from '@/actions/userAddress/getOngkirAction';
 import { getUserAddressByIdAction } from '@/actions/userAddress/getUserAddressByIdAction';
 import { setDefaultAddressAction } from '@/actions/userAddress/setDefaultAddressAction';
 import prisma from '@/prisma';
@@ -274,6 +276,22 @@ export class UserController {
     }
   }
 
+  async createGetOngkir(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { origin, destination, weight, courier } = req.body;
+
+      const getOngkir = await getOngkirAction({
+        origin,
+        destination,
+        weight,
+        courier,
+      });
+      res.status(200).send(getOngkir);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async uploadPhotoProfile(req: Request, res: Response, next: NextFunction) {
     try {
       const { file } = req;
@@ -311,6 +329,27 @@ export class UserController {
       });
 
       res.status(200).send('update photo profile success');
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getAllCities(req: Request, res: Response, next: NextFunction) {
+    try {
+      const cities = await getAllCitiesAction();
+      res.status(200).send(cities);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async createCities(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = req.body;
+      const cities = await prisma.city.createMany({
+        data: [],
+      });
+      res.status(200).send(cities);
     } catch (error) {
       next(error);
     }

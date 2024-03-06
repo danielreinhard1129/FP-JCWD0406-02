@@ -1,4 +1,9 @@
-export const postal_code = [
+export interface IProvince {
+  province_id: string;
+  province_name: string;
+}
+
+export const postal_codes = [
   {
     province_id: '1',
     province: 'Bali',

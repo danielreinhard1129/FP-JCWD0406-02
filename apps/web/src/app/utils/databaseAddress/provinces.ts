@@ -1,3 +1,8 @@
+export interface IProvince {
+  province_id: string;
+  province_name: string;
+}
+
 export const provinces = [
   { province_id: '1', province: 'Bali' },
   { province_id: '2', province: 'Bangka Belitung' },
