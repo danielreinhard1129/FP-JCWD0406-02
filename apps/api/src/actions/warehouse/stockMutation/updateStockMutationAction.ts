@@ -7,26 +7,7 @@ export const updateStockMutationAction = async (
   id: number,
 ) => {
   try {
-    // const stock = await getStockMutationById(id);
-
-    // if (stock?.status == 'CANCELLED')
-    //   throw new Error('This product has been cancelled');
-
-    // if (stock?.status == 'CONFIRM') {
-    //   await prisma.stock.update({
-    //     where: { id: data.warehouseId },
-    //     data: {
-    //       quantity: { decrement: data.quantity },
-    //     },
-    //   });
-
-    //   await prisma.stock.update({
-    //     where: { id: data.reqWarehouseId },
-    //     data: {
-    //       quantity: { increment: data.quantity },
-    //     },
-    //   });
-    // }
+    const stock = await getStockMutationById(id);
 
     return {
       message: `The Mutation stock was updated check data  stock`,

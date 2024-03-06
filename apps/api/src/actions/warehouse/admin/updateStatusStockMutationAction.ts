@@ -1,5 +1,6 @@
 import prisma from '@/prisma';
 import { updateStatusStockMutation } from '@/repositories/warehouse/admin/updateStatusStockMutation';
+import { findStockMutationDetails } from '@/repositories/warehouse/stockMutation/findStockMutationDetails';
 import { IStockMutation } from '@/types/warehouse.types';
 
 export const updateStatusStockMutationAction = async (
@@ -9,33 +10,40 @@ export const updateStatusStockMutationAction = async (
   try {
     const updateStock = await updateStatusStockMutation(id, data);
 
-    if (updateStock.status == 'CANCELLED')
+    if (updateStock.status === 'CANCELLED') {
       throw new Error('This product has been cancelled');
+    }
 
     if (updateStock.status === 'CONFIRM') {
-      // if (updateStock.warehouseId && updateStock.quantity) {
-      //   await prisma.stock.update({
-      //     where: { id: updateStock.warehouseId },
-      //     data: {
-      //       quantity: { decrement: updateStock.quantity },
-      //     },
-      //   });
-      // } else {
-      //   throw new Error('Warehouse ID or quantity is missing.');
-      // }
-      // if (updateStock.reqWarehouseId && updateStock.quantity) {
-      //   await prisma.stock.update({
-      //     where: {
-      //       warehouseId: updateStock.reqWarehouseId,
-      //       productId: updateStock.productId,
-      //     },
-      //     data: {
-      //       quantity: { increment: updateStock.quantity },
-      //     },
-      // });
-      // } else {
-      // throw new Error('Request warehouse ID or quantity is missing.');
-      // }
+      // Retrieve stock mutation details
+      const stockMutationDetails = await findStockMutationDetails(data);
+
+      // Update stock based on stock mutation details
+      for (const detail of stockMutationDetails) {
+        await prisma.stock.updateMany({
+          where: {
+            productId: detail.productId,
+            warehouseId: updateStock.initialWarehouseId,
+          },
+          data: {
+            quantity: {
+              decrement: detail.quantity, // Decrement quantity from the initial warehouse
+            },
+          },
+        });
+
+        await prisma.stock.updateMany({
+          where: {
+            productId: detail.productId,
+            warehouseId: updateStock.destinationWarehouseId,
+          },
+          data: {
+            quantity: {
+              increment: detail.quantity, // Increment quantity in the destination warehouse
+            },
+          },
+        });
+      }
     }
 
     return {

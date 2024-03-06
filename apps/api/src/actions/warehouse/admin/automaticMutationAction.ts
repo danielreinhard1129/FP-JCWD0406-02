@@ -1,5 +1,7 @@
 import prisma from '@/prisma';
+import { findTransactionAndDetailsById } from '@/repositories/transaction/findTransactionAndDetailById';
 import { getTransactionById } from '@/repositories/transaction/getTransactionById';
+import { Status } from '@prisma/client';
 
 // Function to calculate the distance between two points based on latitude and longitude
 function calculateDistance(
@@ -27,13 +29,15 @@ function calculateDistance(
 // Main function for automatic mutation action
 export const automaticMutationAction = async (id: number) => {
   try {
-    const transaction = await getTransactionById(id);
+    const transaction = await findTransactionAndDetailsById(id);
+    console.log('gettttdataaa', transaction);
 
     if (transaction?.status === 'CONFIRM') {
-      const cart = await prisma.cart.findFirst({
+      const cart = await prisma.transactionDetails.findFirst({
         // where: { id: transaction }, // Use 'id' instead of 'cartId'
         select: { productId: true, quantity: true },
       });
+      console.log('keranjangggg', cart);
 
       if (cart) {
         const { productId, quantity } = cart;
@@ -87,22 +91,27 @@ export const automaticMutationAction = async (id: number) => {
             const reqWarehouseId = transaction.warehouseId;
 
             // Perform stock mutation using the closest warehouse ID
-            // await prisma.stockMutation.create({
-            // data: {
-            // productId,
-            // quantity: quantity - stock.quantity, // Calculate the difference
-            // warehouseId: closestWarehouseId, // Use the closest warehouse ID
-            // reqWarehouseId, // Provide reqWarehouseId
-            // status: 'CONFIRM', // Assuming the mutation is immediately confirmed
-            // },
-            // });
+            const create = await prisma.stockMutation.create({
+              data: {
+                initialWarehouseId: closestWarehouseId,
+                destinationWarehouseId: reqWarehouseId,
+                status: Status.CONFIRM,
+                stockMutationDetail: {
+                  create: {
+                    productId,
+                    quantity: quantity,
+                  },
+                },
+              },
+            });
+            console.log('dataaa createeee', create);
           }
         }
       }
-      return {
-        message: 'stock auto-updated',
-      };
     }
+    return {
+      message: 'stock auto-updated',
+    };
   } catch (error) {
     throw error;
   }
