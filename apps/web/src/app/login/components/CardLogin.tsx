@@ -90,8 +90,6 @@ const CardLogin = () => {
             or continue with
           </span>
         </div>
-        <div>{user.id ? <h1>Babi Kau jordy</h1> : <h1>Apasih Anjeng</h1>}</div>
-
         <form onSubmit={formik.handleSubmit}>
           <div className="mb-3">
             <label

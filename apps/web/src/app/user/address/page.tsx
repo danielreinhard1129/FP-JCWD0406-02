@@ -6,6 +6,11 @@ import axios from 'axios';
 import { baseUrl } from '@/app/utils/database';
 import AddressCardComp from './components/AddressCard';
 
+export interface ICity {
+  id: string;
+  name: string;
+}
+
 export interface IAddress {
   addressData: any;
   id: number;
@@ -18,6 +23,7 @@ export interface IAddress {
   province: string;
   postal_code: number;
   isPrimary?: boolean;
+  City?: ICity;
 }
 
 export interface IUser {
@@ -48,7 +54,7 @@ const UserAddress: React.FC = () => {
       const response = await axios.get(
         `${baseUrl}/users/user-addresses/${userId}`,
       );
-      // console.log('data address iniiiiii', response.data.data);
+      console.log('data address iniiiiii', response.data.data);
 
       setAddresses(response.data.data);
     } catch (error) {

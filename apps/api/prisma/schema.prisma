@@ -55,13 +55,32 @@ model UserAddress {
   contact     String  @default("62")
   street      String
   district    String
-  city        String
-  province    String
-  postal_code Int
+  city        String?
+  cityId      String
+  province    String?
+  postal_code Int?
   isDeleted   Boolean @default(false)
   isPrimary   Boolean @default(false)
 
-  user User @relation(fields: [userId], references: [id])
+  user User  @relation(fields: [userId], references: [id])
+  City City? @relation(fields: [cityId], references: [id])
+}
+
+model City {
+  id          String        @id
+  name        String
+  created_at  DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  warehouse   Warehouse[]
+  userAddress UserAddress[]
+}
+
+model shippingCost {
+  id          Int    @id @default(autoincrement())
+  origin      String
+  destination String
+  weight      Float
+  courier     String
 }
 
 model Product {
@@ -121,6 +140,8 @@ model Warehouse {
   destinationStockMutation StockMutation[] @relation("DestinationWarehouse")
   ReqStock                 ReqStock[]
   transaction              Transaction[]
+  City                     City?           @relation(fields: [cityId], references: [id])
+  cityId                   String?
 }
 
 model Stock {

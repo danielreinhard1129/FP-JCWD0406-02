@@ -22,6 +22,7 @@ export interface IAddress {
   contact: string;
   street: string;
   district: string;
+  cityId: string;
   city: string;
   province: string;
   postal_code: number;
@@ -41,4 +42,16 @@ export interface ILogin {
 export interface IReset {
   password: string;
   confirmPassword: string;
+}
+
+export interface IOngkir {
+  origin: string;
+  destination: string;
+  weight: number;
+  courier: string;
+}
+
+export interface ICity {
+  id: number;
+  name: string;
 }

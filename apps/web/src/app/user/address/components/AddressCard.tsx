@@ -1,10 +1,10 @@
 'use client';
 import Image from 'next/image';
 import { IAddress } from '../page';
-import CreateAddress from './CreateAddress';
 import DeleteAddressComp from './DeleteAddress';
 import EditAddressComp from './EditAddress';
 import SetDefaultAddress from './SetDefaultAddress';
+import CreateUserAddress from './CreateUserAddress';
 
 export interface IUser {
   user: any;
@@ -47,7 +47,7 @@ const AddressCardComp: React.FC<AddressCardCompProps> = ({
     <div className="flex flex-col items-center justify-center w-full h-full">
       <div className="flex justify-between border-b-2 items-center w-full p-4 md:py-6">
         <h2 className="text-2xl font-semibold">Address</h2>
-        <CreateAddress onSuccess={refreshAddresses} />
+        <CreateUserAddress onSuccess={refreshAddresses} />
       </div>
       <div className="w-full flex-grow">
         {addressData.length === 0 ? (
@@ -74,7 +74,9 @@ const AddressCardComp: React.FC<AddressCardCompProps> = ({
                   <div className="text-md font-medium">{address.name}</div>
                   <div className="text-sm">{address.contact}</div>
                   <div className="text-sm">
-                    {`${address.street}, ${address.district}, ${address.city}, ${address.province}, ${address.postal_code}`}
+                    {`${address.street}, ${address.district}, ${
+                      address.City ? address.City?.name : 'No City'
+                    }, ${address.province}, ${address.postal_code}`}
                   </div>
                 </div>
                 <div className="space-y-1 mt-3">

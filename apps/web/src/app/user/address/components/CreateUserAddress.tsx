@@ -4,16 +4,34 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { FaPlus } from 'react-icons/fa';
 import { toast } from 'sonner';
-import { baseUrl } from '@/app/utils/database';
 import { useSelector } from 'react-redux';
 import CitySelect from './CitySelect';
+import ProvinceSelect from './ProvinceSelect';
+import { baseUrl } from '@/app/utils/database';
+
+interface ReduxState {
+  user: {
+    id: string;
+  };
+}
+
+interface FormValues {
+  name: string;
+  contact: string;
+  street: string;
+  district: string;
+  city: string;
+  cityId: string;
+  province: string;
+  postal_code: string;
+}
 
 const validationSchema = yup.object({
   name: yup.string().required('Recipient name is required'),
   contact: yup.string().required('Contact is required'),
   street: yup.string().required('Street is required'),
   district: yup.string().required('District is required'),
-  city: yup.string().required('City is required'),
+  cityId: yup.string().required('City is required'),
   province: yup.string().required('Province is required'),
   postal_code: yup
     .number()
@@ -22,46 +40,44 @@ const validationSchema = yup.object({
     .integer(),
 });
 
-interface CreateAddressProps {
+interface CreateUserAddressProps {
   onSuccess: () => void;
 }
 
-const CreateAddress: React.FC<CreateAddressProps> = ({ onSuccess }) => {
-  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
-  const userId = useSelector((state: any) => state.user.id);
-  const formik = useFormik({
+const CreateUserAddress: React.FC<CreateUserAddressProps> = ({ onSuccess }) => {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const userId = useSelector((state: ReduxState) => state.user.id);
+
+  const formik = useFormik<FormValues>({
     initialValues: {
       name: '',
       contact: '',
       street: '',
       district: '',
       city: '',
+      cityId: '',
       province: '',
       postal_code: '',
     },
     validationSchema,
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values) => {
       try {
-        const intUserId = parseInt(userId, 10);
-        if (!isNaN(intUserId)) {
-          const payload = {
-            userId: intUserId,
-            name: values.name,
-            contact: values.contact,
-            street: values.street,
-            district: values.district,
-            city: values.city,
-            province: values.province,
-            postal_code: parseInt(values.postal_code, 10),
-          };
-          await axios.post(`${baseUrl}/users/add-address`, payload);
-          toast.success('Address added successfully');
-          resetForm();
-          onSuccess();
-          setIsEditModalOpen(false);
-        } else {
-          toast.error('Invalid user ID');
-        }
+        const payload = {
+          ...values,
+          userId,
+          postal_code: parseInt(values.postal_code, 10),
+          city: values.city,
+          cityId: values.cityId,
+        };
+
+        await axios.post(`${baseUrl}/users/add-address`, payload);
+
+        console.log('ini submit', onsubmit);
+
+        toast.success('Address added successfully');
+        onSuccess();
+        setIsEditModalOpen(false);
+        formik.resetForm();
       } catch (error) {
         toast.error('Failed to add address');
         console.error(error);
@@ -69,10 +85,15 @@ const CreateAddress: React.FC<CreateAddressProps> = ({ onSuccess }) => {
     },
   });
 
-  const handleCityChange = (cityId: string) => {
-    formik.setFieldValue('city_id', cityId);
+  const handleCitySelect = (cityId: string, cityName: string) => {
+    formik.setFieldValue('city', cityName);
+    formik.setFieldValue('cityId', cityId);
   };
 
+  const handleProvinceChange = (provinceName: string, postalCode: string) => {
+    formik.setFieldValue('province', provinceName);
+    formik.setFieldValue('postal_code', postalCode);
+  };
   return (
     <div>
       <button
@@ -82,7 +103,7 @@ const CreateAddress: React.FC<CreateAddressProps> = ({ onSuccess }) => {
         <FaPlus className="mr-2" /> Add Address
       </button>
       {isEditModalOpen && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50  flex justify-center items-center">
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-8 rounded-lg">
             <form
               className="space-y-4 max-w-2xl"
@@ -126,7 +147,7 @@ const CreateAddress: React.FC<CreateAddressProps> = ({ onSuccess }) => {
               </div>
               <div className="flex gap-5">
                 <div className="">
-                  <label className="text-sm font-medium">district</label>
+                  <label className="text-sm font-medium">District</label>
                   <input
                     name="district"
                     placeholder=""
@@ -136,42 +157,15 @@ const CreateAddress: React.FC<CreateAddressProps> = ({ onSuccess }) => {
                     value={formik.values.district}
                   />
                 </div>
-                <CitySelect onCityChange={handleCityChange} />
-                {/* <div>
+                <div>
                   <label className="text-sm font-medium">City</label>
-                  <input
-                    name="city"
-                    placeholder=""
-                    className="w-full p-2 border border-gray-300 rounded"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.city}
-                  />
-                </div> */}
+                  <CitySelect onCitySelect={handleCitySelect} />
+                </div>
               </div>
               <div className="flex gap-5">
-                <div className="">
+                <div>
                   <label className="text-sm font-medium">Province</label>
-                  <input
-                    name="province"
-                    placeholder=""
-                    className="w-full p-2 border border-gray-300 rounded"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.province}
-                  />
-                </div>
-                <div className="">
-                  <label className="text-sm font-medium">Postal Code</label>
-                  <input
-                    name="postal_code"
-                    placeholder=""
-                    type="text"
-                    className="w-full p-2 border border-gray-300 rounded"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.postal_code}
-                  />
+                  <ProvinceSelect onProvinceChange={handleProvinceChange} />
                 </div>
               </div>
               <div className="flex justify-end space-x-2">
@@ -197,4 +191,4 @@ const CreateAddress: React.FC<CreateAddressProps> = ({ onSuccess }) => {
   );
 };
 
-export default CreateAddress;
+export default CreateUserAddress;
