@@ -213,7 +213,6 @@ const CheckoutPage = () => {
           </button>
         </div>
       </div>
-      {/* Address Selection Modal */}
       {isModalOpen && (
         <AddressSelectionModal
           isOpen={isModalOpen}
