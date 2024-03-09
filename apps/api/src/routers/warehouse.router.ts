@@ -81,6 +81,15 @@ export class WarehouseRouter {
       this.warehouseController.uploadPhotosProduct,
     );
     this.router.get('/product/:id', this.warehouseController.getProductById);
+    this.router.post('/create-stock', this.warehouseController.createStock);
+    this.router.patch(
+      '/update-stock/:id',
+      this.warehouseController.updateStock,
+    );
+    this.router.delete(
+      '/delete-stock/:id',
+      this.warehouseController.deleteStock,
+    );
   }
 
   getRouter(): Router {

@@ -1,3 +1,4 @@
+import { createStockAction } from '@/actions/warehouse/stock/createStockAction';
 import { automaticMutationAction } from '@/actions/warehouse/admin/automaticMutationAction';
 import { reqStockProductAction } from '@/actions/warehouse/admin/reqStockProductAction';
 import { updateStatusStockMutationAction } from '@/actions/warehouse/admin/updateStatusStockMutationAction';
@@ -21,6 +22,8 @@ import prisma from '@/prisma';
 import { getProductByTitle } from '@/repositories/warehouse/product/getProductByTitle';
 import { updateProduct } from '@/repositories/warehouse/product/updateProduck';
 import { NextFunction, Request, Response } from 'express';
+import { updateStockAction } from '@/actions/warehouse/stock/updateStockAction';
+import { deleteStockAction } from '@/actions/warehouse/stock/deleteStockAction';
 
 export class WarehouseController {
   async getProducts(req: Request, res: Response, next: NextFunction) {
@@ -46,19 +49,6 @@ export class WarehouseController {
         return res
           .status(400)
           .json({ success: false, error: 'No files uploaded' });
-      }
-
-      for (const file of files) {
-        if (
-          !['.jpg', '.jpeg', '.png', '.gif'].includes(file?.mimetype) ||
-          file.size > 1024 * 1024
-        ) {
-          return res.status(400).json({
-            success: false,
-            error:
-              'Invalid file. Please upload files with .jpg, .jpeg, .png, or .gif extension, and maximum size of 1MB.',
-          });
-        }
       }
 
       const checkTitle = await getProductByTitle(title);
@@ -104,10 +94,10 @@ export class WarehouseController {
 
         return product;
       });
+      console.log('dataaaaa success', create);
 
       res.status(200).send(create);
     } catch (error) {
-      // Handle other errors
       next(error);
     }
   }
@@ -317,6 +307,38 @@ export class WarehouseController {
       res.status(200).send(result);
     } catch (error) {
       next(error);
+    }
+  }
+
+  async createStock(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = req.body;
+
+      const stock = await createStockAction(data);
+      res.status(200).send(stock);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updateStock(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const data = req.body;
+      const stock = await updateStockAction(data, Number(id));
+      res.status(200).send(stock);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteStock(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const stock = await deleteStockAction(Number(id));
+      res.status(200).send(stock);
+    } catch (error) {
+      throw error;
     }
   }
 }

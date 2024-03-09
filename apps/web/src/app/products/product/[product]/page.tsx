@@ -10,10 +10,6 @@ import ProductDetails from './components/ProductDetail';
 import AddToCartButton from './components/AddToCartButton';
 import { Spinner } from 'flowbite-react';
 
-interface ProductPhoto {
-  url: string;
-}
-
 export interface Category {
   id: number;
   category_name: string;
@@ -22,9 +18,9 @@ interface IProduct {
   id: number;
   title: string;
   description: string;
+  productPhotos: string[];
   price: number;
   weight: number;
-  productPhoto: ProductPhoto[];
   Category: Category;
 }
 const sampleImages = [
@@ -57,6 +53,7 @@ const ProductDetailPage: React.FC = () => {
       fetchProductDetails();
     }
   }, [params.product]);
+  console.log('itemmmmmm', product?.productPhotos);
 
   if (!product) {
     return (
@@ -69,7 +66,7 @@ const ProductDetailPage: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-28 py-8">
-        <ProductImageGallery images={sampleImages} altText={altText} />
+        <ProductImageGallery images={product.productPhotos} altText={altText} />
 
         <ProductDetails detailProduct={product} />
       </div>

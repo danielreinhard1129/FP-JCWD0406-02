@@ -27,6 +27,8 @@ export interface IAddress {
   province: string;
   postal_code: number;
   isDefault: boolean;
+  latitude: number;
+  longitude: number;
 }
 
 export interface IRole {

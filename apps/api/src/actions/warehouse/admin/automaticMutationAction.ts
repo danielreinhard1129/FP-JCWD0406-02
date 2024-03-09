@@ -1,6 +1,5 @@
 import prisma from '@/prisma';
 import { findTransactionAndDetailsById } from '@/repositories/transaction/findTransactionAndDetailById';
-import { getTransactionById } from '@/repositories/transaction/getTransactionById';
 import { Status } from '@prisma/client';
 
 // Function to calculate the distance between two points based on latitude and longitude
@@ -32,7 +31,7 @@ export const automaticMutationAction = async (id: number) => {
     const transaction = await findTransactionAndDetailsById(id);
     console.log('gettttdataaa', transaction);
 
-    if (transaction?.status === 'CONFIRM') {
+    if (transaction?.TransactionStatus === 'ORDER_CONFIRMED') {
       const cart = await prisma.transactionDetails.findFirst({
         // where: { id: transaction }, // Use 'id' instead of 'cartId'
         select: { productId: true, quantity: true },
