@@ -16,6 +16,18 @@ export class TransactionRouter {
       '/get-transaction/:id',
       this.transactionController.findTransactionAndDetailById,
     );
+    this.router.get(
+      '/closest-warehouse/:id',
+      this.transactionController.closestWarehouseToTheUser,
+    );
+    this.router.post(
+      '/create-transaction',
+      this.transactionController.createTransaction,
+    );
+    this.router.patch(
+      '/update-status/:id',
+      this.transactionController.updateStatusTransaction,
+    );
   }
 
   getRouter(): Router {

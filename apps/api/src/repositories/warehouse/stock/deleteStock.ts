@@ -1,10 +1,11 @@
 import prisma from '@/prisma';
 
-export const getStockById = async (id: number) => {
+export const deleteStock = async (id: number) => {
   try {
-    const stock = await prisma.stock.findUnique({
+    const stock = await prisma.stock.delete({
       where: { id },
     });
+
     return stock;
   } catch (error) {
     throw error;

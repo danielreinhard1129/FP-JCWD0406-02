@@ -59,6 +59,8 @@ model UserAddress {
   cityId      String
   province    String?
   postal_code Int?
+  latitude    Float?
+  longitude   Float?
   isDeleted   Boolean @default(false)
   isPrimary   Boolean @default(false)
 
@@ -145,14 +147,15 @@ model Warehouse {
 }
 
 model Stock {
-  id          Int       @id @default(autoincrement())
+  id          Int            @id @default(autoincrement())
   warehouseId Int
   productId   Int
   quantity    Int
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  warehouse   Warehouse @relation(fields: [warehouseId], references: [id])
-  product     Product   @relation(fields: [productId], references: [id])
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  journal     JournalStock[]
+  warehouse   Warehouse      @relation(fields: [warehouseId], references: [id])
+  product     Product        @relation(fields: [productId], references: [id])
 }
 
 model StockMutation {
@@ -190,6 +193,17 @@ model ReqStock {
   product   Product   @relation(fields: [productId], references: [id])
 }
 
+model JournalStock {
+  id        Int      @id @default(autoincrement())
+  stockId   Int
+  quantity  Int
+  type      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Stock Stock @relation(fields: [stockId], references: [id])
+}
+
 model Cart {
   id        Int     @id @default(autoincrement())
   userId    Int
@@ -204,12 +218,12 @@ model Transaction {
   uuid               String               @unique @default(uuid())
   userId             Int
   warehouseId        Int
-  shippingCost       Int
+  shippingCost       Float
   totalPrice         Int
   paymentImg         String?
-  status             Status
+  TransactionStatus  TransactionStatus
   createdAt          DateTime             @default(now())
-  updaetdAt          DateTime             @updatedAt
+  updatedAt          DateTime             @updatedAt
   Warehouse          Warehouse            @relation(fields: [warehouseId], references: [id])
   transactionDetails TransactionDetails[]
   User               User                 @relation(fields: [userId], references: [id])
@@ -230,4 +244,13 @@ enum Status {
   CANCELLED
   CONFIRM
   INPROGRESS
+}
+
+enum TransactionStatus {
+  WAITING_FOR_PAYMENT
+  WAITING_PAYMENT_CONFIRMATION
+  IN_PROGRESS
+  SHIPPED
+  ORDER_CONFIRMED
+  CANCELLED
 }
