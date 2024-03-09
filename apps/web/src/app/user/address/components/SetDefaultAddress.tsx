@@ -33,14 +33,14 @@ const SetDefaultAddress: React.FC<SetDefaultAddressProps> = ({
     <>
       {isPrimary ? (
         <button
-          className="bg-gray-500 text-white w-full text-xs font-normal py-2 px-4 rounded-lg cursor-not-allowed"
+          className="bg-gray-500 text-white text-xs font-normal py-2 px-4 rounded-lg cursor-not-allowed"
           disabled={true}
         >
           Default Address
         </button>
       ) : (
         <button
-          className="bg-teal-500 hover:bg-teal-700 text-white w-full text-xs font-normal py-2 px-4 rounded-lg"
+          className="bg-teal-500 hover:bg-teal-700 text-white  text-xs font-normal py-2 px-4 rounded-lg"
           onClick={handleSetDefault}
         >
           Set as Default

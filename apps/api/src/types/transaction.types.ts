@@ -1,3 +1,10 @@
+
+export interface IAddToCart {
+  userId: number;
+  productId: number;
+  quantity: number;
+}
+
 export interface ITransaction {
   id: number;
   uuid: string;
@@ -26,3 +33,4 @@ export enum TransactionStatus {
   ORDER_CONFIRMED = 'Pesanan Dikonfirmasi',
   CANCELLED = 'Dibatalkan',
 }
+
