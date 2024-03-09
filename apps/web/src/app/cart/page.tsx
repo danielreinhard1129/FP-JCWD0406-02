@@ -32,7 +32,6 @@ const Cart = () => {
         const response = await axios.get(
           `${baseUrl}/transactions/cart/${userId}`,
         );
-        // console.log('ini dataaaaa', response.data.data);
 
         dispatch(setCartItems(response.data.data));
       } catch (error) {
