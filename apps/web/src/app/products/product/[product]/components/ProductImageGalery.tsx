@@ -1,5 +1,6 @@
 // ProductImageGallery.tsx
 'use client';
+import { baseUrll } from '@/app/utils/database';
 import React, { useState } from 'react';
 
 interface ProductImageGalleryProps {
@@ -12,6 +13,7 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
 }) => {
   // Initialize selectedImage with the first image from the props
   const [selectedImage, setSelectedImage] = useState(images[0]);
+  console.log('compppp', images);
 
   return (
     <div>
