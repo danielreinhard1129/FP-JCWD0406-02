@@ -42,7 +42,6 @@ const CourierSelector: React.FC<CourierSelectorProps> = ({
   );
 
   useEffect(() => {
-    // Whenever the selected courier changes, fetch its services
     const fetchServices = async () => {
       if (!selectedCourier) return;
 
