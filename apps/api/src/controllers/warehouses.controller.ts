@@ -48,18 +48,18 @@ export class WarehouseController {
           .json({ success: false, error: 'No files uploaded' });
       }
 
-      for (const file of files) {
-        if (
-          !['.jpg', '.jpeg', '.png', '.gif'].includes(file?.mimetype) ||
-          file.size > 1024 * 1024
-        ) {
-          return res.status(400).json({
-            success: false,
-            error:
-              'Invalid file. Please upload files with .jpg, .jpeg, .png, or .gif extension, and maximum size of 1MB.',
-          });
-        }
-      }
+      // for (const file of files) {
+      //   if (
+      //     !['.jpg', '.jpeg', '.png', '.gif'].includes(file?.mimetype) ||
+      //     file.size > 1024 * 1024
+      //   ) {
+      //     return res.status(400).json({
+      //       success: false,
+      //       error:
+      //         'Invalid file. Please upload files with .jpg, .jpeg, .png, or .gif extension, and maximum size of 1MB.',
+      //     });
+      //   }
+      // }
 
       const checkTitle = await getProductByTitle(title);
 

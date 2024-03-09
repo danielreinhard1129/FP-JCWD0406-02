@@ -1,18 +1,26 @@
-// pages/products/components/AddToCartButton.tsx
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import axios from 'axios';
+import { baseUrl } from '@/app/utils/database';
+import { useSelector } from 'react-redux';
+import { toast } from 'sonner';
+// Import your authentication context or another method of retrieving the user ID
+// import { AuthContext } from 'path/to/your/context';
 
 interface AddToCartButtonProps {
+  productId: number; // Assuming you will pass productId as prop
   productName: string;
   category: string;
-  price: number; // Assuming price is a number representing the total price
+  price: number;
 }
 
 const AddToCartButton: React.FC<AddToCartButtonProps> = ({
+  productId,
   productName,
   category,
   price,
 }) => {
   const [quantity, setQuantity] = useState(1);
+  const userId = useSelector((state: any) => state.user.id);
 
   const decrementQuantity = () => {
     setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
@@ -22,11 +30,21 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
 
-  const handleAddToCart = () => {
-    // Implement your add to cart logic here
-    console.log('Added to cart', { productName, quantity, price: subtotal });
+  const handleAddToCart = async () => {
+    try {
+      // Replace baseUrl with your actual baseURL
+      const response = await axios.post(`${baseUrl}/transactions/add-to-cart`, {
+        userId,
+        productId,
+        quantity,
+      });
+      console.log(response.data);
+      toast.success('Add to cart success');
+    } catch (error) {
+      toast.error('Failed add to cart');
+      console.error('Error add to cart:', error);
+    }
   };
-
   // Calculate subtotal based on quantity and price
   const subtotal = quantity * price;
 

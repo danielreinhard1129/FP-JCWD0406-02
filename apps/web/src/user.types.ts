@@ -13,6 +13,7 @@ export interface IUser {
   created_at: Date;
   updatedAt: Date;
   userAddress_id: number;
+  addresses: IAddress;
 }
 
 export interface IAddress {
@@ -21,8 +22,9 @@ export interface IAddress {
   name: string;
   contact: string;
   street: string;
-  distric: string;
+  district: string;
   city: string;
+  cityId: string;
   province: string;
   postal_code: number;
 }

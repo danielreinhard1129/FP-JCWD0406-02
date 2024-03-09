@@ -16,6 +16,8 @@ export class TransactionRouter {
       '/get-transaction/:id',
       this.transactionController.findTransactionAndDetailById,
     );
+    this.router.post('/add-to-cart', this.transactionController.addToCart);
+    this.router.get('/cart/:id', this.transactionController.getUserCart);
   }
 
   getRouter(): Router {

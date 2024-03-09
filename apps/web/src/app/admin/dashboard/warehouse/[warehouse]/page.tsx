@@ -58,7 +58,7 @@ const WarehouseDetail = () => {
             />
             <AdminIdentityCard />
           </div>
-          {/* Additional content here */}
+          {/* Additional content here  for tab */}
         </div>
       </div>
     </div>

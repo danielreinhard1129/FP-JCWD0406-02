@@ -47,6 +47,8 @@ const ProductDetailPage: React.FC = () => {
         const response = await axios.get(
           `${baseUrl}/warehouses/product/${params.product}`,
         );
+        console.log('ini dataaaaa');
+
         setProduct(response.data.data);
       } catch (error) {
         toast.error('Error fetching product details');
