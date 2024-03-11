@@ -1,16 +1,12 @@
-// ProductDetails.tsx
 'use client';
 import React, { useState } from 'react';
 import AddToCartButton from './AddToCartButton';
 
-interface ProductPhoto {
-  url: string;
-}
-
-export interface Category {
+interface Category {
   id: number;
   category_name: string;
 }
+
 interface IProduct {
   id: number;
   title: string;
@@ -26,6 +22,7 @@ interface ProductDetailsProps {
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({ detailProduct }) => {
   const [isReadMore, setIsReadMore] = useState(true);
+  // console.log('product detail', detailProduct);
 
   const toggleReadMore = () => {
     setIsReadMore(!isReadMore);
@@ -69,6 +66,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ detailProduct }) => {
       </div>
 
       <AddToCartButton
+        productId={detailProduct.id} // Directly pass productId without converting to string
         productName={detailProduct.title}
         category={detailProduct.Category.category_name}
         price={detailProduct.price}

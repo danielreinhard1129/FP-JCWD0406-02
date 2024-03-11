@@ -8,10 +8,8 @@ import { FaPlus, FaTimes } from 'react-icons/fa';
 import { toast } from 'sonner'; // Adjust based on your toast notification utility
 import { baseUrl } from '@/app/utils/database'; // Adjust based on your API base URL
 import CitySelect from '@/app/user/address/components/CitySelect';
-import ProvinceAutocomplete from '@/app/user/address/components/ProvinceSelect';
 import AutocompleteState from './AutocompleteState';
 
-// Define the validation schema
 const validationSchema = yup.object({
   name: yup.string().required('Warehouse name is required'),
   contact: yup.string().required('Contact is required'),
@@ -75,6 +73,8 @@ const CreateWarehouseForm: React.FC = () => {
     console.log('ini state', provinceName);
     formik.setFieldValue('state', provinceName);
   };
+  21;
+
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 

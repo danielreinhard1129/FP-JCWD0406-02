@@ -1,5 +1,12 @@
 import { TransactionStatus } from '@prisma/client';
 
+
+export interface IAddToCart {
+  userId: number;
+  productId: number;
+  quantity: number;
+}
+
 export interface ITransaction {
   id: number;
   uuid: string;

@@ -54,7 +54,7 @@ const CardProductManagement: React.FC<CardProductManagementProps> = ({
               className="flex items-center justify-between border pr-5  rounded-lg bg-white shadow"
             >
               <img
-                src={product.productPhoto[0]?.url || '/default-product.webp'}
+                src={'/default-product.webp'}
                 alt={product.title}
                 className="h-28 w-28 object-cover rounded-l-lg mr-4"
               />
