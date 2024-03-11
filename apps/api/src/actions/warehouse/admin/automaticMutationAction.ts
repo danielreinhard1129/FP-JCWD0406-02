@@ -9,8 +9,6 @@ function calculateDistance(
   lat2: number,
   lon2: number,
 ): number {
-  console.log('dataaaaaaaaaaaaaaaaaaaaaa', lat1, lon1, lat2, lon2);
-
   const R = 6371; // Radius of the Earth in kilometers
   const dLat = (lat2 - lat1) * (Math.PI / 180); // Convert degrees to radians
   const dLon = (lon2 - lon1) * (Math.PI / 180); // Convert degrees to radians
@@ -29,81 +27,83 @@ function calculateDistance(
 export const automaticMutationAction = async (id: number) => {
   try {
     const transaction = await findTransactionAndDetailsById(id);
-    console.log('gettttdataaa', transaction);
+    console.log('check Transaction :', transaction);
 
-    if (transaction?.TransactionStatus === 'ORDER_CONFIRMED') {
-      const cart = await prisma.transactionDetails.findFirst({
-        // where: { id: transaction }, // Use 'id' instead of 'cartId'
-        select: { productId: true, quantity: true },
+    if (transaction?.TransactionStatus == 'IN_PROGRESS') {
+      const cart = await prisma.transactionDetails.findMany({
+        where: { transactionId: id },
+        select: { id: true, productId: true, quantity: true },
       });
-      console.log('keranjangggg', cart);
+      console.log('Check Cart :', cart);
 
-      if (cart) {
-        const { productId, quantity } = cart;
+      // Check if cart is not empty and has at least one item
+      if (cart.length > 0) {
+        // Iterate over each item in the cart array
+        for (const item of cart) {
+          // Access productId and quantity properties of each item
+          const { id: detailId, productId, quantity } = item;
 
-        // Retrieve all existing warehouses
-        const warehouses = await prisma.warehouse.findMany();
-
-        // Define the target location based on the transaction's warehouse
-        const targetWarehouse = warehouses.find(
-          (warehouse) => warehouse.id === transaction.warehouseId,
-        );
-
-        console.log('Target warehouse:', targetWarehouse);
-
-        let closestWarehouseId;
-        let minDistance = Infinity;
-        for (const warehouse of warehouses) {
-          console.log('Calculating distance for warehouse:', warehouse);
-          try {
-            const distance = calculateDistance(
-              targetWarehouse?.latitude!,
-              targetWarehouse?.longitude!,
-              warehouse.latitude!,
-              warehouse.longitude!,
-            );
-            console.log('Distance:', distance);
-            if (
-              distance < minDistance &&
-              warehouse.id !== transaction.warehouseId
-            ) {
-              minDistance = distance;
-              closestWarehouseId = warehouse.id;
-              console.log('New closest warehouse:', warehouse);
-            }
-          } catch (error) {
-            console.error('Error calculating distance:', error);
-          }
-        }
-
-        // Ensure closestWarehouseId is defined before proceeding
-        if (closestWarehouseId) {
-          // Retrieve the stock quantity from the closest warehouse
+          // Retrieve the stock quantity from the stock table
           const stock = await prisma.stock.findFirst({
             where: {
-              AND: [{ warehouseId: closestWarehouseId }, { productId }],
+              AND: [{ warehouseId: transaction.warehouseId }, { productId }],
             },
           });
 
-          if (stock) {
-            // Retrieve reqWarehouseId from transaction or provide a default value
-            const reqWarehouseId = transaction.warehouseId;
+          // Check if stock is available and quantity is less than the required quantity
+          if (stock && stock.quantity < quantity) {
+            // Perform auto mutation
 
-            // Perform stock mutation using the closest warehouse ID
-            const create = await prisma.stockMutation.create({
-              data: {
-                initialWarehouseId: closestWarehouseId,
-                destinationWarehouseId: reqWarehouseId,
-                status: Status.CONFIRM,
-                stockMutationDetail: {
-                  create: {
-                    productId,
-                    quantity: quantity,
+            // Retrieve all existing warehouses
+            const warehouses = await prisma.warehouse.findMany();
+
+            // Define the target location based on the transaction's warehouse
+            const targetWarehouse = warehouses.find(
+              (warehouse) => warehouse.id === transaction.warehouseId,
+            );
+
+            let closestWarehouseId;
+            let minDistance = Infinity;
+            for (const warehouse of warehouses) {
+              try {
+                const distance = calculateDistance(
+                  targetWarehouse?.latitude!,
+                  targetWarehouse?.longitude!,
+                  warehouse.latitude!,
+                  warehouse.longitude!,
+                );
+                if (
+                  distance < minDistance &&
+                  warehouse.id !== transaction.warehouseId
+                ) {
+                  minDistance = distance;
+                  closestWarehouseId = warehouse.id;
+                }
+              } catch (error) {
+                console.error('Error calculating distance:', error);
+              }
+            }
+
+            // Ensure closestWarehouseId is defined before proceeding
+            if (closestWarehouseId) {
+              // Retrieve reqWarehouseId from transaction or provide a default value
+              const reqWarehouseId = transaction.warehouseId;
+
+              // Perform stock mutation using the closest warehouse ID
+              const create = await prisma.stockMutation.create({
+                data: {
+                  initialWarehouseId: closestWarehouseId,
+                  destinationWarehouseId: reqWarehouseId,
+                  status: Status.CONFIRM,
+                  stockMutationDetail: {
+                    create: {
+                      productId,
+                      quantity,
+                    },
                   },
                 },
-              },
-            });
-            console.log('dataaa createeee', create);
+              });
+            }
           }
         }
       }

@@ -1,3 +1,5 @@
+import { TransactionStatus } from '@prisma/client';
+
 
 export interface IAddToCart {
   userId: number;
@@ -13,7 +15,7 @@ export interface ITransaction {
   shippingCost: number;
   totalPrice: number;
   paymentImg: string;
-  transactionStatus: TransactionStatus;
+  TransactionStatus: TransactionStatus;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -24,13 +26,3 @@ export interface ITransactionDetails {
   productId: number;
   quantity: number;
 }
-
-export enum TransactionStatus {
-  WAITING_FOR_PAYMENT = 'Menunggu Pembayaran',
-  WAITING_PAYMENT_CONFIRMATION = 'Menunggu Konfirmasi Pembayaran',
-  IN_PROGRESS = 'Diproses',
-  SHIPPED = 'Dikirim',
-  ORDER_CONFIRMED = 'Pesanan Dikonfirmasi',
-  CANCELLED = 'Dibatalkan',
-}
-
