@@ -2,6 +2,8 @@ import { closestWarehouseToTheUser } from '@/actions/transaction/closestWarehous
 import { createTransactionAction } from '@/actions/transaction/createTransactionAction';
 import { findTransactionAndDetailsByIdAction } from '@/actions/transaction/findTransactionAndDetailByIdAction';
 import { updateStatusTransactionAction } from '@/actions/transaction/updateStatusTransactionAction';
+import prisma from '@/prisma';
+import { getTransactionById } from '@/repositories/transaction/getTransactionById';
 import { NextFunction, Request, Response } from 'express';
 
 export class TransactionController {
@@ -53,8 +55,41 @@ export class TransactionController {
     try {
       const { id } = req.params;
       const data = req.body;
-      // const transaction = await updateStatusTransactionAction(data, Number(id));
-      // res.status(200).send(transaction);
+      const transactionDetailsResponse =
+        await findTransactionAndDetailsByIdAction(Number(id));
+      const transactionDetail =
+        transactionDetailsResponse.data?.transactionDetails ?? [];
+      const transaction = await updateStatusTransactionAction(
+        data,
+        transactionDetail,
+        Number(id),
+      );
+      res.status(200).send(transaction);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async uploadPaymentProof(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { file } = req;
+      const { id } = req.params;
+      console.log('cek file : ', file);
+
+      const transactionId = parseInt(id);
+
+      const transactionData = await getTransactionById(Number(id));
+
+      await prisma.transaction.update({
+        where: { id: transactionId },
+        data: { paymentImg: `/${file?.filename}` },
+      });
+
+      await prisma.transaction.update({
+        where: { id: transactionId },
+        data: { TransactionStatus: 'WAITING_PAYMENT_CONFIRMATION' },
+      });
+      res.status(200).send('Upload Payment success');
     } catch (error) {
       next(error);
     }

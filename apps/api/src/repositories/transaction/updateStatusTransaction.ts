@@ -8,7 +8,7 @@ export const updateStatusTransaction = async (
   try {
     const transaction = await prisma.transaction.update({
       where: { id },
-      data,
+      data: { TransactionStatus: data.TransactionStatus },
     });
     return transaction;
   } catch (error) {
