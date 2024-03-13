@@ -54,7 +54,6 @@ const WarehouseDetail = () => {
       const response = await axios.get(
         `${baseUrl}/warehouses/branch/${params.warehouse}`,
       );
-      // console.log('data warehouse', response.data.data);
 
       const warehouse = response.data.data;
       const stocks = warehouse.stocks;
