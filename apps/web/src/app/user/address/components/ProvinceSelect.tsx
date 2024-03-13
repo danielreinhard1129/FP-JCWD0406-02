@@ -7,14 +7,8 @@ interface Province {
   province: string;
 }
 
-interface PostalCode {
-  province_id: string;
-  province: string;
-  postal_codes: string[];
-}
-
 interface ProvinceAutocompleteProps {
-  onProvinceChange: (provinceName: string, postalCode: string) => void;
+  onProvinceChange: (provinceName: string) => void;
 }
 
 const ProvinceAutocomplete: React.FC<ProvinceAutocompleteProps> = ({
@@ -22,8 +16,6 @@ const ProvinceAutocomplete: React.FC<ProvinceAutocompleteProps> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredProvinces, setFilteredProvinces] = useState<Province[]>([]);
-  const [selectedProvincePostalCodes, setSelectedProvincePostalCodes] =
-    useState<string[]>([]);
 
   useEffect(() => {
     if (searchTerm) {
@@ -37,22 +29,9 @@ const ProvinceAutocomplete: React.FC<ProvinceAutocompleteProps> = ({
   }, [searchTerm]);
 
   const handleProvinceSelect = (provinceName: string) => {
-    const selectedProvince = postal_codes.find(
-      (p) => p.province === provinceName,
-    );
-    const postalCodesForProvince = selectedProvince
-      ? selectedProvince.postal_codes
-      : [];
-
-    if (postalCodesForProvince.length > 0) {
-      onProvinceChange(provinceName, postalCodesForProvince[0]); // Pass the first postal code by default
-    } else {
-      onProvinceChange(provinceName, ''); // If no postal codes, pass an empty string
-    }
-
+    onProvinceChange(provinceName);
     setSearchTerm(provinceName);
     setFilteredProvinces([]);
-    setSelectedProvincePostalCodes(postalCodesForProvince);
   };
 
   return (
@@ -76,19 +55,6 @@ const ProvinceAutocomplete: React.FC<ProvinceAutocompleteProps> = ({
             </li>
           ))}
         </ul>
-      )}
-      {selectedProvincePostalCodes.length > 0 && (
-        <select
-          className="w-full p-2 border border-gray-300 rounded mt-2 flex items-center"
-          onChange={(e) => onProvinceChange(searchTerm, e.target.value)}
-        >
-          <option value="">Select Postal Code</option>
-          {selectedProvincePostalCodes.map((code) => (
-            <option key={code} value={code}>
-              {code}
-            </option>
-          ))}
-        </select>
       )}
     </div>
   );

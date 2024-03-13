@@ -5,7 +5,13 @@ import { useSelector } from 'react-redux';
 import { FaTrashCan } from 'react-icons/fa6';
 import { RootState } from '@/lib/store';
 import { useRouter } from 'next/navigation'; // Import useRouter
+import { baseUrll } from '@/app/utils/database';
+import Image from 'next/image';
 
+export interface ProductPhoto {
+  id: number;
+  photo_product: string;
+}
 interface CartItem {
   id: number;
   productId: number;
@@ -13,8 +19,8 @@ interface CartItem {
   Product: {
     title: string;
     price: number;
-    imageUrl: string;
     weight: number;
+    productPhotos: ProductPhoto[];
   };
 }
 
@@ -53,10 +59,17 @@ const CartPage: React.FC = () => {
                 key={item.id}
                 className="flex items-start p-4 rounded-lg shadow-md bg-white"
               >
-                <img
-                  src={item.Product.imageUrl}
+                <Image
+                  src={
+                    item.Product.productPhotos &&
+                    item.Product.productPhotos.length > 0
+                      ? `${baseUrll}/photo-product/${item.Product.productPhotos[0].photo_product}`
+                      : '/default-product.webp'
+                  } // Use a default image if productPhotos is not available
                   alt={item.Product.title}
-                  className="h-24 w-24 object-cover mr-4"
+                  className=" object-cover mr-4"
+                  width={100}
+                  height={100}
                 />
                 <div className="flex-grow flex justify-between">
                   <div className="flex flex-col justify-between">

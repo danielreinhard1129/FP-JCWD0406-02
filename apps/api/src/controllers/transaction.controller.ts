@@ -1,6 +1,4 @@
-
 import { addToCartAction } from '@/actions/transaction/createAddToCart';
-import { findTransactionAndDetailsByIdAction } from '@/actions/transaction/findTransactionAndDetailByIdAction';
 import { getUserCartAction } from '@/actions/transaction/getUserCartAction';
 import { closestWarehouseToTheUser } from '@/actions/transaction/closestWarehouseToTheUser';
 import { createTransactionAction } from '@/actions/transaction/createTransactionAction';
@@ -23,12 +21,14 @@ export class TransactionController {
       next(error);
     }
   }
-  
+
   async addToCart(req: Request, res: Response, next: NextFunction) {
     try {
       const { userId, productId, quantity } = req.body;
       const result = await addToCartAction({ userId, productId, quantity });
       res.json(result);
+    } catch (error) {
+      next(error);
     }
   }
 
@@ -52,6 +52,8 @@ export class TransactionController {
       const { id } = req.params;
       const result = await getUserCartAction(Number(id));
       res.json(result);
+    } catch (error) {
+      next(error);
     }
   }
 

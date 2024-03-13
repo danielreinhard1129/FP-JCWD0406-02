@@ -6,11 +6,20 @@ export const getAllProducts = async () => {
       include: {
         productPhotos: true,
         Category: true,
+        Stock: true,
       },
       where: { isDeleted: false },
     });
 
-    return products;
+    const productsWithTotalQuantity = products.map((product) => {
+      const totalQuantity = product.Stock.reduce(
+        (acc, curr) => acc + curr.quantity,
+        0,
+      );
+      return { ...product, totalQuantity };
+    });
+
+    return productsWithTotalQuantity;
   } catch (error) {
     throw error;
   }

@@ -1,12 +1,16 @@
-export interface CartItem {
+export interface ProductPhoto {
+  id: number;
+  photo_product: string;
+}
+interface CartItem {
   id: number;
   productId: number;
   quantity: number;
   Product: {
     title: string;
     price: number;
-    imageUrl: string;
     weight: number;
+    productPhotos: ProductPhoto[];
   };
 }
 

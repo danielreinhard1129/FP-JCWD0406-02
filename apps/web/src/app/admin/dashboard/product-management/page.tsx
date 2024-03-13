@@ -2,17 +2,22 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import AdminSidebar from '../../components/SidebarDashboard';
 import CardProductManagement from './components/CardProductManagement';
 import HeaderProductManagement from './components/HeaderProductDashboard';
 import { baseUrl } from '@/app/utils/database';
+import { toast } from 'sonner';
+
+import { IStock } from '@/types/warehouse.types';
 
 interface ProductPhoto {
-  url: string;
+  id: number;
+  photo_product: string;
+  productPhotos: string;
 }
 
-interface Product {
+interface IProduct {
   id: number;
   title: string;
   description: string;
@@ -20,16 +25,21 @@ interface Product {
   weight: number;
   stock: number;
   isActive: boolean;
-  productPhoto: ProductPhoto[];
+  productPhotos: ProductPhoto[];
+  totalQuantity: number;
+  Stock: IStock[];
 }
 
 const ProductManagementSuperAdmin = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<IProduct[]>([]);
 
   const fetchProducts = async () => {
     try {
       const response = await axios.get(`${baseUrl}/warehouses/products`);
-      setProducts(response.data.data);
+      const fetchProducts = response.data.data;
+      console.log('ini stockId', response.data.data.Stock);
+
+      setProducts(fetchProducts);
     } catch (err) {
       console.error('Error fetching products:', err);
     }

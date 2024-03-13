@@ -1,4 +1,3 @@
-// helpers/fetchProducts.ts
 import axios from 'axios';
 import { baseUrl } from '@/app/utils/database'; // Update the import path as necessary
 

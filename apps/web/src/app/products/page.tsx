@@ -7,9 +7,11 @@ import CategorySelector from './components/CategoryCardDiscovery';
 import { Spinner } from 'flowbite-react';
 import Loading from '@/components/Loading';
 import Carousel from '@/components/Carousel';
+import { IStock } from '@/types/warehouse.types';
 
 export interface ProductPhoto {
-  url: string;
+  id: number;
+  photo_product: string;
 }
 
 export interface IProduct {
@@ -17,9 +19,16 @@ export interface IProduct {
   title: string;
   description: string;
   price: number;
-  productPhoto: ProductPhoto[];
+  productPhotos: ProductPhoto[];
   categoryId: number;
   Category: Category;
+  weight: number;
+  stock: number;
+  isActive: boolean;
+  Stock: IStock[];
+  quantity: number;
+  product: IProduct;
+  totalQuantity: number;
 }
 
 export interface ICategory {
@@ -38,6 +47,9 @@ const ProductPage = () => {
     setIsLoading(true);
     try {
       const response = await axios.get(`${baseUrl}/warehouses/products`);
+
+      console.log('allproducts', response.data.data);
+
       setAllProducts(response.data.data); // Save all products
       setFilteredProducts(response.data.data); // Initially display all products
     } catch (err) {
