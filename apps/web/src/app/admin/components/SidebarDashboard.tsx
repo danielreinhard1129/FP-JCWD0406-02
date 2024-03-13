@@ -3,7 +3,13 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import { FaChevronDown, FaChevronRight } from 'react-icons/fa6';
-import { FiHome, FiPackage, FiShoppingBag, FiUsers } from 'react-icons/fi';
+import {
+  FiHome,
+  FiPackage,
+  FiShoppingBag,
+  FiUsers,
+  FiBell,
+} from 'react-icons/fi';
 import { LuWarehouse } from 'react-icons/lu';
 import { useSelector } from 'react-redux';
 
@@ -32,6 +38,7 @@ const AdminSidebar: React.FC = () => {
   const toggleSidebar = () => {
     setIsSidebarExpanded(!isSidebarExpanded);
   };
+  console.log('ini data user', user);
 
   return (
     <div className="w-60 h-screen bg-white text-gray-800 flex flex-col shadow">
@@ -39,8 +46,8 @@ const AdminSidebar: React.FC = () => {
       <div className="p-4 flex items-center">
         <FaUserCircle className="mr-2 text-3xl text-gray-600" />
         <div>
-          <p className="font-semibold text-gray-800">Admin Name</p>
-          <p className="text-sm text-gray-600">Administrator</p>
+          <p className="font-semibold text-gray-800">{user.username}</p>
+          <p className="text-sm text-gray-600">{user.role}</p>
         </div>
       </div>
 
@@ -55,6 +62,15 @@ const AdminSidebar: React.FC = () => {
           >
             <FiHome className="mr-2 size-5" />
             <span className="font-semibold hover:text-teal-600">Home</span>
+          </Link>
+          <Link
+            href="/admin/dashboard/notification"
+            className="flex items-center cursor-pointer"
+          >
+            <FiBell className="mr-2 size-5" />
+            <span className="font-semibold hover:text-teal-600">
+              Notification
+            </span>
           </Link>
           <li className="flex items-center cursor-pointer">
             <FiShoppingBag className="mr-2 size-5" />
@@ -166,6 +182,12 @@ const AdminSidebar: React.FC = () => {
                   className="cursor-pointer hover:text-teal-600"
                 >
                   Warehouse Management
+                </Link>
+                <Link
+                  href="/admin/dashboard/warehouse/notification"
+                  className="cursor-pointer hover:text-teal-600"
+                >
+                  Notification
                 </Link>
               </ul>
             )}

@@ -9,6 +9,9 @@ export const getAllProducts = async () => {
         Stock: true,
       },
       where: { isDeleted: false },
+      orderBy: {
+        created_at: 'desc',
+      },
     });
 
     const productsWithTotalQuantity = products.map((product) => {

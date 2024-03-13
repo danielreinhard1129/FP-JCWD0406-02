@@ -20,6 +20,8 @@ import {
 } from 'react-icons/fi';
 import { LuLayoutDashboard } from 'react-icons/lu';
 import SearchBar2 from './SearchBar2';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/lib/store';
 
 export interface ProductPhoto {
   url: string;
@@ -48,6 +50,9 @@ export const Navbar = () => {
   const router = useRouter();
   const dispacth = useAppDispatch();
   const { userGoogle, logOut } = UserAuth();
+  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+
+  console.log('art item navbar', cartItems);
 
   const handleLogout = async () => {
     await logOut();

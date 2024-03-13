@@ -2,7 +2,8 @@ export interface ProductPhoto {
   id: number;
   photo_product: string;
 }
-interface CartItem {
+
+export interface CartItem {
   id: number;
   productId: number;
   quantity: number;

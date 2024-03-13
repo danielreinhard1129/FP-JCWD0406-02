@@ -32,6 +32,7 @@ const Cart = () => {
   const dispatch = useDispatch();
   const userId = useSelector((state: RootState) => state.user.id);
 
+  console.log(userId);
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
