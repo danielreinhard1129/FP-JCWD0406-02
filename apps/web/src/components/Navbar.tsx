@@ -59,6 +59,7 @@ export const Navbar = () => {
   useEffect(() => {
     const getProducts = async () => {
       const products = await fetchAllProducts();
+
       setAllProducts(products);
       setIsLoading(false); // Set loading to false after the fetch completes
     };
@@ -77,7 +78,6 @@ export const Navbar = () => {
 
         const keep = data.data;
         keep.roleId = data.data.roleId;
-        console.log('IMAM DISPEN TEROOOOS PANTEK!!', keep);
 
         dispacth(loginAction(keep));
       } catch (error) {

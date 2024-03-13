@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import { toast } from 'sonner';
 import { baseUrl } from '@/app/utils/database';
 import { FaEdit } from 'react-icons/fa';
+import { IStock, ProductPhoto } from '@/types/warehouse.types';
 
 interface IProduct {
   id: number;
@@ -13,6 +14,11 @@ interface IProduct {
   description: string;
   price: number;
   weight: number;
+  stock: number;
+  isActive: boolean;
+  productPhotos: ProductPhoto[];
+  totalQuantity: number;
+  Stock: IStock[];
 }
 
 interface EditProductProps {
@@ -62,11 +68,14 @@ const EditProduct: React.FC<EditProductProps> = ({ product, onSuccess }) => {
         className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center"
         onClick={() => setIsModalOpen(true)}
       >
-        <FaEdit className="mr-2" /> Edit
+        <FaEdit className="mr-3" /> Edit
       </li>
       {isModalOpen && (
         <>
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center">
+          <div
+            className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center"
+            style={{ backdropFilter: 'blur(3px)' }}
+          >
             <div className="bg-white rounded-lg max-w-2xl w-full p-6">
               <h2 className="text-lg font-semibold mb-4">Edit Product</h2>
               <form onSubmit={formik.handleSubmit} className="space-y-4">

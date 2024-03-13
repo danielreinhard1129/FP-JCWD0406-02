@@ -41,13 +41,9 @@ const AddressSelectionModal: React.FC<AddressSelectionModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  // function refreshAddresses(): void {
-  //   throw new Error('Function not implemented.');
-  // }
-
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-50">
-      <div className="bg-white rounded-lg shadow-xl p-6 pb-12 w-full max-w-2xl overflow-y-auto">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start p-4 z-50 overflow-y-auto">
+      <div className="bg-white rounded-lg shadow-xl p-6 pb-12 w-full max-w-2xl my-8 overflow-y-auto max-h-[80vh]">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold text-gray-700">
             Select Shipment Address

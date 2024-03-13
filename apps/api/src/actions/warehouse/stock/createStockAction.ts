@@ -4,16 +4,16 @@ import { IStock } from '@/types/warehouse.types';
 
 export const createStockAction = async (data: IStock) => {
   try {
-    const { warehouseId, productId } = data;
-    const existingStock = await prisma.stock.findMany({
+    const existingStock = await prisma.stock.findFirst({
       where: {
-        warehouseId: warehouseId,
-        productId: productId,
+        warehouseId: data.warehouseId,
+        productId: data.productId,
       },
     });
+
     if (existingStock) {
       throw new Error(
-        ` WarehouseId ${warehouseId} and ProductId ${productId} already exist. Please update stock.`,
+        `WarehouseId ${data.warehouseId} and ProductId ${data.productId} already exist. Please update stock`,
       );
     }
     const stock = await createStock(data);

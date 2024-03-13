@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { baseUrl } from '@/app/utils/database';
+import { FaTimes } from 'react-icons/fa';
 
-interface ServiceOption {
+interface IServiceOption {
   service: string;
   description: string;
   cost: {
@@ -13,16 +14,11 @@ interface ServiceOption {
   }[];
 }
 
-interface CourierData {
-  code: string;
-  name: string;
-  costs: ServiceOption[];
-}
-
 interface CourierSelectorProps {
+  onShippingCostSelected: (cost: number) => void; // Add this line
   onCourierSelect: (
     courierCode: string,
-    serviceData: ServiceOption | null,
+    serviceData: IServiceOption | null,
   ) => void;
   originId: string;
   destinationId: string;
@@ -30,14 +26,15 @@ interface CourierSelectorProps {
 }
 
 const CourierSelector: React.FC<CourierSelectorProps> = ({
+  onShippingCostSelected, // Add this line
   onCourierSelect,
   originId,
   destinationId,
   weight,
 }) => {
   const [selectedCourier, setSelectedCourier] = useState<string>('');
-  const [services, setServices] = useState<ServiceOption[]>([]);
-  const [selectedService, setSelectedService] = useState<ServiceOption | null>(
+  const [services, setServices] = useState<IServiceOption[]>([]);
+  const [selectedService, setSelectedService] = useState<IServiceOption | null>(
     null,
   );
 
@@ -57,10 +54,6 @@ const CourierSelector: React.FC<CourierSelectorProps> = ({
           `${baseUrl}/users/checkongkir`,
           requestData,
         );
-        console.log(
-          'ini rajaongkir',
-          response.data.data.rajaongkir.results[0].costs,
-        );
 
         setServices(response.data.data.rajaongkir.results[0].costs);
       } catch (error) {
@@ -75,56 +68,88 @@ const CourierSelector: React.FC<CourierSelectorProps> = ({
   const handleCourierChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const courier = event.target.value;
     setSelectedCourier(courier);
-    setSelectedService(null); // Reset selected service when changing courier
-    setServices([]); // Clear previous services
-    onCourierSelect(courier, null);
+    setSelectedService(null); // This clears the selected service
+    setServices([]); // Clear services to force a new fetch
   };
 
-  const handleServiceChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const serviceCode = event.target.value;
-    const service =
-      services.find((service) => service.service === serviceCode) || null;
+  const handleServiceSelection = (service: IServiceOption) => {
     setSelectedService(service);
     onCourierSelect(selectedCourier, service);
+    onShippingCostSelected(service.cost[0].value);
   };
 
   return (
     <div>
-      <label
-        htmlFor="courier-select"
-        className="block text-sm font-medium text-gray-700"
-      >
-        Choose Courier
-      </label>
-      <select
-        id="courier-select"
-        value={selectedCourier}
-        onChange={handleCourierChange}
-        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-      >
-        <option value="">Select Courier</option>
-        <option value="jne">JNE</option>
-        <option value="pos">POS Indonesia</option>
-        <option value="tiki">TIKI</option>
-      </select>
-
-      {selectedCourier && (
-        <select
-          id="service-select"
-          value={selectedService?.service}
-          onChange={handleServiceChange}
-          className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          disabled={services.length === 0}
-        >
-          <option value="">Select Service</option>
-          {services.map((service) => (
-            <option key={service.service} value={service.service}>
-              {service.description} - {service.cost[0].etd} - Rp{' '}
-              {service.cost[0].value.toLocaleString('id-ID')}
-            </option>
-          ))}
-        </select>
-      )}
+      <div className="md:flex w-full gap-5 space-y-3">
+        <div className="w-fit">
+          <label
+            htmlFor="courier-select"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Choose Courier
+          </label>
+          <select
+            id="courier-select"
+            value={selectedCourier}
+            onChange={handleCourierChange}
+            className="mt-1 block h-fit w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          >
+            <option value="">Select Courier</option>
+            <option value="jne">JNE</option>
+            <option value="pos">POS</option>
+            <option value="tiki">TIKI</option>
+          </select>
+        </div>
+        <div className="w-full">
+          {selectedService ? (
+            <div className="flex justify-between items-center border p-4 rounded-md bg-teal-100 mb-4">
+              <div>
+                <div className="font-medium text-sm">
+                  {selectedService.description}
+                </div>
+                <div className="text-sm">
+                  Rp {selectedService.cost[0].value.toLocaleString('id-ID')}
+                </div>
+                <div className="text-xs text-gray-600">
+                  Estimated {selectedService.cost[0].etd} days
+                </div>
+              </div>
+              <button
+                onClick={() => setSelectedService(null)}
+                className="flex items-center text-xs text-gray-500 hover:text-gray-700"
+              >
+                Remove
+              </button>
+            </div>
+          ) : (
+            selectedCourier &&
+            services.map((service: IServiceOption) => (
+              <div
+                key={service.service}
+                className={`p-1 px-4 border w-full border-gray-300 rounded-md mb-1 cursor-pointer ${
+                  selectedService === service.service ? 'bg-gray-100' : ''
+                }`}
+                onClick={() => handleServiceSelection(service)}
+              >
+                <div className="items-center">
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium text-sm text-wrap">
+                      {service.description}
+                    </span>
+                    <span className="text-sm font-semibold">
+                      Rp {service.cost[0].value.toLocaleString('id-ID')}
+                    </span>
+                  </div>
+                  <div className="text-xs text-gray-600 items-center">
+                    Estimated {service.cost[0].etd.replace('HARI', '').trim()}{' '}
+                    days
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
     </div>
   );
 };

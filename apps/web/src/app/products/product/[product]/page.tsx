@@ -14,22 +14,21 @@ export interface Category {
   id: number;
   category_name: string;
 }
+interface ProductPhoto {
+  id: number;
+  photo_product: string;
+}
+
 interface IProduct {
   id: number;
   title: string;
   description: string;
-  productPhotos: string[];
+  productPhotos: ProductPhoto[];
   price: number;
   weight: number;
   Category: Category;
+  stock: number;
 }
-const sampleImages = [
-  '/default-product.webp',
-  '/default-avatar.png',
-  '/default-product.webp',
-  '/default-avatar.png',
-  '/default-product.webp',
-];
 
 const ProductDetailPage: React.FC = () => {
   const [product, setProduct] = useState<IProduct | null>(null);
@@ -55,7 +54,7 @@ const ProductDetailPage: React.FC = () => {
       fetchProductDetails();
     }
   }, [params.product]);
-  console.log('itemmmmmm', product?.productPhotos);
+  // console.log('itemmmmmm', product);
 
   if (!product) {
     return (
@@ -68,7 +67,7 @@ const ProductDetailPage: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-28 py-8">
-        <ProductImageGallery images={product.productPhotos} altText={altText} />
+        <ProductImageGallery product={product} altText={altText} />
 
         <ProductDetails detailProduct={product} />
       </div>

@@ -1,9 +1,13 @@
 // ProductCard.tsx
 import React from 'react';
 import Link from 'next/link';
+import { IStock } from '@/types/warehouse.types';
+import Image from 'next/image';
+import { baseUrll } from '@/app/utils/database';
 
 export interface ProductPhoto {
-  url: string;
+  id: number;
+  photo_product: string;
 }
 
 export interface Category {
@@ -16,8 +20,15 @@ export interface IProduct {
   title: string;
   description: string;
   price: number;
-  productPhoto: ProductPhoto[];
+  productPhotos: ProductPhoto[];
   Category: Category;
+  weight: number;
+  stock: number;
+  isActive: boolean;
+  Stock: IStock[];
+  quantity: number;
+  product: IProduct;
+  totalQuantity: number;
 }
 
 interface ProductCardProps {
@@ -25,6 +36,7 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ productsData }) => {
+  console.log('card all product', productsData);
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
       {productsData.map((product) => (
@@ -34,10 +46,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ productsData }) => {
         >
           <Link href={`/products/product/${product.id}`}>
             <div className="relative w-full h-48">
-              <img
-                // src={product.productPhoto[0]?.url || '/default-product.webp'}
+              <Image
+                src={
+                  product.productPhotos && product.productPhotos[0]
+                    ? `${baseUrll}/photo-product/${product.productPhotos[0].photo_product}` // Adjusted path to match your folder structure
+                    : '/default-product.webp'
+                }
                 alt={product.title}
-                className="absolute inset-0 w-full h-full object-cover"
+                width={112} // Set desired width (in pixels)
+                height={112} // Set desired height (in pixels)
+                className="h-48 w-48 object-cover"
               />
             </div>
             <div className="px-4 py-2 space-y-2">
