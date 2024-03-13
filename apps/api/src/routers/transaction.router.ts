@@ -1,4 +1,6 @@
 import { TransactionController } from '@/controllers/transaction.controller';
+import { verifyToken } from '@/middleware/jwtVerifyToken';
+import { uploader } from '@/middleware/uploader';
 import { Router } from 'express';
 
 export class TransactionRouter {
@@ -32,7 +34,12 @@ export class TransactionRouter {
       '/update-status/:id',
       this.transactionController.updateStatusTransaction,
     );
-
+    this.router.patch(
+      '/upload-payment-proof/:id',
+      verifyToken,
+      uploader('IMG', '/payment-proof').single('file'),
+      this.transactionController.uploadPaymentProof,
+    );
   }
 
   getRouter(): Router {
