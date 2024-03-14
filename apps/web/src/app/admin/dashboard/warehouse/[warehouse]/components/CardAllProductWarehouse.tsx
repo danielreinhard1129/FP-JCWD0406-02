@@ -96,6 +96,7 @@ const CardAllProductWarehouse: React.FC<CardProductManagementProps> = ({
             if (!stockQuantity) {
               stockQuantity = 0;
             }
+            console.log('stock', stockItem);
 
             return (
               <div
