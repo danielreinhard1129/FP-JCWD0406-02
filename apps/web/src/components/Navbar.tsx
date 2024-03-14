@@ -20,6 +20,8 @@ import {
 } from 'react-icons/fi';
 import { LuLayoutDashboard } from 'react-icons/lu';
 import SearchBar2 from './SearchBar2';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/lib/store';
 
 export interface ProductPhoto {
   url: string;
@@ -48,6 +50,9 @@ export const Navbar = () => {
   const router = useRouter();
   const dispacth = useAppDispatch();
   const { userGoogle, logOut } = UserAuth();
+  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+
+  console.log('art item navbar', cartItems);
 
   const handleLogout = async () => {
     await logOut();
@@ -59,6 +64,7 @@ export const Navbar = () => {
   useEffect(() => {
     const getProducts = async () => {
       const products = await fetchAllProducts();
+
       setAllProducts(products);
       setIsLoading(false); // Set loading to false after the fetch completes
     };
@@ -77,7 +83,6 @@ export const Navbar = () => {
 
         const keep = data.data;
         keep.roleId = data.data.roleId;
-        console.log('IMAM DISPEN TEROOOOS PANTEK!!', keep);
 
         dispacth(loginAction(keep));
       } catch (error) {

@@ -10,6 +10,7 @@ export const createStockAction = async (data: IStock) => {
         productId: data.productId,
       },
     });
+
     if (existingStock) {
       throw new Error(
         ` WarehouseId ${data.warehouseId} and ProductId ${data.productId} already exist. Please update stock.`,

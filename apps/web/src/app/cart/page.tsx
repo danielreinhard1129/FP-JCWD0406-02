@@ -7,14 +7,20 @@ import { setCartItems } from '@/lib/features/cartSlice';
 import { baseUrl } from '../utils/database';
 import CartPage from './components/CartPage';
 
-export interface CartItem {
+export interface ProductPhoto {
+  id: number;
+  photo_product: string;
+}
+
+interface CartItem {
   id: number;
   productId: number;
   quantity: number;
   Product: {
     title: string;
     price: number;
-    imageUrl: string;
+    weight: number;
+    productPhotos: ProductPhoto[];
   };
 }
 
@@ -26,6 +32,7 @@ const Cart = () => {
   const dispatch = useDispatch();
   const userId = useSelector((state: RootState) => state.user.id);
 
+  console.log(userId);
   useEffect(() => {
     const fetchCartItems = async () => {
       try {

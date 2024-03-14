@@ -1,3 +1,8 @@
+export interface ProductPhoto {
+  id: number;
+  photo_product: string;
+}
+
 export interface CartItem {
   id: number;
   productId: number;
@@ -5,8 +10,8 @@ export interface CartItem {
   Product: {
     title: string;
     price: number;
-    imageUrl: string;
     weight: number;
+    productPhotos: ProductPhoto[];
   };
 }
 

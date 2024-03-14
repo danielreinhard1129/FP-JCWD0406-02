@@ -1,17 +1,26 @@
 'use client';
 import React, { useState } from 'react';
-import {
-  FaToggleOn,
-  FaToggleOff,
-  FaCaretDown,
-  FaRegEdit,
-  FaRegTrashAlt,
-} from 'react-icons/fa';
+import { FaCaretDown, FaEdit } from 'react-icons/fa';
+import { PiArchiveBoxBold } from 'react-icons/pi';
 import DeleteProduct from './DeleteProduct';
 import EditProduct from './EditProduct';
+import { baseUrll } from '@/app/utils/database';
+import Image from 'next/image';
+import NewStockCreationModal from './CreateStockSuperAdmin';
+import UpdateStockModal from '../../warehouse/[warehouse]/components/UpdateStock';
+import UpdateStockWithWarehouseModal from './UpdateStockSuperAdmin';
 
 interface ProductPhoto {
-  url: string;
+  id: number;
+  photo_product: string;
+}
+interface IStock {
+  id: number;
+  warehouseId: number;
+  productId: number;
+  quantity: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 interface IProduct {
@@ -19,10 +28,12 @@ interface IProduct {
   title: string;
   description: string;
   price: number;
-  weight: number; // Add weight here
+  weight: number;
   stock: number;
   isActive: boolean;
-  productPhoto: ProductPhoto[];
+  productPhotos: ProductPhoto[];
+  totalQuantity: number;
+  Stock: IStock[];
 }
 
 interface CardProductManagementProps {
@@ -35,13 +46,34 @@ const CardProductManagement: React.FC<CardProductManagementProps> = ({
   parseProduct,
 }) => {
   const [openDropdowns, setOpenDropdowns] = useState<number[]>([]);
+  const [isCreateStockModalOpen, setIsCreateStockModalOpen] =
+    useState<boolean>(false);
+  const [selectedProductId, setSelectedProductId] = useState<number | null>(
+    null,
+  );
 
   const toggleDropdown = (productId: number) => {
-    setOpenDropdowns((currentOpenDropdowns) =>
-      currentOpenDropdowns.includes(productId)
-        ? currentOpenDropdowns.filter((id) => id !== productId)
-        : [...currentOpenDropdowns, productId],
-    );
+    if (openDropdowns.includes(productId)) {
+      setOpenDropdowns(openDropdowns.filter((id) => id !== productId));
+    } else {
+      setOpenDropdowns([...openDropdowns, productId]);
+    }
+  };
+
+  const openCreateStockModal = (productId: number) => {
+    setSelectedProductId(productId);
+    setIsCreateStockModalOpen(true);
+    toggleDropdown(productId); // Close the dropdown when opening the modal
+  };
+
+  const closeCreateStockModal = () => {
+    setIsCreateStockModalOpen(false);
+    setSelectedProductId(null);
+  };
+
+  const handleStockCreated = () => {
+    closeCreateStockModal();
+    parseProduct();
   };
 
   return (
@@ -53,9 +85,15 @@ const CardProductManagement: React.FC<CardProductManagementProps> = ({
               key={product.id}
               className="flex items-center justify-between border pr-5  rounded-lg bg-white shadow"
             >
-              <img
-                src={'/default-product.webp'}
+              <Image
+                src={
+                  product.productPhotos && product.productPhotos[0]
+                    ? `${baseUrll}/photo-product/${product.productPhotos[0].photo_product}` // Adjusted path to match your folder structure
+                    : '/default-product.webp'
+                }
                 alt={product.title}
+                width={112} // Set desired width (in pixels)
+                height={112} // Set desired height (in pixels)
                 className="h-28 w-28 object-cover rounded-l-lg mr-4"
               />
               <div className="flex-grow">
@@ -68,7 +106,9 @@ const CardProductManagement: React.FC<CardProductManagementProps> = ({
                 </p>
               </div>
               <div className="mr-4">
-                <p className="text-sm text-gray-500">Stock: {product.stock}</p>
+                <p className="text-sm text-gray-500">
+                  Stock: {product.totalQuantity}
+                </p>
               </div>
 
               <div className="relative">
@@ -79,8 +119,21 @@ const CardProductManagement: React.FC<CardProductManagementProps> = ({
                   Manage <FaCaretDown className="ml-2" />
                 </button>
                 {openDropdowns.includes(product.id) && (
-                  <div className="absolute right-0 mt-1 w-24 bg-white border rounded shadow-xl z-10">
+                  <div className="absolute right-0 mt-1 w-40 bg-white border rounded shadow-xl z-10">
                     <ul className="text-xs text-gray-700">
+                      <li
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center"
+                        onClick={() => openCreateStockModal(product.id)}
+                      >
+                        <PiArchiveBoxBold className="mr-2 text-sm " /> Create
+                        Stock
+                      </li>
+
+                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center">
+                        <PiArchiveBoxBold className="mr-2 text-sm " /> Update
+                        Stock
+                      </li>
+
                       <EditProduct product={product} onSuccess={parseProduct} />
                       <DeleteProduct
                         productId={product.id}
@@ -94,6 +147,15 @@ const CardProductManagement: React.FC<CardProductManagementProps> = ({
           ))}
         </div>
       </div>
+      {isCreateStockModalOpen &&
+        selectedProductId &&
+        productsData.find((p) => p.id === selectedProductId) && (
+          <NewStockCreationModal
+            product={productsData.find((p) => p.id === selectedProductId)!}
+            onClose={closeCreateStockModal}
+            onStockCreated={handleStockCreated}
+          />
+        )}
     </div>
   );
 };

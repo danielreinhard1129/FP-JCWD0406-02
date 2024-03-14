@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import CitySelect from './CitySelect';
 import ProvinceSelect from './ProvinceSelect';
 import { baseUrl } from '@/app/utils/database';
+import ProvinceAutocomplete from './ProvinceSelect';
 
 interface ReduxState {
   user: {
@@ -90,10 +91,10 @@ const CreateUserAddress: React.FC<CreateUserAddressProps> = ({ onSuccess }) => {
     formik.setFieldValue('cityId', cityId);
   };
 
-  const handleProvinceChange = (provinceName: string, postalCode: string) => {
+  const handleProvinceChange = (provinceName: string) => {
     formik.setFieldValue('province', provinceName);
-    formik.setFieldValue('postal_code', postalCode);
   };
+
   return (
     <div>
       <button
@@ -165,7 +166,32 @@ const CreateUserAddress: React.FC<CreateUserAddressProps> = ({ onSuccess }) => {
               <div className="flex gap-5">
                 <div>
                   <label className="text-sm font-medium">Province</label>
-                  <ProvinceSelect onProvinceChange={handleProvinceChange} />
+                  <ProvinceAutocomplete
+                    onProvinceChange={handleProvinceChange}
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="postal_code"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Kode Pos
+                  </label>
+                  <input
+                    type="number"
+                    name="postal_code"
+                    id="postal_code"
+                    required
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.postal_code}
+                    className="mt-1 focus:ring-teal-500 focus:border-teal-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                  />
+                  {formik.touched.postal_code && formik.errors.postal_code && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {formik.errors.postal_code}
+                    </p>
+                  )}
                 </div>
               </div>
               <div className="flex justify-end space-x-2">

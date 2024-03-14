@@ -6,16 +6,14 @@ export const getAllProducts = async () => {
       include: {
         productPhotos: true,
         Category: true,
-        Stock: {
-          select: {
-            quantity: true,
-          },
-        },
+        Stock: true,
       },
       where: { isDeleted: false },
+      orderBy: {
+        created_at: 'desc',
+      },
     });
 
-    // Calculate total quantity for each product
     const productsWithTotalQuantity = products.map((product) => {
       const totalQuantity = product.Stock.reduce(
         (acc, curr) => acc + curr.quantity,

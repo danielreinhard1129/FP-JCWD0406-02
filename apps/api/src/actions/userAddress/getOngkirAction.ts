@@ -3,7 +3,7 @@ import { IOngkir } from '@/types/user.types';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'https://api.rajaongkir.com/starter/';
-axios.defaults.headers.common['key'] = '9dc867b8d79c2897da40488350f03a07';
+axios.defaults.headers.common['key'] = '3aae682b2cc7df987792a5c9021016ed';
 axios.defaults.headers.post['Content-Type'] =
   'application/x-www-form-urlencoded';
 
@@ -24,7 +24,7 @@ export const getOngkirAction = async (data: IOngkir) => {
       payload,
       {
         headers: {
-          key: '9dc867b8d79c2897da40488350f03a07', // Your RajaOngkir API key
+          key: '3aae682b2cc7df987792a5c9021016ed', // Your RajaOngkir API key
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       },
