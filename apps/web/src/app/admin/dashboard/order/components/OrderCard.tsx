@@ -16,11 +16,9 @@ interface OrderDetails {
   uuid: string;
 }
 
-const OrderCard: React.FC<{ order: OrderDetails; paymentPhoto: string }> = ({
-  order,
-  paymentPhoto,
-}) => {
+const OrderCard: React.FC<{ order: OrderDetails }> = ({ order }) => {
   const [showAllProducts, setShowAllProducts] = useState(false);
+  console.log('carddd', order);
 
   const toggleShowAllProducts = () => {
     setShowAllProducts(!showAllProducts);
@@ -28,8 +26,8 @@ const OrderCard: React.FC<{ order: OrderDetails; paymentPhoto: string }> = ({
 
   return (
     <div className="flex flex-wrap items-start gap-2">
-      <div className="bg-white rounded-lg shadow-lg p-3 w-full max-w-4xl my-2 border-l-8 border-teal-500">
-        {order.products
+      {/* <div className="bg-white rounded-lg shadow-lg p-3 w-full max-w-4xl my-2 border-l-8 border-teal-500">
+        {order
           .slice(0, showAllProducts ? order.products.length : 1)
           .map((product, index) => (
             <div key={index} className="flex justify-between items-start mb-1">
@@ -98,8 +96,8 @@ const OrderCard: React.FC<{ order: OrderDetails; paymentPhoto: string }> = ({
             <p className="text-sm text-gray-700">{order.uuid}</p>
           </div>
         </div>
-      </div>
-      {/* Payment photo section */}
+      </div> */}
+      {/* Payment photo section
       {paymentPhoto && (
         <div className="flex flex-initial justify-center my-2 items-center bg-white rounded-lg shadow-lg p-1 border border-gray-200">
           <img
@@ -108,7 +106,7 @@ const OrderCard: React.FC<{ order: OrderDetails; paymentPhoto: string }> = ({
             className="h-28 w-28 object-cover rounded-lg"
           />
         </div>
-      )}
+      )} */}
     </div>
   );
 };
