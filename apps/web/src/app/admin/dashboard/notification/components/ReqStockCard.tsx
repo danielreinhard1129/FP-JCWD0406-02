@@ -25,6 +25,8 @@ interface ReqStockCardProps {
 }
 
 const ReqStockCard: React.FC<ReqStockCardProps> = ({ reqStock }) => {
+  console.log('check parse', reqStock);
+
   // Define a function or a mapping for human-readable status
   const getStatusLabel = (status: 'PENDING' | 'APPROVED' | 'DENIED') => {
     switch (status) {
@@ -47,7 +49,7 @@ const ReqStockCard: React.FC<ReqStockCardProps> = ({ reqStock }) => {
       </div>
 
       <div className="flex justify-between items-center">
-        <h3 className="text-base font-semibold">{reqStock.product.name}</h3>
+        <h3 className="text-base font-semibold">{reqStock.product.title}</h3>
         <span
           className={`text-sm font-medium py-1 px-3 rounded-full ${
             reqStock.status === 'APPROVED'

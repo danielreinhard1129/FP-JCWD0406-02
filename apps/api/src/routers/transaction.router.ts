@@ -44,6 +44,14 @@ export class TransactionRouter {
       '/details/:uuid',
       this.transactionController.getTransactionByUuid,
     );
+    this.router.get(
+      '/order-list/:id',
+      this.transactionController.getTransactionByWarehouseId,
+    );
+    this.router.get(
+      '/order-list',
+      this.transactionController.getWaitingForConfirmationTransaction,
+    );
   }
 
   getRouter(): Router {

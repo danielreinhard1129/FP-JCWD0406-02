@@ -6,6 +6,10 @@ export const getReqStock = async () => {
       orderBy: {
         status: 'asc',
       },
+      include: {
+        warehouse: true,
+        product: true,
+      },
     });
     return reqStocks;
   } catch (error) {
