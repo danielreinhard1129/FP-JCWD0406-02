@@ -37,6 +37,7 @@ const CourierSelector: React.FC<CourierSelectorProps> = ({
   const [selectedService, setSelectedService] = useState<IServiceOption | null>(
     null,
   );
+  console.log(selectedCourier);
 
   useEffect(() => {
     const fetchServices = async () => {

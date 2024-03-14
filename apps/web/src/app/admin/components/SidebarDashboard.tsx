@@ -72,12 +72,15 @@ const AdminSidebar: React.FC = () => {
               Notification
             </span>
           </Link>
-          <li className="flex items-center cursor-pointer">
+          <Link
+            href="/admin/dashboard/order"
+            className="flex items-center cursor-pointer"
+          >
             <FiShoppingBag className="mr-2 size-5" />
             <span className="font-semibold hover:text-teal-600 size-6">
               Orders
             </span>
-          </li>
+          </Link>
           {user.roleId === 1 ? (
             <li>
               <div

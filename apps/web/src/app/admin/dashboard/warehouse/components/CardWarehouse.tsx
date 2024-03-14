@@ -30,7 +30,7 @@ export const WarehouseCard: React.FC<WarehouseCardProps> = ({
         {warehouseData.map((warehouse) => (
           <div
             key={warehouse.id}
-            className=" bg-amber-100 rounded-lg shadow-md overflow-hidden m-4"
+            className=" bg-amber-100 rounded-lg shadow-md overflow-hidden m-4 border-l-8 border-teal-500"
           >
             <Link href={`/admin/dashboard/warehouse/${warehouse.id}`}>
               <div className="p-4">

@@ -83,7 +83,7 @@ const CardProductManagement: React.FC<CardProductManagementProps> = ({
           {productsData.map((product) => (
             <div
               key={product.id}
-              className="flex items-center justify-between border pr-5  rounded-lg bg-white shadow"
+              className="flex items-center justify-between border pr-5  rounded-lg bg-white shadow "
             >
               <Image
                 src={
