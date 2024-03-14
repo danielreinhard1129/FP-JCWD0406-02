@@ -5,8 +5,9 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import { FaCaretDown, FaEdit } from 'react-icons/fa';
 import StockCreationModal from './CreateStock';
-import { PiArchiveBoxBold } from 'react-icons/pi';
+import { PiArchiveBoxBold, PiHandCoinsBold } from 'react-icons/pi';
 import { fetchAllProducts } from '@/app/utils/helper/fetchAllProduct';
+import RequestStockModal from './RequestStock';
 
 interface ProductPhoto {
   id: number;
@@ -45,6 +46,8 @@ const CardAllProductWarehouse: React.FC<CardProductManagementProps> = ({
   const [selectedProductId, setSelectedProductId] = useState<number | null>(
     null,
   );
+  const [isRequestStockModalOpen, setIsRequestStockModalOpen] = useState(false);
+
   const toggleDropdown = (productId: number) => {
     setOpenDropdowns((currentOpenDropdowns) =>
       currentOpenDropdowns.includes(productId)
@@ -56,6 +59,7 @@ const CardAllProductWarehouse: React.FC<CardProductManagementProps> = ({
   const handleCreateStockClick = (productId: number) => {
     setSelectedProductId(productId);
     setIsModalOpen(true);
+    toggleDropdown(productId); // Add this line to close the dropdown
   };
 
   const handleCloseModal = () => {
@@ -67,7 +71,16 @@ const CardAllProductWarehouse: React.FC<CardProductManagementProps> = ({
     // Logic to refresh the product list, perhaps re-fetching from the backend
     handleCloseModal();
   };
-  console.log('check product data', productsData);
+
+  const handleRequestStockClick = (productId: number) => {
+    setSelectedProductId(productId);
+    setIsRequestStockModalOpen(true);
+    toggleDropdown(productId); // Add this line to close the dropdown
+  };
+  const handleCloseRequestStockModal = () => {
+    setIsRequestStockModalOpen(false);
+    setSelectedProductId(null);
+  };
 
   return (
     <div className="bg-white w-full">
@@ -121,13 +134,20 @@ const CardAllProductWarehouse: React.FC<CardProductManagementProps> = ({
                     Manage <FaCaretDown className="ml-2" />
                   </button>
                   {openDropdowns.includes(product.id) && (
-                    <div className="absolute w-36 right-2 mt-1 bg-white border rounded shadow-xl z-10">
+                    <div className="absolute w-36 text-xs right-2 mt-1 bg-white border rounded shadow-xl z-10">
                       <li
                         className="px-4 py-2 w-full hover:bg-gray-100 cursor-pointer flex items-center"
                         onClick={() => handleCreateStockClick(product.id)}
                       >
-                        <PiArchiveBoxBold className="mr-2" />
+                        <PiArchiveBoxBold className="mr-2 size-4" />
                         Create Stock
+                      </li>
+                      <li
+                        className="px-4 py-2 w-full hover:bg-gray-100 cursor-pointer flex items-center"
+                        onClick={() => handleRequestStockClick(product.id)}
+                      >
+                        <PiHandCoinsBold className="mr-2 size-4" />
+                        Request Stock
                       </li>
                     </div>
                   )}
@@ -145,6 +165,17 @@ const CardAllProductWarehouse: React.FC<CardProductManagementProps> = ({
                 throw new Error('Function not implemented.');
               }}
               onSuccess={fetchAllProducts}
+            />
+          )}
+          {isRequestStockModalOpen && selectedProductId && (
+            <RequestStockModal
+              productId={selectedProductId}
+              warehouseId={warehouseId}
+              onClose={handleCloseRequestStockModal}
+              onRequestStockSuccess={() => {
+                // You can add logic here to refresh product data if necessary
+                handleCloseRequestStockModal();
+              }}
             />
           )}
         </div>

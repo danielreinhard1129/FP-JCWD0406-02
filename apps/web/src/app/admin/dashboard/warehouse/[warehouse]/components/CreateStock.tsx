@@ -45,34 +45,46 @@ const StockCreationModal: React.FC<StockCreationModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
-      style={{ backdropFilter: 'blur(5px)' }}
+      className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50"
+      style={{ backdropFilter: 'blur(3px)' }}
     >
-      <div className="bg-white p-6 rounded-lg shadow-xl">
-        <h2 className="text-lg font-bold mb-4">
+      <div className="bg-white p-6 rounded-lg shadow-2xl max-w-md w-full mx-auto">
+        <h2 className="text-xl font-bold text-gray-900 mb-2">
           Create Stock for this Warehouse
         </h2>
+        <h5 className="text-xs font-normal mb-4 text-gray-800">
+          Insert this product to ready stock in this warehouse by Setting the
+          Stock
+        </h5>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="number"
-            value={quantity}
-            onChange={(e) => setQuantity(Number(e.target.value))}
-            placeholder="Enter quantity"
-            min="1"
-            required
-            className="w-full p-2 border border-gray-300 rounded"
-          />
+          <div>
+            <label
+              htmlFor="first_name"
+              className="block text-gray-700 text-sm font-semibold mb-1"
+            >
+              Quantity
+            </label>
+            <input
+              type="number"
+              value={quantity}
+              onChange={(e) => setQuantity(Number(e.target.value))}
+              placeholder="Enter quantity"
+              min="1"
+              required
+              className="w-full p-3 border border-teal-300 rounded-md focus:outline-none focus:ring-1 focus:ring-teal-500"
+            />
+          </div>
           <div className="flex justify-end space-x-2">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border rounded-lg text-black bg-gray-200 hover:bg-gray-300"
+              className="px-4 py-2 text-sm rounded-lg text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 border rounded-lg text-white bg-teal-600 hover:bg-teal-700"
+              className="px-4 py-2 text-sm rounded-lg text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
             >
               Create Stock
             </button>

@@ -34,22 +34,46 @@ const UpdateStockModal: React.FC<UpdateStockModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-lg font-bold mb-4">Update Stock Quantity</h2>
+    <div
+      className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center"
+      style={{ backdropFilter: 'blur(3px)' }}
+    >
+      <div className="bg-white p-6 rounded-lg shadow-2xl max-w-md w-full mx-auto">
+        <h2 className="text-xl font-bold text-gray-900 mb-2">
+          Update Stock Quantity
+        </h2>
+        <h5 className="text-xs font-normal mb-4 text-gray-800">
+          Adjust stock quantity here
+        </h5>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="number"
-            className="input border border-gray-300 p-2 rounded w-full"
-            value={quantity}
-            onChange={(e) => setQuantity(Number(e.target.value))}
-            min="0"
-          />
+          <div>
+            <label
+              htmlFor="first_name"
+              className="block text-gray-700 text-sm font-semibold mb-1"
+            >
+              Quantity
+            </label>
+            <input
+              type="number"
+              className="w-full p-3 border border-teal-300 rounded-md focus:outline-none focus:ring-1 focus:ring-teal-500"
+              value={quantity}
+              onChange={(e) => setQuantity(Number(e.target.value))}
+              min="0"
+              required
+            />
+          </div>
           <div className="flex justify-end space-x-2">
-            <button type="button" onClick={onClose} className="btn-secondary">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 text-sm rounded-lg text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
+            >
               Cancel
             </button>
-            <button type="submit" className="btn-primary">
+            <button
+              type="submit"
+              className="px-4 py-2 text-sm rounded-lg text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
+            >
               Update Stock
             </button>
           </div>

@@ -50,9 +50,6 @@ export const Navbar = () => {
   const router = useRouter();
   const dispacth = useAppDispatch();
   const { userGoogle, logOut } = UserAuth();
-  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
-
-  console.log('art item navbar', cartItems);
 
   const handleLogout = async () => {
     await logOut();

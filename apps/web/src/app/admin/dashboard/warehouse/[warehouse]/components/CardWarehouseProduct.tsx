@@ -48,6 +48,7 @@ const CardWarehouseProduct: React.FC<CardProductManagementProps> = ({
   const handleUpdateStockClick = (product: IProduct) => {
     setSelectedProductForUpdate(product);
     setIsUpdateModalOpen(true);
+    toggleDropdown(product.id); // Close the dropdown menu
   };
 
   const handleCloseUpdateModal = () => {
