@@ -43,6 +43,45 @@ export const updateStatusStockMutationAction = async (
             },
           },
         });
+
+        const destinationWarehouse = await prisma.stock.findFirst({
+          where: {
+            warehouseId: updateStock.destinationWarehouseId,
+            productId: detail.productId,
+          },
+        });
+
+        const initialWarehouse = await prisma.stock.findFirst({
+          where: {
+            warehouseId: updateStock.initialWarehouseId,
+            productId: detail.productId,
+          },
+        });
+        console.log('id sotkc mutation', id);
+
+        await prisma.stockMutation.update({
+          where: { id },
+          data: {
+            status: 'SUCCESS',
+          },
+        });
+
+        await prisma.journalStock.createMany({
+          data: [
+            {
+              stockId: destinationWarehouse?.id as number,
+              quantity: detail.quantity,
+              type: 'addition from mutation',
+              totalQuantity: destinationWarehouse?.quantity as number,
+            },
+            {
+              stockId: initialWarehouse?.id as number,
+              quantity: -detail.quantity,
+              type: `Reduction from mutation`,
+              totalQuantity: initialWarehouse?.quantity as number,
+            },
+          ],
+        });
       }
     }
 

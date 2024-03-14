@@ -23,6 +23,21 @@ function calculateDistance(
   return distance;
 }
 
+// Function to create stock mutation details
+const createStockMutationDetails = async (
+  stockMutationId: number,
+  productId: number,
+  quantity: number,
+): Promise<void> => {
+  await prisma.stockMutationDetail.create({
+    data: {
+      stockMutationId,
+      productId,
+      quantity,
+    },
+  });
+};
+
 // Main function for automatic mutation action
 export const automaticMutationAction = async (id: number) => {
   try {
@@ -38,73 +53,64 @@ export const automaticMutationAction = async (id: number) => {
 
       // Check if cart is not empty and has at least one item
       if (cart.length > 0) {
-        // Iterate over each item in the cart array
-        for (const item of cart) {
-          // Access productId and quantity properties of each item
-          const { id: detailId, productId, quantity } = item;
+        // Retrieve all existing warehouses
+        const warehouses = await prisma.warehouse.findMany();
 
-          // Retrieve the stock quantity from the stock table
-          const stock = await prisma.stock.findFirst({
-            where: {
-              AND: [{ warehouseId: transaction.warehouseId }, { productId }],
+        console.log('check warehouse', warehouses);
+
+        // Define the target location based on the transaction's warehouse
+        const targetWarehouse = warehouses.find(
+          (warehouse) => warehouse.id === transaction.warehouseId,
+        );
+        console.log('target warehouse :', targetWarehouse);
+
+        let closestWarehouseId;
+        let minDistance = Infinity;
+        for (const warehouse of warehouses) {
+          try {
+            const distance = calculateDistance(
+              targetWarehouse?.latitude!,
+              targetWarehouse?.longitude!,
+              warehouse.latitude!,
+              warehouse.longitude!,
+            );
+            if (
+              distance < minDistance &&
+              warehouse.id !== transaction.warehouseId
+            ) {
+              minDistance = distance;
+              closestWarehouseId = warehouse.id;
+            }
+            console.log('check distance', distance);
+          } catch (error) {
+            console.error('Error calculating distance:', error);
+          }
+        }
+
+        // Ensure closestWarehouseId is defined before proceeding
+        if (closestWarehouseId) {
+          // Retrieve reqWarehouseId from transaction or provide a default value
+          const reqWarehouseId = transaction.warehouseId;
+
+          // Perform stock mutation using the closest warehouse ID
+          const createdStockMutation = await prisma.stockMutation.create({
+            data: {
+              initialWarehouseId: closestWarehouseId,
+              destinationWarehouseId: reqWarehouseId,
+              status: Status.CONFIRM,
             },
           });
 
-          // Check if stock is available and quantity is less than the required quantity
-          if (stock && stock.quantity < quantity) {
-            // Perform auto mutation
-
-            // Retrieve all existing warehouses
-            const warehouses = await prisma.warehouse.findMany();
-
-            // Define the target location based on the transaction's warehouse
-            const targetWarehouse = warehouses.find(
-              (warehouse) => warehouse.id === transaction.warehouseId,
-            );
-
-            let closestWarehouseId;
-            let minDistance = Infinity;
-            for (const warehouse of warehouses) {
-              try {
-                const distance = calculateDistance(
-                  targetWarehouse?.latitude!,
-                  targetWarehouse?.longitude!,
-                  warehouse.latitude!,
-                  warehouse.longitude!,
-                );
-                if (
-                  distance < minDistance &&
-                  warehouse.id !== transaction.warehouseId
-                ) {
-                  minDistance = distance;
-                  closestWarehouseId = warehouse.id;
-                }
-              } catch (error) {
-                console.error('Error calculating distance:', error);
-              }
-            }
-
-            // Ensure closestWarehouseId is defined before proceeding
-            if (closestWarehouseId) {
-              // Retrieve reqWarehouseId from transaction or provide a default value
-              const reqWarehouseId = transaction.warehouseId;
-
-              // Perform stock mutation using the closest warehouse ID
-              const create = await prisma.stockMutation.create({
-                data: {
-                  initialWarehouseId: closestWarehouseId,
-                  destinationWarehouseId: reqWarehouseId,
-                  status: Status.CONFIRM,
-                  stockMutationDetail: {
-                    create: {
-                      productId,
-                      quantity,
-                    },
-                  },
-                },
-              });
-            }
-          }
+          // Create stock mutation details for each item in the cart
+          await Promise.all(
+            cart.map(async (item) => {
+              await createStockMutationDetails(
+                createdStockMutation.id,
+                item.productId,
+                item.quantity,
+              );
+            }),
+          );
         }
       }
     }

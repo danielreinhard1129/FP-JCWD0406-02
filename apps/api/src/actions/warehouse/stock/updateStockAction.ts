@@ -30,6 +30,7 @@ export const updateStockAction = async (data: IStock, id: number) => {
         stockId: stock.id,
         quantity: absoluteQuantityDifference,
         type: journalType,
+        totalQuantity: stock.quantity,
       },
     });
 

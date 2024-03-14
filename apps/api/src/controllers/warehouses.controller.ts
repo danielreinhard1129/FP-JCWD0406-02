@@ -24,6 +24,8 @@ import { updateProduct } from '@/repositories/warehouse/product/updateProduck';
 import { NextFunction, Request, Response } from 'express';
 import { updateStockAction } from '@/actions/warehouse/stock/updateStockAction';
 import { deleteStockAction } from '@/actions/warehouse/stock/deleteStockAction';
+import { stockReportAction } from '@/actions/warehouse/stock/stockReport';
+import { getReqStockAction } from '@/actions/superAdmin/getReqStockAction';
 
 export class WarehouseController {
   async getProducts(req: Request, res: Response, next: NextFunction) {
@@ -339,6 +341,24 @@ export class WarehouseController {
       res.status(200).send(stock);
     } catch (error) {
       throw error;
+    }
+  }
+
+  async stockReport(req: Request, res: Response, next: NextFunction) {
+    try {
+      const stock = await stockReportAction();
+      res.status(200).send(stock);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getReqStock(req: Request, res: Response, next: NextFunction) {
+    try {
+      const stock = await getReqStockAction();
+      res.status(200).send(stock);
+    } catch (error) {
+      next(error);
     }
   }
 }

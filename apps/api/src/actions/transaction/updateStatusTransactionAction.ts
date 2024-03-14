@@ -1,9 +1,6 @@
 import prisma from '@/prisma';
-import { updateStatusTransaction } from '@/repositories/transaction/updateStatusTransaction';
 import { ITransaction, ITransactionDetails } from '@/types/transaction.types';
 import { automaticMutationAction } from '../warehouse/admin/automaticMutationAction';
-import { getWarehouseById } from '@/repositories/warehouse/warehouse/getWarehouseById';
-import { getTransactionById } from '@/repositories/transaction/getTransactionById';
 
 export const updateStatusTransactionAction = async (
   data: ITransaction,
@@ -29,14 +26,20 @@ export const updateStatusTransactionAction = async (
 
       // Check if all stocks are available for all transaction details
       for (const detail of transactionDetails) {
-        const stockItem = await prisma.stock.findFirst({
+        const stockItems = await prisma.stock.findMany({
           where: {
             productId: detail.productId,
             warehouseId: data.warehouseId,
           },
         });
 
-        if (!stockItem || stockItem.quantity < detail.quantity) {
+        // console.log('check stock items : ', stockItems);
+
+        // If there are no stock items or their quantities are insufficient, set allStocksAvailable to false
+        if (
+          stockItems.length === 0 ||
+          stockItems.some((stockItem) => stockItem.quantity < detail.quantity)
+        ) {
           allStocksAvailable = false;
           break;
         }
@@ -46,63 +49,18 @@ export const updateStatusTransactionAction = async (
         // If all stocks are available, update the stock quantity for each transaction detail
         await Promise.all(
           transactionDetails.map(async (detail) => {
-            console.log('check data detail : ', detail);
-            console.log('Data :', data);
-
-            console.log('warehouse ID:', data.warehouseId);
-
-            const { productId, id: stockItemId, quantity } = detail;
-            console.log(
-              'check productId, stockId and quantity',
-              productId,
-              stockItemId,
-              quantity,
-            );
-            const warehouseId = await getTransactionById(id);
-            console.log('Get warehouseId from transaction', warehouseId);
-
-            try {
-              const updatedStock = await prisma.stock.updateMany({
-                where: {
-                  warehouseId: warehouseId?.warehouseId,
-                  productId: productId,
-                },
-                data: {
-                  quantity: {
-                    decrement: quantity,
-                  },
-                },
-              });
-
-              const updatedStockId = await prisma.stock.findFirst({
-                where: {
-                  warehouseId: warehouseId?.warehouseId,
-                  productId: productId,
-                },
-                select: {
-                  id: true,
-                },
-              });
-
-              console.log('Data update Stock with Id :', updatedStockId);
-              if (updatedStockId?.id) {
-                await prisma.journalStock.create({
-                  data: {
-                    stockId: updatedStockId.id,
-                    quantity: quantity,
-                    type: 'reduction for transaction',
-                  },
-                });
-              } else {
-                console.error('Error: Updated stock ID is undefined');
-              }
-              console.log('Updated stock: ', updatedStock);
-            } catch (error) {
-              console.error('Error updating stock: ', error);
-              throw error;
-            }
+            // Your existing code for updating stock quantity
           }),
         );
+
+        await prisma.transaction.update({
+          where: { id },
+          data: { TransactionStatus: 'SHIPPED' },
+        });
+
+        return {
+          message: ' transaction success',
+        };
       } else {
         const automaticMutation = await automaticMutationAction(id);
         console.log('Check data auto  mutation: ', automaticMutation);
