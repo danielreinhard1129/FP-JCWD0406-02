@@ -1,7 +1,10 @@
-import React from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
 import AdminSidebar from '../../components/SidebarDashboard';
 import OrderManagement from './components/OrderManagement';
 import OrderCard from './components/OrderCard';
+import axios from 'axios';
+import { baseUrl } from '@/app/utils/database';
 
 interface ProductDetails {
   productImage: string;
@@ -47,12 +50,27 @@ const orderDetails: OrderDetails = {
 const paymentPhotoUrl = '/default-avatar.png';
 
 const NotificationSuperAdmin = () => {
+  const [orderList, setOrderList] = useState();
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/transactions/order-list`);
+      setOrderList(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <div className="flex h-screen gap-4 mx-auto max-w-7xl mt-8">
       <AdminSidebar />
       <div className="w-full space-y-10">
         <OrderManagement />
-        <OrderCard order={orderDetails} paymentPhoto={paymentPhotoUrl} />
+        {/* {orderList?.map((data: any) => <OrderCard order={data} />)} */}
+        <OrderCard order={orderList} />
         <div>KONTEN DISINI</div>
       </div>
     </div>

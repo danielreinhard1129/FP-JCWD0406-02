@@ -1,7 +1,10 @@
-import React from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
 import AdminSidebar from '../../components/SidebarDashboard';
 import HeaderNotificationSuperAdmin from './components/HeaderNotificationSuperAdmin';
 import ReqStockCard from './components/ReqStockCard';
+import axios from 'axios';
+import { baseUrl } from '@/app/utils/database';
 
 interface IWarehouse {
   id: number;
@@ -25,31 +28,30 @@ interface IReqStock {
   status: string; // Assuming Status is a string enum or similar
 }
 
-const sampleReqStock: IReqStock = {
-  id: 1,
-  warehouse: {
-    id: 1,
-    name: 'Main Warehouse',
-    // Other fields can be added here
-  },
-  product: {
-    id: 1,
-    name: 'Infinix SMART 6 Plus',
-    // Other fields can be added here
-  },
-  quantity: 15,
-  createdAt: '2024-03-14T08:00:00Z',
-  updatedAt: '2024-03-14T09:00:00Z',
-  status: 'PENDING',
-};
-
 const NotificationSuperAdmin = () => {
+  const [requestStock, setRequestStock] = useState();
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/warehouses/req-stock`);
+      setRequestStock(response.data.data);
+      console.log('check fetch', response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const data = requestStock;
+  console.log('data', data);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
-    <div className="flex h-screen gap-4 mx-auto max-w-7xl mt-8">
+    <div className="flex gap-4 mx-auto max-w-7xl mt-8">
       <AdminSidebar />
       <div className="w-full space-y-10">
         <HeaderNotificationSuperAdmin />
-        <ReqStockCard reqStock={sampleReqStock} />
+        {data?.map((data: any) => <ReqStockCard reqStock={data} />)}
         <div>KONTEN DISINI</div>
       </div>
     </div>

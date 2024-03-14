@@ -1,11 +1,11 @@
-import { addToCartAction } from '@/actions/transaction/createAddToCart';
-import { getUserCartAction } from '@/actions/transaction/getUserCartAction';
 import { closestWarehouseToTheUser } from '@/actions/transaction/closestWarehouseToTheUser';
 import { addToCartAction } from '@/actions/transaction/createAddToCart';
 import { createTransactionAction } from '@/actions/transaction/createTransactionAction';
 import { findTransactionAndDetailsByIdAction } from '@/actions/transaction/findTransactionAndDetailByIdAction';
 import { getTransactionByUuidAction } from '@/actions/transaction/getTransactionByUuidAction';
+import { getTransactionByWarehouseIdAction } from '@/actions/transaction/getTransactionByWarehouseIdAction';
 import { getUserCartAction } from '@/actions/transaction/getUserCartAction';
+import { getWaitingForConfirmationTransactionAction } from '@/actions/transaction/getWaitingForConfirmationTransactionAction.ts';
 import { updateStatusTransactionAction } from '@/actions/transaction/updateStatusTransactionAction';
 import prisma from '@/prisma';
 import { getTransactionById } from '@/repositories/transaction/getTransactionById';
@@ -125,6 +125,32 @@ export class TransactionController {
       const { uuid } = req.params;
 
       const transaction = await getTransactionByUuidAction(uuid);
+      res.status(200).send(transaction);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getTransactionByWarehouseId(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const { id } = req.params;
+      const transaction = await getTransactionByWarehouseIdAction(Number(id));
+      res.status(200).send(transaction);
+    } catch (error) {
+      next(error);
+    }
+  }
+  async getWaitingForConfirmationTransaction(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const transaction = await getWaitingForConfirmationTransactionAction();
       res.status(200).send(transaction);
     } catch (error) {
       next(error);
