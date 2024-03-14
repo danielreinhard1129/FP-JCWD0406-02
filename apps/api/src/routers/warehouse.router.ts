@@ -90,6 +90,8 @@ export class WarehouseRouter {
       '/delete-stock/:id',
       this.warehouseController.deleteStock,
     );
+    this.router.get('/stock-report', this.warehouseController.stockReport);
+    this.router.get('/req-stock', this.warehouseController.getReqStock);
   }
 
   getRouter(): Router {

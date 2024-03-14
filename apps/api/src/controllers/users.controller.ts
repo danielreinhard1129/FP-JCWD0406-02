@@ -298,17 +298,17 @@ export class UserController {
       const { id } = req.params;
       const userId = parseInt(id);
 
-      if (
-        !file ||
-        !['.jpg', '.jpeg', '.png', '.gif'].includes(file?.mimetype) ||
-        file.size > 1024 * 1024
-      ) {
-        return res
-          .status(400)
-          .send(
-            'Invalid file. Please upload a file with .jpg, .jpeg, .png, or .gif extension, and maximum size of 1MB.',
-          );
-      }
+      // if (
+      //   !file ||
+      //   !['.jpg', '.jpeg', '.png', '.gif'].includes(file?.mimetype) ||
+      //   file.size > 1024 * 1024
+      // ) {
+      //   return res
+      //     .status(400)
+      //     .send(
+      //       'Invalid file. Please upload a file with .jpg, .jpeg, .png, or .gif extension, and maximum size of 1MB.',
+      //     );
+      // }
 
       const userData = await getUserByIdAction(Number(id));
 

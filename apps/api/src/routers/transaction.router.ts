@@ -40,6 +40,10 @@ export class TransactionRouter {
       uploader('IMG', '/payment-proof').single('file'),
       this.transactionController.uploadPaymentProof,
     );
+    this.router.get(
+      '/details/:uuid',
+      this.transactionController.getTransactionByUuid,
+    );
   }
 
   getRouter(): Router {

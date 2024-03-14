@@ -194,12 +194,13 @@ model ReqStock {
 }
 
 model JournalStock {
-  id        Int      @id @default(autoincrement())
-  stockId   Int
-  quantity  Int
-  type      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            Int      @id @default(autoincrement())
+  stockId       Int
+  quantity      Int
+  type          String
+  totalQuantity Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   Stock Stock @relation(fields: [stockId], references: [id])
 }
@@ -240,10 +241,11 @@ model TransactionDetails {
 }
 
 enum Status {
+  INPROGRESS
   PENDING
   CANCELLED
   CONFIRM
-  INPROGRESS
+  SUCCESS
 }
 
 enum TransactionStatus {

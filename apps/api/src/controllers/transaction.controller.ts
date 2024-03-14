@@ -1,8 +1,11 @@
 import { addToCartAction } from '@/actions/transaction/createAddToCart';
 import { getUserCartAction } from '@/actions/transaction/getUserCartAction';
 import { closestWarehouseToTheUser } from '@/actions/transaction/closestWarehouseToTheUser';
+import { addToCartAction } from '@/actions/transaction/createAddToCart';
 import { createTransactionAction } from '@/actions/transaction/createTransactionAction';
 import { findTransactionAndDetailsByIdAction } from '@/actions/transaction/findTransactionAndDetailByIdAction';
+import { getTransactionByUuidAction } from '@/actions/transaction/getTransactionByUuidAction';
+import { getUserCartAction } from '@/actions/transaction/getUserCartAction';
 import { updateStatusTransactionAction } from '@/actions/transaction/updateStatusTransactionAction';
 import prisma from '@/prisma';
 import { getTransactionById } from '@/repositories/transaction/getTransactionById';
@@ -112,6 +115,17 @@ export class TransactionController {
         data: { TransactionStatus: 'WAITING_PAYMENT_CONFIRMATION' },
       });
       res.status(200).send('Upload Payment success');
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getTransactionByUuid(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { uuid } = req.params;
+
+      const transaction = await getTransactionByUuidAction(uuid);
+      res.status(200).send(transaction);
     } catch (error) {
       next(error);
     }
