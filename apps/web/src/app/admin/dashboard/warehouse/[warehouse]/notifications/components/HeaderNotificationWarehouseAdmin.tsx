@@ -6,6 +6,7 @@ const HeaderNotificationWarehouseAdmin: React.FC = () => {
       <h1 className="text-xl font-semibold text-gray-800">
         Notification Warehouse
       </h1>
+      <h1 className="text-xl font-semibold text-gray-800">Notification</h1>
     </div>
   );
 };

@@ -1,11 +1,9 @@
 import { addToCartAction } from '@/actions/transaction/createAddToCart';
 import { getUserCartAction } from '@/actions/transaction/getUserCartAction';
 import { closestWarehouseToTheUser } from '@/actions/transaction/closestWarehouseToTheUser';
-import { addToCartAction } from '@/actions/transaction/createAddToCart';
 import { createTransactionAction } from '@/actions/transaction/createTransactionAction';
 import { findTransactionAndDetailsByIdAction } from '@/actions/transaction/findTransactionAndDetailByIdAction';
 import { getTransactionByUuidAction } from '@/actions/transaction/getTransactionByUuidAction';
-import { getUserCartAction } from '@/actions/transaction/getUserCartAction';
 import { updateStatusTransactionAction } from '@/actions/transaction/updateStatusTransactionAction';
 import prisma from '@/prisma';
 import { getTransactionById } from '@/repositories/transaction/getTransactionById';

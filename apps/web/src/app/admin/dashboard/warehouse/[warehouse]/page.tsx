@@ -55,6 +55,8 @@ const WarehouseDetail = () => {
         `${baseUrl}/warehouses/branch/${params.warehouse}`,
       );
 
+      console.log('responseeeeeeee', response);
+
       const warehouse = response.data.data;
       const stocks = warehouse.stocks;
 

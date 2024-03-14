@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import React, { useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import { FaChevronDown, FaChevronRight } from 'react-icons/fa6';
@@ -185,12 +186,6 @@ const AdminSidebar: React.FC = () => {
                   className="cursor-pointer hover:text-teal-600"
                 >
                   Warehouse Management
-                </Link>
-                <Link
-                  href="/admin/dashboard/warehouse/notification"
-                  className="cursor-pointer hover:text-teal-600"
-                >
-                  Notification
                 </Link>
               </ul>
             )}
