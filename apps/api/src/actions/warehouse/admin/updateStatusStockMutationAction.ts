@@ -31,6 +31,7 @@ export const updateStatusStockMutationAction = async (
             },
           },
         });
+        console.log('detailsssss', detail);
 
         await prisma.stock.updateMany({
           where: {

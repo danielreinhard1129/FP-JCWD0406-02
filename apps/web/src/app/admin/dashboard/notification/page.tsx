@@ -51,7 +51,7 @@ const NotificationSuperAdmin = () => {
       <AdminSidebar />
       <div className="w-full space-y-10">
         <HeaderNotificationSuperAdmin />
-        {data?.map((data: any) => <ReqStockCard reqStock={data} />)}
+        {/* {data?.map((data: any) => <ReqStockCard reqStock={data} />)} */}
         <div>KONTEN DISINI</div>
       </div>
     </div>

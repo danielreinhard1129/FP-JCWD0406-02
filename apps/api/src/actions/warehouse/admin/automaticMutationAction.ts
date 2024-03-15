@@ -1,6 +1,7 @@
 import prisma from '@/prisma';
 import { findTransactionAndDetailsById } from '@/repositories/transaction/findTransactionAndDetailById';
 import { Status } from '@prisma/client';
+import { updateStatusStockMutationAction } from './updateStatusStockMutationAction';
 
 // Function to calculate the distance between two points based on latitude and longitude
 function calculateDistance(
@@ -110,6 +111,11 @@ export const automaticMutationAction = async (id: number) => {
                 item.quantity,
               );
             }),
+          );
+
+          await updateStatusStockMutationAction(
+            createdStockMutation.id,
+            createdStockMutation,
           );
         }
       }
