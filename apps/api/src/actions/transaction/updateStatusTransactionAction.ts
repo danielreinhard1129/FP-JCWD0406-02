@@ -1,4 +1,5 @@
 import prisma from '@/prisma';
+import { getTransactionById } from '@/repositories/transaction/getTransactionById';
 import { ITransaction, ITransactionDetails } from '@/types/transaction.types';
 import { automaticMutationAction } from '../warehouse/admin/automaticMutationAction';
 
@@ -26,14 +27,17 @@ export const updateStatusTransactionAction = async (
 
       // Check if all stocks are available for all transaction details
       for (const detail of transactionDetails) {
+        const transactionData = await getTransactionById(id);
+        console.log('warehouseeiddd', transactionData?.warehouseId);
+
         const stockItems = await prisma.stock.findMany({
           where: {
             productId: detail.productId,
-            warehouseId: data.warehouseId,
+            warehouseId: transactionData?.warehouseId,
           },
         });
 
-        // console.log('check stock items : ', stockItems);
+        console.log('check stock items : ', stockItems);
 
         // If there are no stock items or their quantities are insufficient, set allStocksAvailable to false
         if (
@@ -49,6 +53,38 @@ export const updateStatusTransactionAction = async (
         // If all stocks are available, update the stock quantity for each transaction detail
         await Promise.all(
           transactionDetails.map(async (detail) => {
+            const transactiondata = await getTransactionById(
+              detail.transactionId,
+            );
+            console.log('checkk detaill', detail);
+            const stockItems = await prisma.stock.findMany({
+              where: {
+                productId: detail.productId,
+                warehouseId: transactiondata?.warehouseId, // Ensure this is `data.warehouseId` not `id`
+              },
+            });
+            console.log('cheeckkk stockk', stockItems);
+
+            await Promise.all(
+              stockItems.map(async (item) => {
+                const newQuantity = item.quantity - detail.quantity; // Decrement the stock quantity
+                if (newQuantity < 0) {
+                  console.error(
+                    'Attempting to set a negative stock quantity, which should not happen if all stocks are available.',
+                  );
+                  throw new Error('Stock quantity calculation error.');
+                }
+                return prisma.stock.update({
+                  where: {
+                    id: item.id,
+                  },
+                  data: {
+                    quantity: newQuantity,
+                  },
+                });
+              }),
+            );
+            // console.log('check update', update);
             // Your existing code for updating stock quantity
           }),
         );

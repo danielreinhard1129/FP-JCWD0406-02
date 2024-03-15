@@ -24,6 +24,7 @@ interface WarehouseSelectProps {
 const WarehouseSelect: React.FC<WarehouseSelectProps> = ({ onChange }) => {
   const [warehouses, setWarehouses] = useState<IWarehouse[]>([]);
   const [selectedWarehouseId, setSelectedWarehouseId] = useState('');
+  // console.log(selectedWarehouseId);
 
   const fetchWarehouses = async () => {
     try {
@@ -57,7 +58,7 @@ const WarehouseSelect: React.FC<WarehouseSelectProps> = ({ onChange }) => {
       value={selectedWarehouseId}
       onChange={handleWarehouseChange}
       required
-      className="form-control"
+      className="w-full p-3 border border-gray-300 rounded-xl text-gray-700 focus:ring-teal-500 focus:border-teal-500 transition duration-150 ease-in-out"
     >
       <option value="">Select Warehouse</option>
       {warehouses.map((warehouse) => (

@@ -11,6 +11,7 @@ import {
   FiUsers,
   FiBell,
 } from 'react-icons/fi';
+import { BiTransferAlt } from 'react-icons/bi';
 import { LuWarehouse } from 'react-icons/lu';
 import { useSelector } from 'react-redux';
 
@@ -39,7 +40,7 @@ const AdminSidebar: React.FC = () => {
   const toggleSidebar = () => {
     setIsSidebarExpanded(!isSidebarExpanded);
   };
-  console.log('ini data user', user);
+  // console.log('ini data user', user);
 
   return (
     <div className="w-60 h-screen bg-white text-gray-800 flex flex-col shadow">
@@ -82,6 +83,17 @@ const AdminSidebar: React.FC = () => {
               Orders
             </span>
           </Link>
+          <div className="inline">
+            <Link
+              href="/admin/dashboard/stock-mutation"
+              className="flex items-center cursor-pointer"
+            >
+              <BiTransferAlt className="mr-2 size-5" />
+              <label className="font-semibold hover:text-teal-600 size-6">
+                Stock
+              </label>
+            </Link>
+          </div>
           {user.roleId === 1 ? (
             <li>
               <div
