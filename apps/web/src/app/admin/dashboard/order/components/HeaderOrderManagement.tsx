@@ -1,6 +1,6 @@
 import React from 'react';
 
-const OrderManagement: React.FC = () => {
+const HeaderOrderManagement: React.FC = () => {
   return (
     <div className="flex justify-between items-center bg-white px-4 py-2 border-b">
       <h1 className="text-xl font-semibold text-gray-800">Order Management</h1>
@@ -8,4 +8,4 @@ const OrderManagement: React.FC = () => {
   );
 };
 
-export default OrderManagement;
+export default HeaderOrderManagement;

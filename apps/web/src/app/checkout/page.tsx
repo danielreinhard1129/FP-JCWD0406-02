@@ -70,8 +70,8 @@ const CheckoutPage = () => {
   const [weight, setWeight] = useState<number>(0);
 
   const [shippingCost, setShippingCost] = useState<number>(0);
-  console.log('ini warehouse close', closestWarehouse);
-
+  // console.log('ini warehouse close', closestWarehouse);
+  const router = useRouter();
   const totalProductPrice = cartItems.reduce(
     (total, item) => total + item.Product.price * item.quantity,
     0,
@@ -206,7 +206,11 @@ const CheckoutPage = () => {
 
       console.log('Transaction created successfully', response.data);
       toast.success('Transaction has been created successfully.');
-      // useRouter.push(`/waiting-payment/${response.data.uuid}`);
+      // console.log('uuid', response.data.data.uuid);
+
+      router.push(
+        `/transaction/waiting-for-payment/${response.data.data.uuid}`,
+      );
     } catch (error) {
       if (error instanceof AxiosError) {
         const errorMsg = error.response?.data || error.message;
@@ -302,7 +306,7 @@ const CheckoutPage = () => {
               className="text-white bg-teal-500 hover:bg-teal-600 w-full py-3 rounded"
               onClick={handleCreateTransaction}
             >
-              Choose Payment
+              Checkout
             </button>
           </div>
         </div>

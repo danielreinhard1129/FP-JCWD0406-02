@@ -31,10 +31,10 @@ const StockCreationModal: React.FC<StockCreationModalProps> = ({
     };
     try {
       await axios.post(`${baseUrl}/warehouses/create-stock`, payload);
-      onStockCreated();
+      toast.success('Success Added Stock');
       onClose();
       onSuccess();
-      toast.success('Success Added Stock');
+      onStockCreated();
     } catch (error) {
       if (error instanceof AxiosError) {
         const errorMsg = error.response?.data || error.message;
