@@ -70,7 +70,7 @@ const NotificationSuperAdmin = () => {
       <div className="w-full space-y-10">
         <OrderManagement />
         {/* {orderList?.map((data: any) => <OrderCard order={data} />)} */}
-        <OrderCard order={orderList} />
+        {/* <OrderCard order={orderList} /> */}
         <div>KONTEN DISINI</div>
       </div>
     </div>
