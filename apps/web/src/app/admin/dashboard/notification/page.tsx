@@ -6,16 +6,15 @@ import ReqStockCard from './components/ReqStockCard';
 import axios from 'axios';
 import { baseUrl } from '@/app/utils/database';
 
+// These interfaces should ideally be moved to a separate types.ts file
 interface IWarehouse {
   id: number;
   name: string;
-  // ... other warehouse fields
 }
 
 interface IProduct {
   id: number;
   name: string;
-  // ... other product fields
 }
 
 interface IReqStock {
@@ -25,34 +24,35 @@ interface IReqStock {
   quantity: number;
   createdAt: string;
   updatedAt: string;
-  status: string; // Assuming Status is a string enum or similar
+  status: 'PENDING' | 'APPROVED' | 'DENIED';
 }
 
 const NotificationSuperAdmin = () => {
-  const [requestStock, setRequestStock] = useState();
+  const [requestStock, setRequestStock] = useState<IReqStock[]>([]);
 
   const fetchData = async () => {
     try {
       const response = await axios.get(`${baseUrl}/warehouses/req-stock`);
-      setRequestStock(response.data.data);
-      console.log('check fetch', response.data.data);
+      if (response.data?.data) {
+        setRequestStock(response.data.data as IReqStock[]);
+      }
     } catch (error) {
-      console.log(error);
+      console.error('Error fetching request stock:', error);
     }
   };
-  const data = requestStock;
-  console.log('data', data);
 
   useEffect(() => {
     fetchData();
   }, []);
+
   return (
     <div className="flex gap-4 mx-auto max-w-7xl mt-8">
       <AdminSidebar />
-      <div className="w-full space-y-10">
+      <div className="w-full space-y-2">
         <HeaderNotificationSuperAdmin />
-        {/* {data?.map((data: any) => <ReqStockCard reqStock={data} />)} */}
-        <div>KONTEN DISINI</div>
+        {requestStock.map((reqStock) => (
+          <ReqStockCard key={reqStock.id} reqStock={reqStock} />
+        ))}
       </div>
     </div>
   );

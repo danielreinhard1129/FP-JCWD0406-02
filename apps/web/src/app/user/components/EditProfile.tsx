@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { toast } from 'sonner'; // Assuming 'sonner' is your project-specific way to handle notifications
 import { baseUrl } from '@/app/utils/database';
+import { FaEdit } from 'react-icons/fa';
 
 interface IUser {
   id: number;
@@ -65,13 +66,13 @@ const EditProfileComp: React.FC<EditProfileProps> = ({ user, onSuccess }) => {
   return (
     <>
       <button
-        className="bg-[#f1eed8] hover:bg-[#b0cac1] self-center text-teal text-xs font-medium py-2 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-opacity-50"
+        className="bg-amber-100 hover:bg-[#b0cac1] self-center text-teal text-sm font-medium py-2 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-opacity-50 flex items-center justify-center"
         onClick={() => setIsModalOpen(true)}
       >
-        Edit Profile
+        <FaEdit />
       </button>
       {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center">
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
           <div className="bg-white rounded-lg p-8">
             <h2 className="text-lg font-semibold mb-4">Edit Profile</h2>
             <form onSubmit={formik.handleSubmit} className="space-y-4">

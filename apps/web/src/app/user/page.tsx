@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { baseUrl } from '../utils/database';
 import isAuth from '@/components/isAuth';
+import HeaderProfile from './components/HeaderProfile';
 
 export interface IUser {
   user: any;
@@ -48,11 +49,16 @@ const ProfilePage: React.FC = () => {
   };
 
   return (
-    <div className="md:flex h-screen max-w-7xl mx-auto px-8 lg:px-0">
-      <Sidebar data={userData} />
-      {userData && (
-        <ProfilePageComp data={userData} onSuccess={refreshProfile} />
-      )}
+    <div className="min-h-screen flex max-w-7xl flex-col lg:flex-row gap-4 mx-auto px-4 lg:px-8 mt-8">
+      <div className="w-full lg:w-1/4 xl:w-1/5">
+        <Sidebar data={userData} />
+      </div>
+      <div className="flex-1 space-y-4">
+        <HeaderProfile />
+        {userData && (
+          <ProfilePageComp data={userData} onSuccess={refreshProfile} />
+        )}
+      </div>
     </div>
   );
 };

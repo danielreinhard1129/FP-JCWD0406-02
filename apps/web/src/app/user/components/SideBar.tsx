@@ -16,7 +16,11 @@ const Sidebar = (data: any) => {
         {/* Profile icon */}
         <div className="bg-teal-500 rounded-full overflow-hidden w-44 h-44 mb-3">
           <Image
-            src={`${baseUrll}/photo-profile/${dataUser?.profile_picture}`}
+            src={
+              dataUser?.profile_picture
+                ? `${baseUrll}/photo-profile/${dataUser.profile_picture}`
+                : '/default_avatar.png'
+            }
             alt="Profile Picture"
             width={200}
             height={200}

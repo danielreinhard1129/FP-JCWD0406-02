@@ -39,7 +39,7 @@ const CardAllProductWarehouse: React.FC<CardProductManagementProps> = ({
   warehouseId,
   allStock,
 }) => {
-  console.log('this is data stock : ', allStock);
+  // console.log('this is data stock : ', allStock);
 
   const [openDropdowns, setOpenDropdowns] = useState<number[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -96,7 +96,7 @@ const CardAllProductWarehouse: React.FC<CardProductManagementProps> = ({
             if (!stockQuantity) {
               stockQuantity = 0;
             }
-            console.log('stock', stockItem);
+            // console.log('stock', stockItem);
 
             return (
               <div

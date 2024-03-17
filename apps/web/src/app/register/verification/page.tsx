@@ -1,7 +1,30 @@
+'use client';
+import { baseUrl } from '@/app/utils/database';
+import axios from 'axios';
 import Link from 'next/link';
-import React from 'react';
+import { useSearchParams } from 'next/navigation';
+import React, { useState } from 'react';
 
 const Verification = () => {
+  const [verification, setVerification] = useState(false);
+  const searchToken = useSearchParams();
+  const token = searchToken.get('token');
+  // console.log(token);
+
+  const verifAccount = async () => {
+    try {
+      const isVerified = true;
+      const response = await axios.patch(
+        `${baseUrl}/users/user-verification`,
+        { isVerified },
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      console.log('check reponse', response);
+      setVerification(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="max-w-7xl mx-auto">
       <div className="relative h-fit md:h-screen">
@@ -24,6 +47,7 @@ const Verification = () => {
             <div className="my-4">
               <button
                 type="submit"
+                onClick={verifAccount}
                 className="w-full bg-teal-600 text-white font-normal text-sm py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline"
               >
                 Verify

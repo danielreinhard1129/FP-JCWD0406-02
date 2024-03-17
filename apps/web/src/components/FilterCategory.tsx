@@ -21,22 +21,10 @@ const FilterCategory = () => {
       imageSrc: '/artCategory/electrical.webp',
     },
     {
-      id: 4,
-      name: 'Curtain',
-      href: '#',
-      imageSrc: '/artCategory/curtain.webp',
-    },
-    {
       id: 5,
       name: 'Home & Living',
       href: '#',
       imageSrc: 'artCategory/homeliving.webp',
-    },
-    {
-      id: 6,
-      name: 'Pet Series',
-      href: '#',
-      imageSrc: 'artCategory/pet.webp',
     },
   ];
   return (
@@ -45,7 +33,7 @@ const FilterCategory = () => {
         <h2 className="text-lg font-bold tracking-tight text-gray-900">
           POPULAR CATEGORY
         </h2>
-        <div className="mt-4 grid grid-cols-3 gap-x-4 gap-y-4 lg:grid-cols-3 xl:gap-x-6">
+        <div className="mt-4 grid grid-cols-2 gap-x-4 gap-y-4 lg:grid-cols-4 xl:gap-x-6">
           {categories.map((category) => (
             <div key={category.id} className="group relative">
               <div className=" rounded-md overflow-hidden">
