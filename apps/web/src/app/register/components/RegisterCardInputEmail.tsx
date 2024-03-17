@@ -14,7 +14,7 @@ const validationSchema = yup.object().shape({
   email: yup
     .string()
     .email('Invalid email address')
-    .required('Username cannot be empty'),
+    .required('Email cannot be empty'),
 });
 
 const RegisterCardInputEmail = () => {
@@ -139,7 +139,7 @@ const RegisterCardInputEmail = () => {
               Terms of Services
             </Link>{' '}
             and{' '}
-            <Link href="/tnc" className="text-blue-500 hover:underline">
+            <Link href="/tos" className="text-blue-500 hover:underline">
               Privacy Policy
             </Link>
             .

@@ -49,7 +49,7 @@ const AdminIdentityCard: React.FC<AdminIdentityCardProps> = ({
     <div>
       {admin ? (
         <div
-          className="relative flex items-center h-40 bg-white shadow-lg rounded-xl pr-4"
+          className="relative flex items-center cursor-pointer h-40 bg-white shadow-lg rounded-xl pr-4"
           onClick={openModal}
         >
           <div className="relative w-40 h-40 overflow-hidden rounded-l-xl">
@@ -57,7 +57,7 @@ const AdminIdentityCard: React.FC<AdminIdentityCardProps> = ({
               src={
                 admin?.profile_picture
                   ? `${baseUrll}/photo-profile/${admin.profile_picture}`
-                  : '/avatar.webp'
+                  : '/default-avatar.png'
               }
               alt="Admin"
               layout="fill"

@@ -11,9 +11,9 @@ import { UserAuth } from '@/app/utils/context/authContext';
 YupPassword(yup);
 
 const validationSchema = yup.object().shape({
-  first_name: yup.string().required('First name is required'),
-  last_name: yup.string().required('Last name is required'),
-  contact: yup.number().required('Username is required'),
+  first_name: yup.string().required('First Name is required'),
+  last_name: yup.string().required('Last Name is required'),
+  contact: yup.number().required('Contact is required'),
   username: yup.string().required('username cannot be empty'),
   password: yup.string().required('Password cannot be empty').min(6),
   confirmPassword: yup
@@ -34,7 +34,6 @@ const RegisterCard = () => {
       console.log(error);
     }
   };
-  console.log(userGoogle);
 
   const formik = useFormik({
     initialValues: {
@@ -45,6 +44,7 @@ const RegisterCard = () => {
       password: '',
       confirmPassword: '',
     },
+
     validationSchema,
     onSubmit: async (values) => {
       try {
@@ -107,7 +107,6 @@ const RegisterCard = () => {
               >
                 First Name
               </label>
-
               <input
                 type="text"
                 id="firstname"
@@ -130,7 +129,6 @@ const RegisterCard = () => {
               >
                 Last Name
               </label>
-
               <input
                 type="text"
                 id="lastname"
@@ -153,7 +151,6 @@ const RegisterCard = () => {
               >
                 Username
               </label>
-
               <input
                 type="text"
                 id="username"
