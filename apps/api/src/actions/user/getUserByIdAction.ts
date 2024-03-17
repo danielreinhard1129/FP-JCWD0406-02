@@ -5,7 +5,7 @@ export const getUserByIdAction = async (id: number) => {
     const user = await getUserById(id);
 
     return {
-      message: 'data  retrieved successfully',
+      message: 'Data  retrieved successfully',
       data: user,
     };
   } catch (error) {

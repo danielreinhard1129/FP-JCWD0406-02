@@ -1,12 +1,14 @@
 // pages/cart.tsx
 'use client';
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaTrashCan } from 'react-icons/fa6';
 import { RootState } from '@/lib/store';
 import { useRouter } from 'next/navigation'; // Import useRouter
-import { baseUrll } from '@/app/utils/database';
+import { baseUrl, baseUrll } from '@/app/utils/database';
 import Image from 'next/image';
+import axios from 'axios';
+import { setCartItems } from '@/lib/features/cartSlice';
 
 export interface ProductPhoto {
   id: number;
@@ -27,6 +29,8 @@ interface CartItem {
 const CartPage: React.FC = () => {
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const router = useRouter(); // Initialize the router
+  const dispatch = useDispatch();
+  const [productQty, serProductQty] = useState();
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
@@ -37,15 +41,39 @@ const CartPage: React.FC = () => {
   };
   console.log('ini card di cart', cartItems);
 
-  const totalPrice = cartItems.reduce(
-    (total: number, item: CartItem) =>
-      total + item.Product.price * item.quantity,
-    0,
-  );
+  const updateQuantity = async (cartItemId: number, newQuantity: number) => {
+    console.log();
+
+    try {
+      const response = await axios.patch(
+        `${baseUrl}/transactions/update-quantity/${cartItemId}`,
+        { quantity: newQuantity },
+      );
+      dispatch(setCartItems(response.data.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleProceedToCheckout = () => {
     router.push('/checkout'); // Use the router to navigate to the checkout page
   };
+
+  const handleQuantityChange = (cartItemId: number, change: number) => {
+    const item = cartItems.find((item) => item.id === cartItemId);
+    if (item) {
+      const newQuantity = item.quantity + change;
+      if (newQuantity >= 1) {
+        updateQuantity(cartItemId, newQuantity);
+      }
+    }
+  };
+
+  const totalPrice = cartItems?.reduce(
+    (total: number, item: CartItem) =>
+      total + item.Product.price * item.quantity,
+    0,
+  );
 
   return (
     <div className="min-h-screen max-w-5xl mx-auto px-4">
@@ -86,7 +114,7 @@ const CartPage: React.FC = () => {
                     <div className="flex items-center gap-2 mt-4">
                       <button
                         className="px-2 text-sm border rounded text-[#008080] border-[#008080]"
-                        // onClick={() => handleQuantityChange(item.id, -1)}
+                        onClick={() => handleQuantityChange(item.id, -1)}
                         disabled={item.quantity <= 1}
                       >
                         -
@@ -94,7 +122,7 @@ const CartPage: React.FC = () => {
                       <span className="text-sm">{item.quantity}</span>
                       <button
                         className="px-2 text-sm border rounded text-[#008080] border-[#008080]"
-                        // onClick={() => handleQuantityChange(item.id, 1)}
+                        onClick={() => handleQuantityChange(item.id, 1)}
                       >
                         +
                       </button>

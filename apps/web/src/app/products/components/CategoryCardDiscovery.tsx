@@ -11,12 +11,14 @@ interface CategorySelectorProps {
   categories: ICategory[];
   selectedCategory: string; // Selected category ID as a string
   setSelectedCategory: (categoryId: string) => void;
+  setCategory: (category: string) => void;
 }
 
 const CategorySelector: React.FC<CategorySelectorProps> = ({
   categories,
   selectedCategory,
   setSelectedCategory,
+  setCategory,
 }) => {
   return (
     <aside className="col-span-1 bg-white shadow-sm rounded-lg p-4 h-fit sticky top-32 left-10">
@@ -47,6 +49,9 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
               className="form-checkbox rounded text-red-500 h-5 w-5"
               checked={selectedCategory === category.id.toString()}
               onChange={() => setSelectedCategory(category.id.toString())}
+              // onChange={() => setCategory(category.category_name)}
+
+              //diatas itu code untuk handle onChange
             />
             <label
               htmlFor={`category-${category.id}`}

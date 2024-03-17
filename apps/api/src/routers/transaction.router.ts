@@ -31,6 +31,10 @@ export class TransactionRouter {
       this.transactionController.createTransaction,
     );
     this.router.patch(
+      '/update-quantity/:id',
+      this.transactionController.updateQuantityCart,
+    );
+    this.router.patch(
       '/update-status/:id',
       this.transactionController.updateStatusTransaction,
     );

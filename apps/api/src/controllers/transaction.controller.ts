@@ -6,6 +6,7 @@ import { getTransactionByUuidAction } from '@/actions/transaction/getTransaction
 import { getTransactionByWarehouseIdAction } from '@/actions/transaction/getTransactionByWarehouseIdAction';
 import { getUserCartAction } from '@/actions/transaction/getUserCartAction';
 import { getWaitingForConfirmationTransactionAction } from '@/actions/transaction/getWaitingForConfirmationTransactionAction.ts';
+import { updateQuantityCartAction } from '@/actions/transaction/updateQuantityCartAction.ts';
 import { updateStatusTransactionAction } from '@/actions/transaction/updateStatusTransactionAction';
 import prisma from '@/prisma';
 import { getTransactionById } from '@/repositories/transaction/getTransactionById';
@@ -32,6 +33,17 @@ export class TransactionController {
       const { userId, productId, quantity } = req.body;
       const result = await addToCartAction({ userId, productId, quantity });
       res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updateQuantityCart(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const data = req.body;
+      const cart = await updateQuantityCartAction(Number(id), data);
+      res.status(200).send(cart);
     } catch (error) {
       next(error);
     }

@@ -92,6 +92,11 @@ export class WarehouseRouter {
     );
     this.router.get('/stock-report', this.warehouseController.stockReport);
     this.router.get('/req-stock', this.warehouseController.getReqStock);
+    this.router.get('/catalog', this.warehouseController.catalogProduct);
+    this.router.get(
+      '/journal-stock-report',
+      this.warehouseController.journalStockReport,
+    );
   }
 
   getRouter(): Router {

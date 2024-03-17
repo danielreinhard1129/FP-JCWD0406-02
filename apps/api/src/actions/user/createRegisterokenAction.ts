@@ -1,40 +1,40 @@
-import { createToken } from '@/lib/jwt';
+import { createTokenRegister } from '@/lib/jwt';
 import { transporter } from '@/lib/nodemailer';
-import { getUserByEmail } from '@/repositories/user/getUserByEmail';
 import path from 'path';
 import fs from 'fs/promises';
 import Handlebars from 'handlebars';
+import { getUserByEmail } from '@/repositories/user/getUserByEmail';
 
-export const forgotPasswordAction = async (email: string) => {
+export const createRegisterTokenAction = async (email: string) => {
   try {
+    const user = await getUserByEmail(email);
+    if (email == user?.email) throw new Error(`email ${email} already exist`);
+
+    const token = await createTokenRegister(email);
+
     const templatePath = path.join(
       __dirname,
       '../../templates',
-      'tempEmail.hbs',
+      'tempEmailVerif.hbs',
     );
     const templateSource = await fs.readFile(templatePath, 'utf-8');
 
     const compileTemplate = Handlebars.compile(templateSource);
 
-    const user = await getUserByEmail(email);
-
-    if (!user) throw new Error('Account not found');
-
-    const token = createToken({ email: user.email });
-
     const baseUrl = 'http://localhost:3000';
-    const link = baseUrl + `/reset-password?token=${token}`;
+    const link = `${baseUrl}/register/verification?token=${token}`;
     const html = compileTemplate({ link });
 
     await transporter.sendMail({
-      from: 'SmartBordilHome',
+      from: 'smartbordlhouse@gmail.com',
       to: email,
-      subject: 'Smart Home Bordl',
+      subject: 'Smart Bord House - Verify your account',
+
       html,
     });
 
     return {
-      message: 'Send Email Success',
+      message: 'check your email to sign up',
       token: token,
     };
   } catch (error) {
