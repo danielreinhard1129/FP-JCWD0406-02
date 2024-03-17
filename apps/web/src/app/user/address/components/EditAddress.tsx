@@ -77,7 +77,7 @@ const EditAddressComp: React.FC<EditAddressProps> = ({
   return (
     <>
       <button
-        className="bg-transparent hover:bg-teal-700 text-teal-600 font-normal text-xs hover:text-white py-1 px-4 border hover:border-transparent rounded-lg"
+        className="bg-transparent w-full hover:bg-teal-700 text-gray-400 font-normal text-xs hover:text-white py-1 px-4  hover:border-transparent rounded-lg"
         onClick={() => setIsModalOpen(true)}
       >
         Edit
@@ -160,10 +160,10 @@ const EditAddressComp: React.FC<EditAddressProps> = ({
               </div>
               <div className="flex justify-end gap-3">
                 <button
-                  className="px-4 py-2 text-sm text-white bg-red-500 rounded-xl hover:bg-red-700"
+                  className="px-4 py-2 text-sm text-white bg-gray-300 rounded-xl hover:bg-red-700"
                   onClick={() => setIsModalOpen(false)}
                 >
-                  Later
+                  Cancel
                 </button>
                 <button
                   className="px-4 py-2 text-sm font-normal text-white bg-teal-600 rounded-xl hover:bg-teal-700"

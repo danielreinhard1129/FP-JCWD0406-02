@@ -20,38 +20,25 @@ interface IReqStock {
   status: 'PENDING' | 'APPROVED' | 'DENIED';
 }
 
-interface ReqStockCardProps {
-  reqStock: IReqStock;
-}
-
-const ReqStockCard: React.FC<ReqStockCardProps> = ({ reqStock }) => {
-  console.log('check parse', reqStock);
-
-  // Define a function or a mapping for human-readable status
-  const getStatusLabel = (status: 'PENDING' | 'APPROVED' | 'DENIED') => {
-    switch (status) {
-      case 'PENDING':
-        return 'Pending Approval';
-      case 'APPROVED':
-        return 'Approved';
-      case 'DENIED':
-        return 'Denied';
-      default:
-        return status;
-    }
+const ReqStockCard: React.FC<{ reqStock: IReqStock }> = ({ reqStock }) => {
+  // Utility function to convert status to readable format
+  const getStatusLabel = (
+    status: 'PENDING' | 'APPROVED' | 'DENIED',
+  ): string => {
+    const statusLabels: Record<typeof status, string> = {
+      PENDING: 'Pending Approval',
+      APPROVED: 'Approved',
+      DENIED: 'Denied',
+    };
+    return statusLabels[status] || status;
   };
 
   return (
-    <div className="bg-amber-50 rounded-lg shadow px-4 py-3 border-l-4 border-teal-500 space-y-2">
-      {/* Header indicating the nature of the card */}
-      <div className="mb-3">
-        <h2 className="text-md font-bold text-teal-700">Request Stock</h2>
-      </div>
-
+    <div className="bg-amber-50 rounded-lg shadow px-4 py-2 border-l-4 border-teal-500 space-y-2">
+      <h2 className="text-md font-bold text-teal-700">Request Stock</h2>
       <div className="flex justify-between items-center">
-        {/* <h3 className="text-base font-semibold">{reqStock.product.title}</h3> */}
         <span
-          className={`text-sm font-medium py-1 px-3 rounded-full ${
+          className={`text-xs font-medium px-3 rounded-full ${
             reqStock.status === 'APPROVED'
               ? 'bg-green-100 text-green-800'
               : reqStock.status === 'DENIED'
@@ -62,20 +49,19 @@ const ReqStockCard: React.FC<ReqStockCardProps> = ({ reqStock }) => {
           {getStatusLabel(reqStock.status)}
         </span>
       </div>
-
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-1">
         <p className="text-sm">
           Quantity: <span className="font-semibold">{reqStock.quantity}</span>
-        </p>
-        <p className="text-sm">
-          Warehouse:{' '}
-          <span className="font-semibold">{reqStock.warehouse.name}</span>
         </p>
         <p className="text-xs">
           Requested on:{' '}
           <span className="font-semibold">
             {new Date(reqStock.createdAt).toLocaleDateString()}
           </span>
+        </p>
+        <p className="text-sm">
+          Warehouse:{' '}
+          <span className="font-semibold">{reqStock.warehouse.name}</span>
         </p>
         <p className="text-xs">
           Last updated:{' '}

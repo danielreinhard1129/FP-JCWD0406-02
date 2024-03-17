@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import RegisterCard from './components/RegisterCard';
+import RegisterCardInputEmail from './components/RegisterCardInputEmail';
 
 const RegisterPage = () => {
   return (

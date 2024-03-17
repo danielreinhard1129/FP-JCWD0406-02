@@ -6,15 +6,18 @@ interface ProductWithQuantity {
   quantity: number;
 }
 
-const ProductSelectAndQuantity: React.FC = (
-  productId: number,
-  quantity: number,
-) => {
-  const [productsWithQuantities, setProductsWithQuantities] = useState<
-    ProductWithQuantity[]
-  >([{ productId: 0, quantity: 1 }]);
+interface ProductSelectAndQuantityProps {
+  productsWithQuantities: ProductWithQuantity[];
+  setProductsWithQuantities: React.Dispatch<
+    React.SetStateAction<ProductWithQuantity[]>
+  >;
+}
 
-  console.log('ini productquantity', productsWithQuantities);
+const ProductSelectAndQuantity: React.FC<ProductSelectAndQuantityProps> = ({
+  productsWithQuantities,
+  setProductsWithQuantities,
+}) => {
+  //   console.log('ini productquantity', productsWithQuantities);
 
   const handleProductChange = (index: number, productId: number) => {
     const newProducts = [...productsWithQuantities];
@@ -60,9 +63,9 @@ const ProductSelectAndQuantity: React.FC = (
       ))}
       <button
         onClick={addProductWithQuantity}
-        className="mt-2 bg-transparent text-xs text-teal-600 rounded"
+        className="mt-2 bg-transparent text-xs  text-teal-600 rounded"
       >
-        Add Another Product
+        Add Product
       </button>
     </div>
   );

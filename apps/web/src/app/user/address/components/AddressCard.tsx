@@ -44,65 +44,57 @@ const AddressCardComp: React.FC<AddressCardCompProps> = ({
   }
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full">
-      <div className="flex justify-between border-b-2 items-center w-full p-4 md:py-6">
-        <h2 className="text-2xl font-semibold">Address</h2>
-        <CreateUserAddress onSuccess={refreshAddresses} />
-      </div>
-      <div className="w-full flex-grow">
-        {addressData.length === 0 ? (
-          <div className="flex flex-col justify-center items-center h-full">
-            <Image
-              src="/address/address1.png"
-              alt="No Address"
-              width={400}
-              height={400}
-              objectFit="contain"
-              className="mb-4"
+    <div className="w-full flex-grow p-4">
+      {addressData.map((address) => (
+        <div
+          key={address.id}
+          className="bg-white p-4 my-2 flex flex-col md:flex-row justify-between items-start md:items-center rounded-xl shadow-lg"
+        >
+          <div className="flex flex-row items-center w-full md:w-auto">
+            <img
+              src="/default-address.jpeg"
+              alt="Map Thumbnail"
+              className="rounded-lg w-28 h-28 mr-4"
             />
-            <h1>Gotcha! You dont have any address yet</h1>
-            <h1>Please add at least one address</h1>
-          </div>
-        ) : (
-          <div className="w-full flex-grow md:p-4">
-            {addressData.map((address) => (
-              <div
-                key={address.id}
-                className="border px-4 py-2 my-2 md:flex justify-between w-full items-center rounded-lg"
-              >
-                <div>
-                  <div className="text-md font-medium">{address.name}</div>
-                  <div className="text-sm">{address.contact}</div>
-                  <div className="text-sm">
-                    {`${address.street}, ${address.district}, ${
-                      address.City ? address.City?.name : 'No City'
-                    }, ${address.province}, ${address.postal_code}`}
-                  </div>
-                </div>
-                <div className="space-y-1 mt-3">
-                  <div className="flex justify-end gap-1">
-                    <EditAddressComp
-                      address={address as IAddress}
-                      onSuccess={refreshAddresses}
-                    />
-                    <DeleteAddressComp
-                      isPrimary={address.isPrimary || false}
-                      addressId={address.id!}
-                      onSuccess={refreshAddresses}
-                    />
-                  </div>
-                  <SetDefaultAddress
-                    userId={userId}
-                    addressId={address.id!}
-                    isPrimary={address.isPrimary || false}
-                    onSuccess={refreshAddresses}
-                  />
-                </div>
+            <div className="flex flex-col">
+              {address.isPrimary && (
+                <span className="text-xs bg-teal-200 text-teal-800 font-semibold px-2 py-1 rounded-full self-start mb-2">
+                  Main Address
+                </span>
+              )}
+              <span className="text-lg font-semibold">{address.name}</span>
+              <span className="text-sm">{address.contact}</span>
+              <span className="text-sm">
+                {address.street}, {address.district},{' '}
+                {address.City ? address.City.name : 'No City'},{' '}
+                {address.province}, {address.postal_code}
+              </span>
+              <div className="flex mt-3">
+                {' '}
+                <EditAddressComp
+                  address={address as IAddress}
+                  onSuccess={refreshAddresses}
+                />
+                <DeleteAddressComp
+                  isPrimary={address.isPrimary || false}
+                  addressId={address.id!}
+                  onSuccess={refreshAddresses}
+                />
               </div>
-            ))}
+            </div>
           </div>
-        )}
-      </div>
+          <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mt-4 md:mt-0">
+            {address.isPrimary || (
+              <SetDefaultAddress
+                userId={userId}
+                addressId={address.id!}
+                onSuccess={refreshAddresses}
+                isPrimary={address.isPrimary || false}
+              />
+            )}
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

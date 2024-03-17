@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { baseUrl } from '@/app/utils/database';
 import AddressCardComp from './components/AddressCard';
+import HeaderAddress from './components/HeaderAddress';
 
 export interface ICity {
   id: string;
@@ -71,13 +72,29 @@ const UserAddress: React.FC = () => {
   };
 
   return (
-    <div className="md:flex h-screen max-w-7xl mx-auto px-8 lg:px-0">
-      <Sidebar />
-      <AddressCardComp
-        addressData={addresses}
-        refreshAddresses={refreshAddresses}
-        userId={userId}
-      />
+    <div className="flex max-w-7xl flex-col lg:flex-row gap-4 mx-auto px-4 lg:px-8 mt-8 min-h-screen">
+      <div className="w-full lg:w-1/4 xl:w-1/5">
+        <Sidebar />
+      </div>
+      <div className="w-full lg:flex-1 space-y-4">
+        <HeaderAddress refreshAddresses={refreshAddresses} />
+        {addresses.length > 0 ? (
+          <AddressCardComp
+            addressData={addresses}
+            refreshAddresses={refreshAddresses}
+            userId={userId}
+          />
+        ) : (
+          <div className="flex justify-center items-center w-full  ">
+            <img
+              src="/address/address1.png"
+              alt="No Address"
+              className="rounded-lg"
+              style={{ maxWidth: '100%', maxHeight: '50%' }}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

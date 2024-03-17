@@ -45,9 +45,7 @@ const OrderCard: React.FC<{ order: IOrder }> = ({ order }) => {
           TransactionStatus: status,
         },
       );
-      //   console.log('check responsee', response);
 
-      //   setUpdateStatus()
       toast.success('Order Accepted');
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -88,7 +86,7 @@ const OrderCard: React.FC<{ order: IOrder }> = ({ order }) => {
                   onClick={() => fetchData('CANCELLED')}
                   className="text-xs rounded-xl bg-red-500 hover:bg-red-600 text-white font-base py-1 px-3"
                 >
-                  Decline
+                  Denied
                 </button>
                 <button
                   onClick={() => fetchData('ORDER_CONFIRMED')}
@@ -148,7 +146,7 @@ const OrderCard: React.FC<{ order: IOrder }> = ({ order }) => {
               src={
                 order.paymentImg
                   ? `${baseUrll}/payment-proof/${order.paymentImg}`
-                  : '/default-product.webp'
+                  : '/default-payment.jpeg'
               }
               alt="Payment Proof"
               className="max-h-screen max-w-screen object-contain"

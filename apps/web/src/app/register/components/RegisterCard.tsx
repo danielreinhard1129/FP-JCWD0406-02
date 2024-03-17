@@ -11,11 +11,10 @@ import { UserAuth } from '@/app/utils/context/authContext';
 YupPassword(yup);
 
 const validationSchema = yup.object().shape({
+  first_name: yup.string().required('First name is required'),
+  last_name: yup.string().required('Last name is required'),
+  contact: yup.number().required('Username is required'),
   username: yup.string().required('username cannot be empty'),
-  email: yup
-    .string()
-    .email('Invalid email address')
-    .required('Username cannot be empty'),
   password: yup.string().required('Password cannot be empty').min(6),
   confirmPassword: yup
     .string()
@@ -39,8 +38,10 @@ const RegisterCard = () => {
 
   const formik = useFormik({
     initialValues: {
+      first_name: '',
+      last_name: '',
       username: '',
-      email: '',
+      contact: '',
       password: '',
       confirmPassword: '',
     },
@@ -49,7 +50,6 @@ const RegisterCard = () => {
       try {
         await axios.post(baseUrl + '/users/register', {
           username: values.username,
-          email: values.email,
           password: values.password,
           roleId: 3,
         });
@@ -68,6 +68,7 @@ const RegisterCard = () => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 h-fit">
+      {/* LEFT SIDE */}
       <div className="hidden md:block">
         <img
           src="/register/register6.jpg"
@@ -75,7 +76,8 @@ const RegisterCard = () => {
           className="items-center"
         />
       </div>
-      <div className="flex justify-center  bg-white px-8 pt-5 md:py-24 md:px-10">
+      {/* RIGHT SIDE */}
+      <div className="flex justify-center  bg-white px-8  md:py-10 md:px-10">
         <div className="max-w-md w-full ">
           <h2 className="md:text-3xl text-2xl font-bold text-center">
             Create an Account
@@ -84,7 +86,7 @@ const RegisterCard = () => {
             className="text-xs
            text-gray-600 text-center mb-2"
           >
-            Enter the fields below to create your account
+            Enter the fields below to complete your account
           </p>
           <div className="text-center mb-8">
             <span className="text-xs text-gray-600">
@@ -98,7 +100,53 @@ const RegisterCard = () => {
             </Link>
           </div>
           <form onSubmit={formik.handleSubmit}>
-            <div className="mb-4">
+            <div className="mb-2">
+              <label
+                htmlFor="first_name"
+                className="block text-gray-700 text-sm font-semibold mb-1"
+              >
+                First Name
+              </label>
+
+              <input
+                type="text"
+                id="firstname"
+                placeholder="First Name"
+                className="shadow appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.first_name}
+              />
+              {formik.errors.first_name && formik.touched.first_name && (
+                <p className="text-sm text-red-600 mt-2">
+                  {formik.errors.first_name}
+                </p>
+              )}
+            </div>
+            <div className="mb-2">
+              <label
+                htmlFor="last_name"
+                className="block text-gray-700 text-sm font-semibold mb-1"
+              >
+                Last Name
+              </label>
+
+              <input
+                type="text"
+                id="lastname"
+                placeholder="Last Name"
+                className="shadow appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.last_name}
+              />
+              {formik.errors.last_name && formik.touched.last_name && (
+                <p className="text-sm text-red-600 mt-2">
+                  {formik.errors.last_name}
+                </p>
+              )}
+            </div>
+            <div className="mb-2">
               <label
                 htmlFor="username"
                 className="block text-gray-700 text-sm font-semibold mb-1"
@@ -121,30 +169,30 @@ const RegisterCard = () => {
                 </p>
               )}
             </div>
-            <div className="mb-4">
+            <div className="mb-2">
               <label
-                htmlFor="email"
-                className="block text-gray-700 text-sm font-bold mb-1"
+                htmlFor="contact"
+                className="block text-gray-700 text-sm font-semibold mb-1"
               >
-                Email
+                Contact
               </label>
 
               <input
-                type="email"
-                id="email"
-                placeholder="Email"
+                type="text"
+                id="contact"
+                placeholder="Contact"
                 className="shadow appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.email}
+                value={formik.values.contact}
               />
-              {formik.errors.email && formik.touched.email && (
+              {formik.errors.contact && formik.touched.contact && (
                 <p className="text-sm text-red-600 mt-2">
-                  {formik.errors.email}
+                  {formik.errors.contact}
                 </p>
               )}
             </div>
-            <div className="mb-4">
+            <div className="mb-2">
               <label
                 htmlFor="password"
                 className="block text-gray-700 text-sm font-bold mb-1"
@@ -189,7 +237,7 @@ const RegisterCard = () => {
                   </p>
                 )}
             </div>
-            <div className="mb-4">
+            <div className="mb-2">
               <button
                 type="submit"
                 className="w-full bg-teal-600 text-white font-normal text-sm py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline"
@@ -216,7 +264,7 @@ const RegisterCard = () => {
               Terms of Service
             </Link>{' '}
             and{' '}
-            <Link href="/tnc" className="text-blue-500 hover:underline">
+            <Link href="/tos" className="text-blue-500 hover:underline">
               Privacy Policy
             </Link>
             .

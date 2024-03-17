@@ -204,9 +204,8 @@ const CheckoutPage = () => {
         },
       );
 
-      console.log('Transaction created successfully', response.data);
+      // console.log('Transaction created successfully', response.data);
       toast.success('Transaction has been created successfully.');
-      // console.log('uuid', response.data.data.uuid);
 
       router.push(
         `/transaction/waiting-for-payment/${response.data.data.uuid}`,

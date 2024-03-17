@@ -7,6 +7,7 @@ import { registerAction } from '@/actions/user/RegisterAction';
 import { deleteUserAction } from '@/actions/user/deleteUserAction';
 import { editUserAction } from '@/actions/user/editUserAction';
 import { forgotPasswordAction } from '@/actions/user/forgotPasswordAction';
+import { getAdminNotAssignedAction } from '@/actions/user/getAdminNotAsignAction';
 import { getUserByIdAction } from '@/actions/user/getUserByIdAction';
 import { getUserByRoleIdAction } from '@/actions/user/getUserByRoleIdAction';
 import { resetPasswordAction } from '@/actions/user/resetPasswordAction';
@@ -224,14 +225,14 @@ export class UserController {
   }
 
   async userVerification(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { id } = req.params;
-      const result = await userVerificationAction(Number(id));
-
-      res.status(200).send(result);
-    } catch (error) {
-      next(error);
-    }
+    // try {
+    //   const email = req.user?.email;
+    //   console.log('checkk', req.query);
+    //   const result = await userVerificationAction(String(email), req.body);
+    //   res.status(200).send(result);
+    // } catch (error) {
+    //   next(error);
+    // }
   }
 
   async sendEmailForVerif(req: Request, res: Response, next: NextFunction) {
@@ -552,6 +553,15 @@ export class UserController {
         ],
       });
       res.status(200).send(cities);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getAdminNotAssigned(req: Request, res: Response, next: NextFunction) {
+    try {
+      const admins = await getAdminNotAssignedAction();
+      res.status(200).json(admins);
     } catch (error) {
       next(error);
     }

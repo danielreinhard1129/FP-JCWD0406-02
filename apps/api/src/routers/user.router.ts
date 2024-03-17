@@ -53,7 +53,8 @@ export class UserRouter {
       this.userController.setDefaultAddressController,
     );
     this.router.patch(
-      '/user-verification/:id',
+      '/user-verification',
+      verifyToken,
       this.userController.userVerification,
     );
     // this.router.post('/ongkirdata', this.userController.createGetOngkir);
@@ -70,6 +71,7 @@ export class UserRouter {
     );
     this.router.get('/cities', this.userController.getAllCities);
     this.router.post('/post-city', this.userController.createCities);
+    this.router.get('/unassigned', this.userController.getAdminNotAssigned);
   }
 
   getRouter(): Router {
