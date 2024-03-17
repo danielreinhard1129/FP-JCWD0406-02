@@ -29,7 +29,9 @@ export const uploader = (filePrefix: string, foldername?: string) => {
       // Check if file extension is allowed
       const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
       if (!allowedExtensions.includes(fileExtension.toLowerCase())) {
-        const error = new Error('Invalid file extension');
+        const error = new Error(
+          'Invalid file extension, file should be jpg, jpeg, png, gif',
+        );
         return cb(error, '');
       }
 

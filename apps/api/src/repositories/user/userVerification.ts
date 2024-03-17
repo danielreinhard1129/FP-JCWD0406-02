@@ -1,9 +1,11 @@
 import prisma from '@/prisma';
 
-export const userVerification = async (id: number) => {
+export const userVerification = async (email: string) => {
   try {
+    console.log('emaill repoooo', email);
+
     const dataUser = await prisma.user.update({
-      where: { id },
+      where: { email },
       data: {
         isVerified: true,
       },

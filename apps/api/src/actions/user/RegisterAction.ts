@@ -8,6 +8,7 @@ import path from 'path';
 import fs from 'fs/promises';
 import Handlebars from 'handlebars';
 import scheduler from 'node-schedule';
+import { getUsernameByUsername } from '@/repositories/user/getUserByUsername';
 
 export const registerAction = async (data: IUser) => {
   try {
@@ -20,7 +21,7 @@ export const registerAction = async (data: IUser) => {
 
     const compileTemplate = Handlebars.compile(templateSource);
 
-    const { email, password, roleId } = data;
+    const { email, password, roleId, username } = data;
 
     if (roleId == 2) {
       const user = await getUserByEmail(email);
@@ -33,16 +34,20 @@ export const registerAction = async (data: IUser) => {
       await register(data);
     }
     if (roleId == 3) {
-      const user = await getUserByEmail(email);
+      const userEmail = await getUserByEmail(email);
+      const userUsername = await getUsernameByUsername(username);
 
-      if (user?.email) throw new Error('This email already exist');
-      if (user?.username) throw new Error('This username already exist');
+      if (data.email == userEmail?.email)
+        throw new Error('This email already exist');
+      if (data.username == userUsername?.username) {
+        throw new Error('This username already exist');
+      }
 
       const hashedPassword = await hashPassword(password);
       data.password = hashedPassword;
       await register(data);
 
-      const token = createToken({ email: user?.email, expiresIn: '1h' });
+      const token = createToken({ email: data.email });
 
       const baseUrl = 'http://localhost:3000';
       const link = `${baseUrl}/register/verification?token=${token}`;
@@ -55,6 +60,11 @@ export const registerAction = async (data: IUser) => {
 
         html,
       });
+
+      return {
+        message: 'create account success',
+        token: token,
+      };
     }
 
     return {

@@ -33,6 +33,16 @@ export class UserRouter {
       verifyToken,
       this.userController.resetPassword,
     );
+    this.router.post(
+      '/register-user',
+      verifyToken,
+      this.userController.registerUserController,
+    );
+    this.router.patch(
+      '/verification',
+      verifyToken,
+      this.userController.userVerification,
+    );
     this.router.get('/user-address', this.userController.getAllUserAddress);
     this.router.post('/add-address', this.userController.AddUserAddress);
     this.router.get(
@@ -53,7 +63,8 @@ export class UserRouter {
       this.userController.setDefaultAddressController,
     );
     this.router.patch(
-      '/user-verification/:id',
+      '/user-verification',
+      verifyToken,
       this.userController.userVerification,
     );
     // this.router.post('/ongkirdata', this.userController.createGetOngkir);
@@ -70,6 +81,10 @@ export class UserRouter {
     );
     this.router.get('/cities', this.userController.getAllCities);
     this.router.post('/post-city', this.userController.createCities);
+    this.router.post(
+      '/create-token-register',
+      this.userController.createTRegisteroken,
+    );
   }
 
   getRouter(): Router {

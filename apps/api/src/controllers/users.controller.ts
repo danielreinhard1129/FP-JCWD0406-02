@@ -4,11 +4,13 @@ import { findAllUserAction } from '@/actions/user/FindAllUserAction';
 import { keepLoginAction } from '@/actions/user/KeepLoginAction';
 import { loginAction } from '@/actions/user/LoginAction';
 import { registerAction } from '@/actions/user/RegisterAction';
+import { createRegisterTokenAction } from '@/actions/user/createRegisterokenAction';
 import { deleteUserAction } from '@/actions/user/deleteUserAction';
 import { editUserAction } from '@/actions/user/editUserAction';
 import { forgotPasswordAction } from '@/actions/user/forgotPasswordAction';
 import { getUserByIdAction } from '@/actions/user/getUserByIdAction';
 import { getUserByRoleIdAction } from '@/actions/user/getUserByRoleIdAction';
+import { registerUserAction } from '@/actions/user/registerUserAction';
 import { resetPasswordAction } from '@/actions/user/resetPasswordAction';
 import { sendEmailForVerifAction } from '@/actions/user/sendEmailForVerifAction';
 import { userVerificationAction } from '@/actions/user/userVerificationAction';
@@ -21,6 +23,7 @@ import { getAllUserAddressAction } from '@/actions/userAddress/getAllUserAddress
 import { getOngkirAction } from '@/actions/userAddress/getOngkirAction';
 import { getUserAddressByIdAction } from '@/actions/userAddress/getUserAddressByIdAction';
 import { setDefaultAddressAction } from '@/actions/userAddress/setDefaultAddressAction';
+import { createTokenRegister } from '@/lib/jwt';
 import prisma from '@/prisma';
 import { NextFunction, Request, Response } from 'express';
 import fs from 'fs';
@@ -65,6 +68,22 @@ export class UserController {
       const register = await registerAction(data);
 
       res.status(200).send(register);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async registerUserController(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const token = req.user?.email;
+      const data = req.body;
+
+      const user = await registerUserAction(data, String(token));
+      res.status(200).send(user);
     } catch (error) {
       next(error);
     }
@@ -120,6 +139,8 @@ export class UserController {
   async resetPassword(req: Request, res: Response, next: NextFunction) {
     try {
       const email = req.user?.email;
+      console.log('check email : ', email);
+
       const result = await resetPasswordAction(String(email), req.body);
 
       res.status(200).send(result);
@@ -225,8 +246,12 @@ export class UserController {
 
   async userVerification(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
-      const result = await userVerificationAction(Number(id));
+      const email = req.user?.email;
+      console.log('controllerrrcheckkkk req', req.user);
+
+      console.log('controllerrrrrrr', email);
+
+      const result = await userVerificationAction(String(email));
 
       res.status(200).send(result);
     } catch (error) {
@@ -297,18 +322,6 @@ export class UserController {
       const { file } = req;
       const { id } = req.params;
       const userId = parseInt(id);
-
-      // if (
-      //   !file ||
-      //   !['.jpg', '.jpeg', '.png', '.gif'].includes(file?.mimetype) ||
-      //   file.size > 1024 * 1024
-      // ) {
-      //   return res
-      //     .status(400)
-      //     .send(
-      //       'Invalid file. Please upload a file with .jpg, .jpeg, .png, or .gif extension, and maximum size of 1MB.',
-      //     );
-      // }
 
       const userData = await getUserByIdAction(Number(id));
 
@@ -552,6 +565,17 @@ export class UserController {
         ],
       });
       res.status(200).send(cities);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async createTRegisteroken(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email } = req.body;
+      const token = await createRegisterTokenAction(email);
+
+      res.status(200).send(token);
     } catch (error) {
       next(error);
     }

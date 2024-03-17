@@ -36,7 +36,7 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ productsData }) => {
-  console.log('card all product', productsData);
+  // console.log('card all product', productsData);
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
       {productsData.map((product) => (

@@ -42,6 +42,8 @@ const ProductPage = () => {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
+  const [category, setCategory] = useState('');
+  const [product, setProduct] = useState<IProduct[]>([]);
 
   const fetchProducts = async () => {
     setIsLoading(true);
@@ -86,6 +88,27 @@ const ProductPage = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log('chekch before fetchh', category);
+
+        const responseData = await axios.get(
+          `${baseUrl}/warehouses/catalog?category=${category}`,
+        );
+        console.log('checkkk response catalogg', responseData.data.data);
+
+        setProduct(responseData.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, [category]);
+
+  //kode diatas dari line 91 - 108 untuk fetch catalog
+
   return (
     <>
       <div>
@@ -97,6 +120,7 @@ const ProductPage = () => {
         <div className="grid grid-cols-5 gap-4 mt-4 max-w-7xl mx-auto">
           {/* Category Selector */}
           <CategorySelector
+            setCategory={(category) => setCategory(category)}
             categories={categories}
             selectedCategory={selectedCategory}
             setSelectedCategory={handleCategoryChange}

@@ -26,7 +26,7 @@ export const loginAction = async (data: IUser) => {
 
     const dataWithoutPassword = excludeFields(user, ['password']);
 
-    const token = createToken({ email: user.email });
+    const token = createToken({ email: data.email });
 
     return {
       message: 'Login successful',

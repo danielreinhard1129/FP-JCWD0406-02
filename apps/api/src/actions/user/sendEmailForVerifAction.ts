@@ -24,7 +24,7 @@ export const sendEmailForVerifAction = async (email: string) => {
     const token = createToken({ email: user.email });
 
     const baseUrl = 'http://localhost:3000';
-    const link = baseUrl + `/reset-password?token=${token}`;
+    const link = baseUrl + `/verification?token=${token}`;
     const html = compileTemplate({ link });
 
     await transporter.sendMail({
@@ -36,6 +36,7 @@ export const sendEmailForVerifAction = async (email: string) => {
 
     return {
       message: 'Check your email for verifvication',
+      token: token,
     };
   } catch (error) {
     throw error;

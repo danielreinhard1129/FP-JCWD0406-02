@@ -13,10 +13,11 @@ export const resetPasswordAction = async (email: string, data: IReset) => {
     if (!user) throw new Error('Account not found');
     const hashedPassword = await hashPassword(password);
 
-    await resetPassword(email, { password: hashedPassword });
+    const userData = await resetPassword(email, { password: hashedPassword });
 
     return {
       message: 'Reset Password Success',
+      data: userData,
     };
   } catch (error) {
     throw error;

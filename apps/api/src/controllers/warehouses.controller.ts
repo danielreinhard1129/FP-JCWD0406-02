@@ -26,6 +26,8 @@ import { updateStockAction } from '@/actions/warehouse/stock/updateStockAction';
 import { deleteStockAction } from '@/actions/warehouse/stock/deleteStockAction';
 import { stockReportAction } from '@/actions/warehouse/stock/stockReport';
 import { getReqStockAction } from '@/actions/superAdmin/getReqStockAction';
+import { catalogProductAction } from '@/actions/warehouse/product/catalogProductAction';
+import { journalStockReportAction } from '@/actions/stockReport/journalStockReportAction';
 
 export class WarehouseController {
   async getProducts(req: Request, res: Response, next: NextFunction) {
@@ -357,6 +359,45 @@ export class WarehouseController {
     try {
       const stock = await getReqStockAction();
       res.status(200).send(stock);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async catalogProduct(req: Request, res: Response, next: NextFunction) {
+    try {
+      const category = req.query.category as string;
+      console.log('querrryy', req.query);
+
+      const catalog = await catalogProductAction(category);
+      res.status(200).send(catalog);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async journalStockReport(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { warehouse, start, end } = req.query;
+      console.log('check querrryy', req.query);
+
+      const startDate = new Date(start as string);
+      const endDate = new Date(end as string);
+      const formatStart = startDate
+        .toISOString()
+        .slice(0, 19)
+        .replace('T', ' ');
+      const formatEnd = endDate.toISOString().slice(0, 19).replace('T', ' ');
+      console.log('check format start', formatStart);
+      console.log('check format end', formatEnd);
+
+      const report = journalStockReportAction(
+        { name: warehouse as string },
+        formatStart,
+        formatEnd,
+      );
+
+      res.status(200).send(report);
     } catch (error) {
       next(error);
     }

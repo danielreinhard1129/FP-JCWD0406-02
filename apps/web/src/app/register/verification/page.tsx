@@ -1,7 +1,13 @@
+'use client';
 import Link from 'next/link';
-import React from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const Verification = () => {
+  const searchToken = useSearchParams();
+  const token = searchToken.get('token');
+  const router = useRouter();
+  console.log('token : ', token);
+
   return (
     <div className="max-w-7xl mx-auto">
       <div className="relative h-fit md:h-screen">
@@ -22,12 +28,14 @@ const Verification = () => {
               Click here to verify your email
             </h2>
             <div className="my-4">
-              <button
-                type="submit"
-                className="w-full bg-teal-600 text-white font-normal text-sm py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline"
-              >
-                Verify
-              </button>
+              <Link href={`/register/user-detail?token=${token}`}>
+                <button
+                  type="submit"
+                  className="w-full bg-teal-600 text-white font-normal text-sm py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline"
+                >
+                  Verify
+                </button>
+              </Link>
             </div>
             <p className="text-xs text-center text-gray-500 mt-4">
               By clicking verify, you agree to our{' '}
