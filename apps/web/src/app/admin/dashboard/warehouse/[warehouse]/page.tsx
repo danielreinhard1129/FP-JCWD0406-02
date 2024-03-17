@@ -14,8 +14,27 @@ import { IProduct } from '@/app/products/components/ProductCard';
 import TabsComponent from './components/WarehouseProductManagement copy';
 import { fetchAllProducts } from '@/app/utils/helper/fetchAllProduct';
 import { IStock } from '@/types/warehouse.types';
+import NonAsignAdminSelect from './components/ModalNonAsignAdmin';
 
-export interface IWarehouse {
+interface IRole {
+  id: number;
+  role_name: string; // Use 'string' instead of 'String'
+}
+
+interface IUser {
+  id: number;
+  first_name?: string;
+  last_name?: string;
+  username: string;
+  email: string;
+  roleId?: number;
+  isVerified: boolean;
+  profile_picture?: string;
+  contact?: string;
+  Role?: IRole;
+}
+
+interface IWarehouse {
   id: number;
   name: string;
   contact: string;
@@ -34,9 +53,11 @@ const WarehouseDetail = () => {
   const [noStockProducts, setNoStockProducts] = useState<IProduct[]>([]); // Assu
   const [isLoading, setIsLoading] = useState(true);
   const [warehouse, setWarehouse] = useState([]);
+  const [admin, setAdmin] = useState<IUser | null>(null);
   const [warehouseId, setWarehouseId] = useState<number>(0);
   const params = useParams();
-  console.log('check page all', allStock);
+  console.log('check warehouse', warehouse);
+  // console.log('ini warehouse', warehouseId);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -55,11 +76,11 @@ const WarehouseDetail = () => {
         `${baseUrl}/warehouses/branch/${params.warehouse}`,
       );
 
-      console.log('responseeeeeeee', response);
-
       const warehouse = response.data.data;
       const stocks = warehouse.stocks;
+      const admin = warehouse.user;
 
+      setAdmin(admin);
       setWarehouseId(response.data.data.id);
       setWarehouse(response.data.data);
       setAllStock(stocks);
@@ -91,10 +112,11 @@ const WarehouseDetail = () => {
     <div className="flex gap-4 mx-auto max-w-7xl mt-8">
       <AdminSidebar />
       <div className="w-full space-y-4">
+        {/* <NonAsignAdminSelect /> */}
         <HeaderWarehouse />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10 px-4">
           <WarehouseDetailCard warehouse={warehouse as unknown as IWarehouse} />
-          <AdminIdentityCard />
+          <AdminIdentityCard admin={admin} warehouseData={warehouseId} />
         </div>
         {/* Tabs for product management */}
         <HeaderProductWarehouse />

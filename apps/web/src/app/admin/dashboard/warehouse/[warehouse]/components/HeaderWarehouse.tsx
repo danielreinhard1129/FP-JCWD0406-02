@@ -1,17 +1,16 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import React from 'react';
-import { FaBell } from 'react-icons/fa6';
-import { FiBarChart, FiBarChart2, FiBell, FiShoppingBag } from 'react-icons/fi';
-import { LiaBoxSolid } from 'react-icons/lia';
+import { FiBarChart2, FiBell, FiShoppingBag } from 'react-icons/fi';
+import { LuWarehouse } from 'react-icons/lu';
 
 const HeaderWarehouse: React.FC = () => {
   const params = useParams();
-  console.log('hesderr', params.warehouse);
+  // console.log('hesderr', params.warehouse);
   const paramsId = params.warehouse;
 
   return (
-    <div className="flex sticky top-16 justify-between items-center bg-white px-4 py-2 border-b z-50">
+    <div className="flex sticky top-16 justify-between items-center bg-white px-4 py-2 border-b z-20">
       <h1 className="text-xl font-semibold text-gray-800">
         Warehouse Management
       </h1>

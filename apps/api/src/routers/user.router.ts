@@ -85,6 +85,7 @@ export class UserRouter {
       '/create-token-register',
       this.userController.createTRegisteroken,
     );
+    this.router.get('/unassigned', this.userController.getAdminNotAssigned);
   }
 
   getRouter(): Router {

@@ -5,7 +5,13 @@ export const getTransactionByWarehouseId = async (warehouseId: number) => {
     const transaction = await prisma.transaction.findMany({
       where: {
         warehouseId: warehouseId,
-        TransactionStatus: 'WAITING_PAYMENT_CONFIRMATION',
+      },
+      include: {
+        transactionDetails: {
+          include: {
+            Product: true,
+          },
+        },
       },
     });
     return transaction;

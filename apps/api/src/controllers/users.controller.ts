@@ -8,6 +8,7 @@ import { createRegisterTokenAction } from '@/actions/user/createRegisterokenActi
 import { deleteUserAction } from '@/actions/user/deleteUserAction';
 import { editUserAction } from '@/actions/user/editUserAction';
 import { forgotPasswordAction } from '@/actions/user/forgotPasswordAction';
+import { getAdminNotAssignedAction } from '@/actions/user/getAdminNotAsignAction';
 import { getUserByIdAction } from '@/actions/user/getUserByIdAction';
 import { getUserByRoleIdAction } from '@/actions/user/getUserByRoleIdAction';
 import { registerUserAction } from '@/actions/user/registerUserAction';
@@ -576,6 +577,14 @@ export class UserController {
       const token = await createRegisterTokenAction(email);
 
       res.status(200).send(token);
+      } catch (error) {
+      next(error);
+    }
+    
+  async getAdminNotAssigned(req: Request, res: Response, next: NextFunction) {
+    try {
+      const admins = await getAdminNotAssignedAction();
+      res.status(200).json(admins);
     } catch (error) {
       next(error);
     }

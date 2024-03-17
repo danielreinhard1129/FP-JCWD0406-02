@@ -99,7 +99,7 @@ const CreateUserAddress: React.FC<CreateUserAddressProps> = ({ onSuccess }) => {
     <div>
       <button
         onClick={() => setIsEditModalOpen(true)}
-        className="bg-teal-600 text-white flex items-center font-semibold text-md py-4 px-4 rounded-xl focus:outline-none focus:shadow-outline"
+        className="bg-teal-600 text-sm text-white flex items-center font-normal text-md py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline"
       >
         <FaPlus className="mr-2" /> Add Address
       </button>
@@ -198,15 +198,15 @@ const CreateUserAddress: React.FC<CreateUserAddressProps> = ({ onSuccess }) => {
                 <button
                   type="button"
                   onClick={() => setIsEditModalOpen(false)}
-                  className="px-4 py-2 text-sm text-white bg-red-500 rounded-xl hover:bg-red-700"
+                  className="px-4 py-2 text-sm text-white bg-gray-300 rounded-xl hover:bg-red-700"
                 >
-                  Later
+                  Cancel
                 </button>
                 <button
                   type="submit"
                   className="px-4 py-2 text-sm font-normal text-white bg-teal-600 rounded-xl hover:bg-teal-700"
                 >
-                  Continue
+                  Add Address
                 </button>
               </div>
             </form>

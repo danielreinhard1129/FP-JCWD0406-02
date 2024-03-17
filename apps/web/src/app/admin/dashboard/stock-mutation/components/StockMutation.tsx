@@ -7,6 +7,11 @@ import axios, { AxiosError } from 'axios';
 import { baseUrl } from '@/app/utils/database';
 import { toast } from 'sonner';
 
+interface IStockMutation {
+  initialWarehouseId: number;
+  destinationWarehouseId: number;
+}
+
 const StockMutation = () => {
   const [initialWarehouseId, setInitialWarehouseId] = useState<number | null>(
     null,
@@ -16,12 +21,11 @@ const StockMutation = () => {
   >(null);
   const [productsWithQuantities, setProductsWithQuantities] = useState<
     { productId: number; quantity: number }[]
-  >([
-    {
-      productId: 0,
-      quantity: 1,
-    },
-  ]);
+  >([]);
+
+  console.log('destination', destinationWarehouseId);
+  console.log('initial', initialWarehouseId);
+  console.log('ini product', productsWithQuantities);
 
   const handleStockMutationSubmit = async () => {
     if (
@@ -33,29 +37,26 @@ const StockMutation = () => {
       return;
     }
 
-    const mutationDetails = productsWithQuantities.map(
-      ({ productId, quantity }) => ({
+    const payload = {
+      data: {
+        initialWarehouseId,
+        destinationWarehouseId,
+      },
+      dataDetail: productsWithQuantities.map(({ productId, quantity }) => ({
         productId,
         quantity,
-      }),
-    );
+      })),
+    };
 
     try {
       const response = await axios.post(
         `${baseUrl}/warehouses/create-stock-mutation`,
-        {
-          initialWarehouseId,
-          destinationWarehouseId,
-          mutationDetails,
-        },
+        payload,
       );
       toast.success('Stock mutation request sent successfully!');
-      // Reset state or perform any other actions after successful submission
     } catch (error) {
       if (error instanceof AxiosError) {
-        const errorMsg =
-          error.response?.data.message ||
-          'An error occurred while requesting stock mutation.';
+        const errorMsg = error.response?.data || error.message;
         toast.error(errorMsg);
       }
     }
@@ -81,8 +82,8 @@ const StockMutation = () => {
               <WarehouseSelect onChange={setInitialWarehouseId} />
               <div>
                 <ProductSelectAndQuantity
-                //   productsWithQuantities={productsWithQuantities}
-                //   setProductsWithQuantities={setProductsWithQuantities}
+                  productsWithQuantities={productsWithQuantities}
+                  setProductsWithQuantities={setProductsWithQuantities}
                 />
               </div>
             </div>
@@ -107,7 +108,7 @@ const StockMutation = () => {
         {/* Action Button */}
         <div className="text-center mt-10">
           <button
-            // onClick={handleStockMutationSubmit}
+            onClick={handleStockMutationSubmit}
             className="bg-teal-500 hover:bg-teal-600 text-white font-normal py-2 px-4 rounded-xl"
           >
             Request Mutation

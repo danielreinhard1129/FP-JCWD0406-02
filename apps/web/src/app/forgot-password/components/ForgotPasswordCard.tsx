@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { useFormik } from 'formik';
 import axios, { AxiosError } from 'axios';
 import { baseUrl } from '@/app/utils/database';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 export default function ForgotPasswordCard() {
   const formik = useFormik({
@@ -18,7 +20,7 @@ export default function ForgotPasswordCard() {
           email,
         });
 
-        alert('Forgot succes, Please Check your email');
+        toast.success('Success Updating Your Password');
         // router.push('/login');
       } catch (error) {
         if (error instanceof AxiosError) {

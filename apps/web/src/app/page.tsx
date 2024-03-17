@@ -6,10 +6,11 @@ import Carousel from '@/components/Carousel';
 import FilterCategory from '@/components/FilterCategory';
 import ProductCard, { Category } from './products/components/ProductCard';
 import { Banner } from '@/components/Banner';
+import { IStock } from '@/types/warehouse.types';
 
 export interface ProductPhoto {
   id: number;
-  url: string;
+  photo_product: string;
 }
 
 export interface IProduct {
@@ -17,11 +18,16 @@ export interface IProduct {
   title: string;
   description: string;
   price: number;
-  productPhoto: ProductPhoto[];
-  categoryName: string;
+  productPhotos: ProductPhoto[];
   Category: Category;
+  weight: number;
+  stock: number;
+  isActive: boolean;
+  Stock: IStock[];
+  quantity: number;
+  product: IProduct;
+  totalQuantity: number;
 }
-
 export default function Home() {
   const [randomProducts, setRandomProducts] = useState<IProduct[]>([]);
 

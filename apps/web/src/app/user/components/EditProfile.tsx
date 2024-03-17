@@ -1,10 +1,11 @@
 // EditProfileComp.tsx
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { toast } from 'sonner'; // Assuming 'sonner' is your project-specific way to handle notifications
 import { baseUrl } from '@/app/utils/database';
+import { FaEdit } from 'react-icons/fa';
 
 interface IUser {
   id: number;
@@ -26,7 +27,6 @@ const validationSchema = yup.object({
   last_name: yup.string().required('Last name is required'),
   username: yup.string().required('Username is required'),
   contact: yup.number().required('Username is required'),
-  // You can add more fields here as necessary
 });
 
 const EditProfileComp: React.FC<EditProfileProps> = ({ user, onSuccess }) => {
@@ -47,15 +47,16 @@ const EditProfileComp: React.FC<EditProfileProps> = ({ user, onSuccess }) => {
           values,
         );
         if (response.status === 200) {
-          toast.success('Profile updated successfully');
+          const successMsg = response.data.message;
+          toast.success(successMsg);
           onSuccess();
           setIsModalOpen(false);
-        } else {
-          throw new Error('Failed to update profile');
         }
       } catch (error) {
-        toast.error('Failed to update profile');
-        console.error(error);
+        if (error instanceof AxiosError) {
+          const errorMsg = error.response?.data || error.message;
+          toast.error(errorMsg);
+        }
       } finally {
         setSubmitting(false);
       }
@@ -65,13 +66,13 @@ const EditProfileComp: React.FC<EditProfileProps> = ({ user, onSuccess }) => {
   return (
     <>
       <button
-        className="bg-[#f1eed8] hover:bg-[#b0cac1] self-center text-teal text-xs font-medium py-2 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-opacity-50"
+        className="bg-amber-100 hover:bg-[#b0cac1] self-center text-teal text-sm font-medium py-2 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-opacity-50 flex items-center justify-center"
         onClick={() => setIsModalOpen(true)}
       >
-        Edit Profile
+        <FaEdit />
       </button>
       {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center">
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
           <div className="bg-white rounded-lg p-8">
             <h2 className="text-lg font-semibold mb-4">Edit Profile</h2>
             <form onSubmit={formik.handleSubmit} className="space-y-4">
@@ -86,6 +87,11 @@ const EditProfileComp: React.FC<EditProfileProps> = ({ user, onSuccess }) => {
                     onBlur={formik.handleBlur}
                     value={formik.values.first_name}
                   />
+                  {formik.errors.first_name && formik.touched.first_name && (
+                    <p className="text-sm text-red-600 mt-2">
+                      {formik.errors.first_name}
+                    </p>
+                  )}
                 </div>
                 <div className="flex-1">
                   <label className="font-medium">Last Name</label>
@@ -97,6 +103,11 @@ const EditProfileComp: React.FC<EditProfileProps> = ({ user, onSuccess }) => {
                     onBlur={formik.handleBlur}
                     value={formik.values.last_name}
                   />
+                  {formik.errors.last_name && formik.touched.last_name && (
+                    <p className="text-sm text-red-600 mt-2">
+                      {formik.errors.last_name}
+                    </p>
+                  )}
                 </div>
               </div>
               <div>
@@ -109,17 +120,27 @@ const EditProfileComp: React.FC<EditProfileProps> = ({ user, onSuccess }) => {
                   onBlur={formik.handleBlur}
                   value={formik.values.username}
                 />
+                {formik.errors.username && formik.touched.username && (
+                  <p className="text-sm text-red-600 mt-2">
+                    {formik.errors.username}
+                  </p>
+                )}
               </div>
               <div>
                 <label className="font-medium">Contact</label>
                 <input
                   name="contact"
-                  type="text"
+                  type="number"
                   className="w-full p-2 border border-gray-300 rounded-lg"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.contact}
                 />
+                {formik.errors.contact && formik.touched.contact && (
+                  <p className="text-sm text-red-600 mt-2">
+                    {formik.errors.contact}
+                  </p>
+                )}
               </div>
               {/* Buttons */}
               <div className="flex justify-end gap-3">

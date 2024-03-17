@@ -47,7 +47,7 @@ const TabsComponent: React.FC<TabsComponentProps> = ({
   noStockProducts,
   allStock,
 }) => {
-  console.log('comp tabss', allStock);
+  // console.log('comp tabss', allStock);
 
   const [activeTab, setActiveTab] = useState<'all' | 'inStock' | 'noStock'>(
     'all',
