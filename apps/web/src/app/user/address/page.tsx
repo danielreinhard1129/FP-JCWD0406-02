@@ -49,6 +49,8 @@ export interface IUser {
 const UserAddress: React.FC = () => {
   const userId = useSelector((state: IUser) => state.user?.id);
   const [addresses, setAddresses] = useState<Partial<IAddress>[]>([]);
+  const [user, setUser] = useState<Partial<IUser>[]>([]);
+  console.log('ini user', user);
 
   const fetchAddresses = async () => {
     try {
@@ -58,6 +60,7 @@ const UserAddress: React.FC = () => {
       console.log('data address iniiiiii', response.data.data);
 
       setAddresses(response.data.data);
+      setUser(response.data.data.user);
     } catch (error) {
       console.error('Error fetching addresses:', error);
     }

@@ -94,7 +94,7 @@ const AdminSidebar: React.FC = () => {
             href="/admin/dashboard/journal"
             className="flex items-center cursor-pointer"
           >
-            <BsFillJournalBookmarkFill className="mr-2 size-5" />
+            <BsFillJournalBookmarkFill className="mr-2 size-5 font-bold" />
             <span className="font-semibold hover:text-teal-600">Journal</span>
           </Link>
 

@@ -9,6 +9,8 @@ import { ChangeEvent, useState } from 'react';
 import EditProfileComp from './EditProfile';
 import { FaCamera, FaUserCircle } from 'react-icons/fa';
 import { toast } from 'sonner';
+import ModalChangeEmail from './ModalChangeEmail';
+import VerificationEmail from './SendVerificationEmail';
 
 interface IUser {
   data: any;
@@ -104,19 +106,28 @@ const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
                 <span className="font-semibold text-gray-700">Contact:</span>
                 <span>{dataUser?.contact || userGoogle?.contact}</span>
               </div>
-              <div className="flex justify-between items-center md:items-start md:col-span-1">
+              <div className="flex justify-between items-start md:col-span-1">
                 <span className="font-semibold text-gray-700">Email:</span>
-                <span>{dataUser?.email || userGoogle?.email}</span>
+                <div className="flex flex-col items-end">
+                  <span>{dataUser?.email || userGoogle?.email}</span>
+                  <ModalChangeEmail user={dataUser} onSuccess={onSuccess} />
+                </div>
               </div>
-              <div className="flex justify-between items-center md:items-start md:col-span-1">
+
+              <div className="flex justify-between items-start md:col-span-1">
                 <span className="font-semibold text-gray-700">Status:</span>
-                <span
-                  className={
-                    dataUser.isVerified ? 'text-green-500' : 'text-red-500'
-                  }
-                >
-                  {dataUser.isVerified ? 'Verified' : 'Not Verified'}
-                </span>
+                <div className="flex flex-col items-end">
+                  <span
+                    className={
+                      dataUser.isVerified
+                        ? 'text-green-500 font-bold'
+                        : 'text-red-500'
+                    }
+                  >
+                    {dataUser.isVerified ? 'Verified' : 'Not Verified'}
+                  </span>
+                  <VerificationEmail />
+                </div>
               </div>
             </div>
             <div className="relative mx-auto mt-5 md:mt-0">
