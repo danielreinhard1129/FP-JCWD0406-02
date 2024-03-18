@@ -27,10 +27,12 @@ interface IProduct {
 
 interface CardProductManagementProps {
   productsData: IProduct[];
+  refreshWarehouse: () => void;
 }
 
 const CardWarehouseProduct: React.FC<CardProductManagementProps> = ({
   productsData,
+  refreshWarehouse,
 }) => {
   const [openDropdowns, setOpenDropdowns] = useState<number[]>([]);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -54,11 +56,6 @@ const CardWarehouseProduct: React.FC<CardProductManagementProps> = ({
   const handleCloseUpdateModal = () => {
     setIsUpdateModalOpen(false);
     setSelectedProductForUpdate(null);
-  };
-
-  const handleStockUpdated = () => {
-    // Refresh your product list here if needed
-    handleCloseUpdateModal();
   };
 
   return (
@@ -134,7 +131,7 @@ const CardWarehouseProduct: React.FC<CardProductManagementProps> = ({
           stockId={selectedProductForUpdate.id} // Assuming stock ID is the same as product ID; adjust as needed
           currentQuantity={selectedProductForUpdate.totalQuantity}
           onClose={handleCloseUpdateModal}
-          onStockUpdated={handleStockUpdated}
+          onSuccess={refreshWarehouse}
         />
       )}
     </div>

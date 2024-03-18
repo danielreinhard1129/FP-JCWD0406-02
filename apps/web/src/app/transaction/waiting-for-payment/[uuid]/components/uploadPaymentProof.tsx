@@ -3,13 +3,56 @@ import axios from 'axios';
 import { FileInput, Label } from 'flowbite-react';
 import { baseUrl } from '@/app/utils/database';
 import { useRouter } from 'next/navigation';
+import { FaCamera, FaMoneyBill, FaUserCircle } from 'react-icons/fa';
+import { FaMoneyBillTransfer } from 'react-icons/fa6';
 
-const UploadPaymentProof = (data: any) => {
+interface IProductPhotos {
+  photo_product: string;
+  productId: number;
+}
+
+interface IProduct {
+  categoryId: number;
+  price: number;
+  title: string;
+  weight: number;
+  productPhotos: IProductPhotos[];
+}
+
+interface ITransactionDetails {
+  Product: IProduct;
+  weight: number;
+  price: number;
+  title: string;
+  id: number;
+  transactionId: number;
+  productId: number;
+  quantity: number;
+}
+
+export interface ITransaction {
+  id: number;
+  uuid: string;
+  userId: number;
+  warehouseId: number;
+  shippingCost: number;
+  totalPrice: number;
+  paymentImg: string;
+  TransactionStatus: string;
+  createdAt: Date;
+  updatedAt: Date;
+  transactionDetails: ITransactionDetails[];
+}
+interface Props {
+  transaction: ITransaction | null;
+}
+
+const UploadPaymentProof: React.FC<Props> = ({ transaction }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const router = useRouter();
 
-  const transactionId = data?.data?.id;
+  const transactionId = transaction?.id;
 
   const uploadPhoto = async (formData: FormData) => {
     try {
@@ -19,7 +62,11 @@ const UploadPaymentProof = (data: any) => {
         formData,
         { headers: { Authorization: `Bearer ${token}` } },
       );
-      console.log(data);
+      console.log('ini data', data);
+
+      // router.push(
+      //   `/transaction/waiting-for-payment/${response.data.data.uuid}`,
+      // );
       router.push('/');
     } catch (error) {
       console.log(error);
@@ -47,9 +94,39 @@ const UploadPaymentProof = (data: any) => {
   return (
     <div className="flex w-full items-center justify-center flex-col">
       <div className="mb-2 ">
-        <Label htmlFor="file-upload" value="Upload file" />
+        <Label htmlFor="file-upload" value="Upload Payment Proof" />
       </div>
-      <FileInput id="file-upload" name="file" onChange={onchangeFile} />
+      <Label
+        htmlFor="dropzone-file"
+        className="relative flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+      >
+        <div className="relative">
+          <FaMoneyBillTransfer className="text-gray-300 h-16 w-16 md:h-24 md:w-24 mt-5" />
+          <label
+            htmlFor="file-upload"
+            className="absolute bottom-0 right-0 bg-teal-600 text-white p-2 rounded-full cursor-pointer"
+          >
+            <FaCamera className="h-5 w-5 md:h-6 md:w-6" />
+          </label>
+          <input
+            id="file-upload"
+            name="file"
+            type="file"
+            className="hidden"
+            onChange={onchangeFile}
+            accept=".jpg, .jpeg, .png" // only allow specific file types
+          />
+        </div>
+        <p className="text-xs text-gray-500 mt-2 text-center p-4 ">
+          Max File Size: 1MB, only JPG, JPEG, PNG are supported.
+        </p>
+        <FileInput
+          id="dropzone-file"
+          className="hidden"
+          name="file"
+          onChange={onchangeFile}
+        />
+      </Label>
       {selectedFile && (
         <>
           <button

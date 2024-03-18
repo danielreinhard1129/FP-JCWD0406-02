@@ -1,59 +1,13 @@
 'use client';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
-import { RootState } from '@/lib/store';
-import { setCartItems } from '@/lib/features/cartSlice';
-import { baseUrl } from '../utils/database';
+import React from 'react';
 import CartPage from './components/CartPage';
-
-export interface ProductPhoto {
-  id: number;
-  photo_product: string;
-}
-
-interface CartItem {
-  id: number;
-  productId: number;
-  quantity: number;
-  Product: {
-    title: string;
-    price: number;
-    weight: number;
-    productPhotos: ProductPhoto[];
-  };
-}
-
-interface CartProps {
-  cartItems: CartItem[];
-}
+import CartHoverPopup from './components/CartPopUp';
 
 const Cart = () => {
-  const dispatch = useDispatch();
-  const userId = useSelector((state: RootState) => state.user.id);
-
-  console.log(userId);
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      try {
-        const response = await axios.get(
-          `${baseUrl}/transactions/cart/${userId}`,
-        );
-
-        dispatch(setCartItems(response.data.data));
-      } catch (error) {
-        console.error('Failed to fetch cart items:', error);
-      }
-    };
-
-    if (userId) {
-      fetchCartItems();
-    }
-  }, [userId, dispatch]);
-
   return (
     <div className="max-w-7xl mx-auto">
       <CartPage />
+      <CartHoverPopup />
     </div>
   );
 };

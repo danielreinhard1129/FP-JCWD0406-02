@@ -3,6 +3,8 @@ import React, { useState } from 'react'; // Import useState
 import { FaCheckCircle, FaTimes } from 'react-icons/fa';
 import DeleteUser from './DeleteCardUser';
 import EditRole from './UpdateCardUser';
+import Image from 'next/image';
+import { baseUrll } from '@/app/utils/database';
 
 interface Role {
   id: number;
@@ -46,10 +48,22 @@ const CardAllUser: React.FC<CardAllUserProps> = ({
             <DeleteUser userId={user.id} onSuccess={refreshAdminPage} />
           </div>
 
-          <img
+          {/* <img
             className="object-fill rounded-l-xl w-32 h-32"
             src={user.profile_picture || '/default-avatar.png'}
             alt={`${user.first_name} ${user.last_name}`}
+          /> */}
+
+          <Image
+            src={
+              user?.profile_picture
+                ? `${baseUrll}/photo-profile/${user.profile_picture}`
+                : '/default-avatar.png'
+            }
+            alt="Profile Picture"
+            width={100}
+            height={100}
+            className="object-cover rounded-l-xl w-32 h-32"
           />
 
           <div className="pl-4 flex flex-col justify-between flex-grow mt-2">

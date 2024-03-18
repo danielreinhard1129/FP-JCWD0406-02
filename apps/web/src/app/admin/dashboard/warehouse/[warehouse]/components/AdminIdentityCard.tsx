@@ -32,11 +32,13 @@ interface IUser {
 interface AdminIdentityCardProps {
   admin: IUser | null;
   warehouseData: number;
+  refreshWarehouse: () => void;
 }
 
 const AdminIdentityCard: React.FC<AdminIdentityCardProps> = ({
   admin,
   warehouseData,
+  refreshWarehouse,
 }) => {
   console.log('data dari admin', admin);
 
@@ -104,6 +106,7 @@ const AdminIdentityCard: React.FC<AdminIdentityCardProps> = ({
           isOpen={isModalOpen}
           onClose={closeModal}
           warehouseId={warehouseData}
+          onSuccess={refreshWarehouse}
         />
       )}
     </div>
