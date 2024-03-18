@@ -126,7 +126,7 @@ const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
                   >
                     {dataUser.isVerified ? 'Verified' : 'Not Verified'}
                   </span>
-                  <VerificationEmail />
+                  {/* <VerificationEmail /> */}
                 </div>
               </div>
             </div>

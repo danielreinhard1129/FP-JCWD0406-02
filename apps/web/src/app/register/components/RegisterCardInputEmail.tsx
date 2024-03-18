@@ -29,7 +29,7 @@ const RegisterCardInputEmail = () => {
       console.log(error);
     }
   };
-  console.log(userGoogle);
+  // console.log(userGoogle);
 
   const formik = useFormik({
     initialValues: {
@@ -42,9 +42,7 @@ const RegisterCardInputEmail = () => {
           email: values.email,
           roleId: 3,
         });
-
         toast.success('Register Success');
-
         router.push('/login');
       } catch (error) {
         if (error instanceof AxiosError) {

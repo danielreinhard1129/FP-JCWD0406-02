@@ -18,7 +18,7 @@ interface IProduct {
   title: string;
   description: string;
   price: number;
-  weight: number; // Add weight here
+  weight: number;
   stock: number;
   isActive: boolean;
   productPhotos: ProductPhoto[];
@@ -32,12 +32,14 @@ interface CardProductManagementProps {
   productsData: IProduct[];
   warehouseId: number;
   allStock: IStock[];
+  refreshWarehouse: () => void;
 }
 
 const CardAllProductWarehouse: React.FC<CardProductManagementProps> = ({
   productsData,
   warehouseId,
   allStock,
+  refreshWarehouse,
 }) => {
   // console.log('this is data stock : ', allStock);
 
@@ -59,17 +61,12 @@ const CardAllProductWarehouse: React.FC<CardProductManagementProps> = ({
   const handleCreateStockClick = (productId: number) => {
     setSelectedProductId(productId);
     setIsModalOpen(true);
-    toggleDropdown(productId); // Add this line to close the dropdown
+    toggleDropdown(productId);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedProductId(null);
-  };
-
-  const handleStockCreated = () => {
-    // Logic to refresh the product list, perhaps re-fetching from the backend
-    handleCloseModal();
   };
 
   const handleRequestStockClick = (productId: number) => {
@@ -87,7 +84,6 @@ const CardAllProductWarehouse: React.FC<CardProductManagementProps> = ({
       <div className="mx-auto">
         <div className="mt-4 flex flex-col gap-2">
           {productsData.map((product) => {
-            // Find the stock quantity for this product in allStock
             const stockItem = allStock.find(
               (item) => item.productId === product.id,
             );
@@ -97,7 +93,6 @@ const CardAllProductWarehouse: React.FC<CardProductManagementProps> = ({
               stockQuantity = 0;
             }
             // console.log('stock', stockItem);
-
             return (
               <div
                 key={product.id}
@@ -173,8 +168,8 @@ const CardAllProductWarehouse: React.FC<CardProductManagementProps> = ({
               productId={selectedProductId}
               warehouseId={warehouseId}
               onClose={handleCloseRequestStockModal}
-              onRequestStockSuccess={() => {
-                // You can add logic here to refresh product data if necessary
+              onSuccess={() => {
+                refreshWarehouse;
                 handleCloseRequestStockModal();
               }}
             />

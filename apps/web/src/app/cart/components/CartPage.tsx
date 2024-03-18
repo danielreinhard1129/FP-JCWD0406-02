@@ -65,7 +65,7 @@ const CartPage: React.FC = () => {
                     item.Product.productPhotos.length > 0
                       ? `${baseUrll}/photo-product/${item.Product.productPhotos[0].photo_product}`
                       : '/default-product.webp'
-                  } // Use a default image if productPhotos is not available
+                  }
                   alt={item.Product.title}
                   className=" object-cover mr-4"
                   width={100}
