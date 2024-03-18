@@ -29,7 +29,7 @@ const RegisterCardInputEmail = () => {
       console.log(error);
     }
   };
-  console.log(userGoogle);
+  // console.log(userGoogle);
 
   const formik = useFormik({
     initialValues: {
@@ -37,15 +37,18 @@ const RegisterCardInputEmail = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
+      console.log('checkk value ', values);
+
       try {
-        await axios.post(baseUrl + '/users/register', {
-          email: values.email,
-          roleId: 3,
-        });
+        const response = await axios.post(
+          baseUrl + '/users/create-token-register',
+          {
+            email: values.email,
+            roleId: 3,
+          },
+        );
 
-        toast.success('Register Success');
-
-        router.push('/login');
+        toast.success(response.data.message);
       } catch (error) {
         if (error instanceof AxiosError) {
           const errorMsg = error.response?.data || error.message;

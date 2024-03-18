@@ -577,10 +577,11 @@ export class UserController {
       const token = await createRegisterTokenAction(email);
 
       res.status(200).send(token);
-      } catch (error) {
+    } catch (error) {
       next(error);
     }
-    
+  }
+
   async getAdminNotAssigned(req: Request, res: Response, next: NextFunction) {
     try {
       const admins = await getAdminNotAssignedAction();

@@ -28,7 +28,7 @@ const Verification = () => {
               Click here to verify your email
             </h2>
             <div className="my-4">
-              <Link href={`/register/user-detail?token=${token}`}>
+              <Link href={`/register/detail?token=${token}`}>
                 <button
                   type="submit"
                   className="w-full bg-teal-600 text-white font-normal text-sm py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline"

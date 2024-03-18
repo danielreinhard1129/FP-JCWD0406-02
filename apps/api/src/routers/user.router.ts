@@ -68,7 +68,10 @@ export class UserRouter {
       this.userController.userVerification,
     );
     // this.router.post('/ongkirdata', this.userController.createGetOngkir);
-    this.router.post('/checkemail', this.userController.sendEmailForVerif);
+    this.router.post(
+      '/send-email-for-verif',
+      this.userController.sendEmailForVerif,
+    );
     this.router.post('/checkongkir', this.userController.createGetOngkir);
     this.router.patch('/create-admin/:id', this.userController.createAdmin);
     this.router.delete('/delete-user/:id', this.userController.deleteUser);

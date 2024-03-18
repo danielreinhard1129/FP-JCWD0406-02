@@ -24,7 +24,7 @@ export const sendEmailForVerifAction = async (email: string) => {
     const token = createToken({ email: user.email });
 
     const baseUrl = 'http://localhost:3000';
-    const link = baseUrl + `/verification?token=${token}`;
+    const link = baseUrl + `/user/verification?token=${token}`;
     const html = compileTemplate({ link });
 
     await transporter.sendMail({

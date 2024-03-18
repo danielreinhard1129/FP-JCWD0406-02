@@ -1,10 +1,8 @@
 import { hashPassword } from '@/lib/bcrypt';
 import { createUser } from '@/repositories/user/createUser';
-import { getUserByEmail } from '@/repositories/user/getUserByEmail';
 import { getUsernameByUsername } from '@/repositories/user/getUserByUsername';
 import { IUser } from '@/types/user.types';
-import { TokenExpiredError } from 'jsonwebtoken';
-import jwt from 'jsonwebtoken';
+import jwt, { TokenExpiredError } from 'jsonwebtoken';
 
 export const registerUserAction = async (data: IUser, token: string) => {
   try {
@@ -16,8 +14,6 @@ export const registerUserAction = async (data: IUser, token: string) => {
     } catch (error) {
       if (error instanceof TokenExpiredError) {
         throw new Error('Token Expired');
-      } else {
-        throw new Error('Invalid Token');
       }
     }
 

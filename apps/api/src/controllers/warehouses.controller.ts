@@ -378,7 +378,7 @@ export class WarehouseController {
 
   async journalStockReport(req: Request, res: Response, next: NextFunction) {
     try {
-      const { warehouse, start, end } = req.query;
+      const { warehouseIds, start, end } = req.query;
       console.log('check querrryy', req.query);
 
       const startDate = new Date(start as string);
@@ -391,13 +391,13 @@ export class WarehouseController {
       console.log('check format start', formatStart);
       console.log('check format end', formatEnd);
 
-      const report = journalStockReportAction(
-        { name: warehouse as string },
-        formatStart,
-        formatEnd,
-      );
+      // const report = journalStockReportAction(
+      //   warehouseIds[],
+      //   formatStart,
+      //   formatEnd,
+      // );
 
-      res.status(200).send(report);
+      // res.status(200).send(report);
     } catch (error) {
       next(error);
     }
