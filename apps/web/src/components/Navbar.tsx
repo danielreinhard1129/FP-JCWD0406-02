@@ -1,7 +1,7 @@
 'use client';
 
 import { UserAuth } from '@/app/utils/context/authContext';
-import { baseUrl } from '@/app/utils/database';
+import { baseUrl, baseUrll } from '@/app/utils/database';
 import { fetchAllProducts } from '@/app/utils/helper/fetchAllProduct';
 import { loginAction, logoutAction } from '@/lib/features/userSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
@@ -22,6 +22,8 @@ import { LuLayoutDashboard } from 'react-icons/lu';
 import SearchBar2 from './SearchBar2';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
+import { setCartItems } from '@/lib/features/cartSlice';
+import CartHoverPopup from '@/app/cart/components/CartPopUp';
 
 export interface ProductPhoto {
   url: string;
@@ -47,14 +49,19 @@ export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const user = useAppSelector((state) => state.user);
+  const cart = useSelector((state: RootState) => state.cart.cartItems);
+
+  console.log('redux cart', cart);
+
+  const userId = user.id;
   const router = useRouter();
-  const dispacth = useAppDispatch();
+  const dispatch = useAppDispatch();
   const { userGoogle, logOut } = UserAuth();
 
   const handleLogout = async () => {
     await logOut();
     localStorage.removeItem('token_auth');
-    dispacth(logoutAction());
+    dispatch(logoutAction());
     router.push('/');
   };
 
@@ -81,13 +88,31 @@ export const Navbar = () => {
         const keep = data.data;
         keep.roleId = data.data.roleId;
 
-        dispacth(loginAction(keep));
+        dispatch(loginAction(keep));
       } catch (error) {
         console.log(error);
       }
     };
     keepLogin();
   }, [user]);
+
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        const response = await axios.get(
+          `${baseUrl}/transactions/cart/${userId}`,
+        );
+
+        dispatch(setCartItems(response.data.data));
+      } catch (error) {
+        console.error('Failed to fetch cart items:', error);
+      }
+    };
+
+    if (userId) {
+      fetchCartItems();
+    }
+  }, [userId, dispatch]);
 
   const closeMenu = () => {
     setIsMenuOpen(false);
@@ -128,14 +153,18 @@ export const Navbar = () => {
           {!isLoading && <SearchBar2 allProducts={allProducts} />}
         </div>
 
-        <div className="ml-4 flex lg:gap-x-12 items-center">
-          <a
-            href="/cart"
-            className="text-sm font-semibold leading-6 text-gray-900 mr-4"
-          >
-            <FiShoppingCart className="h-6 w-6" />
-          </a>
-        </div>
+        <Link
+          href="/cart"
+          className="relative text-sm font-semibold leading-6 text-gray-900 mr-4"
+        >
+          <FiShoppingCart className="h-6 w-6" />
+          {cart.length > 0 && (
+            <span className="absolute -bottom-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-white text-xs">
+              {cart.length}
+            </span>
+          )}
+        </Link>
+        {/* <CartHoverPopup /> */}
         <div className="hidden lg:block lg:gap-x-12 items-center">
           <a
             href="#"
@@ -178,12 +207,17 @@ export const Navbar = () => {
               data-dropdown-toggle="dropdown"
             >
               <span className="sr-only">Open profile menu</span>
-              <FiUser />
-              {/* <img
-                className="w-8 h-8 rounded-full"
-                src="/path/to/your/profile/image.jpg"
-                alt="User menu"
-              /> */}
+              <Image
+                src={
+                  user?.profile_picture
+                    ? `${baseUrll}/photo-profile/${user.profile_picture}`
+                    : '/default-avatar.png'
+                }
+                alt="Profile Picture"
+                width={100}
+                height={100}
+                className="object-cover rounded-full w-10 h-10"
+              />
             </button>
 
             <div

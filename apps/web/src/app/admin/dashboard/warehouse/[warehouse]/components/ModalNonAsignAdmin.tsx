@@ -28,12 +28,14 @@ interface NonAsignAdminSelectProps {
   isOpen: boolean;
   onClose: () => void;
   warehouseId: number;
+  onSuccess: () => void;
 }
 
 const ModalNonAsignAdmin: React.FC<NonAsignAdminSelectProps> = ({
   isOpen,
   onClose,
   warehouseId,
+  onSuccess,
 }) => {
   // Update to use an array of User
   const [admin, setAdmin] = useState<User[]>([]);
@@ -64,6 +66,7 @@ const ModalNonAsignAdmin: React.FC<NonAsignAdminSelectProps> = ({
           userId: adminId,
         },
       );
+      onSuccess();
       toast.success('Admin set successfully');
       onClose();
     } catch (error) {

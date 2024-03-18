@@ -108,6 +108,10 @@ const WarehouseDetail = () => {
     getWarehouseDetails();
   }, [params.warehouse]);
 
+  const refreshWarehouse = async () => {
+    getWarehouseDetails();
+  };
+
   return (
     <div className="flex gap-4 mx-auto max-w-7xl mt-8">
       <AdminSidebar />
@@ -116,7 +120,11 @@ const WarehouseDetail = () => {
         <HeaderWarehouse />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10 px-4">
           <WarehouseDetailCard warehouse={warehouse as unknown as IWarehouse} />
-          <AdminIdentityCard admin={admin} warehouseData={warehouseId} />
+          <AdminIdentityCard
+            admin={admin}
+            warehouseData={warehouseId}
+            refreshWarehouse={refreshWarehouse}
+          />
         </div>
         {/* Tabs for product management */}
         <HeaderProductWarehouse />
@@ -126,6 +134,7 @@ const WarehouseDetail = () => {
           inStockProducts={inStockProducts}
           noStockProducts={noStockProducts}
           allStock={allStock}
+          refreshWarehouses={refreshWarehouse}
         />
       </div>
     </div>

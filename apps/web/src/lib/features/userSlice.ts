@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { last } from 'lodash';
 
 interface UserState {
   roleId: number;
@@ -7,6 +8,9 @@ interface UserState {
   username: string;
   role: string;
   email: string;
+  profile_picture: string;
+  first_name: string;
+  last_name: string;
 }
 
 const initialState: UserState = {
@@ -15,6 +19,9 @@ const initialState: UserState = {
   role: '',
   email: '',
   roleId: 0,
+  profile_picture: '',
+  first_name: '',
+  last_name: '',
 };
 
 const getRoleName = (roleId: number): string => {
@@ -34,18 +41,32 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     loginAction: (state, action: PayloadAction<UserState>) => {
-      const { roleId, id, username, email } = action.payload;
+      const {
+        roleId,
+        id,
+        username,
+        email,
+        profile_picture,
+        first_name,
+        last_name,
+      } = action.payload;
       state.id = id;
       state.username = username;
       state.role = getRoleName(roleId);
       state.email = email;
       state.roleId = roleId;
+      state.profile_picture = profile_picture;
+      state.first_name = first_name;
+      state.last_name = last_name;
     },
     logoutAction: (state) => {
       state.id = 0;
       (state.username = ''), (state.role = '');
       state.email = '';
       state.roleId = 0;
+      state.profile_picture = '';
+      state.first_name = '';
+      state.last_name = '';
     },
   },
 });

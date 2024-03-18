@@ -7,14 +7,14 @@ interface RequestStockModalProps {
   productId: number;
   warehouseId: number;
   onClose: () => void;
-  onRequestStockSuccess: () => void;
+  onSuccess: () => void;
 }
 
 const RequestStockModal: React.FC<RequestStockModalProps> = ({
   productId,
   warehouseId,
   onClose,
-  onRequestStockSuccess,
+  onSuccess,
 }) => {
   const [quantity, setQuantity] = useState<number>(0);
 
@@ -27,7 +27,7 @@ const RequestStockModal: React.FC<RequestStockModalProps> = ({
         quantity,
       });
       toast.success(response.data.message);
-      onRequestStockSuccess();
+      onSuccess();
       onClose();
     } catch (error) {
       if (error instanceof AxiosError) {

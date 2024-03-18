@@ -7,14 +7,15 @@ interface UpdateStockModalProps {
   stockId: number;
   currentQuantity: number;
   onClose: () => void;
-  onStockUpdated: () => void;
+
+  onSuccess: () => void;
 }
 
 const UpdateStockModal: React.FC<UpdateStockModalProps> = ({
   stockId,
   currentQuantity,
   onClose,
-  onStockUpdated,
+  onSuccess,
 }) => {
   const [quantity, setQuantity] = useState<number>(currentQuantity);
 
@@ -25,7 +26,7 @@ const UpdateStockModal: React.FC<UpdateStockModalProps> = ({
         quantity,
       });
       toast.success('Stock updated successfully');
-      onStockUpdated();
+      onSuccess();
       onClose();
     } catch (error) {
       console.error('Error updating stock:', error);

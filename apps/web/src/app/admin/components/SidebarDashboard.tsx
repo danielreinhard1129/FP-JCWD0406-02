@@ -15,6 +15,8 @@ import { BsFillJournalBookmarkFill } from 'react-icons/bs';
 import { BiTransferAlt } from 'react-icons/bi';
 import { LuWarehouse } from 'react-icons/lu';
 import { useSelector } from 'react-redux';
+import Image from 'next/image';
+import { baseUrll } from '@/app/utils/database';
 
 export interface IUser {
   user: any;
@@ -45,8 +47,18 @@ const AdminSidebar: React.FC = () => {
   return (
     <div className="w-60 min-h-screen bg-white text-gray-800 flex flex-col shadow">
       {/* Admin Profile */}
-      <div className="p-4 flex items-center">
-        <FaUserCircle className="mr-2 text-3xl text-gray-600" />
+      <div className="p-4 flex space-x-4 items-center">
+        <Image
+          src={
+            user?.profile_picture
+              ? `${baseUrll}/photo-profile/${user.profile_picture}`
+              : '/default-avatar.png'
+          }
+          alt="Profile Picture"
+          width={100}
+          height={100}
+          className="object-cover rounded-full w-16 h-16"
+        />
         <div>
           <p className="font-semibold text-gray-800">{user.username}</p>
           <p className="text-sm text-gray-600">{user.role}</p>
