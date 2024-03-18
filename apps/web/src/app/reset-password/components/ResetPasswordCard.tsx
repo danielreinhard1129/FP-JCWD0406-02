@@ -4,6 +4,7 @@ import axios, { AxiosError } from 'axios';
 import { useFormik } from 'formik';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { toast } from 'sonner';
 
 export default function ResetPasswordCard() {
   const router = useRouter();
@@ -34,7 +35,7 @@ export default function ResetPasswordCard() {
         );
         console.log(response);
 
-        alert('reset succes');
+        toast(response.data.message);
         router.push('/login');
       } catch (error) {
         if (error instanceof AxiosError) {

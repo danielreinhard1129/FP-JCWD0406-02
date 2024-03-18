@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import axios, { AxiosError } from 'axios';
 import { useFormik } from 'formik';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import * as yup from 'yup';
 import { toast } from 'sonner';
 import YupPassword from 'yup-password';
@@ -25,6 +25,9 @@ const validationSchema = yup.object().shape({
 const RegisterCard = () => {
   const router = useRouter();
   const { userGoogle, googleSignIn } = UserAuth();
+  const searchToken = useSearchParams();
+  const token = searchToken.get('token');
+  console.log('check token : ', token);
 
   const handleSignIn = async () => {
     try {
@@ -48,13 +51,27 @@ const RegisterCard = () => {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        await axios.post(baseUrl + '/users/register', {
-          username: values.username,
-          password: values.password,
-          roleId: 3,
-        });
+        const response = await axios.post(
+          baseUrl + '/users/register-user',
+          {
+            email: token,
+            username: values.username,
+            password: values.password,
+            first_name: values.first_name,
+            last_name: values.last_name,
+            contact: values.contact,
+            roleId: 3,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
 
-        toast.success('Register success');
+        console.log('check response : ', response);
+
+        toast.success(response.data.message);
 
         router.push('/login');
       } catch (error) {
@@ -109,7 +126,7 @@ const RegisterCard = () => {
               </label>
               <input
                 type="text"
-                id="firstname"
+                id="first_name"
                 placeholder="First Name"
                 className="shadow appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring"
                 onChange={formik.handleChange}
@@ -131,7 +148,7 @@ const RegisterCard = () => {
               </label>
               <input
                 type="text"
-                id="lastname"
+                id="last_name"
                 placeholder="Last Name"
                 className="shadow appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring"
                 onChange={formik.handleChange}

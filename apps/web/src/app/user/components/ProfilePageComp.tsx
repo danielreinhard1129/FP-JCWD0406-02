@@ -4,13 +4,14 @@ import { UserAuth } from '@/app/utils/context/authContext';
 import { baseUrl } from '@/app/utils/database';
 import isAuth from '@/components/isAuth';
 import axios, { AxiosError } from 'axios';
-import { FileInput, Label } from 'flowbite-react';
+import { Button, FileInput, Label } from 'flowbite-react';
 import { ChangeEvent, useState } from 'react';
-import EditProfileComp from './EditProfile';
 import { FaCamera, FaUserCircle } from 'react-icons/fa';
 import { toast } from 'sonner';
+import EditProfileComp from './EditProfile';
 import ModalChangeEmail from './ModalChangeEmail';
 import VerificationEmail from './SendVerificationEmail';
+import SendEmailVerifyButton from './SendEmailVerifyButton';
 
 interface IUser {
   data: any;
@@ -127,6 +128,9 @@ const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
                     {dataUser.isVerified ? 'Verified' : 'Not Verified'}
                   </span>
                   {/* <VerificationEmail /> */}
+                  {!dataUser.isVerified && (
+                    <SendEmailVerifyButton user={dataUser} />
+                  )}
                 </div>
               </div>
             </div>

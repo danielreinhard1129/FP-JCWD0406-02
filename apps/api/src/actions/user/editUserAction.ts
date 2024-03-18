@@ -29,7 +29,7 @@ export const editUserAction = async (body: IUser, id: number) => {
       const compileTemplate = Handlebars.compile(templateSource);
 
       const baseUrl = 'http://localhost:3000';
-      const link = `${baseUrl}/register/verification?token=${token}`;
+      const link = `${baseUrl}/user/verification?token=${token}`;
       const html = compileTemplate({ link });
 
       await transporter.sendMail({
