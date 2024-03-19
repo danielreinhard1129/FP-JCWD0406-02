@@ -55,7 +55,7 @@ const WarehouseDetail = () => {
   const [warehouseId, setWarehouseId] = useState<number>(0);
   const params = useParams();
   console.log('check warehouse', warehouse);
-  // console.log('ini warehouse', warehouseId);
+  console.log('ini warehouse', warehouseId);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -65,7 +65,7 @@ const WarehouseDetail = () => {
       setAllProducts(products);
     };
     getProducts();
-  }, [allProducts]);
+  }, []);
 
   const getWarehouseDetails = useCallback(async () => {
     try {
