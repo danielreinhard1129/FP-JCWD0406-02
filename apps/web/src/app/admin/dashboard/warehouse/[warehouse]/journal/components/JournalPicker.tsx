@@ -1,10 +1,10 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import WarehouseAutoComplete from '../../stock-mutation/components/WarehouseAutocomplete';
 import { Datepicker } from 'flowbite-react';
 import axios from 'axios';
 import { baseUrl } from '@/app/utils/database';
-import { JournalStockCard } from './JournalStockCard';
+import WarehouseAutoComplete from '@/app/admin/dashboard/stock-mutation/components/WarehouseAutocomplete';
+import { useParams } from 'next/navigation';
 
 interface Product {
   id: number;
@@ -30,18 +30,20 @@ interface JournalStockCardProps {
 }
 
 const JournalPicker = () => {
-  const [selectedWarehouse, setSelectedWarehouse] = useState<number | null>(
-    null,
-  );
+  const params = useParams();
+  console.log('check paramssss', params);
+
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [journalReport, setJournalReport] = useState([]);
+
+  // console.log('ini hasil journal', journalReport);
 
   useEffect(() => {
     const stockReport = async () => {
       try {
         const response = await axios.get(
-          `${baseUrl}/warehouses/journal?warehouseId=${selectedWarehouse}&start=${startDate}&end=${endDate}`,
+          `${baseUrl}/warehouses/journal-stock-report/${params.warehouse}?start=${startDate}&end=${endDate}`,
         );
         console.log(response.data);
         setJournalReport(response.data.data);
@@ -50,13 +52,12 @@ const JournalPicker = () => {
       }
     };
     stockReport();
-  }, [selectedWarehouse, startDate, endDate]);
+  }, [startDate, endDate]);
 
   return (
     <div className="space-y-2">
       {/* Area Picker */}
       <div className="flex justify-between gap-5 items-center mb-4">
-        <WarehouseAutoComplete onWarehouseSelect={setSelectedWarehouse} />
         <div className="flex gap-5">
           <Datepicker
             title="Start Date"
