@@ -8,8 +8,6 @@ import { baseUrll } from '@/app/utils/database';
 const ProductCardCheckout: React.FC = () => {
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
 
-  console.log('ini cartItem', cartItems);
-
   return (
     <>
       {cartItems.map((item, index) => (

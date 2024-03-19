@@ -51,7 +51,6 @@ const UserAddress: React.FC = () => {
   const userId = useSelector((state: IUser) => state.user?.id);
   const [addresses, setAddresses] = useState<Partial<IAddress>[]>([]);
   const [user, setUser] = useState<Partial<IUser>[]>([]);
-  console.log('ini user', user);
 
   const fetchAddresses = useCallback(async () => {
     try {

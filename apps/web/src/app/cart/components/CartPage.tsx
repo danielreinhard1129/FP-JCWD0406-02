@@ -41,11 +41,8 @@ const CartPage: React.FC = () => {
       maximumFractionDigits: 0,
     }).format(price);
   };
-  console.log('ini card di cart', cartItems);
 
   const updateQuantity = async (cartItemId: number, newQuantity: number) => {
-    console.log();
-
     try {
       const response = await axios.patch(
         `${baseUrl}/transactions/update-cart/${cartItemId}`,
@@ -84,8 +81,6 @@ const CartPage: React.FC = () => {
       updateQuantity(cartItemId, newQuantity);
     }
   };
-
-  console.log('ini handle', handleQuantityChange);
 
   const totalPrice = cartItems?.reduce(
     (total: number, item: CartItem) =>

@@ -23,10 +23,6 @@ const StockMutation = () => {
     { productId: number; quantity: number }[]
   >([]);
 
-  console.log('destination', destinationWarehouseId);
-  console.log('initial', initialWarehouseId);
-  console.log('ini product', productsWithQuantities);
-
   const handleStockMutationSubmit = async () => {
     if (
       !initialWarehouseId ||
