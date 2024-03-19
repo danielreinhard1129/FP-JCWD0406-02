@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import axios, { AxiosError } from 'axios';
 import { RootState } from '@/lib/store';
@@ -78,7 +78,7 @@ const CheckoutPage = () => {
   );
   const totalPrice = totalProductPrice + shippingCost;
 
-  const fetchAddresses = async () => {
+  const fetchAddresses = useCallback(async () => {
     try {
       const response = await axios.get(
         `${baseUrl}/users/user-addresses/${userId}`,
@@ -93,11 +93,13 @@ const CheckoutPage = () => {
     } catch (error) {
       console.error('Error fetching addresses:', error);
     }
-  };
+  }, [userId]);
 
   useEffect(() => {
-    fetchAddresses();
-  }, [userId]);
+    if (userId) {
+      fetchAddresses();
+    }
+  }, [fetchAddresses, userId]);
 
   const refreshAddresses = async () => {
     fetchAddresses();
@@ -172,7 +174,7 @@ const CheckoutPage = () => {
 
   useEffect(() => {
     fetchClosestWarehouse(userId);
-  }, [selectedAddressId]);
+  }, [userId]);
 
   const handleCreateTransaction = async () => {
     if (!closestWarehouse) {

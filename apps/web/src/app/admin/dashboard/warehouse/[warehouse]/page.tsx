@@ -4,7 +4,7 @@ import AdminSidebar from '@/app/admin/components/SidebarDashboard';
 import { baseUrl } from '@/app/utils/database';
 import axios, { AxiosError } from 'axios';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import AdminIdentityCard from './components/AdminIdentityCard';
 import HeaderWarehouse from './components/HeaderWarehouse';
 import WarehouseDetailCard from './components/WarehouseDetailCard';
@@ -14,7 +14,6 @@ import { IProduct } from '@/app/products/components/ProductCard';
 import TabsComponent from './components/WarehouseProductManagement copy';
 import { fetchAllProducts } from '@/app/utils/helper/fetchAllProduct';
 import { IStock } from '@/types/warehouse.types';
-import NonAsignAdminSelect from './components/ModalNonAsignAdmin';
 
 interface IRole {
   id: number;
@@ -51,7 +50,6 @@ const WarehouseDetail = () => {
   const [allStock, setAllStock] = useState<IStock[]>([]);
   const [inStockProducts, setInStockProducts] = useState<IProduct[]>([]); // Assu
   const [noStockProducts, setNoStockProducts] = useState<IProduct[]>([]); // Assu
-  const [isLoading, setIsLoading] = useState(true);
   const [warehouse, setWarehouse] = useState([]);
   const [admin, setAdmin] = useState<IUser | null>(null);
   const [warehouseId, setWarehouseId] = useState<number>(0);
@@ -62,15 +60,14 @@ const WarehouseDetail = () => {
   useEffect(() => {
     const getProducts = async () => {
       const products = await fetchAllProducts().then();
-      console.log('ini all  product', allProducts);
+      // console.log('ini all  product', allProducts);
 
       setAllProducts(products);
-      setIsLoading(false);
     };
     getProducts();
-  }, []);
+  }, [allProducts]);
 
-  const getWarehouseDetails = async () => {
+  const getWarehouseDetails = useCallback(async () => {
     try {
       const response = await axios.get(
         `${baseUrl}/warehouses/branch/${params.warehouse}`,
@@ -102,11 +99,13 @@ const WarehouseDetail = () => {
         toast.error(errorMsg);
       }
     }
-  };
+  }, [params.warehouse]);
 
   useEffect(() => {
-    getWarehouseDetails();
-  }, [params.warehouse]);
+    if (params.warehouse) {
+      getWarehouseDetails();
+    }
+  }, [params.warehouse, getWarehouseDetails]);
 
   const refreshWarehouse = async () => {
     getWarehouseDetails();

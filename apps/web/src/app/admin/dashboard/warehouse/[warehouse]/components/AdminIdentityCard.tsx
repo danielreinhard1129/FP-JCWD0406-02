@@ -51,7 +51,7 @@ const AdminIdentityCard: React.FC<AdminIdentityCardProps> = ({
     <div>
       {admin ? (
         <div
-          className="relative flex items-center cursor-pointer h-40 bg-white shadow-lg rounded-xl pr-4"
+          className="relative flex items-center cursor-pointer h-40 bg-white shadow-md rounded-xl pr-4"
           onClick={openModal}
         >
           <div className="relative w-40 h-40 overflow-hidden rounded-l-xl">

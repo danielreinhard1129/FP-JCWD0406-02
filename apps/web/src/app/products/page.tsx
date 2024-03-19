@@ -5,7 +5,6 @@ import { baseUrl } from '@/app/utils/database'; // Adjust this import based on y
 import ProductCard, { Category } from './components/ProductCard';
 import CategorySelector from './components/CategoryCardDiscovery';
 import { Spinner } from 'flowbite-react';
-import Loading from '@/components/Loading';
 import Carousel from '@/components/Carousel';
 import { IStock } from '@/types/warehouse.types';
 

@@ -55,23 +55,23 @@ const WaitingForPaymentPage = () => {
   const params = useParams();
   console.log('di transaksi', transaction);
 
-  const fetchTransaction = async () => {
-    try {
-      const response = await axios.get(
-        `${baseUrl}/transactions/details/${params.uuid}`,
-      );
-
-      setTransaction(response.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // console.log('data ', transaction);
-
   useEffect(() => {
+    const fetchTransaction = async () => {
+      try {
+        const response = await axios.get(
+          `${baseUrl}/transactions/details/${params.uuid}`,
+        );
+
+        setTransaction(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    // console.log('data ', transaction);
+
     fetchTransaction();
-  }, []);
+  }, [params.uuid]);
 
   if (!transaction) return null;
 

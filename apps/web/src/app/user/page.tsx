@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ProfilePageComp from './components/ProfilePageComp';
 import Sidebar from './components/SideBar';
 import { useSelector } from 'react-redux';
@@ -31,18 +31,18 @@ const ProfilePage: React.FC = () => {
 
   const [userData, setUserData] = useState<Partial<IUser> | null>(null);
 
-  const getDataUser = async () => {
+  const getDataUser = useCallback(async () => {
     try {
       const response = await axios.get(`${baseUrl}/users/user/${userId}`);
       setUserData(response.data.data);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [userId]); // Dependencies for useCallback
 
   useEffect(() => {
     getDataUser();
-  }, [userId]);
+  }, [getDataUser]); //
 
   const refreshProfile = async () => {
     getDataUser();
