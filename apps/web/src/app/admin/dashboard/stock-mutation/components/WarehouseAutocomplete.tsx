@@ -15,7 +15,7 @@ interface IWarehouse {
 }
 
 interface WarehouseAutoCompleteProps {
-  onWarehouseSelect: (warehouseName: string) => void;
+  onWarehouseSelect: (warehouseId: number) => void;
 }
 
 const WarehouseAutoComplete: React.FC<WarehouseAutoCompleteProps> = ({
@@ -54,10 +54,17 @@ const WarehouseAutoComplete: React.FC<WarehouseAutoCompleteProps> = ({
     setShowOptions(true);
   };
 
-  const handleOptionClick = (warehouseName: string) => {
-    setSearchTerm(warehouseName);
-    onWarehouseSelect(warehouseName);
-    setShowOptions(false);
+  const handleOptionClick = (warehouseId: number) => {
+    const warehouse = warehouses.find(
+      (warehouse) => warehouse.id === warehouseId,
+    );
+    if (warehouse) {
+      setSearchTerm(warehouse.name);
+      onWarehouseSelect(warehouseId);
+      setShowOptions(false);
+
+      //   console.log('Selected Warehouse ID:', onWarehouseSelect);
+    }
   };
 
   return (
@@ -76,7 +83,7 @@ const WarehouseAutoComplete: React.FC<WarehouseAutoCompleteProps> = ({
           {filteredWarehouses.map((warehouse) => (
             <div
               key={warehouse.id}
-              onClick={() => handleOptionClick(warehouse.name)}
+              onClick={() => handleOptionClick(warehouse.id)}
               className="flex items-center rounded-lg p-2 hover:bg-teal-200 cursor-pointer text-sm"
             >
               {warehouse.name}
