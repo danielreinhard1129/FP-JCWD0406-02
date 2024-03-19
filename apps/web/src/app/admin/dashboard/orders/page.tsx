@@ -43,7 +43,6 @@ const NotificationSuperAdmin = () => {
     }
   };
 
-  console.log('ini orderlist', orderList);
   useEffect(() => {
     fetchData();
   }, []);

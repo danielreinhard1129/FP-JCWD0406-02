@@ -62,7 +62,6 @@ const UploadPaymentProof: React.FC<Props> = ({ transaction }) => {
         formData,
         { headers: { Authorization: `Bearer ${token}` } },
       );
-      console.log('ini data', data);
 
       // router.push(
       //   `/transaction/waiting-for-payment/${response.data.data.uuid}`,

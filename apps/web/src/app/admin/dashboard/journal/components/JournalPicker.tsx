@@ -37,9 +37,6 @@ const JournalPicker = () => {
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [journalReport, setJournalReport] = useState([]);
 
-  // console.log('ini hasil journal', journalReport);
-  console.log('selected warehouse', selectedWarehouse);
-
   useEffect(() => {
     const stockReport = async () => {
       try {

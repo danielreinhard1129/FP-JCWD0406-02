@@ -70,7 +70,6 @@ const CheckoutPage = () => {
   const [weight, setWeight] = useState<number>(0);
 
   const [shippingCost, setShippingCost] = useState<number>(0);
-  // console.log('ini warehouse close', closestWarehouse);
   const router = useRouter();
   const totalProductPrice = cartItems.reduce(
     (total, item) => total + item.Product.price * item.quantity,
@@ -126,7 +125,6 @@ const CheckoutPage = () => {
     const address = addresses.find((a) => a.id === selectedAddressId);
     if (address) {
       setDestinationId(address.cityId);
-      console.log('ini destination', address.cityId);
     }
   }, [selectedAddressId, addresses]);
 
@@ -138,11 +136,7 @@ const CheckoutPage = () => {
     setWeight(totalWeight);
   }, [cartItems]);
 
-  // console.log('ini total berat', weight);
-
   useEffect(() => {
-    console.log('ini origin', origin);
-
     setOriginId(origin);
   }, []);
 
@@ -162,8 +156,6 @@ const CheckoutPage = () => {
       const response = await axios.get(
         `${baseUrl}/transactions/closest-warehouse/${userId}`,
       );
-
-      // console.log('closestWarehouse', response.data.data);
       setClosestWarehouse(response.data.data);
       setOriginId(response.data.data.cityId);
     } catch (error) {
@@ -182,8 +174,6 @@ const CheckoutPage = () => {
       return;
     }
     const warehouseId = closestWarehouse.id;
-
-    console.log('ini warehouse id', warehouseId);
 
     const transactionData: ITransaction = {
       userId,
@@ -205,8 +195,6 @@ const CheckoutPage = () => {
           dataDetails: transactionDetails,
         },
       );
-
-      // console.log('Transaction created successfully', response.data);
       toast.success('Transaction has been created successfully.');
 
       router.push(

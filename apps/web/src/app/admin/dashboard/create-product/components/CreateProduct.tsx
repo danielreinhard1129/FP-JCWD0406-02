@@ -20,7 +20,6 @@ const CreateProductForm = () => {
       setFileProducts((prevFiles) => [...prevFiles, ...newFiles]);
     }
   };
-  console.log('cekkk cekkk', fileProducts);
 
   // Function to handle form submission
   const handleSubmit = async (event: any) => {

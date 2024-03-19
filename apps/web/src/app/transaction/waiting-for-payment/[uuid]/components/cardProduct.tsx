@@ -24,7 +24,6 @@ const CardProduct: React.FC<Props> = ({ transaction }) => {
     // Render nothing or a placeholder when there is no transaction
     return null;
   }
-  console.log('di card', transaction);
 
   return (
     <div className="bg-white w-full mt-5">

@@ -14,6 +14,7 @@ import { IProduct } from '@/app/products/components/ProductCard';
 import TabsComponent from './components/WarehouseProductManagement copy';
 import { fetchAllProducts } from '@/app/utils/helper/fetchAllProduct';
 import { IStock } from '@/types/warehouse.types';
+import NonAsignAdminSelect from './components/ModalNonAsignAdmin';
 
 interface IRole {
   id: number;
@@ -50,6 +51,7 @@ const WarehouseDetail = () => {
   const [allStock, setAllStock] = useState<IStock[]>([]);
   const [inStockProducts, setInStockProducts] = useState<IProduct[]>([]); // Assu
   const [noStockProducts, setNoStockProducts] = useState<IProduct[]>([]); // Assu
+  const [isLoading, setIsLoading] = useState(true);
   const [warehouse, setWarehouse] = useState([]);
   const [admin, setAdmin] = useState<IUser | null>(null);
   const [warehouseId, setWarehouseId] = useState<number>(0);
@@ -63,6 +65,7 @@ const WarehouseDetail = () => {
       // console.log('ini all  product', allProducts);
 
       setAllProducts(products);
+      setIsLoading(false);
     };
     getProducts();
   }, []);
