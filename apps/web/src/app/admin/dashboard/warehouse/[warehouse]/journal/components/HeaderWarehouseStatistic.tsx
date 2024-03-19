@@ -1,8 +1,9 @@
+'use client';
 import React from 'react';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { useRouter } from 'next/navigation';
 
-const HeaderWarehouseOrder: React.FC = () => {
+const HeaderWarehouseJournal: React.FC = () => {
   const router = useRouter();
 
   const goBack = () => {
@@ -18,10 +19,10 @@ const HeaderWarehouseOrder: React.FC = () => {
         </h1>
       </div>
       <h1 className="text-xl font-semibold text-gray-800 cursor-pointer">
-        Order
+        Journal
       </h1>
     </div>
   );
 };
 
-export default HeaderWarehouseOrder;
+export default HeaderWarehouseJournal;

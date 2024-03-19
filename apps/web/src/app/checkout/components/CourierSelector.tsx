@@ -95,7 +95,9 @@ const CourierSelector: React.FC<CourierSelectorProps> = ({
             onChange={handleCourierChange}
             className="mt-1 block h-fit w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
-            <option value="">Select Courier</option>
+            <option disabled value="">
+              Select Courier
+            </option>
             <option value="jne">JNE</option>
             <option value="pos">POS</option>
             <option value="tiki">TIKI</option>

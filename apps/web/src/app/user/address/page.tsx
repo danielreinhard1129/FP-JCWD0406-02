@@ -6,6 +6,7 @@ import axios from 'axios';
 import { baseUrl } from '@/app/utils/database';
 import AddressCardComp from './components/AddressCard';
 import HeaderAddress from './components/HeaderAddress';
+import Image from 'next/image';
 
 export interface ICity {
   id: string;
@@ -89,11 +90,13 @@ const UserAddress: React.FC = () => {
           />
         ) : (
           <div className="flex justify-center items-center w-full  ">
-            <img
+            <Image
               src="/address/address1.png"
               alt="No Address"
               className="rounded-lg"
               style={{ maxWidth: '100%', maxHeight: '50%' }}
+              width={100}
+              height={100}
             />
           </div>
         )}

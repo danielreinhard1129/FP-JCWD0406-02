@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -12,10 +13,12 @@ const Verification = () => {
     <div className="max-w-7xl mx-auto">
       <div className="relative h-fit md:h-screen">
         {/* Full Picture as Background */}
-        <img
+        <Image
           src="/register/register6.jpg"
           alt="Background Visual"
           className="absolute inset-0 w-full h-full object-contain hidden md:block"
+          width={100}
+          height={100}
         />
 
         {/* Overlay with Opacity */}

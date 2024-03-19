@@ -66,7 +66,7 @@ const EditProfileComp: React.FC<EditProfileProps> = ({ user, onSuccess }) => {
   return (
     <>
       <button
-        className="bg-amber-100 hover:bg-[#b0cac1] self-center text-teal text-sm font-medium py-2 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-opacity-50 flex items-center justify-center"
+        className=" self-center text-teal text-sm font-medium py-2 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-opacity-50 flex items-center justify-center transform transition-all hover:scale-105 duration-300"
         onClick={() => setIsModalOpen(true)}
       >
         <FaEdit />

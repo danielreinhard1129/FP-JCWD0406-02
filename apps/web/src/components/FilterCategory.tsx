@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 const FilterCategory = () => {
@@ -24,7 +25,7 @@ const FilterCategory = () => {
       id: 5,
       name: 'Home & Living',
       href: '#',
-      imageSrc: 'artCategory/homeliving.webp',
+      imageSrc: '/artCategory/homeliving.webp',
     },
   ];
   return (
@@ -35,11 +36,17 @@ const FilterCategory = () => {
         </h2>
         <div className="mt-4 grid grid-cols-2 gap-x-4 gap-y-4 lg:grid-cols-4 xl:gap-x-6">
           {categories.map((category) => (
-            <div key={category.id} className="group relative">
+            <div
+              key={category.id}
+              className="group relative transform transition-all hover:scale-105 duration-300 "
+            >
               <div className=" rounded-md overflow-hidden">
-                <img
+                <Image
                   src={category.imageSrc}
+                  alt="Category"
                   className="h-full w-full object-contain object-center lg:h-full lg:w-full"
+                  width={100}
+                  height={100}
                 />
               </div>
               <div className="mt-2">

@@ -219,12 +219,12 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div className="container mx-auto mt-10 p-5">
+    <div className="container mx-auto md:mt-10 mdp-5">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
         {/* Left Side: Shipping Information, Shipping Method, Cart Items */}
-        <div className="md:col-span-2 space-y-6">
+        <div className="md:col-span-2 space-y-2 md:space-y-4">
           {/* Shipping Address */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             <section className=" p-6 rounded-lg  bg-white">
               <h2 className="text-xl font-semibold mb-2">Shipping Address</h2>
               {selectedAddress ? (
@@ -273,8 +273,8 @@ const CheckoutPage = () => {
           </div>
           {/* Product from Cart */}
           <section className="border p-6 rounded-lg">
-            <h2 className="text-xl font-semibold ">BORDL Smart Home</h2>
-            <text className="text-xs font-normal mb-4 flex gap-1">
+            <h2 className="text-sm font-semibold ">BORDL Smart Home</h2>
+            <text className="text-xs font-normal mb-1 flex gap-1">
               send from{' '}
               <p className="font-semibold text-gray-800">
                 {closestWarehouse?.name}
@@ -287,7 +287,7 @@ const CheckoutPage = () => {
         <div className="md:col-span-1 ">
           {/* Right Side: Shipping Summary */}
           <div className="w-full sticky top-20 md:w-96 h-fit bg-gray-100 p-6 rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">Shipping Summary</h2>
+            <h2 className="text-md font-semibold mb-4">Shipping Summary</h2>
             {/* Shipping summary content goes here */}
             <div className="mb-4 ">
               <p>Total Product Price ({cartItems.length} products)</p>

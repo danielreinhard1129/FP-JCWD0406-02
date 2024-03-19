@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import YupPassword from 'yup-password';
 import { baseUrl } from '@/app/utils/database';
 import { UserAuth } from '@/app/utils/context/authContext';
+import Image from 'next/image';
 YupPassword(yup);
 
 const validationSchema = yup.object().shape({
@@ -61,11 +62,12 @@ const RegisterCardInputEmail = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 h-fit">
       {/* LEFT SIDE */}
-      <div className="hidden md:block">
-        <img
+      <div className="hidden relative w-[500px] h-[500px] md:block">
+        <Image
           src="/register/register6.jpg"
           alt="Left Side Visual"
-          className="items-center"
+          className="items-center object-cover"
+          fill
         />
       </div>
       {/* RIGHT SIDE */}

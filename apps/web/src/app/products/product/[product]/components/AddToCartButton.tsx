@@ -49,15 +49,15 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   const subtotal = quantity * price;
 
   return (
-    <div className="bg-white inset-x-0 sticky bottom-10 p-4 mt-8 rounded-xl shadow-lg flex flex-col space-y-4">
+    <div className="bg-white inset-x-0 sticky bottom-10 p-4 md:mt-8 rounded-xl shadow-lg flex flex-col space-y-4 transform transition-all hover:scale-105 duration-300">
       <div className="flex justify-between items-center">
         <div className="space-y-0">
           <div className="text-md text-gray-600 font-medium">{productName}</div>
           <div className="text-xs text-gray-500 uppercase">{category}</div>
         </div>
         <div className="item-center">
-          <h6 className="text-xs">Stock</h6>
-          <h6 className="text-sm">600</h6>
+          <h6 className="text-xs text-gray-400">Stock</h6>
+          <h6 className="text-xs  text-gray-400">600</h6>
         </div>
       </div>
       <hr />
@@ -65,16 +65,16 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
         <div className="flex items-center space-x-2">
           <button
             onClick={decrementQuantity}
-            className="bg-gray-200 text-gray-600 px-4 py-2 rounded"
+            className="bg-gray-200 text-gray-600 text-sm md:text-base px-2 md:px-4 md:py-2 rounded-lg transform transition-all hover:scale-105 duration-300 "
           >
             -
           </button>
-          <span className="font-semibold border md:px-12 px-4 py-2">
+          <span className="font-semibold md:text-base text-xs border md:px-12 px-2 py-1">
             {quantity}
           </span>
           <button
             onClick={incrementQuantity}
-            className="bg-gray-200 text-gray-600 px-4 py-2 rounded"
+            className="bg-gray-200 text-gray-600 text-sm md:text-base px-2 md:px-4 md:py-2 rounded-lg transform transition-all hover:scale-105 duration-300"
           >
             +
           </button>
@@ -90,7 +90,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
         </div>
         <div>
           <h3 className="text-xs ">Subtotal</h3>
-          <span className="font-semibold">
+          <span className="font-semibold md:text-base text-sm">
             {subtotal.toLocaleString('id-ID', {
               style: 'currency',
               currency: 'IDR',
@@ -103,7 +103,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
 
       <button
         onClick={handleAddToCart}
-        className="w-full bg-teal-600 text-white py-2 rounded-lg hover:bg-teal-700 transition-colors"
+        className="w-full bg-teal-600 text-white py-2 rounded-lg hover:bg-teal-700 transform transition-all hover:scale-105 duration-300"
       >
         ADD TO CART
       </button>

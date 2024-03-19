@@ -2,6 +2,7 @@
 import { baseUrl } from '@/app/utils/database';
 import axios, { AxiosError } from 'axios';
 import { useFormik } from 'formik';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
@@ -48,10 +49,12 @@ export default function ResetPasswordCard() {
   return (
     <div className="relative h-fit md:h-screen">
       {/* Full Picture */}
-      <img
+      <Image
         src="/register/register6.jpg"
         alt="Background Visual"
         className="absolute inset-0 w-full h-full object-contain hidden md:block"
+        width={100}
+        height={100}
       />
 
       {/* Overlay */}

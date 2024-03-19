@@ -4,13 +4,12 @@ import { UserAuth } from '@/app/utils/context/authContext';
 import { baseUrl } from '@/app/utils/database';
 import isAuth from '@/components/isAuth';
 import axios, { AxiosError } from 'axios';
-import { Button, FileInput, Label } from 'flowbite-react';
+import { FileInput, Label } from 'flowbite-react';
 import { ChangeEvent, useState } from 'react';
 import { FaCamera, FaUserCircle } from 'react-icons/fa';
 import { toast } from 'sonner';
 import EditProfileComp from './EditProfile';
 import ModalChangeEmail from './ModalChangeEmail';
-import VerificationEmail from './SendVerificationEmail';
 import SendEmailVerifyButton from './SendEmailVerifyButton';
 
 interface IUser {
@@ -75,9 +74,6 @@ const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
       setSelectedFile(null);
     }
   };
-  console.log('dataaaaaaaa', dataUser);
-
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   return (
     <div className="space-y-5 mx-auto">
@@ -117,7 +113,7 @@ const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
 
               <div className="flex justify-between items-start md:col-span-1">
                 <span className="font-semibold text-gray-700">Status:</span>
-                <div className="flex flex-col items-end">
+                <div className="flex flex-col items-end ">
                   <span
                     className={
                       dataUser.isVerified
@@ -135,7 +131,7 @@ const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
               </div>
             </div>
             <div className="relative mx-auto mt-5 md:mt-0">
-              <div className="flex-cols text-center space-y-2">
+              <div className="flex-cols text-center space-y-2 transform transition-all hover:scale-105 duration-300">
                 <label className="text-gray-500">
                   Update Your Profile Picture
                 </label>

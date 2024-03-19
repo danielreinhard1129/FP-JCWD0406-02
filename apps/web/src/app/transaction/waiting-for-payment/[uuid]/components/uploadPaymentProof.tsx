@@ -98,7 +98,7 @@ const UploadPaymentProof: React.FC<Props> = ({ transaction }) => {
       </div>
       <Label
         htmlFor="dropzone-file"
-        className="relative flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+        className="relative flex w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
       >
         <div className="relative">
           <FaMoneyBillTransfer className="text-gray-300 h-16 w-16 md:h-24 md:w-24 mt-5" />
@@ -131,7 +131,7 @@ const UploadPaymentProof: React.FC<Props> = ({ transaction }) => {
         <>
           <button
             onClick={() => setShowConfirmation(true)}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+            className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-1 px-4 rounded-xl mt-4"
           >
             Upload
           </button>

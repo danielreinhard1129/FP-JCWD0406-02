@@ -77,7 +77,7 @@ const EditAddressComp: React.FC<EditAddressProps> = ({
   return (
     <>
       <button
-        className="bg-transparent w-full hover:bg-teal-700 text-gray-400 font-normal text-xs hover:text-white py-1 px-4  hover:border-transparent rounded-lg"
+        className="bg-transparent w-full hover:bg-teal-700 text-gray-400 font-normal text-xs hover:text-white py-1 px-4  hover:border-transparent rounded-lg "
         onClick={() => setIsModalOpen(true)}
       >
         Edit

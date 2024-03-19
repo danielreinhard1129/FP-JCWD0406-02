@@ -12,7 +12,7 @@ const PrivacyPolicy = () => {
             1. Introduction
           </h2>
           <p className="text-gray-600">
-            Welcome to BORDL SMART HOME's Privacy Policy. We are committed to
+            Welcome to BORDL SMART HOME is Privacy Policy. We are committed to
             protecting the privacy and security of our customers. This Privacy
             Policy outlines our practices concerning the collection, use, and
             sharing of your personal information through the use of our website
@@ -42,7 +42,7 @@ const PrivacyPolicy = () => {
             Your information helps us process transactions smoothly, deliver
             products efficiently, provide customer support, and keep you
             informed about new products and promotions. We also use this
-            information to improve our website's functionality and tailor our
+            information to improve our website is functionality and tailor our
             product offerings to better meet your needs.
           </p>
         </section>
@@ -144,7 +144,7 @@ const PrivacyPolicy = () => {
           <p className="text-gray-600">
             We may update this Privacy Policy from time to time. We will notify
             you of any changes by posting the new Privacy Policy on this page
-            and updating the "Last updated" date at the top of this Privacy
+            and updating the Last updated date at the top of this Privacy
             Policy.
           </p>
         </section>

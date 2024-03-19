@@ -47,15 +47,15 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl w-full mx-auto">
       <Carousel />
       <Banner />
       <FilterCategory />
-      <div className="w-full h-fit">
+      <div className="w-full px-8 h-fit">
         <h2 className="text-lg font-bold tracking-tight text-gray-900">
           More Products
         </h2>
-        <div className=" mt-4 flex gap-x-4 gap-y-8">
+        <div className="items-center mt-4 flex gap-x-4 gap-y-8 w-full">
           <ProductCard productsData={randomProducts} />
         </div>
       </div>

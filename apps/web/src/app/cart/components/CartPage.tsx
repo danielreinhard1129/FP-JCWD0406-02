@@ -8,7 +8,11 @@ import { useRouter } from 'next/navigation'; // Import useRouter
 import { baseUrl, baseUrll } from '@/app/utils/database';
 import Image from 'next/image';
 import axios from 'axios';
-import { setCartItems } from '@/lib/features/cartSlice';
+import {
+  removeCartItem,
+  setCartItems,
+  updateCartItemQuantity,
+} from '@/lib/features/cartSlice';
 
 export interface ProductPhoto {
   id: number;
@@ -30,7 +34,6 @@ const CartPage: React.FC = () => {
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const router = useRouter(); // Initialize the router
   const dispatch = useDispatch();
-  const [productQty, serProductQty] = useState();
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
@@ -49,7 +52,19 @@ const CartPage: React.FC = () => {
         `${baseUrl}/transactions/update-quantity/${cartItemId}`,
         { quantity: newQuantity },
       );
-      dispatch(setCartItems(response.data.data));
+
+      if (response.status === 200) {
+        if (newQuantity === 0) {
+          // Remove the item from the cart if the quantity is 0
+          dispatch(removeCartItem(cartItemId));
+        } else {
+          const updatedCartItem = response.data.data;
+
+          dispatch(
+            updateCartItemQuantity({ cartItemId, quantity: newQuantity }),
+          );
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -60,51 +75,51 @@ const CartPage: React.FC = () => {
   };
 
   const handleQuantityChange = (cartItemId: number, change: number) => {
+    // Find the item in the cart
     const item = cartItems.find((item) => item.id === cartItemId);
     if (item) {
+      // Calculate the new quantity
       const newQuantity = item.quantity + change;
-      if (newQuantity >= 1) {
-        updateQuantity(cartItemId, newQuantity);
-      }
+
+      // Call updateQuantity to handle the change
+      updateQuantity(cartItemId, newQuantity);
     }
   };
-
   const totalPrice = cartItems?.reduce(
     (total: number, item: CartItem) =>
       total + item.Product.price * item.quantity,
     0,
   );
-
   return (
     <div className="min-h-screen max-w-5xl mx-auto px-4">
       <div className="container mx-auto py-8">
         <h1 className="text-3xl font-bold text-[#008080] mb-6">Cart</h1>
         <div className="md:grid grid-cols-3 gap-8">
           {/* Product Cards - Left Side */}
-          <div className="col-span-2 space-y-4">
+          <div className="col-span-2 space-y-1">
             {cartItems.map((item) => (
               <div
                 key={item.id}
-                className="flex items-start p-4 rounded-lg shadow-md bg-white"
+                className="flex items-start p-2 rounded-lg shadow-md bg-white"
               >
-                <Image
-                  src={
-                    item.Product.productPhotos &&
-                    item.Product.productPhotos.length > 0
-                      ? `${baseUrll}/photo-product/${item.Product.productPhotos[0].photo_product}`
-                      : '/default-product.webp'
-                  }
-                  alt={item.Product.title}
-                  className=" object-cover mr-4"
-                  width={100}
-                  height={100}
-                />
+                <div className="relative w-[80px] h-[80px] mr-5">
+                  <Image
+                    src={
+                      item.Product.productPhotos &&
+                      item.Product.productPhotos.length > 0
+                        ? `${baseUrll}/photo-product/${item.Product.productPhotos[0].photo_product}`
+                        : '/default-product.webp'
+                    }
+                    alt={item.Product.title}
+                    className=" object-cover mr-4"
+                    fill
+                  />
+                </div>
                 <div className="flex-grow flex justify-between">
                   <div className="flex flex-col justify-between">
-                    <h2 className="text-md font-semibold">
+                    <h2 className="text-base font-semibold">
                       {item.Product.title}
                     </h2>
-                    <FaTrashCan className="text-sm text-[#008080]" />
                   </div>
 
                   <div className="flex flex-col items-end">
@@ -115,7 +130,6 @@ const CartPage: React.FC = () => {
                       <button
                         className="px-2 text-sm border rounded text-[#008080] border-[#008080]"
                         onClick={() => handleQuantityChange(item.id, -1)}
-                        disabled={item.quantity <= 1}
                       >
                         -
                       </button>

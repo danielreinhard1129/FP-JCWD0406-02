@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 
 const images: string[] = [
@@ -46,10 +47,14 @@ const Carousel: React.FC = () => {
             key={index}
           >
             {index === current && (
-              <img
+              <Image
                 src={src}
                 alt={`Slide ${index}`}
                 className="w-full object-cover"
+                width={501}
+                height={501}
+                quality={100}
+                priority
               />
             )}
           </div>

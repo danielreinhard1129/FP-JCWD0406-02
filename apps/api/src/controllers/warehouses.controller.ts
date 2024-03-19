@@ -28,6 +28,7 @@ import { stockReportAction } from '@/actions/warehouse/stock/stockReport';
 import { getReqStockAction } from '@/actions/superAdmin/getReqStockAction';
 import { catalogProductAction } from '@/actions/warehouse/product/catalogProductAction';
 import { journalStockReportAction } from '@/actions/stockReport/journalStockReportAction';
+import { getStockMutationByInitialWarehouseAction } from '@/actions/warehouse/stockMutation/getStockMutationByInitialWarehouseAction';
 
 export class WarehouseController {
   async getProducts(req: Request, res: Response, next: NextFunction) {
@@ -398,6 +399,22 @@ export class WarehouseController {
       // );
 
       // res.status(200).send(report);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getStockMutationByInitialWarehouse(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const { id } = req.params;
+      const stockMutation = await getStockMutationByInitialWarehouseAction(
+        Number(id),
+      );
+      res.status(200).send(stockMutation);
     } catch (error) {
       next(error);
     }

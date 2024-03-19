@@ -18,3 +18,8 @@ export interface CartItem {
 export interface CartState {
   cartItems: CartItem[];
 }
+
+export interface UpdateQuantityPayload {
+  cartItemId: number;
+  quantity: number;
+}

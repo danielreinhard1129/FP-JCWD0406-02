@@ -2,7 +2,8 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import React from 'react';
 import { FiBarChart2, FiBell, FiShoppingBag } from 'react-icons/fi';
-import { LuWarehouse } from 'react-icons/lu';
+
+import { BsFillJournalBookmarkFill } from 'react-icons/bs';
 
 const HeaderWarehouse: React.FC = () => {
   const params = useParams();
@@ -15,7 +16,13 @@ const HeaderWarehouse: React.FC = () => {
         Warehouse Management
       </h1>
       <div className="flex items-center font-medium space-x-6">
-        <Link href={``}>
+        <Link href={`${paramsId}/journal`}>
+          <div className="flex items-center text-gray-600 hover:text-teal-600">
+            <BsFillJournalBookmarkFill size={20} />
+            <span className="ml-2">Journal</span>
+          </div>
+        </Link>
+        <Link href={`${paramsId}/statistic`}>
           <div className="flex items-center text-gray-600 hover:text-teal-600">
             <FiBarChart2 size={20} />
             <span className="ml-2">Statistic</span>

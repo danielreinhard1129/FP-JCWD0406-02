@@ -2,6 +2,7 @@
 import { baseUrl, baseUrll } from '@/app/utils/database';
 import { IProduct } from '@/types/warehouse.types';
 import axios, { AxiosError } from 'axios';
+import Image from 'next/image';
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -142,7 +143,7 @@ const OrderCard: React.FC<{ order: IOrder }> = ({ order }) => {
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="relative bg-white p-4 rounded-lg shadow-lg">
-            <img
+            <Image
               src={
                 order.paymentImg
                   ? `${baseUrll}/payment-proof/${order.paymentImg}`
@@ -150,6 +151,8 @@ const OrderCard: React.FC<{ order: IOrder }> = ({ order }) => {
               }
               alt="Payment Proof"
               className="max-h-screen max-w-screen object-contain"
+              width={100}
+              height={100}
             />
             <button
               onClick={closeModal}

@@ -6,6 +6,7 @@ import { FooterComp } from '@/components/Footer';
 import StoreProvider from './StoreProvider';
 import { AuthContextProvider } from '../app/utils/context/authContext';
 import { Toaster } from 'sonner';
+import BottomNavbar from '@/components/navigations/components/Downbar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -32,6 +33,7 @@ export default function RootLayout({
               richColors
               position="top-right"
             />
+            <BottomNavbar />
             <FooterComp />
           </AuthContextProvider>
         </StoreProvider>
