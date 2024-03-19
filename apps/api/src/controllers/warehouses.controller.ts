@@ -29,6 +29,8 @@ import { getReqStockAction } from '@/actions/superAdmin/getReqStockAction';
 import { catalogProductAction } from '@/actions/warehouse/product/catalogProductAction';
 import { journalStockReportAction } from '@/actions/stockReport/journalStockReportAction';
 import { getStockMutationByInitialWarehouseAction } from '@/actions/warehouse/stockMutation/getStockMutationByInitialWarehouseAction';
+import { journalStockReportByWarehouseAction } from '@/actions/stockReport/journalStockReportByWarehouseAction';
+import { journalStockReportFixAction } from '@/actions/stockReport/journalStockReportFix';
 
 export class WarehouseController {
   async getProducts(req: Request, res: Response, next: NextFunction) {
@@ -379,7 +381,7 @@ export class WarehouseController {
 
   async journalStockReport(req: Request, res: Response, next: NextFunction) {
     try {
-      const { warehouseName, start, end } = req.query;
+      const { warehouseId, start, end } = req.query;
       console.log('check query', req.query);
 
       const startDate = new Date(start as string);
@@ -389,7 +391,56 @@ export class WarehouseController {
       const formatEnd = endDate.toISOString();
 
       const report = await journalStockReportAction(
-        String(warehouseName),
+        Number(warehouseId),
+        formatStart,
+        formatEnd,
+      );
+
+      res.status(200).send(report);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async journalStockReportFix(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { warehouseId, start, end } = req.query;
+      console.log('check querry : ', req.query);
+
+      const startDate = new Date(start as string);
+      const endDate = new Date(end as string);
+
+      const formatStart = startDate.toISOString();
+      const formatEnd = endDate.toISOString();
+
+      const report = await journalStockReportFixAction(
+        Number(warehouseId),
+        formatStart,
+        formatEnd,
+      );
+      res.status(200).send(report);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async journalStockReportByWareouse(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const { id } = req.params;
+      const { start, end } = req.query;
+
+      const startDate = new Date(start as string);
+      const endDate = new Date(end as string);
+
+      const formatStart = startDate.toISOString();
+      const formatEnd = endDate.toISOString();
+
+      const report = await journalStockReportByWarehouseAction(
+        Number(id),
         formatStart,
         formatEnd,
       );

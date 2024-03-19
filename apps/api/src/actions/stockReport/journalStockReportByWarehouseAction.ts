@@ -1,12 +1,16 @@
-import { journalStockReport } from '@/repositories/stockReport/journalStockReport';
+import { journalStockReportByWarehouse } from '@/repositories/stockReport/journalStockReportByWarehouse';
 
-export const journalStockReportAction = async (
+export const journalStockReportByWarehouseAction = async (
   warehouseId: number,
   start: string,
   end: string,
 ) => {
   try {
-    const reportData = await journalStockReport(start, warehouseId, end);
+    const reportData = await journalStockReportByWarehouse(
+      warehouseId,
+      start,
+      end,
+    );
 
     let totalAddition = 0;
     let totalReduction = 0;
@@ -15,11 +19,15 @@ export const journalStockReportAction = async (
     reportData.forEach((entry) => {
       if (
         entry.type === 'addition' ||
-        'addition from mutation' ||
-        'added new stock'
+        entry.type === 'addition from mutation' ||
+        entry.type === 'added new stock'
       ) {
         totalAddition += entry.quantity;
-      } else if (entry.type === 'reduction' || 'Reduction from mutation') {
+      } else if (
+        entry.type === 'reduction' ||
+        entry.type === 'Reduction from mutation' ||
+        entry.type === 'shipped to user'
+      ) {
         totalReduction += entry.quantity;
       }
     });
