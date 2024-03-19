@@ -1,47 +1,32 @@
 import prisma from '@/prisma';
 
 export const journalStockReport = async (
-  warehouseIds: number[],
   start: string,
+  warehouseName: string,
   end: string,
 ) => {
   try {
-    // console.log('check warehouse name : ', warehouse.name);
+    console.log('repossss', start, end);
 
-    // Convert Date objects to ISO-8601 DateTime strings
-    // const isoStartDate = startDate.toISOString();
-    // const isoEndDate = endDate.toISOString();
-
-    // console.log('check isoEndDate : ', isoEndDate);
-    // console.log('check isoStartDate : ', isoStartDate);
+    // console.log('warehouse name : ', warehouseName);
 
     const report = await prisma.journalStock.findMany({
       where: {
-        AND: [
-          {
-            Stock: {
-              warehouseId: {
-                in: warehouseIds,
-              },
-            },
-          },
-          {
-            createdAt: {
-              gte: start,
-              lte: end,
-            },
-          },
-        ],
-      },
-      include: {
         Stock: {
-          include: {
-            warehouse: true,
-            product: true,
+          warehouse: {
+            name: {
+              contains: warehouseName,
+            },
           },
+        },
+        createdAt: {
+          gte: start,
+          lte: end,
         },
       },
     });
+
+    console.log('repository result', report);
 
     return report;
   } catch (error) {

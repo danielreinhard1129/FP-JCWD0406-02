@@ -31,8 +31,8 @@ export class TransactionRouter {
       this.transactionController.createTransaction,
     );
     this.router.patch(
-      '/update-quantity/:id',
-      this.transactionController.updateQuantityCart,
+      '/update-cart/:id',
+      this.transactionController.updateCartQuantity,
     );
     this.router.patch(
       '/update-status/:id',
@@ -53,8 +53,8 @@ export class TransactionRouter {
       this.transactionController.getTransactionByWarehouseId,
     );
     this.router.get(
-      '/order-list',
-      this.transactionController.getWaitingForConfirmationTransaction,
+      '/all-transaction',
+      this.transactionController.getAllTransaction,
     );
   }
 

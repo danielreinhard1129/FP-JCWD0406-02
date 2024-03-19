@@ -2,11 +2,11 @@ import { closestWarehouseToTheUser } from '@/actions/transaction/closestWarehous
 import { addToCartAction } from '@/actions/transaction/createAddToCart';
 import { createTransactionAction } from '@/actions/transaction/createTransactionAction';
 import { findTransactionAndDetailsByIdAction } from '@/actions/transaction/findTransactionAndDetailByIdAction';
+import { getAllTransactionAction } from '@/actions/transaction/getAllTransactionAction';
 import { getTransactionByUuidAction } from '@/actions/transaction/getTransactionByUuidAction';
 import { getTransactionByWarehouseIdAction } from '@/actions/transaction/getTransactionByWarehouseIdAction';
 import { getUserCartAction } from '@/actions/transaction/getUserCartAction';
-import { getWaitingForConfirmationTransactionAction } from '@/actions/transaction/getWaitingForConfirmationTransactionAction.ts';
-import { updateQuantityCartAction } from '@/actions/transaction/updateQuantityCartAction.ts';
+import { updateCartQuantityAction } from '@/actions/transaction/updateCartQuantityAction';
 import { updateStatusTransactionAction } from '@/actions/transaction/updateStatusTransactionAction';
 import prisma from '@/prisma';
 import { getTransactionById } from '@/repositories/transaction/getTransactionById';
@@ -38,12 +38,21 @@ export class TransactionController {
     }
   }
 
-  async updateQuantityCart(req: Request, res: Response, next: NextFunction) {
+  async updateCartQuantity(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
       const data = req.body;
-      const cart = await updateQuantityCartAction(Number(id), data);
+      const cart = await updateCartQuantityAction(Number(id), data);
       res.status(200).send(cart);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getAllTransaction(req: Request, res: Response, next: NextFunction) {
+    try {
+      const transaction = await getAllTransactionAction();
+      res.status(200).send(transaction);
     } catch (error) {
       next(error);
     }
@@ -151,18 +160,6 @@ export class TransactionController {
     try {
       const { id } = req.params;
       const transaction = await getTransactionByWarehouseIdAction(Number(id));
-      res.status(200).send(transaction);
-    } catch (error) {
-      next(error);
-    }
-  }
-  async getWaitingForConfirmationTransaction(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
-    try {
-      const transaction = await getWaitingForConfirmationTransactionAction();
       res.status(200).send(transaction);
     } catch (error) {
       next(error);

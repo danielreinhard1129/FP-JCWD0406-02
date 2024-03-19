@@ -378,26 +378,22 @@ export class WarehouseController {
 
   async journalStockReport(req: Request, res: Response, next: NextFunction) {
     try {
-      const { warehouseIds, start, end } = req.query;
-      console.log('check querrryy', req.query);
+      const { warehouseName, start, end } = req.query;
+      console.log('check query', req.query);
 
       const startDate = new Date(start as string);
       const endDate = new Date(end as string);
-      const formatStart = startDate
-        .toISOString()
-        .slice(0, 19)
-        .replace('T', ' ');
-      const formatEnd = endDate.toISOString().slice(0, 19).replace('T', ' ');
-      console.log('check format start', formatStart);
-      console.log('check format end', formatEnd);
 
-      // const report = journalStockReportAction(
-      //   warehouseIds[],
-      //   formatStart,
-      //   formatEnd,
-      // );
+      const formatStart = startDate.toISOString();
+      const formatEnd = endDate.toISOString();
 
-      // res.status(200).send(report);
+      const report = await journalStockReportAction(
+        String(warehouseName),
+        formatStart,
+        formatEnd,
+      );
+
+      res.status(200).send(report);
     } catch (error) {
       next(error);
     }
