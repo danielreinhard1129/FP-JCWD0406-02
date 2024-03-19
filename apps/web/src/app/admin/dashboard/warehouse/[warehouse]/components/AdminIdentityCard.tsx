@@ -40,7 +40,7 @@ const AdminIdentityCard: React.FC<AdminIdentityCardProps> = ({
   warehouseData,
   refreshWarehouse,
 }) => {
-  console.log('data dari admin', admin);
+  // console.log('data dari admin', admin);
 
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -62,7 +62,7 @@ const AdminIdentityCard: React.FC<AdminIdentityCardProps> = ({
                   : '/default-avatar.png'
               }
               alt="Admin"
-              layout="fill"
+              fill
               objectFit="cover"
               className="rounded-l-xl"
             />

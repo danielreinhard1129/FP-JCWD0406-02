@@ -5,6 +5,7 @@ import axios, { AxiosError } from 'axios';
 import { baseUrl } from '@/app/utils/database';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function ForgotPasswordCard() {
   const formik = useFormik({
@@ -33,10 +34,12 @@ export default function ForgotPasswordCard() {
   return (
     <div className="relative h-fit md:h-screen">
       {/* Full Picture as Background */}
-      <img
+      <Image
         src="/register/register6.jpg"
         alt="Background Visual"
         className="absolute inset-0 w-full h-full object-contain hidden md:block"
+        width={100}
+        height={100}
       />
 
       {/* Overlay with Opacity */}

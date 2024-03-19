@@ -68,7 +68,7 @@ const ModalChangeEmail: React.FC<EditProfileProps> = ({ user, onSuccess }) => {
   return (
     <>
       <text
-        className="cursor-pointer text-teal-500 text-sm hover:text-teal-600 hover:underline font-medium  rounded-lg float-right items-center justify-end"
+        className="cursor-pointer text-teal-500 text-sm hover:text-teal-600 hover:underline font-medium rounded-lg float-right items-center justify-end transform transition-all hover:scale-105 duration-300 "
         onClick={() => setIsModalOpen(true)}
       >
         Change Email

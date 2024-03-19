@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 export const Banner = () => {
@@ -24,56 +25,70 @@ export const Banner = () => {
                     <div className="flex items-center space-x-6 lg:space-x-8">
                       <div className="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
                         <div className="h-32 w-24 sm:h-64 sm:w-44 overflow-hidden rounded-lg lg:opacity-100">
-                          <img
-                            src="product/airPurifierBRDL.jpg"
+                          <Image
+                            src="/product/airPurifierBRDL.jpg"
                             alt=""
                             className="h-full w-full object-cover object-center"
+                            width={100}
+                            height={100}
                           />
                         </div>
                         <div className="h-32 w-24 sm:h-64 sm:w-44 overflow-hidden rounded-lg">
-                          <img
-                            src="product/handleDoorBRDL.jpg"
+                          <Image
+                            src="/product/handleDoorBRDL.jpg"
                             alt=""
                             className="h-full w-full object-cover object-center"
+                            width={100}
+                            height={100}
                           />
                         </div>
                       </div>
                       <div className="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
                         <div className="h-32 w-24 sm:h-64 sm:w-44 overflow-hidden rounded-lg">
-                          <img
-                            src="product/cctvOutdoorPtzBRDL.jpg"
+                          <Image
+                            src="/product/cctvOutdoorPtzBRDL.jpg"
                             alt=""
                             className="h-full w-full object-cover object-center"
+                            width={100}
+                            height={100}
                           />
                         </div>
                         <div className="h-32 w-24 sm:h-44 sm:w-44 overflow-hidden rounded-lg">
-                          <img
-                            src="product/ColokanBRDL.png"
+                          <Image
+                            src="/product/ColokanBRDL.png"
                             alt=""
                             className="h-full w-full object-contain object-center"
+                            width={100}
+                            height={100}
                           />
                         </div>
                         <div className="h-32 w-24 sm:h-64 sm:w-44 overflow-hidden rounded-lg">
-                          <img
-                            src="product/cctvPtzBrdl.jpg"
+                          <Image
+                            src="/product/cctvPtzBrdl.jpg"
                             alt=""
                             className="h-full w-full object-cover object-center"
+                            width={100}
+                            height={100}
                           />
                         </div>
                       </div>
                       <div className="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
                         <div className="h-32 w-24 sm:h-64 sm:w-44 overflow-hidden rounded-lg">
-                          <img
-                            src="product/terminalBRDL.jpg"
+                          <Image
+                            src="/product/terminalBRDL.jpg"
                             alt=""
                             className="h-full w-full object-cover object-center"
+                            width={100}
+                            height={100}
                           />
                         </div>
                         <div className="h-32 w-24 sm:h-64 sm:w-44 overflow-hidden rounded-lg">
-                          <img
-                            src="product/BOKLAMBRDL12W.png"
+                          <Image
+                            src="/product/BOKLAMBRDL12W.png"
                             alt=""
                             className="h-full w-full object-cover object-center"
+                            width={100}
+                            height={100}
                           />
                         </div>
                       </div>

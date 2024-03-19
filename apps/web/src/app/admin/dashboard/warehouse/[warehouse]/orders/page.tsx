@@ -34,21 +34,20 @@ const WarehouseOrder = () => {
   const params = useParams();
   const [orderList, setOrderList] = useState<IOrder[]>([]);
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(
-        `${baseUrl}/transactions/order-list/${params.warehouse}`,
-      );
-
-      setOrderList(response.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${baseUrl}/transactions/order-list/${params.warehouse}`,
+        );
+        setOrderList(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     fetchData();
-  }, []);
+  }, [params.warehouse]);
 
   return (
     <div className="flex h-screen gap-4 mx-auto max-w-7xl mt-8">

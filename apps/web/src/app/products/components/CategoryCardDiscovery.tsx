@@ -42,7 +42,7 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
         </li>
         {/* Options for individual categories */}
         {categories.map((category) => (
-          <li key={category.id} className="flex items-center">
+          <li key={category.id} className="flex items-center ">
             <input
               id={`category-${category.id}`}
               type="checkbox"

@@ -15,30 +15,31 @@ const ProductCardCheckout: React.FC = () => {
       {cartItems.map((item, index) => (
         <div
           key={index}
-          className="flex justify-between items-center border-b pb-4 mb-4"
+          className="flex justify-between items-center border-b pb-1 mb-2"
         >
           <div className="flex items-center">
-            <Image
-              src={
-                item.Product.productPhotos &&
-                item.Product.productPhotos.length > 0
-                  ? `${baseUrll}/photo-product/${item.Product.productPhotos[0].photo_product}`
-                  : '/default-product.webp'
-              } // Use a default image if productPhotos is not available
-              alt={item.Product.title}
-              className=" object-cover mr-4"
-              width={100}
-              height={100}
-            />
+            <div className=" relative w-[40px] h-[40px]">
+              <Image
+                src={
+                  item.Product.productPhotos &&
+                  item.Product.productPhotos.length > 0
+                    ? `${baseUrll}/photo-product/${item.Product.productPhotos[0].photo_product}`
+                    : '/default-product.webp'
+                } // Use a default image if productPhotos is not available
+                alt={item.Product.title}
+                className=" object-cover mr-4"
+                fill
+              />
+            </div>
             <div className="ml-4">
-              <p className="text-gray-700 font-semibold">
+              <p className="text-gray-700 text-xs font-semibold">
                 {item.Product.title}
               </p>
-              <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+              <p className="text-xs text-gray-500">Qty: {item.quantity}</p>
             </div>
           </div>
           <div>
-            <p className="text-gray-900 font-semibold">
+            <p className="text-gray-900 text-xs font-semibold">
               Rp {item.Product.price.toLocaleString()}
             </p>
           </div>

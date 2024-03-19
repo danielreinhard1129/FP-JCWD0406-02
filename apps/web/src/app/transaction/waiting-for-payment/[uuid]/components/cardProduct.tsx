@@ -32,7 +32,7 @@ const CardProduct: React.FC<Props> = ({ transaction }) => {
         {transaction?.transactionDetails.map((transactionDetail, index) => (
           <div
             key={index}
-            className="my-2 flex items-center justify-between border  rounded-lg bg-white shadow"
+            className="my-1 flex items-center justify-between border rounded-lg bg-white"
           >
             <Image
               src={

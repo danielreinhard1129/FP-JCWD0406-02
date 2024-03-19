@@ -38,14 +38,14 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ productsData }) => {
   // console.log('card all product', productsData);
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 items-center">
       {productsData.map((product) => (
         <div
           key={product.id}
-          className="bg-white rounded-lg overflow-hidden shadow-sm"
+          className="bg-white rounded-lg overflow-hidden shadow-sm transform transition-all hover:scale-105 duration-300 "
         >
           <Link href={`/products/product/${product.id}`}>
-            <div className="relative w-full h-48">
+            <div className="relative flex justify-center items-center w-[220px] h-[200px]">
               <Image
                 src={
                   product.productPhotos && product.productPhotos[0]
@@ -53,9 +53,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ productsData }) => {
                     : '/default-product.webp'
                 }
                 alt={product.title}
-                width={112} // Set desired width (in pixels)
-                height={112} // Set desired height (in pixels)
-                className="h-48 w-48 object-cover"
+                fill
+                quality={100}
+                className="h-48 w-48 items-center object-cover"
               />
             </div>
             <div className="px-4 py-2 space-y-2">

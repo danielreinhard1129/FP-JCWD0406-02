@@ -35,7 +35,7 @@ const DeleteAddressComp: React.FC<DeleteAddressProps> = ({
     <>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="bg-transparent w-full hover:bg-red-600 text-gray-400 font-normal text-xs hover:text-white py-1 px-4 hover:border-transparent rounded-lg"
+        className="bg-transparent w-full hover:bg-red-600 text-gray-400 font-normal text-xs hover:text-white py-1 px-4 hover:border-transparent rounded-lg "
       >
         Delete
       </button>

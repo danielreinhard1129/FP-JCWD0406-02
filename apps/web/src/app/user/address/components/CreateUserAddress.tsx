@@ -99,9 +99,9 @@ const CreateUserAddress: React.FC<CreateUserAddressProps> = ({ onSuccess }) => {
     <div>
       <button
         onClick={() => setIsEditModalOpen(true)}
-        className="bg-teal-600 text-sm text-white flex items-center font-normal text-md py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline"
+        className="bg-teal-600 text-sm text-white flex items-center font-normal text-md py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline transform transition-all hover:scale-105 duration-300 z-50 "
       >
-        <FaPlus className="mr-2" /> Add Address
+        <FaPlus className="mr-2 " /> Add Address
       </button>
       {isEditModalOpen && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
@@ -185,7 +185,7 @@ const CreateUserAddress: React.FC<CreateUserAddressProps> = ({ onSuccess }) => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.postal_code}
-                    className="mt-1 focus:ring-teal-500 focus:border-teal-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    className="mt-1 focus:ring-teal-500 focus:border-teal-500  p-2 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                   />
                   {formik.touched.postal_code && formik.errors.postal_code && (
                     <p className="text-red-500 text-xs mt-1">

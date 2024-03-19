@@ -40,7 +40,7 @@ const SetDefaultAddress: React.FC<SetDefaultAddressProps> = ({
         </button>
       ) : (
         <button
-          className="bg-teal-500 hover:bg-teal-700 text-white  text-xs font-normal py-2 px-4 rounded-lg"
+          className="bg-gray-300 hover:bg-gray-400 text-gray-700  text-xs font-normal py-1 px-4 rounded-lg"
           onClick={handleSetDefault}
         >
           Set as Default

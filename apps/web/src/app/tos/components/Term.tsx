@@ -13,8 +13,8 @@ const TermsOfService = () => {
             1. Introduction
           </h2>
           <p className="text-gray-600">
-            Welcome to BORDL SMART HOME ("Website"), the online store for smart
-            home devices. These Terms of Service ("ToS") govern your use of our
+            Welcome to BORDL SMART HOME (Website), the online store for smart
+            home devices. These Terms of Service (ToS) govern your use of our
             Website and the purchase of products offered on our Website.
           </p>
         </section>
@@ -114,9 +114,9 @@ const TermsOfService = () => {
             10. Warranties and Disclaimers
           </h2>
           <p className="text-gray-600">
-            All products are provided "as is" without any guarantees or
-            warranty. In association with the product descriptions, we make no
-            warranties of any kind, either express or implied.
+            All products are provided as is without any guarantees or warranty.
+            In association with the product descriptions, we make no warranties
+            of any kind, either express or implied.
           </p>
         </section>
 
@@ -149,7 +149,7 @@ const TermsOfService = () => {
           <p className="text-gray-600">
             You agree to use the Website only for lawful purposes and in a way
             that does not infringe the rights of, restrict or inhibit anyone
-            else's use of the Website.
+            else is use of the Website.
           </p>
         </section>
 
@@ -160,7 +160,7 @@ const TermsOfService = () => {
           <p className="text-gray-600">
             You agree to indemnify, defend, and hold harmless
             SmartHomeGizmos.com from any claim or demand, including reasonable
-            attorneys’ fees, made by any third party due to or arising out of
+            attorney is fees, made by any third party due to or arising out of
             your breach of these ToS.
           </p>
         </section>

@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import { baseUrl } from '@/app/utils/database';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { UserAuth } from '@/app/utils/context/authContext';
+import Image from 'next/image';
 YupPassword(yup);
 
 const validationSchema = yup.object().shape({
@@ -71,10 +72,12 @@ const CardLogin = () => {
     <div className="h-fit flex md:mt-4 mt-4 justify-center">
       <div className=" max-w-md w-full bg-white shadow-md rounded-xl px-8 pt-6 pb-8 mb-4">
         <div className="flex flex-col items-center">
-          <img
+          <Image
             src="/loginPic/headlogin3.jpg"
             alt="Login Visual"
             className="mb-3 "
+            width={100}
+            height={100}
           />
         </div>
         <button

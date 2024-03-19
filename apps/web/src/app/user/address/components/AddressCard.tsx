@@ -44,17 +44,19 @@ const AddressCardComp: React.FC<AddressCardCompProps> = ({
   }
 
   return (
-    <div className="w-full flex-grow p-4">
+    <div className="w-full flex-grow px-4 ">
       {addressData.map((address) => (
         <div
           key={address.id}
-          className="bg-white p-4 my-2 flex flex-col md:flex-row justify-between items-start md:items-center rounded-xl shadow-lg"
+          className="bg-white  p-4 my-2 flex flex-col md:flex-row justify-between items-start md:items-center rounded-xl shadow-lg z-0"
         >
           <div className="flex flex-row items-center w-full md:w-auto">
-            <img
+            <Image
               src="/default-address.jpeg"
               alt="Map Thumbnail"
               className="rounded-lg w-28 h-28 mr-4"
+              width={100}
+              height={100}
             />
             <div className="flex flex-col">
               {address.isPrimary && (

@@ -39,13 +39,14 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
   return (
     <div>
       {/* Main Image */}
-      <div className="flex justify-center items-center mb-4">
+      <div className="flex justify-center relative items-center mb-4 transform transition-all hover:scale-105 duration-300">
         <Image
           src={`${baseUrll}/photo-product/${selectedImage}`}
           alt={altText}
-          className="max-w-full h-auto rounded-lg shadow-lg transition duration-300 ease-in-out"
-          height={400}
-          width={400}
+          className="max-w-full h-auto object-cover rounded-lg shadow-lg transition duration-300 ease-in-out"
+          priority
+          width={500}
+          height={500}
           quality={100}
         />
       </div>
@@ -58,8 +59,10 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
               key={photo.id}
               src={`${baseUrll}/photo-product/${photo.photo_product}`}
               alt={`${product.title} - Thumbnail ${index}`}
-              className={`w-20 h-20 rounded-md shadow-md cursor-pointer ${
-                selectedImage === photo.photo_product ? 'ring-teal-500' : ''
+              className={` rounded-md shadow-md cursor-pointer transform transition-all hover:scale-105 duration-300 ${
+                selectedImage === photo.photo_product
+                  ? 'brightness-100'
+                  : 'brightness-75 hover:brightness-100'
               }`}
               onClick={() => setSelectedImage(photo.photo_product)}
               width={100}

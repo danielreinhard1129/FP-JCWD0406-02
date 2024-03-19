@@ -51,7 +51,7 @@ export const Navbar = () => {
   const user = useAppSelector((state) => state.user);
   const cart = useSelector((state: RootState) => state.cart.cartItems);
 
-  console.log('redux cart', cart);
+  // console.log('redux cart', cart);
 
   const userId = user.id;
   const router = useRouter();
@@ -127,7 +127,7 @@ export const Navbar = () => {
         className="mx-auto flex max-w-7xl items-center justify-between p-3"
         aria-label="Global"
       >
-        <div className="flex pl-1 lg:px-3">
+        <div className="flex pl-1 lg:px-3 transform transition-all hover:scale-105 duration-300">
           <Link href="/" className="lg:block">
             <Image
               width="100"
@@ -137,14 +137,17 @@ export const Navbar = () => {
               alt=""
             />
           </Link>
-          <Link href="/" className="pl-2 font-bold text-3xl hidden lg:block">
+          <Link
+            href="/"
+            className="pl-2 font-bold text-3xl hidden lg:block  transform transition-all hover:scale-105 duration-300"
+          >
             BORDL
           </Link>
         </div>
         <div className="mx-4 hidden lg:flex lg:gap-x-12">
           <Link
             href="/products"
-            className="text-sm font-semibold leading-6 text-gray-900"
+            className="text-sm font-semibold leading-6 text-gray-900  transform transition-all hover:scale-105 duration-300"
           >
             All Product
           </Link>
@@ -155,7 +158,7 @@ export const Navbar = () => {
 
         <Link
           href="/cart"
-          className="relative text-sm font-semibold leading-6 text-gray-900 mr-4"
+          className="relative text-sm font-semibold leading-6 text-gray-900 pl-6 pr-2 transform transition-all hover:scale-105 duration-300"
         >
           <FiShoppingCart className="h-6 w-6" />
           {cart.length > 0 && (
@@ -165,14 +168,14 @@ export const Navbar = () => {
           )}
         </Link>
         {/* <CartHoverPopup /> */}
-        <div className="hidden lg:block lg:gap-x-12 items-center">
-          <a
-            href="#"
-            className="text-sm font-semibold leading-6 text-gray-900 mr-4"
-          >
+        <Link
+          href="/"
+          className="hidden lg:block px-6 lg:gap-x-12 items-center transform transition-all hovesr:scale-105 duration-300"
+        >
+          <div className="text-sm font-semibold leading-6 text-gray-900 mr-4">
             <FiPackage className="inline h-6 w-6 align-middle -mt-1" />
-          </a>
-        </div>
+          </div>
+        </Link>
         <div className="flex lg:hidden">
           <button
             type="button"
@@ -180,20 +183,6 @@ export const Navbar = () => {
             onClick={toggleMenu}
           >
             <span className="sr-only">Open main menu</span>
-            <svg
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
-            </svg>
           </button>
         </div>
         {user.id || userGoogle ? (
@@ -261,10 +250,10 @@ export const Navbar = () => {
             </div>
           </div>
         ) : (
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+          <div className="hidden lg:flex lg:flex-1 lg:justify-end  transform transition-all hover:scale-105 duration-300">
             <Link
               href="/login"
-              className="text-sm font-semibold leading-6 text-gray-900"
+              className="text-sm font-semibold leading-6 text-gray-900 "
             >
               Log in <span aria-hidden="true">&rarr;</span>
             </Link>

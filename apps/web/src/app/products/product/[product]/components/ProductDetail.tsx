@@ -22,7 +22,7 @@ interface ProductDetailsProps {
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({ detailProduct }) => {
   const [isReadMore, setIsReadMore] = useState(true);
-  // console.log('product detail', detailProduct);
+  console.log('product detail', detailProduct);
 
   const toggleReadMore = () => {
     setIsReadMore(!isReadMore);
@@ -54,14 +54,14 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ detailProduct }) => {
             ? `${detailProduct.description.slice(0, 300)}...`
             : detailProduct.description}
           <span
-            className="text-blue-600 cursor-pointer"
+            className="text-gray-300 cursor-pointer flex cols text-xs"
             onClick={toggleReadMore}
           >
             {isReadMore ? ' Read More' : ' Show Less'}
           </span>
         </p>
       </div>
-      <div className="mt-4 text-base font-medium text-green-600">
+      <div className="mt-4 text-base font-medium ">
         Weight: {detailProduct.weight} grams
       </div>
 
