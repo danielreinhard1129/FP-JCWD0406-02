@@ -42,7 +42,10 @@ export const updateStatusTransactionAction = async (
         // If there are no stock items or their quantities are insufficient, set allStocksAvailable to false
         if (
           stockItems.length === 0 ||
-          stockItems.some((stockItem) => stockItem.quantity < detail.quantity)
+          stockItems.some(
+            (stockItem: { quantity: number }) =>
+              stockItem.quantity < detail.quantity,
+          )
         ) {
           allStocksAvailable = false;
           break;
@@ -66,7 +69,7 @@ export const updateStatusTransactionAction = async (
             console.log('cheeckkk stockk', stockItems);
 
             await Promise.all(
-              stockItems.map(async (item) => {
+              stockItems.map(async (item: { quantity: number; id: any }) => {
                 const newQuantity = item.quantity - detail.quantity; // Decrement the stock quantity
                 if (newQuantity < 0) {
                   console.error(

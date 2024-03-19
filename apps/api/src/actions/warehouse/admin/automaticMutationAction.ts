@@ -61,7 +61,8 @@ export const automaticMutationAction = async (id: number) => {
 
         // Define the target location based on the transaction's warehouse
         const targetWarehouse = warehouses.find(
-          (warehouse) => warehouse.id === transaction.warehouseId,
+          (warehouse: { id: number }) =>
+            warehouse.id === transaction.warehouseId,
         );
         console.log('target warehouse :', targetWarehouse);
 
@@ -104,7 +105,7 @@ export const automaticMutationAction = async (id: number) => {
 
           // Create stock mutation details for each item in the cart
           await Promise.all(
-            cart.map(async (item) => {
+            cart.map(async (item: { productId: number; quantity: number }) => {
               await createStockMutationDetails(
                 createdStockMutation.id,
                 item.productId,
