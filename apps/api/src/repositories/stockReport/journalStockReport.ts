@@ -24,6 +24,14 @@ export const journalStockReport = async (
           lte: end,
         },
       },
+      include: {
+        Stock: {
+          include: {
+            product: true,
+            warehouse: true,
+          },
+        },
+      },
     });
 
     console.log('repository result', report);

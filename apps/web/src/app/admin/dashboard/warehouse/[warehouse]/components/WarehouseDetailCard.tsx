@@ -26,7 +26,7 @@ const WarehouseDetailCard: React.FC<WarehouseDetailCardProps> = ({
 
   return (
     <div className="">
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
         <div className="p-6">
           <h2 className="text-2xl font-semibold">{warehouse.name}</h2>
           <p className="text-md text-gray-600 flex items-center mt-2">

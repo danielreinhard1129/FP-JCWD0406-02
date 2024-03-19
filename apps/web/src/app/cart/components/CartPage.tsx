@@ -2,7 +2,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FaTrashCan } from 'react-icons/fa6';
 import { RootState } from '@/lib/store';
 import { useRouter } from 'next/navigation'; // Import useRouter
 import { baseUrl, baseUrll } from '@/app/utils/database';
@@ -32,7 +31,7 @@ interface CartItem {
 
 const CartPage: React.FC = () => {
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
-  const router = useRouter(); // Initialize the router
+  const router = useRouter();
   const dispatch = useDispatch();
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('id-ID', {
@@ -49,7 +48,7 @@ const CartPage: React.FC = () => {
 
     try {
       const response = await axios.patch(
-        `${baseUrl}/transactions/update-quantity/${cartItemId}`,
+        `${baseUrl}/transactions/update-cart/${cartItemId}`,
         { quantity: newQuantity },
       );
 
@@ -63,6 +62,7 @@ const CartPage: React.FC = () => {
           dispatch(
             updateCartItemQuantity({ cartItemId, quantity: newQuantity }),
           );
+          // dispatch(setCartItems(response.data.data));
         }
       }
     } catch (error) {
@@ -81,10 +81,12 @@ const CartPage: React.FC = () => {
       // Calculate the new quantity
       const newQuantity = item.quantity + change;
 
-      // Call updateQuantity to handle the change
       updateQuantity(cartItemId, newQuantity);
     }
   };
+
+  console.log('ini handle', handleQuantityChange);
+
   const totalPrice = cartItems?.reduce(
     (total: number, item: CartItem) =>
       total + item.Product.price * item.quantity,

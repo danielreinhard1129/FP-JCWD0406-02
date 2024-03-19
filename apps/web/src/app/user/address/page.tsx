@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Sidebar from '../components/SideBar';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
@@ -53,7 +53,7 @@ const UserAddress: React.FC = () => {
   const [user, setUser] = useState<Partial<IUser>[]>([]);
   console.log('ini user', user);
 
-  const fetchAddresses = async () => {
+  const fetchAddresses = useCallback(async () => {
     try {
       const response = await axios.get(
         `${baseUrl}/users/user-addresses/${userId}`,
@@ -65,11 +65,11 @@ const UserAddress: React.FC = () => {
     } catch (error) {
       console.error('Error fetching addresses:', error);
     }
-  };
+  }, [userId]);
 
   useEffect(() => {
     fetchAddresses();
-  }, [userId]);
+  }, [fetchAddresses]);
 
   const refreshAddresses = async () => {
     fetchAddresses();

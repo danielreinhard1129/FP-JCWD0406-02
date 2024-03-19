@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 const images: string[] = [
   '/promo/bannerbrdl4.jpg',
@@ -12,9 +12,9 @@ const Carousel: React.FC = () => {
   const [current, setCurrent] = useState<number>(0);
   const [isHovering, setIsHovering] = useState<boolean>(false);
 
-  const nextSlide = (): void => {
+  const nextSlide = useCallback((): void => {
     setCurrent(current === images.length - 1 ? 0 : current + 1);
-  };
+  }, [current]);
 
   const prevSlide = (): void => {
     setCurrent(current === 0 ? images.length - 1 : current - 1);
@@ -25,7 +25,7 @@ const Carousel: React.FC = () => {
       nextSlide();
     }, 3000);
     return () => clearTimeout(timer);
-  }, [current]);
+  }, [nextSlide]);
 
   const buttonStyle = {
     opacity: isHovering ? 1 : 0,

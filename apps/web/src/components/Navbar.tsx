@@ -23,7 +23,6 @@ import SearchBar2 from './SearchBar2';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
 import { setCartItems } from '@/lib/features/cartSlice';
-import CartHoverPopup from '@/app/cart/components/CartPopUp';
 
 export interface ProductPhoto {
   url: string;
@@ -94,7 +93,7 @@ export const Navbar = () => {
       }
     };
     keepLogin();
-  }, [user]);
+  }, [dispatch, user]);
 
   useEffect(() => {
     const fetchCartItems = async () => {

@@ -69,17 +69,17 @@ const AdminSidebar: React.FC = () => {
 
       {/* Sidebar Navigation */}
       <div className="flex-grow p-4 text-sm">
-        <ul className="flex flex-col space-y-6">
+        <ul className="flex flex-col space-y-6 ">
           <Link
             href="/admin/dashboard"
-            className="flex items-center cursor-pointer"
+            className="flex items-center cursor-pointer transform transition-all hover:scale-105 duration-300"
           >
             <FiHome className="mr-2 size-5" />
             <span className="font-semibold hover:text-teal-600">Home</span>
           </Link>
           <Link
             href="/admin/dashboard/notification"
-            className="flex items-center cursor-pointer"
+            className="flex items-center cursor-pointer transform transition-all hover:scale-105 duration-300"
           >
             <FiBell className="mr-2 size-5" />
             <span className="font-semibold hover:text-teal-600">
@@ -88,14 +88,14 @@ const AdminSidebar: React.FC = () => {
           </Link>
           <Link
             href="/admin/dashboard/orders"
-            className="flex items-center cursor-pointer"
+            className="flex items-center cursor-pointer transform transition-all hover:scale-105 duration-300"
           >
             <FiShoppingBag className="mr-2 size-5" />
             <span className="font-semibold hover:text-teal-600">Orders</span>
           </Link>
           <Link
             href="/admin/dashboard/stock-mutation"
-            className="flex items-center cursor-pointer"
+            className="flex items-center cursor-pointer transform transition-all hover:scale-105 duration-300"
           >
             <BiTransferAlt className="mr-2 size-5" />
             <span className="font-semibold hover:text-teal-600">
@@ -104,7 +104,7 @@ const AdminSidebar: React.FC = () => {
           </Link>
           <Link
             href="/admin/dashboard/journal"
-            className="flex items-center cursor-pointer"
+            className="flex items-center cursor-pointer transform transition-all hover:scale-105 duration-300"
           >
             <BsFillJournalBookmarkFill className="mr-2 size-5 font-bold" />
             <span className="font-semibold hover:text-teal-600">Journal</span>
@@ -113,7 +113,7 @@ const AdminSidebar: React.FC = () => {
           {user.roleId === 1 ? (
             <li>
               <div
-                className="flex items-center justify-between cursor-pointer"
+                className="flex items-center justify-between cursor-pointer transform transition-all hover:scale-105 duration-300"
                 onClick={() => toggleSubMenu('userManagement')}
               >
                 <span className="flex items-center">
@@ -130,16 +130,16 @@ const AdminSidebar: React.FC = () => {
               </div>
 
               {collapsed['userManagement'] && (
-                <ul className="ml-10 mt-1 space-y-1 flex flex-col">
+                <ul className="ml-10 mt-1 space-y-1 flex flex-col ">
                   <Link
                     href="/admin/dashboard/user-management"
-                    className="cursor-pointer hover:text-teal-600"
+                    className="cursor-pointer hover:text-teal-600 transform transition-all hover:scale-105 duration-300"
                   >
                     User Management
                   </Link>
                   <Link
                     href="/admin/dashboard/admin-management"
-                    className="cursor-pointer hover:text-teal-600"
+                    className="cursor-pointer hover:text-teal-600 transform transition-all hover:scale-105 duration-300"
                   >
                     Admin Management
                   </Link>
@@ -150,7 +150,7 @@ const AdminSidebar: React.FC = () => {
           {user.roleId === 1 ? (
             <li>
               <div
-                className="flex items-center justify-between cursor-pointer"
+                className="flex items-center justify-between cursor-pointer transform transition-all hover:scale-105 duration-300"
                 onClick={() => toggleSubMenu('productManagement')}
               >
                 <span className="flex items-center">
@@ -169,20 +169,20 @@ const AdminSidebar: React.FC = () => {
                 <div className="ml-10 mt-1 space-y-1 flex flex-col">
                   <Link
                     href="/admin/dashboard/create-product"
-                    className="cursor-pointer hover:text-teal-600"
+                    className="cursor-pointer hover:text-teal-600 transform transition-all hover:scale-105 duration-300"
                   >
                     Create Product
                   </Link>
                   <Link
                     href="/admin/dashboard/product-management"
-                    className="cursor-pointer hover:text-teal-600"
+                    className="cursor-pointer hover:text-teal-600 transform transition-all hover:scale-105 duration-300"
                   >
                     Product Management
                   </Link>
 
                   <Link
                     href="/admin/dashboard/category-management"
-                    className="cursor-pointer hover:text-teal-600"
+                    className="cursor-pointer hover:text-teal-600 transform transition-all hover:scale-105 duration-300"
                   >
                     Category Management
                   </Link>
@@ -192,7 +192,7 @@ const AdminSidebar: React.FC = () => {
           ) : null}
           <li>
             <div
-              className="flex items-center justify-between cursor-pointer"
+              className="flex items-center justify-between cursor-pointer transform transition-all hover:scale-105 duration-300"
               onClick={() => toggleSubMenu('warehouse')}
             >
               <span className="flex items-center">
@@ -211,7 +211,7 @@ const AdminSidebar: React.FC = () => {
               <ul className="ml-10 mt-1 space-y-1 flex flex-col">
                 <Link
                   href="/admin/dashboard/warehouse"
-                  className="cursor-pointer hover:text-teal-600"
+                  className="cursor-pointer hover:text-teal-600 transform transition-all hover:scale-105 duration-300"
                 >
                   Warehouse Management
                 </Link>
