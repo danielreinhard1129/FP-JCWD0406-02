@@ -77,6 +77,16 @@ export const updateStatusTransactionAction = async (
                   );
                   throw new Error('Stock quantity calculation error.');
                 }
+
+                await prisma.journalStock.create({
+                  data: {
+                    stockId: item.id,
+                    quantity: detail.quantity,
+                    type: 'shipped to user',
+                    totalQuantity: newQuantity,
+                  },
+                });
+
                 return prisma.stock.update({
                   where: {
                     id: item.id,
