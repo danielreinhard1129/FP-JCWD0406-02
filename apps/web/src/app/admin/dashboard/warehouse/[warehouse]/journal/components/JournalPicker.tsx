@@ -5,6 +5,8 @@ import axios from 'axios';
 import { baseUrl } from '@/app/utils/database';
 import WarehouseAutoComplete from '@/app/admin/dashboard/stock-mutation/components/WarehouseAutocomplete';
 import { useParams } from 'next/navigation';
+import SummaryJournalWarehouseCard from './SummaryJournalWarehouse';
+import ModalJournalWarehouse from './ModalJournalWarehouse';
 
 interface Product {
   id: number;
@@ -16,6 +18,7 @@ interface Warehouse {
 }
 
 interface Stock {
+  id: number;
   quantity: number;
   totalQuantity: number;
   type: string;
@@ -25,19 +28,29 @@ interface Stock {
   warehouse: Warehouse;
 }
 
-interface JournalStockCardProps {
-  journalStock: Stock[];
+interface JournalEntry {
+  id: number;
+  product: Product;
+  journal: Stock[]; // Assuming journal is an array of Stock
 }
 
+export interface SummaryData {
+  product: Product;
+  stockArrived: number;
+  stockOut: number;
+  currentStock: number;
+}
 const JournalPicker = () => {
   const params = useParams();
-  console.log('check paramssss', params);
 
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
-  const [journalReport, setJournalReport] = useState([]);
+  const [journalReport, setJournalReport] = useState<JournalEntry[]>([]);
+  const [summaryJournal, setSummaryJournal] = useState<SummaryData[]>([]);
+  const [selectedJournal, setSelectedJournal] = useState<Stock[] | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // console.log('ini hasil journal', journalReport);
+  // console.log('ini hasil journal di warehouse', journalReport);
 
   useEffect(() => {
     const stockReport = async () => {
@@ -46,14 +59,23 @@ const JournalPicker = () => {
           `${baseUrl}/warehouses/journal-stock-report/${params.warehouse}?start=${startDate}&end=${endDate}`,
         );
         console.log(response.data);
+        setSummaryJournal(response.data.summary);
         setJournalReport(response.data.data);
       } catch (error) {
         console.log(error);
       }
     };
     stockReport();
-  }, [startDate, endDate]);
+  }, [startDate, endDate, params.warehouse]);
 
+  const handleShowJournal = (productId: number) => {
+    // Find the data for the selected product
+    const selectedData = journalReport.find(
+      (entry: JournalEntry) => entry.product.id === productId,
+    );
+    setSelectedJournal(selectedData ? selectedData.journal : null);
+    setIsModalOpen(true);
+  };
   return (
     <div className="space-y-2">
       {/* Area Picker */}
@@ -78,9 +100,18 @@ const JournalPicker = () => {
             Journal Stock Detail
           </h2>
         </div>
-        {/* {journalReport.map((report, index) => (
-          <JournalStockCard key={index} journalStock={report} />
-        ))} */}
+        <SummaryJournalWarehouseCard
+          summary={summaryJournal}
+          onShowJournal={handleShowJournal}
+        />
+
+        {isModalOpen && selectedJournal && (
+          <ModalJournalWarehouse
+            journals={selectedJournal}
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          />
+        )}
       </div>
     </div>
   );

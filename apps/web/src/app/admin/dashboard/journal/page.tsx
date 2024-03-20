@@ -1,7 +1,7 @@
 'use client';
 import AdminSidebar from '../../components/SidebarDashboard';
 import HeaderJournal from './components/HeaderJournal';
-import JournalPicker from './components/JournalPicker';
+// import JournalPicker from './components/JournalPicker';
 
 const JournalPage = () => {
   return (
@@ -9,9 +9,7 @@ const JournalPage = () => {
       <AdminSidebar />
       <div className="w-full space-y-4">
         <HeaderJournal />
-        <div className="flex-wrap">
-          <JournalPicker />
-        </div>
+        <div className="flex-wrap">{/* <JournalPicker /> */}</div>
       </div>
     </div>
   );

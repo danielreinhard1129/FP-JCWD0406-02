@@ -1,75 +1,39 @@
-// JournalStockCard.tsx
-
+// JournalSummary.tsx
 import React from 'react';
+import { ISummary } from './types';
 
-interface Product {
-  id: number;
-  title: string;
+interface JournalSummaryProps {
+  summary: ISummary[];
+  onShowJournal: (productId: number) => void;
 }
 
-interface Warehouse {
-  name: string;
-}
-
-interface Stock {
-  quantity: number;
-  totalQuantity: number;
-  type: string;
-  createdAt: string;
-  updatedAt: string;
-  product: Product;
-  warehouse: Warehouse;
-  Stock: Stock;
-}
-
-// Update the props interface to expect a single Stock object
-interface JournalStockCardProps {
-  journalStock: Stock;
-}
-
-export const JournalStockCard: React.FC<JournalStockCardProps> = ({
-  journalStock,
+const JournalSummary: React.FC<JournalSummaryProps> = ({
+  summary,
+  onShowJournal,
 }) => {
-  // Destructure the necessary properties from journalStock
-
   return (
-    <div className=" rounded-lg items-center overflow-hidden border">
-      <div className=" grid grid-cols-2 px-6 py-1 items-center">
-        <div className=" text-sm">
-          <div className="text-gray-700">
-            <strong>Product: </strong>
-            {journalStock.Stock.product.title}
+    <div className="space-y-4">
+      {summary.map((item) => (
+        <div
+          className="card bg-white shadow-md p-4 rounded-lg"
+          key={item.product.id}
+        >
+          <h3 className="text-lg font-bold">{item.product.title}</h3>
+          <div className="text-sm">
+            <p>Stock Arrived: {item.stockArrived}</p>
+            <p>Stock Out: {item.stockOut}</p>
+            <p>Current Stock: {item.currentStock}</p>
           </div>
-          <div className="text-gray-700">
-            <strong>Warehouse:</strong> {journalStock.Stock.warehouse.name}
-          </div>
+          <button
+            onClick={() => onShowJournal(item.product.id)}
+            className="mt-3 text-white bg-blue-500 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          >
+            Show Journal
+          </button>
         </div>
-        <div className="flex justify-between text-xs items-center ">
-          <div>
-            <div className="text-gray-700">
-              <strong>Status: </strong> {journalStock.type}
-            </div>
-            <div className="text-gray-700">
-              <strong>Adjustment: </strong> {journalStock.quantity}
-            </div>
-            <div className="col-span-2 text-gray-700">
-              <strong>Remain Stock: </strong> {journalStock.totalQuantity}
-            </div>
-          </div>
-          <div className="px-6 pb-1 text-xs flex-col items-center">
-            <div className="text-gray-400 items-center ">
-              <div>
-                <strong>Created: </strong>{' '}
-                {new Date(journalStock.createdAt).toLocaleString()}
-              </div>
-              <div>
-                <strong>Updated: </strong>{' '}
-                {new Date(journalStock.updatedAt).toLocaleString()}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   );
 };
+
+export default JournalSummary;
