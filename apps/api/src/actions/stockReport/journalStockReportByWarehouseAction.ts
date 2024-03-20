@@ -3,6 +3,7 @@ import { journalStockReportByWarehouse } from '@/repositories/stockReport/journa
 // Define interfaces
 interface Product {
   id: number;
+  title: string;
   // Add any other properties of Product interface here
 }
 
@@ -18,32 +19,26 @@ interface Entry {
   journal: JournalEntry[];
 }
 
+// Define interfaces for summary
 interface SummaryEntry {
-  product: Product;
+  productId: number;
+  title: string;
   stockArrived: number;
   stockOut: number;
   currentStock: number;
 }
-
 // Function to calculate stock summary
-export const calculateStockSummary = (data: Entry[]): SummaryEntry[] => {
-  // Initialize summary object
-  const summary: { [productId: number]: SummaryEntry } = {};
+const calculateStockSummary = (data: Entry[]): SummaryEntry[] => {
+  // Initialize summary array
+  const summary: SummaryEntry[] = [];
 
   // Loop through each stock entry
   data.forEach((entry) => {
     const { product, journal } = entry;
+    let stockArrived = 0;
+    let stockOut = 0;
 
-    // Initialize product summary if not exists
-    if (!summary[product.id]) {
-      summary[product.id] = {
-        product: product,
-        stockArrived: 0,
-        stockOut: 0,
-        currentStock: entry.quantity,
-      };
-    }
-
+    // Loop through journal entries to calculate total quantities
     journal.forEach((journalEntry) => {
       const { quantity, type } = journalEntry;
 
@@ -56,42 +51,59 @@ export const calculateStockSummary = (data: Entry[]): SummaryEntry[] => {
         lowercaseType === 'added new stock' ||
         lowercaseType === 'addition from mutation'
       ) {
-        summary[product.id].stockArrived += quantity;
+        stockArrived += quantity;
       } else if (
         lowercaseType.includes('reduction') ||
+        lowercaseType === 'reduction from mutation' ||
         lowercaseType === 'shipped to user'
       ) {
-        summary[product.id].stockOut += quantity;
+        stockOut += quantity;
       }
+    });
+
+    // Calculate current stock
+    const currentStock = stockArrived - stockOut;
+
+    // Push summary entry
+    summary.push({
+      productId: product.id,
+      title: product.title,
+      stockArrived,
+      stockOut,
+      currentStock,
     });
   });
 
-  // Calculate current stock after adjustments
-  Object.values(summary).forEach((productSummary) => {
-    productSummary.currentStock += productSummary.stockArrived;
-    productSummary.currentStock -= productSummary.stockOut;
-  });
-
-  return Object.values(summary);
+  return summary;
 };
 
 export const journalStockReportByWarehouseAction = async (
   warehouseId: number,
   start: string,
   end: string,
-) => {
+): Promise<{ message: string; data: any; summary: SummaryEntry[] }> => {
   try {
-    const reportData = await journalStockReportByWarehouse(
-      warehouseId,
-      start,
-      end,
+    const report = await journalStockReportByWarehouse(warehouseId, start, end);
+
+    const formattedReport: Entry[] = report.flatMap((product) =>
+      product.Stock.map((stock) => ({
+        quantity: stock.quantity,
+        product: {
+          id: product.id,
+          title: product.title,
+        },
+        journal: stock.journal.map((entry) => ({
+          quantity: entry.totalQuantity,
+          type: entry.type,
+        })),
+      })),
     );
 
-    const summary = calculateStockSummary(reportData);
+    const summary = calculateStockSummary(formattedReport);
 
     return {
       message: 'stock report data',
-      data: reportData,
+      data: report,
       summary: summary,
     };
   } catch (error) {

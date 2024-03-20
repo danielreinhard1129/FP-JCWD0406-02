@@ -7,6 +7,8 @@ import WarehouseAutoComplete from '@/app/admin/dashboard/stock-mutation/componen
 import { useParams } from 'next/navigation';
 import SummaryJournalWarehouseCard from './SummaryJournalWarehouse';
 import ModalJournalWarehouse from './ModalJournalWarehouse';
+import { JournalStockCard } from '@/app/admin/dashboard/journal/components/JournalStockCard';
+import CardJournalStock from './CardJournalStock';
 
 interface Product {
   id: number;
@@ -49,9 +51,7 @@ const JournalPicker = () => {
   const [summaryJournal, setSummaryJournal] = useState<SummaryData[]>([]);
   const [selectedJournal, setSelectedJournal] = useState<Stock[] | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // console.log('ini hasil journal di warehouse', journalReport);
-
+  
   useEffect(() => {
     const stockReport = async () => {
       try {
@@ -59,8 +59,10 @@ const JournalPicker = () => {
           `${baseUrl}/warehouses/journal-stock-report/${params.warehouse}?start=${startDate}&end=${endDate}`,
         );
         console.log(response.data);
+
         setSummaryJournal(response.data.summary);
         setJournalReport(response.data.data);
+
       } catch (error) {
         console.log(error);
       }
@@ -100,6 +102,7 @@ const JournalPicker = () => {
             Journal Stock Detail
           </h2>
         </div>
+
         <SummaryJournalWarehouseCard
           summary={summaryJournal}
           onShowJournal={handleShowJournal}
@@ -112,6 +115,12 @@ const JournalPicker = () => {
             onClose={() => setIsModalOpen(false)}
           />
         )}
+
+        <CardJournalStock journal={journalReport} />
+        {/* {journalReport.map((report, index) => (
+          <card key={index} journalStock={report} />
+        ))} */}
+
       </div>
     </div>
   );

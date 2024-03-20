@@ -8,23 +8,27 @@ export const journalStockReportFix = async (
   try {
     console.log('parse repo', warehouseId, startDate, endDate);
 
-    const report = await prisma.stock.findMany({
-      where: {
-        warehouseId: warehouseId,
-        journal: {
-          some: {
-            createdAt: {
-              gte: startDate,
-              lte: endDate,
+    const report = await prisma.product.findMany({
+      include: {
+        Stock: {
+          where: {
+            warehouseId: warehouseId,
+            journal: {
+              some: {
+                createdAt: {
+                  gte: startDate,
+                  lte: endDate,
+                },
+              },
             },
+          },
+          include: {
+            journal: true,
           },
         },
       },
-      include: {
-        product: true,
-        journal: true,
-      },
     });
+
     return report;
   } catch (error) {
     throw error;
