@@ -6,21 +6,24 @@ export const journalStockReportByWarehouse = async (
   end: string,
 ) => {
   try {
-    const stockReport = await prisma.stock.findMany({
-      where: {
-        warehouseId: warehouseId,
-        journal: {
-          some: {
-            createdAt: {
-              gte: start,
-              lte: end,
+    const stockReport = await prisma.product.findMany({
+      include: {
+        Stock: {
+          where: {
+            warehouseId: warehouseId,
+            journal: {
+              some: {
+                createdAt: {
+                  gte: start,
+                  lte: end,
+                },
+              },
             },
           },
+          include: {
+            journal: true,
+          },
         },
-      },
-      include: {
-        product: true,
-        journal: true,
       },
     });
     return stockReport;

@@ -5,6 +5,8 @@ import axios from 'axios';
 import { baseUrl } from '@/app/utils/database';
 import WarehouseAutoComplete from '@/app/admin/dashboard/stock-mutation/components/WarehouseAutocomplete';
 import { useParams } from 'next/navigation';
+import { JournalStockCard } from '@/app/admin/dashboard/journal/components/JournalStockCard';
+import CardJournalStock from './CardJournalStock';
 
 interface Product {
   id: number;
@@ -37,7 +39,7 @@ const JournalPicker = () => {
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [journalReport, setJournalReport] = useState([]);
 
-  // console.log('ini hasil journal', journalReport);
+  console.log('ini hasil journal', journalReport);
 
   useEffect(() => {
     const stockReport = async () => {
@@ -46,7 +48,7 @@ const JournalPicker = () => {
           `${baseUrl}/warehouses/journal-stock-report/${params.warehouse}?start=${startDate}&end=${endDate}`,
         );
         console.log(response.data);
-        setJournalReport(response.data.data);
+        setJournalReport(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -78,8 +80,9 @@ const JournalPicker = () => {
             Journal Stock Detail
           </h2>
         </div>
+        <CardJournalStock journal={journalReport} />
         {/* {journalReport.map((report, index) => (
-          <JournalStockCard key={index} journalStock={report} />
+          <card key={index} journalStock={report} />
         ))} */}
       </div>
     </div>

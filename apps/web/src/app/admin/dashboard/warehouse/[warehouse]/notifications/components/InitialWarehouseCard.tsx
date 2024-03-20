@@ -1,3 +1,5 @@
+import { baseUrl } from '@/app/utils/database';
+import axios from 'axios';
 import React from 'react';
 
 interface IProductDetail {
@@ -36,13 +38,35 @@ const InitialWarehouseCard: React.FC<InitialWarehouseCardProps> = ({
   mutation,
 }) => {
   // Function to handle accept action
-  const handleAccept = () => {
-    // Implement your logic to accept the stock mutation request
+  const handleAccept = async () => {
+    try {
+      await axios.patch(
+        `${baseUrl}/warehouses/update-status-stock/${mutation.id}`,
+        {
+          status: 'CONFIRM', // Update status to CONFIRM when accepted
+        },
+      );
+      // Implement any UI update or notification upon successful acceptance
+    } catch (error) {
+      // Handle error
+      console.error('Error accepting stock mutation:', error);
+    }
   };
 
   // Function to handle reject action
-  const handleReject = () => {
-    // Implement your logic to reject the stock mutation request
+  const handleReject = async () => {
+    try {
+      await axios.patch(
+        `${baseUrl}/warehouses/update-status-stock/${mutation.id}`,
+        {
+          status: 'CANCELLED', // Update status to CANCELLED when rejected
+        },
+      );
+      // Implement any UI update or notification upon successful rejection
+    } catch (error) {
+      // Handle error
+      console.error('Error rejecting stock mutation:', error);
+    }
   };
 
   return (
