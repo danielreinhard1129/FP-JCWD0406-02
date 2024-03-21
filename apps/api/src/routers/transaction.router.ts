@@ -56,6 +56,7 @@ export class TransactionRouter {
       '/all-transaction',
       this.transactionController.getAllTransaction,
     );
+    this.router.get('/sales-report', this.transactionController.salesReport);
   }
 
   getRouter(): Router {

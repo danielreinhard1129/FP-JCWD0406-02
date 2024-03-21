@@ -27,6 +27,7 @@ interface SummaryEntry {
   stockOut: number;
   currentStock: number;
 }
+
 // Function to calculate stock summary
 const calculateStockSummary = (data: Entry[]): SummaryEntry[] => {
   // Initialize summary array
@@ -57,12 +58,12 @@ const calculateStockSummary = (data: Entry[]): SummaryEntry[] => {
         lowercaseType === 'reduction from mutation' ||
         lowercaseType === 'shipped to user'
       ) {
-        stockOut += quantity;
+        stockOut -= quantity;
       }
     });
 
     // Calculate current stock
-    const currentStock = stockArrived - stockOut;
+    const currentStock = stockArrived + stockOut;
 
     // Push summary entry
     summary.push({
@@ -93,7 +94,7 @@ export const journalStockReportByWarehouseAction = async (
           title: product.title,
         },
         journal: stock.journal.map((entry) => ({
-          quantity: entry.totalQuantity,
+          quantity: entry.quantity,
           type: entry.type,
         })),
       })),
@@ -101,9 +102,24 @@ export const journalStockReportByWarehouseAction = async (
 
     const summary = calculateStockSummary(formattedReport);
 
+    // Transform data structure
+    const formattedData = report.map((entry) => {
+      const summaryEntry = summary.find(
+        (summaryItem) => summaryItem.productId === entry.id,
+      );
+      return {
+        productId: entry.id,
+        title: entry.title,
+        stockArrived: summaryEntry?.stockArrived || 0,
+        stockOut: summaryEntry?.stockOut || 0,
+        currentStock: summaryEntry?.currentStock || 0,
+        Product: entry,
+      };
+    });
+
     return {
       message: 'stock report data',
-      data: report,
+      data: formattedData,
       summary: summary,
     };
   } catch (error) {

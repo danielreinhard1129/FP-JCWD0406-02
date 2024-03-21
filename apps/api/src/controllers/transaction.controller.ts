@@ -1,3 +1,4 @@
+import { salesReportAction } from '@/actions/salesReport/salesReportAction';
 import { closestWarehouseToTheUser } from '@/actions/transaction/closestWarehouseToTheUser';
 import { addToCartAction } from '@/actions/transaction/createAddToCart';
 import { createTransactionAction } from '@/actions/transaction/createTransactionAction';
@@ -161,6 +162,30 @@ export class TransactionController {
       const { id } = req.params;
       const transaction = await getTransactionByWarehouseIdAction(Number(id));
       res.status(200).send(transaction);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async salesReport(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { warehouseId, productId, categoryId, start, end } = req.query;
+      console.log('check controller querry', req.query);
+
+      const startDate = new Date(start as string);
+      const endDate = new Date(end as string);
+
+      const formatStart = startDate.toISOString();
+      const formatEnd = endDate.toISOString();
+
+      const reportData = await salesReportAction(
+        Number(warehouseId),
+        Number(productId),
+        Number(categoryId),
+        formatStart,
+        formatEnd,
+      );
+      res.status(200).send(reportData);
     } catch (error) {
       next(error);
     }

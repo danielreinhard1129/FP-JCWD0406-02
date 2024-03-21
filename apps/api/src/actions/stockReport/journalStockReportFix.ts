@@ -88,6 +88,20 @@ export const journalStockReportFixAction = async (
     const report = await journalStockReportFix(warehouseId, startDate, endDate);
 
     // Transform report into formatted data
+    // const formattedReport: Entry[] = report.flatMap((product) =>
+    //   product.Stock.map((stock) => ({
+    //     quantity: stock.quantity,
+    //     product: {
+    //       id: product.id,
+    //       title: product.title,
+    //     },
+    //     journal: stock.journal.map((entry) => ({
+    //       quantity: entry.quantity,
+    //       type: entry.type,
+    //     })),
+    //   })),
+    // );
+
     const formattedReport: Entry[] = report.flatMap((product) =>
       product.Stock.map((stock) => ({
         quantity: stock.quantity,
@@ -96,7 +110,7 @@ export const journalStockReportFixAction = async (
           title: product.title,
         },
         journal: stock.journal.map((entry) => ({
-          quantity: entry.totalQuantity,
+          quantity: entry.quantity,
           type: entry.type,
         })),
       })),
@@ -105,9 +119,23 @@ export const journalStockReportFixAction = async (
     // Calculate stock summary
     const summary = calculateStockSummary(formattedReport);
 
+    const formattedData = report.map((entry) => {
+      const summaryEntry = summary.find(
+        (summaryItem) => summaryItem.productId === entry.id,
+      );
+      return {
+        productId: entry.id,
+        title: entry.title,
+        stockArrived: summaryEntry?.stockArrived || 0,
+        stockOut: summaryEntry?.stockOut || 0,
+        currentStock: summaryEntry?.currentStock || 0,
+        Product: entry,
+      };
+    });
+
     return {
       message: 'stock report',
-      data: report,
+      data: formattedData,
       summary,
       // summary: summary,
     };

@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^5.7.1",
+    "@react-oauth/google": "^0.12.1",
     "axios": "^1.6.7",
     "bcrypt": "^5.1.1",
     "core-util-is": "^1.0.3",

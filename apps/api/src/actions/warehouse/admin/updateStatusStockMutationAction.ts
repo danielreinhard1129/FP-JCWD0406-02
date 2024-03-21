@@ -128,7 +128,7 @@ export const updateStatusStockMutationAction = async (
             },
             {
               stockId: initialWarehouse?.id as number,
-              quantity: -detail.quantity,
+              quantity: detail.quantity,
               type: `Reduction from mutation`,
               totalQuantity: initialWarehouse?.quantity as number,
             },
