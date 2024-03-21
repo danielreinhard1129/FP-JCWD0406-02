@@ -49,7 +49,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   const subtotal = quantity * price;
 
   return (
-    <div className="bg-white inset-x-0 sticky bottom-10 p-4 md:mt-8 rounded-xl shadow-lg flex flex-col space-y-4 transform transition-all hover:scale-105 duration-300">
+    <div className="bg-white inset-x-0 p-4 md:mt-8 rounded-xl shadow-md flex flex-col space-y-4 transform transition-all hover:scale-105 duration-300">
       <div className="flex justify-between items-center">
         <div className="space-y-0">
           <div className="text-md text-gray-600 font-medium">{productName}</div>

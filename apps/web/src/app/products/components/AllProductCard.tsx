@@ -35,10 +35,10 @@ interface ProductCardProps {
   productsData: IProduct[];
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ productsData }) => {
+const AllProductCard: React.FC<ProductCardProps> = ({ productsData }) => {
   console.log('card all product', productsData);
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
       {productsData.map((product) => (
         <div
           key={product.id}
@@ -79,4 +79,4 @@ const ProductCard: React.FC<ProductCardProps> = ({ productsData }) => {
   );
 };
 
-export default ProductCard;
+export default AllProductCard;

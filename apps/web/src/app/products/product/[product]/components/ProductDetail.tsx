@@ -61,16 +61,17 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ detailProduct }) => {
           </span>
         </p>
       </div>
-      <div className="mt-4 text-base font-medium ">
+      <div className="mt-4 text-xs text-gray-400 font-normal ">
         Weight: {detailProduct.weight} grams
       </div>
-
-      <AddToCartButton
-        productId={detailProduct.id} // Directly pass productId without converting to string
-        productName={detailProduct.title}
-        category={detailProduct.Category.category_name}
-        price={detailProduct.price}
-      />
+      <div className="-mx-4">
+        <AddToCartButton
+          productId={detailProduct.id}
+          productName={detailProduct.title}
+          category={detailProduct.Category.category_name}
+          price={detailProduct.price}
+        />
+      </div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 // components/SearchBar.tsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FiSearch } from 'react-icons/fi';
 
@@ -30,19 +30,33 @@ const SearchBar2: React.FC<SearchBarProps> = ({ allProducts }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<IProduct[]>([]);
   const router = useRouter();
+  console.log('term', searchTerm);
+  console.log('result', searchResults);
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setSearchTerm(value);
-    if (!value.trim()) {
-      setSearchResults([]);
-      return;
-    }
+  useEffect(() => {
+    // Membuat fungsi untuk melakukan filter
+    const performSearch = () => {
+      if (!searchTerm.trim()) {
+        setSearchResults([]);
+        return;
+      }
 
-    const filteredProducts = allProducts.filter((product) =>
-      product.title.toLowerCase().includes(value.toLowerCase()),
-    );
-    setSearchResults(filteredProducts);
+      const filteredProducts = allProducts.filter((product) =>
+        product.title.toLowerCase().includes(searchTerm.toLowerCase()),
+      );
+      setSearchResults(filteredProducts);
+    };
+
+    // Mengatur debouncing
+    const timerId = setTimeout(() => {
+      performSearch();
+    }, 300);
+
+    return () => clearTimeout(timerId); // Bersihkan timeout jika searchTerm berubah
+  }, [allProducts, searchTerm]); // Hanya menjalankan useEffect ini ketika searchTerm berubah
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
   };
 
   const handleSelectProduct = (productId: number) => {
@@ -57,7 +71,7 @@ const SearchBar2: React.FC<SearchBarProps> = ({ allProducts }) => {
         type="search"
         placeholder="Search product..."
         className="text-sm rounded-l-md pl-2 focus:ring-teal-500 focus:border-teal-500 block w-full border-gray-300"
-        onChange={handleSearch}
+        onChange={handleSearchChange}
         value={searchTerm}
       />
       <button
