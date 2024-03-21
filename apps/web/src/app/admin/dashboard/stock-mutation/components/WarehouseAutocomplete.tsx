@@ -25,8 +25,6 @@ const WarehouseAutoComplete: React.FC<WarehouseAutoCompleteProps> = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [showOptions, setShowOptions] = useState(false);
 
-  console.log(warehouses);
-
   useEffect(() => {
     const fetchWarehouses = async () => {
       try {

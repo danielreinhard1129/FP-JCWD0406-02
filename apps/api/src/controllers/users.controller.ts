@@ -11,6 +11,7 @@ import { forgotPasswordAction } from '@/actions/user/forgotPasswordAction';
 import { getAdminNotAssignedAction } from '@/actions/user/getAdminNotAsignAction';
 import { getUserByIdAction } from '@/actions/user/getUserByIdAction';
 import { getUserByRoleIdAction } from '@/actions/user/getUserByRoleIdAction';
+import { registerByGoogleAction } from '@/actions/user/registerByGoogleAction';
 import { registerUserAction } from '@/actions/user/registerUserAction';
 import { resetPasswordAction } from '@/actions/user/resetPasswordAction';
 import { sendEmailForVerifAction } from '@/actions/user/sendEmailForVerifAction';
@@ -26,6 +27,7 @@ import { getUserAddressByIdAction } from '@/actions/userAddress/getUserAddressBy
 import { setDefaultAddressAction } from '@/actions/userAddress/setDefaultAddressAction';
 import { createTokenRegister } from '@/lib/jwt';
 import prisma from '@/prisma';
+import { config } from 'dotenv';
 import { NextFunction, Request, Response } from 'express';
 import fs from 'fs';
 import { join } from 'path';
@@ -586,6 +588,17 @@ export class UserController {
     try {
       const admins = await getAdminNotAssignedAction();
       res.status(200).json(admins);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async registerByGoogle(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = req.body;
+
+      const register = await registerByGoogleAction(data);
+      console.log('check controllerr', data);
     } catch (error) {
       next(error);
     }

@@ -9,6 +9,9 @@ import YupPassword from 'yup-password';
 import { baseUrl } from '@/app/utils/database';
 import { UserAuth } from '@/app/utils/context/authContext';
 import Image from 'next/image';
+import { useGoogleLogin } from '@react-oauth/google';
+import { loginAction } from '@/lib/features/userSlice';
+import { useDispatch } from 'react-redux';
 YupPassword(yup);
 
 const validationSchema = yup.object().shape({
@@ -21,6 +24,7 @@ const validationSchema = yup.object().shape({
 const RegisterCardInputEmail = () => {
   const router = useRouter();
   const { userGoogle, googleSignIn } = UserAuth();
+  const dispatch = useDispatch();
 
   const handleSignIn = async () => {
     try {
@@ -57,6 +61,34 @@ const RegisterCardInputEmail = () => {
         }
       }
     },
+  });
+  const login = useGoogleLogin({
+    onSuccess: (tokenResponse) => console.log(tokenResponse),
+  });
+
+  console.log(login);
+
+  const handleLoginbyGoogle = useGoogleLogin({
+    onSuccess: async ({ code }) => {
+      console.log('check', code);
+
+      try {
+        // setIsloading(true);
+        const { data } = await axios.post(
+          `${baseUrl}/users/register-by-google`,
+          {
+            code,
+          },
+        );
+        console.log('check data : ', data);
+
+        // localStorage.setItem('tokoalaala_token', data.token);
+        // dispatch(loginAction(data.data));
+      } catch (error) {
+        console.log('error login by googel', error);
+      }
+    },
+    flow: 'auth-code',
   });
 
   return (
@@ -131,11 +163,17 @@ const RegisterCardInputEmail = () => {
             <span className="inline-block mb-4 bg-white px-4 text-xs text-gray-500">
               or
             </span>
-            <button
+            {/* <button
               onClick={handleSignIn}
               className="bg-amber-100 hover:bg-amber-200 text-gray-700 font-semibold text-sm py-2 px-4 rounded-xl w-full mb-3"
             >
               Continue with Google
+            </button> */}
+            <button
+              className="bg-amber-100 hover:bg-amber-200 text-gray-700 font-semibold text-sm py-2 px-4 rounded-xl w-full mb-3"
+              onClick={() => handleLoginbyGoogle()}
+            >
+              Sign in with Google{' '}
             </button>
           </div>
           <p className="text-xs text-center text-gray-500 mt-4">

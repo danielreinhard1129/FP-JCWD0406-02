@@ -89,6 +89,10 @@ export class UserRouter {
       this.userController.createTRegisteroken,
     );
     this.router.get('/unassigned', this.userController.getAdminNotAssigned);
+    this.router.post(
+      '/register-by-google',
+      this.userController.registerByGoogle,
+    );
   }
 
   getRouter(): Router {
