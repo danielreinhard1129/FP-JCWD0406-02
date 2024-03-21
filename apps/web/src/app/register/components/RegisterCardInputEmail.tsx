@@ -62,7 +62,7 @@ const RegisterCardInputEmail = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 h-fit">
       {/* LEFT SIDE */}
-      <div className="hidden relative w-[500px] h-[500px] md:block">
+      <div className="hidden relative w-[700px] h-[700px] md:block">
         <Image
           src="/register/register6.jpg"
           alt="Left Side Visual"

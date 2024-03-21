@@ -151,7 +151,7 @@ export const Navbar = () => {
             All Product
           </Link>
         </div>
-        <div className="flex w-full max-w-3xl">
+        <div className="flex w-full max-w-3xl ">
           {!isLoading && <SearchBar2 allProducts={allProducts} />}
         </div>
 
@@ -169,7 +169,7 @@ export const Navbar = () => {
         {/* <CartHoverPopup /> */}
         <Link
           href="/"
-          className="hidden lg:block px-6 lg:gap-x-12 items-center transform transition-all hovesr:scale-105 duration-300"
+          className="hidden lg:block px-6 lg:gap-x-12 items-center transform transition-all hover:scale-105 duration-300"
         >
           <div className="text-sm font-semibold leading-6 text-gray-900 mr-4">
             <FiPackage className="inline h-6 w-6 align-middle -mt-1" />
@@ -204,7 +204,7 @@ export const Navbar = () => {
                 alt="Profile Picture"
                 width={100}
                 height={100}
-                className="object-cover rounded-full w-10 h-10"
+                className="object-cover rounded-full w-10 h-10 transform transition-all hover:scale-105 duration-300"
               />
             </button>
 

@@ -3,66 +3,48 @@ import React, { useEffect, useState } from 'react';
 import { Datepicker } from 'flowbite-react';
 import axios from 'axios';
 import { baseUrl } from '@/app/utils/database';
-import WarehouseAutoComplete from '@/app/admin/dashboard/stock-mutation/components/WarehouseAutocomplete';
 import { useParams } from 'next/navigation';
-import SummaryJournalWarehouseCard from './SummaryJournalWarehouse';
-import ModalJournalWarehouse from './ModalJournalWarehouse';
-import { JournalStockCard } from '@/app/admin/dashboard/journal/components/JournalStockCard';
-import CardJournalStock from './CardJournalStock';
+import SummaryCard from './SummaryCard';
 
-interface Product {
+interface ProductSummary {
+  productId: number;
+  title: string;
+  currentStock: number;
+  stockArrived: number;
+  stockOut: number;
+  journal: JournalDetail[];
+  Product: ProductDetail;
+}
+
+interface JournalDetail {
+  id: number;
+  quantity: number;
+  type: string;
+  totalQuantity: number;
+  createdAt: string;
+}
+export interface ProductDetail {
   id: number;
   title: string;
 }
 
-interface Warehouse {
-  name: string;
-}
-
-interface Stock {
-  id: number;
-  quantity: number;
-  totalQuantity: number;
-  type: string;
-  createdAt: string;
-  updatedAt: string;
-  product: Product;
-  warehouse: Warehouse;
-}
-
-interface JournalEntry {
-  id: number;
-  product: Product;
-  journal: Stock[]; // Assuming journal is an array of Stock
-}
-
-export interface SummaryData {
-  product: Product;
-  stockArrived: number;
-  stockOut: number;
-  currentStock: number;
-}
 const JournalPicker = () => {
   const params = useParams();
 
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
-  const [journalReport, setJournalReport] = useState<JournalEntry[]>([]);
-  const [summaryJournal, setSummaryJournal] = useState<SummaryData[]>([]);
-  const [selectedJournal, setSelectedJournal] = useState<Stock[] | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  
+  const [journalReport, setJournalReport] = useState<ProductSummary[]>([]);
+
+  console.log('ini jurnal', journalReport);
+
   useEffect(() => {
     const stockReport = async () => {
       try {
         const response = await axios.get(
           `${baseUrl}/warehouses/journal-stock-report/${params.warehouse}?start=${startDate}&end=${endDate}`,
         );
-        console.log(response.data);
 
-        setSummaryJournal(response.data.summary);
         setJournalReport(response.data.data);
-
       } catch (error) {
         console.log(error);
       }
@@ -70,16 +52,8 @@ const JournalPicker = () => {
     stockReport();
   }, [startDate, endDate, params.warehouse]);
 
-  const handleShowJournal = (productId: number) => {
-    // Find the data for the selected product
-    const selectedData = journalReport.find(
-      (entry: JournalEntry) => entry.product.id === productId,
-    );
-    setSelectedJournal(selectedData ? selectedData.journal : null);
-    setIsModalOpen(true);
-  };
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 z-0">
       {/* Area Picker */}
       <div className="flex justify-between gap-5 items-center mb-4">
         <div className="flex gap-5">
@@ -97,30 +71,16 @@ const JournalPicker = () => {
       <hr />
       {/* AREA JOURNAL */}
       <div className="space-y-0.5">
-        <div className="sticky top-16 bg-white px-6 border-b border-gray-200 ">
+        <div className="sticky top-16 sabg-white px-6 border-b border-gray-200 ">
           <h2 className="text-base font-bold text-gray-800">
             Journal Stock Detail
           </h2>
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {journalReport.map((productSummary, index) => (
+              <SummaryCard key={index} journalStock={productSummary} />
+            ))}
+          </div>
         </div>
-
-        <SummaryJournalWarehouseCard
-          summary={summaryJournal}
-          onShowJournal={handleShowJournal}
-        />
-
-        {isModalOpen && selectedJournal && (
-          <ModalJournalWarehouse
-            journals={selectedJournal}
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-          />
-        )}
-
-        <CardJournalStock journal={journalReport} />
-        {/* {journalReport.map((report, index) => (
-          <card key={index} journalStock={report} />
-        ))} */}
-
       </div>
     </div>
   );

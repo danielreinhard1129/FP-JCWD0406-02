@@ -50,7 +50,7 @@ const WarehouseOrder = () => {
   }, [params.warehouse]);
 
   return (
-    <div className="flex h-screen gap-4 mx-auto max-w-7xl mt-8">
+    <div className="flex min-h-screen gap-4 mx-auto max-w-7xl mt-8">
       <AdminSidebar />
       <div className="w-full space-y-2">
         <HeaderWarehouseOrder />

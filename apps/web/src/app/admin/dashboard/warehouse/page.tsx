@@ -34,7 +34,7 @@ const Warehouse = () => {
     fetchWarehouses();
   };
   return (
-    <div className="flex gap-4 mx-auto max-w-7xl mt-8">
+    <div className="flex gap-4 min-h-screen mx-auto max-w-7xl mt-8">
       <AdminSidebar />
       <div className="w-full space-y-4">
         <HeaderWarehouseManagement />

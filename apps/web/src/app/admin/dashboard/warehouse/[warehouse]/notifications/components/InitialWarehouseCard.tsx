@@ -1,6 +1,7 @@
 import { baseUrl } from '@/app/utils/database';
 import axios from 'axios';
 import React from 'react';
+import { toast } from 'sonner';
 
 interface IProductDetail {
   id: number;
@@ -46,6 +47,7 @@ const InitialWarehouseCard: React.FC<InitialWarehouseCardProps> = ({
           status: 'CONFIRM', // Update status to CONFIRM when accepted
         },
       );
+      toast.success('Stock movement has been Confirmed');
       // Implement any UI update or notification upon successful acceptance
     } catch (error) {
       // Handle error
@@ -62,6 +64,7 @@ const InitialWarehouseCard: React.FC<InitialWarehouseCardProps> = ({
           status: 'CANCELLED', // Update status to CANCELLED when rejected
         },
       );
+      toast.success('Stock movement has been cancelled');
       // Implement any UI update or notification upon successful rejection
     } catch (error) {
       // Handle error

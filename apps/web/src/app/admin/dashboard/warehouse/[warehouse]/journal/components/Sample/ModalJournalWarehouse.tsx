@@ -23,17 +23,15 @@ interface JournalModalProps {
   onClose: () => void;
 }
 
-// Implementation of the JournalModal component
 const ModalJournalWarehouse: React.FC<JournalModalProps> = ({
   journals,
   isOpen,
   onClose,
 }) => {
-  // Do not render the modal if it's not open
-  if (!isOpen) return null;
+  // if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-gray-600 items-center bg-opacity-50 overflow-y-auto h-full w-full z-30">
+    <div className="fixed inset-0 bg-gray-600 items-center bg-opacity-50 overflow-y-auto h-full w-full z-50 flex justify-center">
       <div className="modal-content bg-white p-4 max-w-lg mx-auto my-10 rounded-lg shadow">
         <button
           onClick={onClose}
