@@ -6,25 +6,25 @@ const FilterCategory = () => {
     {
       id: 1,
       name: 'Security',
-      href: '/detail',
+      href: '/products',
       imageSrc: '/artCategory/security3.webp',
     },
     {
       id: 2,
       name: 'Lighting',
-      href: '#',
+      href: '/products',
       imageSrc: '/artCategory/lighting3.webp',
     },
     {
       id: 3,
       name: 'Electrical',
-      href: '#',
+      href: '/products',
       imageSrc: '/artCategory/electrical.webp',
     },
     {
       id: 5,
       name: 'Home & Living',
-      href: '#',
+      href: '/products',
       imageSrc: '/artCategory/homeliving.webp',
     },
   ];
@@ -45,8 +45,9 @@ const FilterCategory = () => {
                   src={category.imageSrc}
                   alt="Category"
                   className="h-full w-full object-contain object-center lg:h-full lg:w-full"
-                  width={100}
-                  height={100}
+                  width={500}
+                  height={500}
+                  priority
                 />
               </div>
               <div className="mt-2">

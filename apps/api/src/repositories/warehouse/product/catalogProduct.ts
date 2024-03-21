@@ -14,6 +14,7 @@ export const catalogProduct = async (category: string) => {
       },
       include: {
         Category: true,
+        productPhotos: true,
         Stock: true,
       },
       skip: (page - 1) * pageSize,

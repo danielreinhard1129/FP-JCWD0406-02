@@ -32,10 +32,6 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
   const [selectedImage, setSelectedImage] = useState(
     product.productPhotos[0].photo_product,
   );
-
-  // useEffect(() => {
-  //   altText();
-  // }, [selectedImage]);
   return (
     <div>
       {/* Main Image */}
@@ -43,7 +39,7 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
         <Image
           src={`${baseUrll}/photo-product/${selectedImage}`}
           alt={altText}
-          className="max-w-full h-auto object-cover rounded-lg shadow-lg transition duration-300 ease-in-out"
+          className="max-w-full h-auto object-cover rounded-lg shadow-md transition duration-300 ease-in-out"
           priority
           width={500}
           height={500}

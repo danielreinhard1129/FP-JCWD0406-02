@@ -51,11 +51,11 @@ export default function Home() {
       <Carousel />
       <Banner />
       <FilterCategory />
-      <div className="w-full px-8 h-fit">
+      <div className="w-full px-4 h-fit">
         <h2 className="text-lg font-bold tracking-tight text-gray-900">
           More Products
         </h2>
-        <div className="items-center mt-4 flex gap-x-4 gap-y-8 w-full">
+        <div className="items-center mt-4 flex gap-y-8 w-full">
           <ProductCard productsData={randomProducts} />
         </div>
       </div>
