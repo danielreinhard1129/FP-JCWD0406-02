@@ -5,7 +5,7 @@ import RegisterCardInputEmail from './components/RegisterCardInputEmail';
 const RegisterPage = () => {
   return (
     <div>
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl min-h-screen mx-auto">
         <RegisterCardInputEmail />
       </div>
     </div>

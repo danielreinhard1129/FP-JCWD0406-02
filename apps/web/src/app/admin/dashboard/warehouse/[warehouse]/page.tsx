@@ -15,10 +15,12 @@ import TabsComponent from './components/WarehouseProductManagement copy';
 import { fetchAllProducts } from '@/app/utils/helper/fetchAllProduct';
 import { IStock } from '@/types/warehouse.types';
 import NonAsignAdminSelect from './components/ModalNonAsignAdmin';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/lib/store';
 
 interface IRole {
   id: number;
-  role_name: string; // Use 'string' instead of 'String'
+  role_name: string;
 }
 
 interface IUser {
@@ -44,6 +46,7 @@ interface IWarehouse {
   state: string;
   postcode: number;
   village: string;
+  userId: number;
 }
 
 const WarehouseDetail = () => {
@@ -51,21 +54,16 @@ const WarehouseDetail = () => {
   const [allStock, setAllStock] = useState<IStock[]>([]);
   const [inStockProducts, setInStockProducts] = useState<IProduct[]>([]); // Assu
   const [noStockProducts, setNoStockProducts] = useState<IProduct[]>([]); // Assu
-  const [isLoading, setIsLoading] = useState(true);
-  const [warehouse, setWarehouse] = useState([]);
+  const [warehouse, setWarehouse] = useState<IWarehouse[]>([]);
   const [admin, setAdmin] = useState<IUser | null>(null);
   const [warehouseId, setWarehouseId] = useState<number>(0);
   const params = useParams();
-  console.log('check warehouse', warehouse);
-  console.log('ini warehouse', warehouseId);
-
+  const currentUser = useSelector((state: RootState) => state.user);
   useEffect(() => {
     const getProducts = async () => {
       const products = await fetchAllProducts().then();
-      // console.log('ini all  product', allProducts);
 
       setAllProducts(products);
-      setIsLoading(false);
     };
     getProducts();
   }, []);
@@ -79,6 +77,8 @@ const WarehouseDetail = () => {
       const warehouse = response.data.data;
       const stocks = warehouse.stocks;
       const admin = warehouse.user;
+      const userId = warehouse.userId;
+      console.log(warehouse);
 
       setAdmin(admin);
       setWarehouseId(response.data.data.id);
@@ -110,12 +110,27 @@ const WarehouseDetail = () => {
     }
   }, [params.warehouse, getWarehouseDetails]);
 
+  useEffect(() => {
+    if (params.warehouse) {
+      getWarehouseDetails();
+    }
+  }, [params.warehouse, getWarehouseDetails]);
+
+  // useEffect(() => {
+  //   // Check if the current user is the admin of this warehouse
+  //   if (warehouse.userId && currentUser.id !== warehouse.userId) {
+  //     toast.error('Access denied: You are not an admin of this warehouse.');
+  //     // Optionally, you could redirect them or hide the warehouse details
+  //     // For example, using history.push('/some-other-page') if using react-router
+  //   }
+  // }, [currentUser, warehouse.userId]);
+
   const refreshWarehouse = async () => {
     getWarehouseDetails();
   };
 
   return (
-    <div className="flex gap-4 mx-auto max-w-7xl mt-8">
+    <div className="flex min-h-screen gap-4 mx-auto max-w-7xl mt-8">
       <AdminSidebar />
       <div className="w-full space-y-4">
         {/* <NonAsignAdminSelect /> */}

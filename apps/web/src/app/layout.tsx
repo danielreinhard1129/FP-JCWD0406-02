@@ -16,7 +16,7 @@ const clientId =
 
 export const metadata: Metadata = {
   title: 'BORDL Smart Home',
-  description: 'Web Penjualan Perangkat Rumah Pintar, Bukan Rumah "BORDIL"',
+  description: 'Perangkat Rumah Pintar, Bukan Rumah "BORDIL"',
 };
 
 export default function RootLayout({

@@ -88,14 +88,14 @@ const UserAddress: React.FC = () => {
             userId={userId}
           />
         ) : (
-          <div className="flex justify-center items-center w-full  ">
+          <div className="flex fix justify-center min-h-screen items-center w-full  ">
             <Image
               src="/address/address1.png"
               alt="No Address"
               className="rounded-lg"
               style={{ maxWidth: '100%', maxHeight: '50%' }}
-              width={100}
-              height={100}
+              width={300}
+              height={300}
             />
           </div>
         )}

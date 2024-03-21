@@ -64,7 +64,7 @@ export const Banner = () => {
                         </div>
                         <div className="h-32 w-24 sm:h-64 sm:w-44 overflow-hidden rounded-lg">
                           <Image
-                            src="/product/cctvPtzBrdl.jpg"
+                            src="/product/CctvPtzBrdl.jpg"
                             alt=""
                             className="h-full w-full object-cover object-center"
                             width={100}

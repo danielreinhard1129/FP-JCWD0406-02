@@ -33,7 +33,7 @@ const AdminSidebar: React.FC = () => {
   const user = useSelector((state: IUser) => state.user);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
   const [collapsed, setCollapsed] = useState<{ [key: string]: boolean }>({});
-
+  const params = useParams();
   const toggleSubMenu = (menu: string) => {
     setCollapsed((prev) => ({
       ...prev,
@@ -77,39 +77,46 @@ const AdminSidebar: React.FC = () => {
             <FiHome className="mr-2 size-5" />
             <span className="font-semibold hover:text-teal-600">Home</span>
           </Link>
-          <Link
-            href="/admin/dashboard/notification"
-            className="flex items-center cursor-pointer transform transition-all hover:scale-105 duration-300"
-          >
-            <FiBell className="mr-2 size-5" />
-            <span className="font-semibold hover:text-teal-600">
-              Notification
-            </span>
-          </Link>
-          <Link
-            href="/admin/dashboard/orders"
-            className="flex items-center cursor-pointer transform transition-all hover:scale-105 duration-300"
-          >
-            <FiShoppingBag className="mr-2 size-5" />
-            <span className="font-semibold hover:text-teal-600">Orders</span>
-          </Link>
-          <Link
-            href="/admin/dashboard/stock-mutation"
-            className="flex items-center cursor-pointer transform transition-all hover:scale-105 duration-300"
-          >
-            <BiTransferAlt className="mr-2 size-5" />
-            <span className="font-semibold hover:text-teal-600">
-              Stock Mutation
-            </span>
-          </Link>
-          <Link
-            href="/admin/dashboard/journal"
-            className="flex items-center cursor-pointer transform transition-all hover:scale-105 duration-300"
-          >
-            <BsFillJournalBookmarkFill className="mr-2 size-5 font-bold" />
-            <span className="font-semibold hover:text-teal-600">Journal</span>
-          </Link>
-
+          {user.roleId === 1 ? (
+            <div className="flex flex-col space-y-6 ">
+              <Link
+                href="/admin/dashboard/notification"
+                className="flex items-center cursor-pointer transform transition-all hover:scale-105 duration-300"
+              >
+                <FiBell className="mr-2 size-5" />
+                <span className="font-semibold hover:text-teal-600">
+                  Notification
+                </span>
+              </Link>
+              <Link
+                href="/admin/dashboard/orders"
+                className="flex items-center cursor-pointer transform transition-all hover:scale-105 duration-300"
+              >
+                <FiShoppingBag className="mr-2 size-5" />
+                <span className="font-semibold hover:text-teal-600">
+                  Orders
+                </span>
+              </Link>
+              <Link
+                href="/admin/dashboard/stock-mutation"
+                className="flex items-center cursor-pointer transform transition-all hover:scale-105 duration-300"
+              >
+                <BiTransferAlt className="mr-2 size-5" />
+                <span className="font-semibold hover:text-teal-600">
+                  Stock Mutation
+                </span>
+              </Link>
+              <Link
+                href="/admin/dashboard/journal"
+                className="flex items-center cursor-pointer transform transition-all hover:scale-105 duration-300"
+              >
+                <BsFillJournalBookmarkFill className="mr-2 size-5 font-bold" />
+                <span className="font-semibold hover:text-teal-600">
+                  Journal
+                </span>
+              </Link>
+            </div>
+          ) : null}
           {user.roleId === 1 ? (
             <li>
               <div
@@ -214,6 +221,12 @@ const AdminSidebar: React.FC = () => {
                   className="cursor-pointer hover:text-teal-600 transform transition-all hover:scale-105 duration-300"
                 >
                   Warehouse Management
+                </Link>
+                <Link
+                  href="/admin/dashboard/warehouse"
+                  className="cursor-pointer hover:text-teal-600 transform transition-all hover:scale-105 duration-300"
+                >
+                  Warehouse Branch
                 </Link>
               </ul>
             )}

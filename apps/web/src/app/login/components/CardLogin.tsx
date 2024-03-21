@@ -71,13 +71,14 @@ const CardLogin = () => {
   return (
     <div className="h-fit flex md:mt-4 mt-4 justify-center">
       <div className=" max-w-md w-full bg-white shadow-md rounded-xl px-8 pt-6 pb-8 mb-4">
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center ">
           <Image
             src="/loginPic/headlogin3.jpg"
             alt="Login Visual"
             className="mb-3 "
-            width={100}
-            height={100}
+            width={500}
+            height={500}
+            priority
           />
         </div>
         <button

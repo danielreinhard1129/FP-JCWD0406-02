@@ -4,7 +4,7 @@ import AdminSidebar from '@/app/admin/components/SidebarDashboard';
 
 const WarehouseStatistic = () => {
   return (
-    <div className="flex h-screen gap-4 mx-auto max-w-7xl mt-8">
+    <div className="flex min-h-screen gap-4 mx-auto max-w-7xl mt-8">
       <AdminSidebar />
       <div className="w-full space-y-10">
         <HeaderWarehouseStatistic />

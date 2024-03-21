@@ -11,6 +11,9 @@ import {
 } from 'react-icons/fa';
 
 import ModalNonAsignAdmin from './ModalNonAsignAdmin';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/lib/store';
+import { toast } from 'sonner';
 
 interface IRole {
   id: number;
@@ -40,11 +43,17 @@ const AdminIdentityCard: React.FC<AdminIdentityCardProps> = ({
   warehouseData,
   refreshWarehouse,
 }) => {
-  // console.log('data dari admin', admin);
-
+  const roleId = useSelector((state: RootState) => state.user.roleId);
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const openModal = () => setModalOpen(true);
+  const openModal = () => {
+    if (roleId === 1) {
+      setModalOpen(true);
+    } else {
+      toast.error('ADMIN BIASA LO YE!! JAN BELAGU SOK-SOK MO GANTI ADMIN!!');
+    }
+  };
+
   const closeModal = () => setModalOpen(false);
 
   return (

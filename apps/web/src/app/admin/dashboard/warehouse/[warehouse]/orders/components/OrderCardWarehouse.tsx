@@ -65,7 +65,7 @@ const OrderCardWarehouse: React.FC<{ order: IOrder }> = ({ order }) => {
 
   return (
     <div className="flex flex-wrap items-start gap-2">
-      <div className="bg-white rounded-lg shadow-lg p-3 w-full max-w-6xl  border-l-8 border-teal-500">
+      <div className="bg-white rounded-lg shadow-md p-3 w-full max-w-6xl  border-l-8 border-teal-500">
         {productDisplay.map((detail, index) => (
           <div key={index} className="flex justify-between items-start mb-1">
             <div className="flex items-center">
