@@ -11,9 +11,19 @@ export const getProductByIdAction = async (id: number) => {
       };
     }
 
+    const totalStock = product.Stock.reduce(
+      (total, stockItem) => total + stockItem.quantity,
+      0,
+    );
+
+    const productDataWithTotalStock = {
+      ...product,
+      totalStock: totalStock,
+    };
+
     return {
       message: `Product with ID ${id} fetched successfully`,
-      data: product,
+      data: productDataWithTotalStock,
     };
   } catch (error) {
     throw error;

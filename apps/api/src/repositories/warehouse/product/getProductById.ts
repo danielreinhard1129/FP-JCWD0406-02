@@ -8,6 +8,7 @@ export const getProductById = async (id: number) => {
       include: {
         productPhotos: true,
         Category: true,
+        Stock: true,
       },
     });
 

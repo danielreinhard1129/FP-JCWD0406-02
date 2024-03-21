@@ -599,6 +599,7 @@ export class UserController {
 
       const register = await registerByGoogleAction(data);
       console.log('check controllerr', data);
+      res.status(200).send(register);
     } catch (error) {
       next(error);
     }
