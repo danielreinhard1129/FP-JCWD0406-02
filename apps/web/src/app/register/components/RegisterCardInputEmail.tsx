@@ -81,9 +81,6 @@ const RegisterCardInputEmail = () => {
           },
         );
         console.log('check data : ', data);
-
-        // localStorage.setItem('tokoalaala_token', data.token);
-        // dispatch(loginAction(data.data));
       } catch (error) {
         console.log('error login by googel', error);
       }
