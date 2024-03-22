@@ -14,7 +14,7 @@ interface IWarehouse {
 
 interface IProduct {
   id: number;
-  name: string;
+  title: string;
 }
 
 interface IReqStock {
@@ -29,6 +29,8 @@ interface IReqStock {
 
 const NotificationSuperAdmin = () => {
   const [requestStock, setRequestStock] = useState<IReqStock[]>([]);
+
+  console.log(requestStock);
 
   const fetchData = async () => {
     try {

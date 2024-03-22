@@ -11,6 +11,8 @@ import { toast } from 'sonner';
 import EditProfileComp from './EditProfile';
 import ModalChangeEmail from './ModalChangeEmail';
 import SendEmailVerifyButton from './SendEmailVerifyButton';
+import { logoutAction } from '@/lib/features/userSlice';
+import { useDispatch } from 'react-redux';
 
 interface IUser {
   data: any;
@@ -37,6 +39,18 @@ const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
   const dataUser = data;
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token_auth');
+
+    dispatch(logoutAction());
+    window.location.href = '/login';
+
+    toast.success('Logged out successfully');
+  };
+
   const uplaoadPhotoProfile = async (formdata: FormData) => {
     try {
       const token = localStorage.getItem('token_auth');
@@ -168,6 +182,15 @@ const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
                     />
                   </Label>
                 </div>
+              </div>
+
+              <div className="space-y-5 mx-auto block md:hidden">
+                <button
+                  onClick={handleLogout}
+                  className="mt-4 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-1 bg-red-600 text-xs font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                >
+                  Logout
+                </button>
               </div>
               {selectedFile && (
                 <div className="fixed z-10 inset-0 overflow-y-auto">

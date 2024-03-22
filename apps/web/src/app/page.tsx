@@ -7,6 +7,7 @@ import FilterCategory from '@/components/FilterCategory';
 import ProductCard, { Category } from './products/components/ProductCard';
 import { Banner } from '@/components/Banner';
 import { IStock } from '@/types/warehouse.types';
+import ProductSecurity from '@/components/ProductByCategory';
 
 export interface ProductPhoto {
   id: number;
@@ -51,12 +52,22 @@ export default function Home() {
       <Carousel />
       <Banner />
       <FilterCategory />
-      <div className="w-full px-4 h-fit">
-        <h2 className="text-lg font-bold tracking-tight text-gray-900">
-          More Products
-        </h2>
-        <div className="items-center mt-4 flex gap-y-8 w-full">
-          <ProductCard productsData={randomProducts} />
+      <div className="w-full px-4 h-fit space-y-10">
+        <div>
+          <h2 className="text-lg font-bold tracking-tight text-gray-900">
+            Security
+          </h2>
+          <div className="items-center mt-4 flex gap-y-8 w-full">
+            <ProductSecurity />
+          </div>
+        </div>
+        <div>
+          <h2 className="text-lg font-bold tracking-tight text-gray-900">
+            More Products
+          </h2>
+          <div className="items-center mt-4 flex gap-y-8 w-full">
+            <ProductCard productsData={randomProducts} />
+          </div>
         </div>
       </div>
     </div>

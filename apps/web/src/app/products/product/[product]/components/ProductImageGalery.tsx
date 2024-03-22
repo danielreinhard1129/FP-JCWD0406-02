@@ -8,14 +8,16 @@ interface ProductPhoto {
   id: number;
   photo_product: string;
 }
-
+interface Stock {
+  totalStock: number;
+}
 interface IProduct {
   id: number;
   title: string;
   description: string;
   price: number;
   weight: number; // Add weight here
-  stock: number;
+  Stock: Stock;
   productPhotos: ProductPhoto[];
 }
 

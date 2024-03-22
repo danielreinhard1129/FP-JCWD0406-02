@@ -6,7 +6,6 @@ export const salesReport = async (startDate: string, endDate: string) => {
       where: {
         transaction: {
           some: {
-            TransactionStatus: 'ORDER_CONFIRMED',
             createdAt: {
               gte: startDate,
               lte: endDate,

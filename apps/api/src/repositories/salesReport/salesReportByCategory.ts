@@ -6,6 +6,8 @@ export const salesReportByCategory = async (
   endDate: string,
 ) => {
   try {
+    console.log('checkkk', categoryId);
+
     const report = await prisma.category.findMany({
       where: {
         id: categoryId,
@@ -14,7 +16,6 @@ export const salesReportByCategory = async (
             transactionDetails: {
               some: {
                 Transaction: {
-                  TransactionStatus: 'ORDER_CONFIRMED',
                   createdAt: {
                     gte: startDate,
                     lte: endDate,

@@ -1,7 +1,8 @@
 import HeaderSalesReportSuperAdmin from '../components/HeaderSalesReportSuperAdmin';
-import SalesPicker from '../components/SalesPicker';
+import SalesPickerCategory from '../components/SalesPickerCategory';
+import SalesPickerProduct from '../components/SalesPickerProduct';
+import SalesPickerNew from '../components/SalesPickerWarehouse';
 import AdminSidebar from '../components/SidebarDashboard';
-import CategoryCard from './category-management/components/CategoryCard';
 
 const Dashboard = () => {
   return (
@@ -9,8 +10,10 @@ const Dashboard = () => {
       <AdminSidebar />
       <div className="w-full space-y-4">
         <HeaderSalesReportSuperAdmin />
-        <div className="flex-wrap">
-          <SalesPicker />
+        <div className="flex-wrap space-y-10">
+          <SalesPickerNew />
+          <SalesPickerCategory />
+          <SalesPickerProduct />
         </div>
       </div>
     </div>

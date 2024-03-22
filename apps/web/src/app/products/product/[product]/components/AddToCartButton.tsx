@@ -11,6 +11,7 @@ interface AddToCartButtonProps {
   productName: string;
   category: string;
   price: number;
+  totalStock: number;
 }
 
 const AddToCartButton: React.FC<AddToCartButtonProps> = ({
@@ -18,9 +19,11 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   productName,
   category,
   price,
+  totalStock,
 }) => {
   const [quantity, setQuantity] = useState(1);
   const userId = useSelector((state: any) => state.user.id);
+  console.log(totalStock);
 
   const decrementQuantity = () => {
     setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
@@ -57,7 +60,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
         </div>
         <div className="item-center">
           <h6 className="text-xs text-gray-400">Stock</h6>
-          <h6 className="text-xs  text-gray-400">600</h6>
+          <h6 className="text-xs  text-gray-400">{totalStock}</h6>
         </div>
       </div>
       <hr />
@@ -102,8 +105,13 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
       </div>
 
       <button
+        disabled={totalStock === 0}
         onClick={handleAddToCart}
-        className="w-full bg-teal-600 text-white py-2 rounded-lg hover:bg-teal-700 transform transition-all hover:scale-105 duration-300"
+        className={`w-full py-2 rounded-lg transform transition-all hover:scale-105 duration-300 ${
+          totalStock === 0
+            ? 'bg-gray-200 text-gray-500 cursor-not-allowed' // Change color to light grey when disabled
+            : 'bg-teal-600 text-white'
+        }`}
       >
         ADD TO CART
       </button>

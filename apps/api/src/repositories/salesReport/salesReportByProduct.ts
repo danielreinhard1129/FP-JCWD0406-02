@@ -12,7 +12,6 @@ export const salesReportByProduct = async (
           some: {
             productId: productId,
             Transaction: {
-              TransactionStatus: 'ORDER_CONFIRMED',
               createdAt: {
                 gte: startDate,
                 lte: endDate,

@@ -7,6 +7,7 @@ import { baseUrl } from '@/app/utils/database';
 import AddressCardComp from './components/AddressCard';
 import HeaderAddress from './components/HeaderAddress';
 import Image from 'next/image';
+import isAuth from '@/components/isAuth';
 
 export interface ICity {
   id: string;
