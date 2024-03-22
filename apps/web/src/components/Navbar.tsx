@@ -47,6 +47,7 @@ export const Navbar = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [warehouseId, setWarehouseId] = useState('');
   const user = useAppSelector((state) => state.user);
   const cart = useSelector((state: RootState) => state.cart.cartItems);
 
@@ -88,6 +89,8 @@ export const Navbar = () => {
         keep.roleId = data.data.roleId;
 
         dispatch(loginAction(keep));
+        const warehouseId = keep.warehouse[0].id;
+        setWarehouseId(warehouseId);
       } catch (error) {
         console.log(error);
       }
@@ -217,7 +220,7 @@ export const Navbar = () => {
               aria-labelledby="user-menu-button"
               onMouseLeave={() => setDropdownOpen(false)}
             >
-              {user.roleId === 1 || user.roleId === 2 ? (
+              {user.roleId === 1 ? (
                 <Link
                   href="/admin/dashboard"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -228,6 +231,27 @@ export const Navbar = () => {
                   </div>
                 </Link>
               ) : null}
+              {user.roleId === 2 && warehouseId ? (
+                <Link
+                  href={`/admin/dashboard/warehouse/${warehouseId}`}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  <div role="menuitem">
+                    <LuLayoutDashboard className="font-extrabold inline-block w-5 h-5 mr-3" />
+                    Dashboard
+                  </div>
+                </Link>
+              ) : (
+                <Link
+                  href="/user"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  <div role="menuitem">
+                    <LuLayoutDashboard className="font-extrabold inline-block w-5 h-5 mr-3" />
+                    Dashboard
+                  </div>
+                </Link>
+              )}
               <a
                 href="/user"
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

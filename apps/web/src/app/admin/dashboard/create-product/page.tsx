@@ -1,4 +1,5 @@
-import React from 'react';
+'use client';
+import { AuthGuard } from '@/components/protected-route/components/AuthGuard';
 import AdminSidebar from '../../components/SidebarDashboard';
 import CreateProductForm from './components/CreateProduct';
 
@@ -11,4 +12,4 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default AuthGuard(CreateProduct);

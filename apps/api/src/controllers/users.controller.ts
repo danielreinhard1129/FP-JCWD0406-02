@@ -11,6 +11,7 @@ import { forgotPasswordAction } from '@/actions/user/forgotPasswordAction';
 import { getAdminNotAssignedAction } from '@/actions/user/getAdminNotAsignAction';
 import { getUserByIdAction } from '@/actions/user/getUserByIdAction';
 import { getUserByRoleIdAction } from '@/actions/user/getUserByRoleIdAction';
+import { loginByGoogleAction } from '@/actions/user/loginByGoogleActiont';
 import { registerByGoogleAction } from '@/actions/user/registerByGoogleAction';
 import { registerUserAction } from '@/actions/user/registerUserAction';
 import { resetPasswordAction } from '@/actions/user/resetPasswordAction';
@@ -600,6 +601,18 @@ export class UserController {
       const register = await registerByGoogleAction(data);
       console.log('check controllerr', data);
       res.status(200).send(register);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async loginByGoogle(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = req.body;
+      console.log('checkk bodyy', req.body);
+
+      const login = await loginByGoogleAction(data);
+      res.status(200).send(login);
     } catch (error) {
       next(error);
     }

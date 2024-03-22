@@ -1,22 +1,26 @@
-'use client';
 import { useEffect } from 'react';
-import { redirect } from 'next/navigation';
 import { useAppSelector } from '@/lib/hooks';
+import { redirect, useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/lib/store';
 
+export interface IUser {
+  id: number;
+  username: string;
+  role: string;
+  email: string;
+  roleId: number;
+  profile_picture: string;
+  first_name: string;
+  last_name: string;
+}
 export default function isAuth(Component: any) {
   return function IsAuth(props: any) {
-    const user = useAppSelector((state) => state.user);
-    const auth = user.id;
+    const user = useAppSelector((state) => state.user.id);
+    const router = useRouter();
 
-    console.log('manaaaaa', auth);
-
-    useEffect(() => {
-      if (!auth) {
-        return redirect('/');
-      }
-    }, [auth]);
-
-    if (!auth) {
+    if (!user) {
+      router.push('/');
       return null;
     }
 

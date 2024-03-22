@@ -106,6 +106,10 @@ export class WarehouseRouter {
       this.warehouseController.getStockMutationByInitialWarehouse,
     );
     this.router.get('/journal', this.warehouseController.journalStockReportFix);
+    this.router.get(
+      '/user-warehouse',
+      this.warehouseController.getWarehouseByUserId,
+    );
   }
 
   getRouter(): Router {

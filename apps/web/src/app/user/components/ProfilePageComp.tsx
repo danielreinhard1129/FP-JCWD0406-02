@@ -2,7 +2,6 @@
 
 import { UserAuth } from '@/app/utils/context/authContext';
 import { baseUrl } from '@/app/utils/database';
-import isAuth from '@/components/isAuth';
 import axios, { AxiosError } from 'axios';
 import { FileInput, Label } from 'flowbite-react';
 import { ChangeEvent, useState } from 'react';
@@ -237,4 +236,4 @@ const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
   );
 };
 
-export default isAuth(ProfilePageComp);
+export default ProfilePageComp;
