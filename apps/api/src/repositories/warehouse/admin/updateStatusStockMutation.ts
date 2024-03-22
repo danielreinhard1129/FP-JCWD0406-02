@@ -9,9 +9,7 @@ export const updateStatusStockMutation = async (
   try {
     const updateStock = await prisma.stockMutation.update({
       where: { id },
-      data: {
-        status: data.status,
-      },
+      data,
     });
     return updateStock;
   } catch (error) {

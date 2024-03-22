@@ -118,6 +118,13 @@ export const automaticMutationAction = async (id: number) => {
             createdStockMutation.id,
             createdStockMutation,
           );
+
+          await prisma.transaction.update({
+            where: { id: transaction.id },
+            data: {
+              TransactionStatus: 'IN_PROGRESS',
+            },
+          });
         }
       }
     }

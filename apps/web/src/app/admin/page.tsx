@@ -10,4 +10,4 @@ const AdminPage = () => {
   );
 };
 
-export default CustomerGuard(AdminPage);
+export default AdminPage;

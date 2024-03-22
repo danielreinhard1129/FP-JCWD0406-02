@@ -71,12 +71,6 @@ export const updateStatusTransactionAction = async (
             await Promise.all(
               stockItems.map(async (item: { quantity: number; id: any }) => {
                 const newQuantity = item.quantity - detail.quantity; // Decrement the stock quantity
-                if (newQuantity < 0) {
-                  console.error(
-                    'Attempting to set a negative stock quantity, which should not happen if all stocks are available.',
-                  );
-                  throw new Error('Stock quantity calculation error.');
-                }
 
                 await prisma.journalStock.create({
                   data: {
@@ -84,6 +78,13 @@ export const updateStatusTransactionAction = async (
                     quantity: detail.quantity,
                     type: 'shipped to user',
                     totalQuantity: newQuantity,
+                  },
+                });
+
+                await prisma.transaction.update({
+                  where: { id },
+                  data: {
+                    TransactionStatus: 'SHIPPED',
                   },
                 });
 
