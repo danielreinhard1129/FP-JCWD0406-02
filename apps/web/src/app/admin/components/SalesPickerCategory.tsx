@@ -54,11 +54,6 @@ const SalesPickerCategory = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
-  console.log('category', salesReport);
-  console.log(selectedCategoryId);
-  console.log('start', startDate);
-  console.log('end', endDate);
-
   useEffect(() => {
     const salesReportByCategory = async () => {
       try {

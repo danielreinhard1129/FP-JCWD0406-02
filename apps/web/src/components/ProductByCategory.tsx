@@ -30,7 +30,7 @@ export interface IProduct {
 
 const ProductSecurity: React.FC = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
-  console.log('securoty', products);
+  //   console.log('securoty', products);
 
   useEffect(() => {
     const fetchData = async () => {

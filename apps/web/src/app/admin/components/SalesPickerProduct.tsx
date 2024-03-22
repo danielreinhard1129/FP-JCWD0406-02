@@ -50,11 +50,6 @@ const SalesPickerProduct = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
-  console.log('product', salesReport);
-  console.log(selectedProduct);
-  console.log('start', startDate);
-  console.log('end', endDate);
-
   useEffect(() => {
     const salesReportByProduct = async () => {
       try {

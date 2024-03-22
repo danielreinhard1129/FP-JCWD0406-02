@@ -113,7 +113,7 @@ const UploadPaymentProof: React.FC<Props> = ({ transaction }) => {
             type="file"
             className="hidden"
             onChange={onchangeFile}
-            accept=".jpg, .jpeg, .png" // only allow specific file types
+            accept=".jpg, .jpeg, .png"
           />
         </div>
         <p className="text-xs text-gray-500 mt-2 text-center p-4 ">
