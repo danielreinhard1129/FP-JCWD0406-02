@@ -7,6 +7,9 @@ interface Category {
   category_name: string;
 }
 
+interface Stock {
+  totalStock: number;
+}
 interface IProduct {
   id: number;
   title: string;
@@ -14,6 +17,8 @@ interface IProduct {
   price: number;
   weight: number;
   Category: Category;
+  Stock: Stock;
+  totalStock: number;
 }
 
 interface ProductDetailsProps {
@@ -70,6 +75,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ detailProduct }) => {
           productName={detailProduct.title}
           category={detailProduct.Category.category_name}
           price={detailProduct.price}
+          totalStock={detailProduct.totalStock}
         />
       </div>
     </div>

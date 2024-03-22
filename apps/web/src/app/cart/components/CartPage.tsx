@@ -89,8 +89,8 @@ const CartPage: React.FC = () => {
   );
   return (
     <div className="min-h-screen max-w-5xl mx-auto px-4">
-      <div className="container mx-auto py-8">
-        <h1 className="text-3xl font-bold text-teal-600 mb-6">Cart</h1>
+      <div className="container mx-auto md:py-8 py-4">
+        <h1 className="text-xl font-bold text-gray-800 mb-6">My Cart</h1>
         <div className="md:grid grid-cols-3 gap-8">
           {/* Product Cards - Left Side */}
           <div className="col-span-2 space-y-1">

@@ -45,14 +45,18 @@ const CardProduct: React.FC<Props> = ({ transaction }) => {
               height={100}
             />
             <div className="flex-grow">
-              <h3 className="text-xs font-medium mr-4">
+              <h3 className="text-sm font-medium mr-4">
                 {transactionDetail.Product.title}
               </h3>
-              <p className="text-xs text-gray-500">
-                Price: Rp{transactionDetail.Product.price.toLocaleString()}
+              <p className="text-sm text-gray-500">
+                Price:{' '}
+                <strong>
+                  Rp{transactionDetail.Product.price.toLocaleString()}
+                </strong>
               </p>
               <p className="text-xs text-gray-500">
-                Weight: {transactionDetail.Product.weight} grams
+                Weight: <strong>{transactionDetail.Product.weight}</strong>{' '}
+                grams
               </p>
             </div>
             <div className="mr-4">

@@ -19,6 +19,10 @@ interface ProductPhoto {
   photo_product: string;
 }
 
+interface Stock {
+  totalStock: number;
+}
+
 interface IProduct {
   id: number;
   title: string;
@@ -27,7 +31,8 @@ interface IProduct {
   price: number;
   weight: number;
   Category: Category;
-  stock: number;
+  Stock: Stock;
+  totalStock: number;
 }
 
 const ProductDetailPage: React.FC = () => {
@@ -54,7 +59,6 @@ const ProductDetailPage: React.FC = () => {
       fetchProductDetails();
     }
   }, [params.product]);
-  // console.log('itemmmmmm', product);
 
   if (!product) {
     return (

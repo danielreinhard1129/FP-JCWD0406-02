@@ -73,7 +73,7 @@ const EditProfileComp: React.FC<EditProfileProps> = ({ user, onSuccess }) => {
       </button>
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg p-8">
+          <div className="bg-white rounded-lg mx-8">
             <h2 className="text-lg font-semibold mb-4">Edit Profile</h2>
             <form onSubmit={formik.handleSubmit} className="space-y-4">
               <div className="flex gap-5">

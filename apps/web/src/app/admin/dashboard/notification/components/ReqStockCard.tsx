@@ -7,7 +7,7 @@ interface IWarehouse {
 
 interface IProduct {
   id: number;
-  name: string;
+  title: string;
 }
 
 interface IReqStock {
@@ -21,7 +21,6 @@ interface IReqStock {
 }
 
 const ReqStockCard: React.FC<{ reqStock: IReqStock }> = ({ reqStock }) => {
-  // Utility function to convert status to readable format
   const getStatusLabel = (
     status: 'PENDING' | 'APPROVED' | 'DENIED',
   ): string => {
@@ -34,7 +33,7 @@ const ReqStockCard: React.FC<{ reqStock: IReqStock }> = ({ reqStock }) => {
   };
 
   return (
-    <div className="bg-amber-50 rounded-lg shadow px-4 py-2 border-l-4 border-teal-500 space-y-2">
+    <div className="bg-white rounded-lg shadow px-4 py-2 border-l-4 border-teal-500 space-y-2">
       <h2 className="text-md font-bold text-teal-700">Request Stock</h2>
       <div className="flex justify-between items-center">
         <span
@@ -49,10 +48,12 @@ const ReqStockCard: React.FC<{ reqStock: IReqStock }> = ({ reqStock }) => {
           {getStatusLabel(reqStock.status)}
         </span>
       </div>
-      <div className="grid grid-cols-2 gap-1">
+      <div className="grid grid-cols-2 gap">
         <p className="text-sm">
-          Quantity: <span className="font-semibold">{reqStock.quantity}</span>
+          Product:{' '}
+          <span className="font-semibold">{reqStock.product.title}</span>
         </p>
+
         <p className="text-xs">
           Requested on:{' '}
           <span className="font-semibold">
@@ -60,14 +61,17 @@ const ReqStockCard: React.FC<{ reqStock: IReqStock }> = ({ reqStock }) => {
           </span>
         </p>
         <p className="text-sm">
-          Warehouse:{' '}
-          <span className="font-semibold">{reqStock.warehouse.name}</span>
+          Quantity: <span className="font-semibold">{reqStock.quantity}</span>
         </p>
         <p className="text-xs">
           Last updated:{' '}
           <span className="font-semibold">
             {new Date(reqStock.updatedAt).toLocaleDateString()}
           </span>
+        </p>
+        <p className="text-sm">
+          Warehouse:{' '}
+          <span className="font-semibold">{reqStock.warehouse.name}</span>
         </p>
       </div>
     </div>
