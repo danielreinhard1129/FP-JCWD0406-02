@@ -31,6 +31,7 @@ import { journalStockReportAction } from '@/actions/stockReport/journalStockRepo
 import { getStockMutationByInitialWarehouseAction } from '@/actions/warehouse/stockMutation/getStockMutationByInitialWarehouseAction';
 import { journalStockReportByWarehouseAction } from '@/actions/stockReport/journalStockReportByWarehouseAction';
 import { journalStockReportFixAction } from '@/actions/stockReport/journalStockReportFix';
+import { getWarehouseByUserIdAction } from '@/actions/warehouse/warehouse/getWarehouseByUserIdAction';
 
 export class WarehouseController {
   async getProducts(req: Request, res: Response, next: NextFunction) {
@@ -462,6 +463,18 @@ export class WarehouseController {
         Number(id),
       );
       res.status(200).send(stockMutation);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getWarehouseByUserId(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { userId } = req.query;
+      console.log('userrrr', userId);
+
+      const usereWarehouse = await getWarehouseByUserIdAction(Number(userId));
+      res.status(200).send(usereWarehouse);
     } catch (error) {
       next(error);
     }

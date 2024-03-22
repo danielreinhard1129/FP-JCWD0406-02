@@ -46,6 +46,7 @@ export const registerByGoogleAction = async (data: string) => {
         username: userInfo.name,
         password: password,
         roleId: 3,
+        isVerified: true,
       },
     });
 

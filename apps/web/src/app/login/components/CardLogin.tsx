@@ -12,6 +12,7 @@ import { baseUrl } from '@/app/utils/database';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { UserAuth } from '@/app/utils/context/authContext';
 import Image from 'next/image';
+import { useGoogleLogin } from '@react-oauth/google';
 YupPassword(yup);
 
 const validationSchema = yup.object().shape({
@@ -68,6 +69,28 @@ const CardLogin = () => {
     },
   });
 
+  const handleLoginbyGoogle = useGoogleLogin({
+    onSuccess: async ({ code }) => {
+      try {
+        console.log('check code : ', code);
+
+        const { data } = await axios.post(`${baseUrl}/users/login-by-google`, {
+          code,
+        });
+
+        console.log('checkkkk', data);
+
+        dispatch(loginAction(data.data));
+
+        localStorage.setItem('token_auth', data.token);
+        router.push('/');
+      } catch (error) {
+        console.log('error login by google', error);
+      }
+    },
+    flow: 'auth-code',
+  });
+
   return (
     <div className="h-fit flex md:mt-4 mt-4 justify-center">
       <div className=" max-w-md w-full bg-white shadow-md rounded-xl px-8 pt-6 pb-8 mb-4">
@@ -84,7 +107,7 @@ const CardLogin = () => {
         <button
           className="bg-[#f1eed8] hover:bg-[#b0cac1] text-teal text-sm font-normal py-2 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-opacity-50 w-full mb-3"
           type="button"
-          onClick={handleSignIn}
+          onClick={() => handleLoginbyGoogle()}
         >
           Login with Google
         </button>

@@ -93,6 +93,7 @@ export class UserRouter {
       '/register-by-google',
       this.userController.registerByGoogle,
     );
+    this.router.post('/login-by-google', this.userController.loginByGoogle);
   }
 
   getRouter(): Router {

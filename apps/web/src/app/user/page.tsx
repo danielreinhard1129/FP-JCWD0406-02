@@ -1,12 +1,11 @@
 'use client';
+import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { baseUrl } from '../utils/database';
+import HeaderProfile from './components/HeaderProfile';
 import ProfilePageComp from './components/ProfilePageComp';
 import Sidebar from './components/SideBar';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
-import { baseUrl } from '../utils/database';
-import isAuth from '@/components/isAuth';
-import HeaderProfile from './components/HeaderProfile';
 
 export interface IUser {
   user: any;

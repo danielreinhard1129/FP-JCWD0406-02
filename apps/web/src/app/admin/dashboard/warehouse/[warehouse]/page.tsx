@@ -3,7 +3,7 @@
 import AdminSidebar from '@/app/admin/components/SidebarDashboard';
 import { baseUrl } from '@/app/utils/database';
 import axios, { AxiosError } from 'axios';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import AdminIdentityCard from './components/AdminIdentityCard';
 import HeaderWarehouse from './components/HeaderWarehouse';
@@ -58,6 +58,7 @@ const WarehouseDetail = () => {
   const [admin, setAdmin] = useState<IUser | null>(null);
   const [warehouseId, setWarehouseId] = useState<number>(0);
   const params = useParams();
+  const router = useRouter();
   const currentUser = useSelector((state: RootState) => state.user);
   useEffect(() => {
     const getProducts = async () => {
@@ -78,7 +79,7 @@ const WarehouseDetail = () => {
       const stocks = warehouse.stocks;
       const admin = warehouse.user;
       const userId = warehouse.userId;
-      console.log(warehouse);
+      console.log('checkkk warehousee', warehouse);
 
       setAdmin(admin);
       setWarehouseId(response.data.data.id);
@@ -111,19 +112,11 @@ const WarehouseDetail = () => {
   }, [params.warehouse, getWarehouseDetails]);
 
   useEffect(() => {
-    if (params.warehouse) {
-      getWarehouseDetails();
+    if (warehouse.length > 0 && warehouse[0]?.userId !== currentUser.id) {
+      toast.error('Access denied: You are not an admin of this warehouse.');
+      router.push('/');
     }
-  }, [params.warehouse, getWarehouseDetails]);
-
-  // useEffect(() => {
-  //   // Check if the current user is the admin of this warehouse
-  //   if (warehouse.userId && currentUser.id !== warehouse.userId) {
-  //     toast.error('Access denied: You are not an admin of this warehouse.');
-  //     // Optionally, you could redirect them or hide the warehouse details
-  //     // For example, using history.push('/some-other-page') if using react-router
-  //   }
-  // }, [currentUser, warehouse.userId]);
+  }, [warehouse, currentUser]);
 
   const refreshWarehouse = async () => {
     getWarehouseDetails();
