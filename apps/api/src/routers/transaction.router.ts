@@ -53,6 +53,10 @@ export class TransactionRouter {
       this.transactionController.getTransactionByWarehouseId,
     );
     this.router.get(
+      '/order-list',
+      this.transactionController.getAllTransaction,
+    );
+    this.router.get(
       '/all-transaction',
       this.transactionController.getAllTransaction,
     );

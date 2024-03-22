@@ -1,22 +1,21 @@
 'use client';
 // Assuming you're in a file like pages/warehouses/[warehouseId].tsx
 import AdminSidebar from '@/app/admin/components/SidebarDashboard';
+import { IProduct } from '@/app/products/components/ProductCard';
 import { baseUrl } from '@/app/utils/database';
+import { fetchAllProducts } from '@/app/utils/helper/fetchAllProduct';
+import { RootState } from '@/lib/store';
+import { IStock } from '@/types/warehouse.types';
 import axios, { AxiosError } from 'axios';
 import { useParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { toast } from 'sonner';
 import AdminIdentityCard from './components/AdminIdentityCard';
+import HeaderProductWarehouse from './components/HeaderProductWarehouse';
 import HeaderWarehouse from './components/HeaderWarehouse';
 import WarehouseDetailCard from './components/WarehouseDetailCard';
-import HeaderProductWarehouse from './components/HeaderProductWarehouse';
-import { toast } from 'sonner';
-import { IProduct } from '@/app/products/components/ProductCard';
 import TabsComponent from './components/WarehouseProductManagement copy';
-import { fetchAllProducts } from '@/app/utils/helper/fetchAllProduct';
-import { IStock } from '@/types/warehouse.types';
-import NonAsignAdminSelect from './components/ModalNonAsignAdmin';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/lib/store';
 
 interface IRole {
   id: number;
@@ -116,7 +115,7 @@ const WarehouseDetail = () => {
       toast.error('Access denied: You are not an admin of this warehouse.');
       router.push('/');
     }
-  }, [warehouse, currentUser]);
+  }, [warehouse, currentUser, router]);
 
   const refreshWarehouse = async () => {
     getWarehouseDetails();
