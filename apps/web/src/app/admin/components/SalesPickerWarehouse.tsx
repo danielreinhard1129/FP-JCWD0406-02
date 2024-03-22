@@ -58,8 +58,6 @@ const SalesPickerNew = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
-  console.log('sales', salesReport);
-
   useEffect(() => {
     const salesReportByWarehouse = async () => {
       try {

@@ -116,7 +116,7 @@ const WarehouseDetail = () => {
       toast.error('Access denied: You are not an admin of this warehouse.');
       router.push('/');
     }
-  }, [warehouse, currentUser]);
+  }, [warehouse, currentUser, router]);
 
   const refreshWarehouse = async () => {
     getWarehouseDetails();
