@@ -1,4 +1,7 @@
+import { baseUrl } from '@/app/utils/database';
+import axios from 'axios';
 import React from 'react';
+import { toast } from 'sonner';
 
 interface IWarehouse {
   id: number;
@@ -32,15 +35,31 @@ const ReqStockCard: React.FC<{ reqStock: IReqStock }> = ({ reqStock }) => {
     return statusLabels[status] || status;
   };
 
-  const handleAccept = () => {
-    // console.log('Accept action for', reqStock.id);
-    // Implement the accept logic here
+  const handleAccept = async () => {
+    try {
+      const response = await axios.patch(
+        `${baseUrl}/warehouses/update-req-stock-status/${reqStock.id}`,
+        {
+          status: 'CONFIRM',
+        },
+      );
+      toast.success('Request approved');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // Function to handle reject action
-  const handleReject = () => {
-    // console.log('Reject action for', reqStock.id);
-    // Implement the reject logic here
+  const handleReject = async () => {
+    try {
+      const response = await axios.patch(
+        `${baseUrl}/warehouses/update-req-stock-status/${reqStock.id}`,
+        {
+          status: 'CANCELLED',
+        },
+      );
+      toast.error('Request denied');
+    } catch (error) {}
   };
   return (
     <div className="bg-white rounded-lg shadow px-4 py-2 border-l-4 border-teal-500 space-y-2">

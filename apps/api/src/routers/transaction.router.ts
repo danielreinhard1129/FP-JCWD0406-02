@@ -61,6 +61,10 @@ export class TransactionRouter {
       this.transactionController.getAllTransaction,
     );
     this.router.get('/sales-report', this.transactionController.salesReport);
+    this.router.get(
+      '/sales-report-warehouse',
+      this.transactionController.salesReportWarehouse,
+    );
   }
 
   getRouter(): Router {
