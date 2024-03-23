@@ -96,7 +96,7 @@ const CardAllProductWarehouse: React.FC<CardProductManagementProps> = ({
             return (
               <div
                 key={product.id}
-                className="flex items-center cursor-pointer justify-between border pr-5 rounded-lg bg-white shadow"
+                className="flex p-1 items-center cursor-pointer justify-between border pr-5 rounded-lg bg-white shadow"
               >
                 <Image
                   src={
@@ -110,43 +110,45 @@ const CardAllProductWarehouse: React.FC<CardProductManagementProps> = ({
                   className="h-28 w-28 object-cover rounded-l-lg mr-4"
                 />
                 <div className="flex-grow">
-                  <h3 className="text-md font-medium mr-4">{product.title}</h3>
-                  <p className="text-sm text-gray-500">
-                    Rp {product.price.toLocaleString()}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    Weight: {product.weight} gram
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    Stock: {stockQuantity}
-                  </p>
-                </div>
-
-                <div className="relative">
-                  <button
-                    className="border px-3 py-1 rounded-lg shadow-sm text-xs bg-white flex items-center"
-                    onClick={() => toggleDropdown(product.id)}
-                  >
-                    Manage <FaCaretDown className="ml-2" />
-                  </button>
-                  {openDropdowns.includes(product.id) && (
-                    <div className="absolute w-36 text-xs right-2 mt-1 bg-white border rounded shadow-xl z-10">
-                      <li
-                        className="px-4 py-2 w-full hover:bg-gray-100 cursor-pointer flex items-center"
-                        onClick={() => handleCreateStockClick(product.id)}
+                  <h3 className="text-md font-medium mr-4 ">{product.title}</h3>
+                  <div className="grid grid-cols-6">
+                    <p className="text-sm text-gray-500 col-span-3">
+                      <strong>Rp {product.price.toLocaleString()}</strong>
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Weight: <strong> {product.weight} </strong>
+                      gram
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Stock: <strong>{stockQuantity}</strong>
+                    </p>
+                    <div className="relative flex justify-end">
+                      <button
+                        className="border px-3 py-1 rounded-lg shadow-sm text-xs bg-white flex items-center"
+                        onClick={() => toggleDropdown(product.id)}
                       >
-                        <PiArchiveBoxBold className="mr-2 size-4" />
-                        Create Stock
-                      </li>
-                      <li
-                        className="px-4 py-2 w-full hover:bg-gray-100 cursor-pointer flex items-center"
-                        onClick={() => handleRequestStockClick(product.id)}
-                      >
-                        <PiHandCoinsBold className="mr-2 size-4" />
-                        Request Stock
-                      </li>
+                        Manage <FaCaretDown className="ml-2" />
+                      </button>
+                      {openDropdowns.includes(product.id) && (
+                        <div className="absolute w-36 text-xs right-2 mt-1 bg-white border rounded shadow-xl z-10">
+                          <li
+                            className="px-4 py-2 w-full hover:bg-gray-100 cursor-pointer flex items-center"
+                            onClick={() => handleCreateStockClick(product.id)}
+                          >
+                            <PiArchiveBoxBold className="mr-2 size-4" />
+                            Create Stock
+                          </li>
+                          <li
+                            className="px-4 py-2 w-full hover:bg-gray-100 cursor-pointer flex items-center"
+                            onClick={() => handleRequestStockClick(product.id)}
+                          >
+                            <PiHandCoinsBold className="mr-2 size-4" />
+                            Request Stock
+                          </li>
+                        </div>
+                      )}
                     </div>
-                  )}
+                  </div>
                 </div>
               </div>
             );

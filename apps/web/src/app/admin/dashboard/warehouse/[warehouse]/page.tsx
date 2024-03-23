@@ -59,6 +59,7 @@ const WarehouseDetail = () => {
   const params = useParams();
   const router = useRouter();
   const currentUser = useSelector((state: RootState) => state.user);
+
   useEffect(() => {
     const getProducts = async () => {
       const products = await fetchAllProducts().then();

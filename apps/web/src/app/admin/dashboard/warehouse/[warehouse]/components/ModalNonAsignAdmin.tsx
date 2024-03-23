@@ -5,6 +5,7 @@ import axios, { AxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 import SelectAdminCard from './SelectAdminCard';
 import { toast } from 'sonner';
+import Image from 'next/image';
 
 interface Role {
   id: number;
@@ -37,7 +38,6 @@ const ModalNonAsignAdmin: React.FC<NonAsignAdminSelectProps> = ({
   warehouseId,
   onSuccess,
 }) => {
-  // Update to use an array of User
   const [admin, setAdmin] = useState<User[]>([]);
 
   const adminNonAsigned = async () => {
@@ -90,14 +90,27 @@ const ModalNonAsignAdmin: React.FC<NonAsignAdminSelectProps> = ({
             &times;
           </button>
         </div>
-        <div className=" space-y-1">
-          {admin.map((user) => (
-            <SelectAdminCard
-              key={user.id}
-              admin={user}
-              onClick={handleAdminSelect}
-            />
-          ))}
+        <div className="space-y-1">
+          {admin.length > 0 ? (
+            admin.map((user) => (
+              <SelectAdminCard
+                key={user.id}
+                admin={user}
+                onClick={handleAdminSelect}
+              />
+            ))
+          ) : (
+            <div className=" justify-center">
+              <Image
+                src="/default-noadmin.png"
+                alt="No Admin Available"
+                className="object-cover"
+                width={500}
+                height={500}
+                priority
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
