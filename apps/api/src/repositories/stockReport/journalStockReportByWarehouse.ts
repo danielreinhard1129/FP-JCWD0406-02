@@ -20,6 +20,9 @@ export const journalStockReportByWarehouse = async (
               },
             },
           },
+          orderBy: {
+            createdAt: 'desc',
+          },
           include: {
             journal: true,
           },

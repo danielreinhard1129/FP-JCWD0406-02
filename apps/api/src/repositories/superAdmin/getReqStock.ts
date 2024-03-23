@@ -4,7 +4,7 @@ export const getReqStock = async () => {
   try {
     const reqStocks = await prisma.reqStock.findMany({
       orderBy: {
-        status: 'asc',
+        createdAt: 'desc',
       },
       include: {
         warehouse: true,

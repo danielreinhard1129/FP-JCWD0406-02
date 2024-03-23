@@ -64,7 +64,7 @@ const InitialWarehouseCard: React.FC<InitialWarehouseCardProps> = ({
           status: 'CANCELLED', // Update status to CANCELLED when rejected
         },
       );
-      toast.success('Stock movement has been cancelled');
+      toast.error('Stock movement has been cancelled');
       // Implement any UI update or notification upon successful rejection
     } catch (error) {
       // Handle error

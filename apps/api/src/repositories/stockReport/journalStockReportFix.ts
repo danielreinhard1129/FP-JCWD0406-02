@@ -22,6 +22,9 @@ export const journalStockReportFix = async (
               },
             },
           },
+          orderBy: {
+            createdAt: 'desc',
+          },
           include: {
             journal: true,
           },

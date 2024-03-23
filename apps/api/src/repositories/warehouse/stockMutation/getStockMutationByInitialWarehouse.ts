@@ -6,6 +6,9 @@ export const getStockMutationByInitialWarehouse = async (id: number) => {
       where: {
         initialWarehouseId: id,
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
       include: {
         stockMutationDetail: {
           include: {
