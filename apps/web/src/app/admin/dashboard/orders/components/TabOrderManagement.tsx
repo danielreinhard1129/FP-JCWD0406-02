@@ -33,19 +33,24 @@ interface IOrder {
   totalPrice: number;
   transactionDetails: IOrderDetail[];
   paymentImg?: string;
+  fetchData: any;
 }
 
 // Props interface for OrderTabsComponent
 interface OrderTabsComponentProps {
   orders: IOrder[];
+  fetchData: () => Promise<void>;
 }
 
 // The OrderTabsComponent itself
-const TabOrderManagement: React.FC<OrderTabsComponentProps> = ({ orders }) => {
+const TabOrderManagement: React.FC<OrderTabsComponentProps> = ({
+  orders,
+  fetchData,
+}) => {
   const [activeTab, setActiveTab] = useState<TransactionStatus>(
     TransactionStatus.WAITING_FOR_PAYMENT,
   );
-
+  fetchData;
   const getOrdersByStatus = (status: TransactionStatus) => {
     return orders.filter((order) => order.TransactionStatus === status);
   };
@@ -69,7 +74,7 @@ const TabOrderManagement: React.FC<OrderTabsComponentProps> = ({ orders }) => {
       </div>
       <div className="space-y-2 gap-4">
         {getOrdersByStatus(activeTab).map((order) => (
-          <OrderCard key={order.id} order={order} />
+          <OrderCard key={order.id} order={order} fetchData={fetchData} />
         ))}
       </div>
     </div>

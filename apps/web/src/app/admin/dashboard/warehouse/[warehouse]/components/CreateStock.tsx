@@ -11,6 +11,7 @@ interface StockCreationModalProps {
   onClose: () => void;
   onStockCreated: () => void;
   onSuccess: () => void;
+  getWarehouseDetails: () => Promise<void>;
 }
 
 const StockCreationModal: React.FC<StockCreationModalProps> = ({
@@ -19,6 +20,7 @@ const StockCreationModal: React.FC<StockCreationModalProps> = ({
   onClose,
   onStockCreated,
   onSuccess,
+  getWarehouseDetails,
 }) => {
   const [quantity, setQuantity] = useState<number>(0);
 
@@ -35,6 +37,7 @@ const StockCreationModal: React.FC<StockCreationModalProps> = ({
       onClose();
       onSuccess();
       onStockCreated();
+      await getWarehouseDetails();
     } catch (error) {
       if (error instanceof AxiosError) {
         const errorMsg = error.response?.data || error.message;
