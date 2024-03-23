@@ -1,5 +1,5 @@
 import { baseUrl } from '@/app/utils/database';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import React from 'react';
 import { toast } from 'sonner';
 
@@ -40,15 +40,20 @@ const InitialWarehouseCard: React.FC<InitialWarehouseCardProps> = ({
 }) => {
   const handleAccept = async () => {
     try {
-      await axios.patch(
+      const response = await axios.patch(
         `${baseUrl}/warehouses/update-status-stock/${mutation.id}`,
         {
           status: 'CONFIRM',
         },
       );
+      console.log('checlk responseee', response);
+
       toast.success('Stock movement has been Confirmed');
     } catch (error) {
-      console.error('Error accepting stock mutation:', error);
+      if (error instanceof AxiosError) {
+        const errorMsg = error.response?.data || error.message;
+        toast.error(errorMsg);
+      }
     }
   };
 

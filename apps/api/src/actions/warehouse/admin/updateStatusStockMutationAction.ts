@@ -62,14 +62,11 @@ export const updateStatusStockMutationAction = async (
             },
           });
           const product = await getProductById(detail.productId);
-          return {
-            message: `Insufficient stock for product ${product?.title}`,
-            data: dataa,
-          };
+          throw new Error(`Insufficient stock for product ${product?.title}`);
         }
       }
 
-      // Update stock based on stock mutation details
+      // Update stock based on stock mutation det ails
       for (const detail of stockMutationDetails) {
         await prisma.stock.updateMany({
           where: {
