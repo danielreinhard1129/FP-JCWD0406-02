@@ -29,30 +29,44 @@ interface IOrder {
   paymentImg?: string;
 }
 
-const OrderCard: React.FC<{ order: IOrder }> = ({ order }) => {
+const OrderCard: React.FC<{
+  order: IOrder;
+  fetchData: () => Promise<void>;
+}> = ({ order, fetchData }) => {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const productDisplay = showAllProducts
     ? order.transactionDetails
     : [order.transactionDetails[0]];
   const [updateStatus, setUpdateStatus] = useState();
-  const fetchData = async (status: string) => {
-    console.log('checkk', status);
 
+  const handleConfirmTransaction = async () => {
     try {
       const response = await axios.patch(
         `${baseUrl}/transactions/update-status/${order.id}`,
         {
-          TransactionStatus: status,
+          TransactionStatus: 'ORDER_CONFIRMED',
         },
       );
-
+      fetchData();
       toast.success('Order Accepted');
     } catch (error) {
-      if (error instanceof AxiosError) {
-        const errorMsg = error.response?.data || error.message;
-        toast.error(errorMsg);
-      }
+      console.log(error);
+    }
+  };
+
+  const handleCancelledTransaction = async () => {
+    try {
+      const response = await axios.patch(
+        `${baseUrl}/transactions/update-status/${order.id}`,
+        {
+          TransactionStatus: 'CANCELLED',
+        },
+      );
+      fetchData();
+      toast.error('Order Decline');
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -84,13 +98,13 @@ const OrderCard: React.FC<{ order: IOrder }> = ({ order }) => {
             {index === 0 && (
               <div className="flex gap-2">
                 <button
-                  onClick={() => fetchData('CANCELLED')}
+                  onClick={() => handleCancelledTransaction()}
                   className="text-xs rounded-xl bg-red-500 hover:bg-red-600 text-white font-base py-1 px-3"
                 >
                   Denied
                 </button>
                 <button
-                  onClick={() => fetchData('ORDER_CONFIRMED')}
+                  onClick={() => handleConfirmTransaction()}
                   className="text-xs rounded-xl bg-teal-500 hover:bg-teal-600 text-white font-semibold py-1 px-4"
                 >
                   Accept

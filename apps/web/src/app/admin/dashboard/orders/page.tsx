@@ -38,6 +38,7 @@ interface IOrder {
   totalPrice: number;
   transactionDetails: IOrderDetail[];
   paymentImg?: string;
+  fetchData: () => Promise<void>;
 }
 
 const OrderSuperAdmin = () => {
@@ -65,7 +66,7 @@ const OrderSuperAdmin = () => {
       <AdminSidebar />
       <div className="w-full space-y-2">
         <HeaderOrderManagement />
-        <TabOrderManagement orders={orderList} />
+        <TabOrderManagement orders={orderList} fetchData={fetchData} />
       </div>
     </div>
   );

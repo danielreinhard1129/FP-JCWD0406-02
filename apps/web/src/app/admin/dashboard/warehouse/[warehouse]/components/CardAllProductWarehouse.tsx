@@ -8,6 +8,7 @@ import StockCreationModal from './CreateStock';
 import { PiArchiveBoxBold, PiHandCoinsBold } from 'react-icons/pi';
 import { fetchAllProducts } from '@/app/utils/helper/fetchAllProduct';
 import RequestStockModal from './RequestStock';
+import { promises } from 'dns';
 
 interface ProductPhoto {
   id: number;
@@ -33,6 +34,7 @@ interface CardProductManagementProps {
   warehouseId: number;
   allStock: IStock[];
   refreshWarehouse: () => void;
+  getWarehouseDetails: () => Promise<void>;
 }
 
 const CardAllProductWarehouse: React.FC<CardProductManagementProps> = ({
@@ -40,6 +42,7 @@ const CardAllProductWarehouse: React.FC<CardProductManagementProps> = ({
   warehouseId,
   allStock,
   refreshWarehouse,
+  getWarehouseDetails,
 }) => {
   // console.log('this is data stock : ', allStock);
 
@@ -161,6 +164,7 @@ const CardAllProductWarehouse: React.FC<CardProductManagementProps> = ({
                 throw new Error('Function not implemented.');
               }}
               onSuccess={fetchAllProducts}
+              getWarehouseDetails={getWarehouseDetails}
             />
           )}
           {isRequestStockModalOpen && selectedProductId && (

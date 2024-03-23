@@ -39,6 +39,7 @@ interface TabsComponentProps {
   warehouseData: number;
   allStock: IStock[];
   refreshWarehouses: () => void;
+  getWarehouseDetails: () => Promise<void>;
 }
 
 const TabsComponent: React.FC<TabsComponentProps> = ({
@@ -48,6 +49,7 @@ const TabsComponent: React.FC<TabsComponentProps> = ({
   noStockProducts,
   allStock,
   refreshWarehouses,
+  getWarehouseDetails,
 }) => {
   // console.log('comp tabss', allStock);
 
@@ -96,6 +98,7 @@ const TabsComponent: React.FC<TabsComponentProps> = ({
             warehouseId={warehouseData}
             productsData={allProducts}
             allStock={allStock}
+            getWarehouseDetails={getWarehouseDetails}
             refreshWarehouse={refreshWarehouses}
           />
         )}

@@ -2,7 +2,7 @@
 import { baseUrll } from '@/app/utils/database';
 import { IStock } from '@/types/warehouse.types';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaCaretDown, FaEdit, FaTrashAlt } from 'react-icons/fa';
 import UpdateStockModal from './UpdateStock';
 
@@ -34,6 +34,12 @@ const CardWarehouseProduct: React.FC<CardProductManagementProps> = ({
   productsData,
   refreshWarehouse,
 }) => {
+  const refreshWarehouseData = async () => {
+    await refreshWarehouse();
+  };
+  useEffect(() => {
+    refreshWarehouseData();
+  }, []);
   const [openDropdowns, setOpenDropdowns] = useState<number[]>([]);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [selectedProductForUpdate, setSelectedProductForUpdate] =

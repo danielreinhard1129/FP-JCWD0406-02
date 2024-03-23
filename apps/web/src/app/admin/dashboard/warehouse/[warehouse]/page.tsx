@@ -144,6 +144,7 @@ const WarehouseDetail = () => {
           noStockProducts={noStockProducts}
           allStock={allStock}
           refreshWarehouses={refreshWarehouse}
+          getWarehouseDetails={getWarehouseDetails}
         />
       </div>
     </div>
