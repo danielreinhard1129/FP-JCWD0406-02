@@ -15,10 +15,10 @@ export const AuthGuard = (Component: any) => {
       toast.warning('You Have Not Access');
       return redirect('/');
     }
-    if (user.id === 0) {
-      toast.warning('You Have to Login First');
-      return redirect(`/login`);
-    }
+    // if (user.id === 0) {
+    //   toast.warning('You Have to Login First');
+    //   return redirect(`/login`);
+    // }
     return <Component {...props} />;
   };
 };

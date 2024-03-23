@@ -16,31 +16,39 @@ interface IProduct {
   title: string;
   description: string;
   price: number;
-  weight: number; // Add weight here
+  weight: number;
   Stock: Stock;
   productPhotos: ProductPhoto[];
 }
 
 interface ProductImageGalleryProps {
-  product: IProduct; // Changed to a single product
-  altText: string;
+  product: IProduct;
 }
 
 const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
   product,
-  altText,
 }) => {
-  // Initialize selectedImage with the first image from the props
-  const [selectedImage, setSelectedImage] = useState(
-    product.productPhotos[0].photo_product,
-  );
+  const [selectedImage, setSelectedImage] = useState('');
+
+  useEffect(() => {
+    if (product.productPhotos && product.productPhotos.length > 0) {
+      setSelectedImage(product.productPhotos[0].photo_product);
+    } else {
+      setSelectedImage('');
+    }
+  }, [product.productPhotos]);
+
   return (
     <div>
       {/* Main Image */}
       <div className="flex justify-center relative items-center mb-4 transform transition-all hover:scale-105 duration-300">
         <Image
-          src={`${baseUrll}/photo-product/${selectedImage}`}
-          alt={altText}
+          src={
+            selectedImage
+              ? `${baseUrll}/photo-product/${selectedImage}`
+              : '/default-product.webp'
+          }
+          alt={product.title}
           className="max-w-full h-auto object-cover rounded-lg shadow-md transition duration-300 ease-in-out"
           priority
           width={500}

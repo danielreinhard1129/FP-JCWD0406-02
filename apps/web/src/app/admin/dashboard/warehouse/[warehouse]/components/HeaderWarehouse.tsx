@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import React from 'react';
 import { FiBarChart2, FiBell, FiShoppingBag } from 'react-icons/fi';
-
+import { TbTransferIn } from 'react-icons/tb';
 import { BsFillJournalBookmarkFill } from 'react-icons/bs';
 
 const HeaderWarehouse: React.FC = () => {
@@ -32,6 +32,12 @@ const HeaderWarehouse: React.FC = () => {
           <div className="flex items-center text-gray-600 hover:text-teal-600">
             <FiShoppingBag size={20} />
             <span className="ml-2">Orders</span>
+          </div>
+        </Link>
+        <Link href={`${paramsId}/status`}>
+          <div className="flex items-center text-gray-600 hover:text-teal-600">
+            <TbTransferIn size={20} />
+            <span className="ml-2">Req Status</span>
           </div>
         </Link>
         <Link href={`${params.warehouse}/notifications`}>

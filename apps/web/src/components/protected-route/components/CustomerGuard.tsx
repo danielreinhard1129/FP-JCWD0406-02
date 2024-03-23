@@ -11,10 +11,10 @@ export const CustomerGuard = (Component: any) => {
       toast.warning('You Have Not Access');
       redirect('/');
     }
-    if (user.id === 0) {
-      toast.warning('You Have Not Access');
-      return redirect(`/`);
-    }
+    // if (user.id === 0) {
+    //   toast.warning('You Have Not Access');
+    //   return redirect(``);
+    // }
     return <Component {...props} />;
   };
 };

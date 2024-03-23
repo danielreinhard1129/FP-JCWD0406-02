@@ -30,8 +30,6 @@ const SearchBar2: React.FC<SearchBarProps> = ({ allProducts }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<IProduct[]>([]);
   const router = useRouter();
-  console.log('term', searchTerm);
-  console.log('result', searchResults);
 
   useEffect(() => {
     // Membuat fungsi untuk melakukan filter

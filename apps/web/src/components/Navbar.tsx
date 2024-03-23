@@ -163,7 +163,7 @@ export const Navbar = () => {
   return (
     <header className="bg-white sticky top-0 z-50">
       {showLoginAlert && (
-        <div className="fixed top-16 left-1/2 transform -translate-x-1/2 z-50">
+        <div className="fixed top-20 left-6 z-50">
           <Alert
             color="warning"
             icon={HiInformationCircle}
@@ -175,14 +175,14 @@ export const Navbar = () => {
         </div>
       )}
       {showVerificationAlert && (
-        <div className="fixed top-16 left-1/2 transform -translate-x-1/2 z-50">
+        <div className="fixed top-20 left-6 z-50">
           <Alert
-            color="failure"
+            color="warning"
             icon={HiInformationCircle}
             onDismiss={() => setShowVerificationAlert(false)}
           >
-            <span className="font-medium">Verification needed!</span> Your
-            account is not verified yet!
+            <span className="font-medium text-xs">Verification needed! </span>
+            <span className="text-xs">Your account is not verified yet!</span>
           </Alert>
         </div>
       )}
@@ -212,7 +212,7 @@ export const Navbar = () => {
             href="/products"
             className="text-sm font-semibold leading-6 text-gray-900  transform transition-all hover:scale-105 duration-300"
           >
-            All Product
+            Catalog
           </Link>
         </div>
         <div className="flex w-full max-w-3xl ">
@@ -235,11 +235,11 @@ export const Navbar = () => {
           href="/"
           className="hidden lg:block px-6 lg:gap-x-12 items-center transform transition-all hover:scale-105 duration-300"
         >
-          <div className="text-sm font-semibold leading-6 text-gray-900 mr-4">
+          <div className="text-sm font-semibold leading-6 text-gray-900 ">
             <FiPackage className="inline h-6 w-6 align-middle -mt-1" />
           </div>
         </Link>
-        <div className="flex lg:block">
+        {/* <div className="flex lg:block">
           <button
             type="button"
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
@@ -247,7 +247,7 @@ export const Navbar = () => {
           >
             <span className="sr-only">Open main menu</span>
           </button>
-        </div>
+        </div> */}
         {user.id || userGoogle ? (
           <div className="relative hidden lg:block">
             {/* Profile Icon Button */}
@@ -336,7 +336,7 @@ export const Navbar = () => {
           </div>
         )}
       </nav>
-      <div
+      {/* <div
         className={`${isMenuOpen ? 'block' : 'hidden'} lg:hidden`}
         role="dialog"
         aria-modal="true"
@@ -447,7 +447,7 @@ export const Navbar = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </header>
   );
 };

@@ -32,9 +32,41 @@ const ReqStockCard: React.FC<{ reqStock: IReqStock }> = ({ reqStock }) => {
     return statusLabels[status] || status;
   };
 
+  const handleAccept = () => {
+    // console.log('Accept action for', reqStock.id);
+    // Implement the accept logic here
+  };
+
+  // Function to handle reject action
+  const handleReject = () => {
+    // console.log('Reject action for', reqStock.id);
+    // Implement the reject logic here
+  };
   return (
     <div className="bg-white rounded-lg shadow px-4 py-2 border-l-4 border-teal-500 space-y-2">
-      <h2 className="text-md font-bold text-teal-700">Request Stock</h2>
+      <div className="flex justify-between">
+        <div>
+          <h2 className="text-md font-bold text-teal-700">Request Stock</h2>
+        </div>
+        {reqStock.status === 'PENDING' && (
+          <div className="flex justify-end gap-2">
+            <button
+              onClick={handleAccept}
+              className="bg-teal-500 text-xs hover:bg-teal-700 text-white font-normal py-1 px-4 rounded-lg focus:outline-none focus:shadow-outline"
+              type="button"
+            >
+              Accept
+            </button>
+            <button
+              onClick={handleReject}
+              className="bg-red-500 text-xs hover:bg-red-700 text-white font-normal py-1 px-4 rounded-lg focus:outline-none focus:shadow-outline"
+              type="button"
+            >
+              Reject
+            </button>
+          </div>
+        )}
+      </div>
       <div className="flex justify-between items-center">
         <span
           className={`text-xs font-medium px-3 rounded-full ${
