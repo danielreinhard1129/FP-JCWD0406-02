@@ -7,6 +7,16 @@ import HeaderWarehouseOrder from './components/HeaderWarehouseOrder';
 import axios from 'axios';
 import { baseUrl } from '@/app/utils/database';
 import CardOrder from './components/OrderCardWarehouse';
+import TabOrderManagementWarehouse from './components/TabOrderManagementWarehouse';
+
+enum TransactionStatus {
+  WAITING_FOR_PAYMENT = 'WAITING_FOR_PAYMENT',
+  WAITING_PAYMENT_CONFIRMATION = 'WAITING_PAYMENT_CONFIRMATION',
+  IN_PROGRESS = 'IN_PROGRESS',
+  SHIPPED = 'SHIPPED',
+  ORDER_CONFIRMED = 'ORDER_CONFIRMED',
+  CANCELLED = 'CANCELLED',
+}
 
 interface IOrderDetail {
   productId: number;
@@ -20,7 +30,7 @@ interface IOrderDetail {
 interface IOrder {
   id: number;
   uuid: string;
-  TransactionStatus: string;
+  TransactionStatus: TransactionStatus;
   Warehouse: {
     name: string;
     city: string;
@@ -54,9 +64,7 @@ const WarehouseOrder = () => {
       <AdminSidebar />
       <div className="w-full space-y-2">
         <HeaderWarehouseOrder />
-        {orderList?.map((order) => (
-          <CardOrder key={order.id} order={order} /> // Pass the order as a prop
-        ))}
+        <TabOrderManagementWarehouse orders={orderList} />
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import { useParams } from 'next/navigation';
 import AdminSidebar from '@/app/admin/components/SidebarDashboard';
 import HeaderNotificationWarehouseAdmin from './components/HeaderNotificationWarehouseAdmin';
 import { baseUrl } from '@/app/utils/database';
-import InitialWarehouseCard from './components/InitialWarehouseCard';
+import TabsNotificationManagementWarehouse from './components/TabNotificationManagementWarehouse';
 
 interface IProductDetail {
   id: number;
@@ -64,9 +64,7 @@ const NotificationInitialWarehouse = () => {
       <AdminSidebar />
       <div className="w-full space-y-1">
         <HeaderNotificationWarehouseAdmin />
-        {stockMutations.map((mutation) => (
-          <InitialWarehouseCard key={mutation.id} mutation={mutation} />
-        ))}
+        <TabsNotificationManagementWarehouse notifications={stockMutations} />
       </div>
     </div>
   );

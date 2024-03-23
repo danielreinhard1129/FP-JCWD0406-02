@@ -7,6 +7,7 @@ import HeaderProfile from './components/HeaderProfile';
 import ProfilePageComp from './components/ProfilePageComp';
 import Sidebar from './components/SideBar';
 import { NotLoginGuard } from '@/components/protected-route/components/NotLoginGuard';
+import isAuth from '@/components/isAuth';
 
 export interface IUser {
   user: any;

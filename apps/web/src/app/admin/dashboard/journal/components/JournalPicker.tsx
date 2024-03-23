@@ -2,9 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import WarehouseAutoComplete from '../../stock-mutation/components/WarehouseAutocomplete';
 import { Datepicker } from 'flowbite-react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { baseUrl } from '@/app/utils/database';
 import SummaryCard from '../../warehouse/[warehouse]/journal/components/SummaryCard';
+import { toast } from 'sonner';
 
 interface ProductSummary {
   productId: number;
@@ -44,7 +45,10 @@ const JournalPicker = () => {
 
         setJournalReport(response.data.data);
       } catch (error) {
-        console.log(error);
+        if (error instanceof AxiosError) {
+          const errorMsg = error.response?.data || error.message;
+          toast.error(errorMsg);
+        }
       }
     };
     stockReport();

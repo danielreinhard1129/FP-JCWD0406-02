@@ -19,11 +19,15 @@ export default function isAuth(Component: any) {
     const user = useAppSelector((state) => state.user.id);
     const router = useRouter();
 
-    if (!user) {
-      router.push('/');
+    useEffect(() => {
+      if (!user) {
+        return redirect('/');
+      }
+    }, [user]);
+
+    if (user) {
       return null;
     }
-
     return <Component {...props} />;
   };
 }

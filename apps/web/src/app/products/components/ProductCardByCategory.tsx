@@ -33,7 +33,7 @@ const ProductCardByCategory: React.FC<{ product: IProduct }> = ({
   return (
     <div className="bg-white rounded-lg overflow-hidden pb-1 ">
       <Link href={`/products/product/${product.id}`}>
-        <div>
+        <div className="">
           <div className="relative flex justify-center items-center">
             <Image
               src={

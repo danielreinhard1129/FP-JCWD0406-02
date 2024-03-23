@@ -1,8 +1,8 @@
 import { baseUrl, baseUrll } from '@/app/utils/database';
-import axios from 'axios';
-import { Button } from 'flowbite-react';
+import axios, { AxiosError } from 'axios';
 import Image from 'next/image';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 interface IOrderDetail {
   productId: number;
@@ -48,7 +48,10 @@ const OrderCardWarehouse: React.FC<{ order: IOrder }> = ({ order }) => {
       setUpdateStatus(status);
       console.log(result);
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        const errorMsg = error.response?.data || error.message;
+        toast.error(errorMsg);
+      }
     }
   };
 

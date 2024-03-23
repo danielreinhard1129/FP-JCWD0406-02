@@ -87,13 +87,12 @@ const RegisterCard = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 h-fit">
       {/* LEFT SIDE */}
-      <div className="hidden md:block">
+      <div className="hidden relative w-[700px] h-[700px] md:block">
         <Image
           src="/register/register6.jpg"
           alt="Left Side Visual"
-          className="items-center"
-          width={100}
-          height={100}
+          className="items-center object-cover"
+          fill
         />
       </div>
       {/* RIGHT SIDE */}

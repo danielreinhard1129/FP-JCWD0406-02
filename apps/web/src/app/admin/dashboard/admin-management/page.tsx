@@ -4,8 +4,9 @@ import AdminSidebar from '../../components/SidebarDashboard';
 import HeaderAdminManagement from './components/HeaderAdminManagement';
 import CardAllUser from '../user-management/components/CardAllUser';
 import { baseUrl } from '@/app/utils/database';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { AuthGuard } from '@/components/protected-route/components/AuthGuard';
+import { toast } from 'sonner';
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
@@ -17,11 +18,13 @@ const UserManagement = () => {
         params: { roleId },
       });
       console.log('mana roleId', response);
-      // console.log('roleId', roleId);
 
       setUsers(response.data.data);
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        const errorMsg = error.response?.data || error.message;
+        toast.error(errorMsg);
+      }
     }
   };
 

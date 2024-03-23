@@ -50,10 +50,9 @@ const ProductLighting: React.FC = () => {
   const displayedProducts = products.slice(0, 5);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-4 md:grid-cols-5 md:gap-4 gap-y-4 gap-x-1 md:items-center ">
+    <div className="grid grid-cols-1 sm:grid-cols-4 md:grid-cols-5 md:gap-4 gap-y-4 gap-1 md:items-center ">
       {displayedProducts.map((product, index) => {
-        // Apply different order and spans for different screen sizes
-        const orderClasses = index === 0 ? 'md:order-last' : '';
+        // Apply different spans for different screen sizes
         const spanClasses =
           index === 0
             ? 'md:col-span-3 md:row-span-2 sm:col-span-2 col-span-4 row-span-1'
@@ -62,7 +61,7 @@ const ProductLighting: React.FC = () => {
         return (
           <div
             key={product.id}
-            className={`bg-white rounded-lg overflow-hidden shadow-sm transform transition-all hover:scale-105 duration-300 ${spanClasses} ${orderClasses}`}
+            className={`bg-white rounded-lg overflow-hidden shadow-sm transform transition-all hover:scale-105 duration-300 ${spanClasses} `}
           >
             <ProductCardByCategory key={product.id} product={product} />
           </div>

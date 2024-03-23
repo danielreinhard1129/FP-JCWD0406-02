@@ -1,5 +1,6 @@
 import { useAppSelector } from '@/lib/hooks';
 import { redirect } from 'next/navigation';
+import { useEffect } from 'react';
 import { toast } from 'sonner';
 
 export const NotLoginGuard = (Component: any) => {
@@ -8,7 +9,7 @@ export const NotLoginGuard = (Component: any) => {
     const userId = user.id;
     console.log('ini user id', userId);
 
-    if (userId === 0) {
+    if (!userId) {
       toast.warning('You Need to Login First');
       redirect('/');
     }

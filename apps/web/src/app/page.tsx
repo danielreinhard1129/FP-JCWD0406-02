@@ -55,9 +55,9 @@ export default function Home() {
       <Banner />
       <FilterCategory />
       <div className="w-full px-2 md:px-0 h-fit space-y-10">
-        <div className="bg-amber-100 p-2 md:p-8 ">
+        <div className="bg-gradient-to-r from-teal-500 via-teal-300 to-teal-200 p-2 md:p-8">
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-lg font-bold tracking-tight text-gray-900">
+            <h2 className="text-lg font-bold tracking-tight text-white">
               SECURITY
             </h2>
             <div className="items-center mt-4 flex gap-y-8 w-full">
@@ -72,7 +72,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="bg-teal-50 p-2 md:p-8 ">
+        <div className="bg-gradient-to-r from-amber-100 via-amber-200 to-amber-300 p-2 md:p-8 ">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-lg font-bold tracking-tight text-gray-900">
               LIGHTING

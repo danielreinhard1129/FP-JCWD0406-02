@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react';
 import AdminSidebar from '../../components/SidebarDashboard';
 import HeaderNotificationSuperAdmin from './components/HeaderNotificationSuperAdmin';
 import ReqStockCard from './components/ReqStockCard';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { baseUrl } from '@/app/utils/database';
 import { AuthGuard } from '@/components/protected-route/components/AuthGuard';
+import { toast } from 'sonner';
 
 // These interfaces should ideally be moved to a separate types.ts file
 interface IWarehouse {
@@ -40,7 +41,10 @@ const NotificationSuperAdmin = () => {
         setRequestStock(response.data.data as IReqStock[]);
       }
     } catch (error) {
-      console.error('Error fetching request stock:', error);
+      if (error instanceof AxiosError) {
+        const errorMsg = error.response?.data || error.message;
+        toast.error(errorMsg);
+      }
     }
   };
 

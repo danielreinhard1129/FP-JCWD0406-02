@@ -51,7 +51,7 @@ const ProductSecurity: React.FC = () => {
   const displayedProducts = products.slice(0, 5);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-4 md:grid-cols-5 md:gap-4 gap-y-4 gap-x-1 md:items-center ">
+    <div className="grid grid-cols-1 sm:grid-cols-4 md:grid-cols-5 md:gap-4 gap-y-4 gap-x-1 md:items-center">
       {displayedProducts.map((product, index) => {
         // Apply different spans for different screen sizes
         const spanClasses =
@@ -64,7 +64,6 @@ const ProductSecurity: React.FC = () => {
             key={product.id}
             className={`bg-white rounded-lg overflow-hidden shadow-sm transform transition-all hover:scale-105 duration-300 ${spanClasses}`}
           >
-            {/* ProductCardByCategory component to render each product */}
             <ProductCardByCategory key={product.id} product={product} />
           </div>
         );
