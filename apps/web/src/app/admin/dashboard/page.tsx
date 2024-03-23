@@ -1,3 +1,5 @@
+'use client';
+import { CustomerGuard } from '@/components/protected-route/components/CustomerGuard';
 import HeaderSalesReportSuperAdmin from '../components/HeaderSalesReportSuperAdmin';
 import SalesPickerCategory from '../components/SalesPickerCategory';
 import SalesPickerProduct from '../components/SalesPickerProduct';
@@ -20,4 +22,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default CustomerGuard(Dashboard);

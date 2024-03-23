@@ -1,5 +1,7 @@
+'use client';
 import React from 'react';
 import AdminSidebar from './components/SidebarDashboard';
+import { CustomerGuard } from '@/components/protected-route/components/CustomerGuard';
 
 const AdminPage = () => {
   return (
@@ -9,4 +11,4 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
+export default CustomerGuard(AdminPage);

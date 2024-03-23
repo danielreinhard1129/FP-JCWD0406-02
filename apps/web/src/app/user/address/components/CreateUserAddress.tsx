@@ -105,7 +105,7 @@ const CreateUserAddress: React.FC<CreateUserAddressProps> = ({ onSuccess }) => {
       </button>
       {isEditModalOpen && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-8 rounded-lg">
+          <div className="bg-white p-8 mx-4 rounded-lg">
             <form
               className="space-y-4 max-w-2xl"
               onSubmit={formik.handleSubmit}

@@ -7,6 +7,7 @@ import { baseUrl } from '@/app/utils/database';
 import CategoryCard from './components/CategoryCard';
 import HeaderCategoryManagement from './components/HeaderCategoryManagement';
 import SelectOptionCategory from './components/SelectOptionCategory';
+import { AuthGuard } from '@/components/protected-route/components/AuthGuard';
 
 interface Category {
   id: number;
@@ -56,4 +57,4 @@ const CategoryManagement = () => {
   );
 };
 
-export default CategoryManagement;
+export default AuthGuard(CategoryManagement);

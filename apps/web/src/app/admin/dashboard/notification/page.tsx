@@ -5,6 +5,7 @@ import HeaderNotificationSuperAdmin from './components/HeaderNotificationSuperAd
 import ReqStockCard from './components/ReqStockCard';
 import axios from 'axios';
 import { baseUrl } from '@/app/utils/database';
+import { AuthGuard } from '@/components/protected-route/components/AuthGuard';
 
 // These interfaces should ideally be moved to a separate types.ts file
 interface IWarehouse {
@@ -60,4 +61,4 @@ const NotificationSuperAdmin = () => {
   );
 };
 
-export default NotificationSuperAdmin;
+export default AuthGuard(NotificationSuperAdmin);

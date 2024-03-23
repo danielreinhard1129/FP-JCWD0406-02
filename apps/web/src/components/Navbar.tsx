@@ -18,11 +18,14 @@ import {
   FiShoppingCart,
   FiUser,
 } from 'react-icons/fi';
+
+import { HiInformationCircle } from 'react-icons/hi';
 import { LuLayoutDashboard } from 'react-icons/lu';
 import SearchBar2 from './SearchBar2';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
 import { setCartItems } from '@/lib/features/cartSlice';
+import { Alert } from 'flowbite-react';
 
 export interface ProductPhoto {
   url: string;
@@ -50,13 +53,46 @@ export const Navbar = () => {
   const [warehouseId, setWarehouseId] = useState('');
   const user = useAppSelector((state) => state.user);
   const cart = useSelector((state: RootState) => state.cart.cartItems);
-
-  // console.log('redux cart', cart);
-
   const userId = user.id;
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { userGoogle, logOut } = UserAuth();
+  const [showLoginAlert, setShowLoginAlert] = useState<boolean>(false);
+  const [showVerificationAlert, setShowVerificationAlert] =
+    useState<boolean>(false);
+
+  // Assuming these selectors are properly typed in your application
+  const isVerified = useAppSelector(
+    (state: RootState) => state.user.isVerified,
+  );
+
+  useEffect(() => {
+    const userLoggedIn: boolean = userId !== 0;
+
+    if (!userLoggedIn) {
+      setShowLoginAlert(true);
+      const timeoutId = setTimeout(() => setShowLoginAlert(false), 5000);
+      return () => clearTimeout(timeoutId);
+    } else {
+      setShowLoginAlert(false);
+
+      if (!isVerified) {
+        const manageVerificationAlert = () => {
+          setShowVerificationAlert(true);
+          const timeoutId = setTimeout(
+            () => setShowVerificationAlert(false),
+            5000,
+          );
+          return () => clearTimeout(timeoutId);
+        };
+
+        manageVerificationAlert();
+        const intervalId = setInterval(manageVerificationAlert, 120000);
+
+        return () => clearInterval(intervalId);
+      }
+    }
+  }, [userId, isVerified]);
 
   const handleLogout = async () => {
     await logOut();
@@ -123,8 +159,33 @@ export const Navbar = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
   return (
     <header className="bg-white sticky top-0 z-50">
+      {showLoginAlert && (
+        <div className="fixed top-16 left-1/2 transform -translate-x-1/2 z-50">
+          <Alert
+            color="warning"
+            icon={HiInformationCircle}
+            onDismiss={() => setShowLoginAlert(false)}
+          >
+            <span className="font-medium">Login required!</span> Please log in
+            to continue.
+          </Alert>
+        </div>
+      )}
+      {showVerificationAlert && (
+        <div className="fixed top-16 left-1/2 transform -translate-x-1/2 z-50">
+          <Alert
+            color="failure"
+            icon={HiInformationCircle}
+            onDismiss={() => setShowVerificationAlert(false)}
+          >
+            <span className="font-medium">Verification needed!</span> Your
+            account is not verified yet!
+          </Alert>
+        </div>
+      )}
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between p-3"
         aria-label="Global"
@@ -198,17 +259,19 @@ export const Navbar = () => {
               data-dropdown-toggle="dropdown"
             >
               <span className="sr-only">Open profile menu</span>
-              <Image
-                src={
-                  user?.profile_picture
-                    ? `${baseUrll}/photo-profile/${user.profile_picture}`
-                    : '/default-avatar.png'
-                }
-                alt="Profile Picture"
-                width={100}
-                height={100}
-                className="object-cover rounded-full w-10 h-10 transform transition-all hover:scale-105 duration-300"
-              />
+              <div>
+                <Image
+                  src={
+                    user?.profile_picture
+                      ? `${baseUrll}/photo-profile/${user.profile_picture}`
+                      : '/default-avatar.png'
+                  }
+                  alt="Profile Picture"
+                  width={100}
+                  height={100}
+                  className="object-cover rounded-full w-10 h-10 transform transition-all hover:scale-105 duration-300"
+                />
+              </div>
             </button>
 
             <div
@@ -242,16 +305,16 @@ export const Navbar = () => {
                   </div>
                 </Link>
               ) : null}
-              <a
+              <Link
                 href="/user"
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 role="menuitem"
               >
                 <FiSettings className="inline-block w-5 h-5 mr-3" />
-                Settings
-              </a>
+                Profile
+              </Link>
 
-              <a
+              <Link
                 onClick={handleLogout}
                 href="/"
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -259,7 +322,7 @@ export const Navbar = () => {
               >
                 <FiLogOut className="inline-block w-5 h-5 mr-3" />
                 Log Out
-              </a>
+              </Link>
             </div>
           </div>
         ) : (
@@ -335,31 +398,31 @@ export const Navbar = () => {
                 </div>
               </div>
               <div className="space-y-2 py-6">
-                <a
+                <Link
                   href="/user"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-normal leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   My Profile
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/user/address"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-normal leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  My Address
-                </a>
-                <a
+                  My Addresses
+                </Link>
+                <Link
                   href="/transaction"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-normal leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Transaction
-                </a>
+                </Link>
                 {user.roleId === 1 || user.roleId === 2 ? (
-                  <a
+                  <Link
                     href="admin/dashboard"
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-normal leading-7 text-gray-900 hover:bg-gray-50"
                   >
                     Dashboard
-                  </a>
+                  </Link>
                 ) : null}
               </div>
 
