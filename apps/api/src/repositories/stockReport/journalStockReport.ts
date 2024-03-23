@@ -16,6 +16,9 @@ export const journalStockReport = async (
           lte: end,
         },
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
       include: {
         Stock: {
           include: {

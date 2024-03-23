@@ -1,14 +1,16 @@
 'use client';
-import React, { useState } from 'react';
-import axios from 'axios';
-import { toast } from 'sonner';
 import { baseUrl } from '@/app/utils/database';
-import SelectOptionCategory from '../../category-management/components/SelectOptionCategory';
+import axios, { AxiosError } from 'axios';
 import { FileInput, Label } from 'flowbite-react';
+import React, { useState } from 'react';
+import { toast } from 'sonner';
+import SelectOptionCategory from '../../category-management/components/SelectOptionCategory';
 
 const CreateProductForm = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState('');
   const [fileProducts, setFileProducts] = useState<File[]>([]);
+  console.log('check filee', fileProducts);
+  console.log('check beforee filee', setFileProducts);
 
   // Function to handle file change
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,6 +21,12 @@ const CreateProductForm = () => {
       // Append new files to the existing array
       setFileProducts((prevFiles) => [...prevFiles, ...newFiles]);
     }
+  };
+
+  const handleFileDelete = (index: number) => {
+    const updatedFiles = [...fileProducts];
+    updatedFiles.splice(index, 1);
+    setFileProducts(updatedFiles);
   };
 
   // Function to handle form submission
@@ -49,9 +57,10 @@ const CreateProductForm = () => {
       // Show success message
       toast.success('Product created successfully');
     } catch (error) {
-      // Handle errors
-      toast.error('Failed to create product');
-      console.error('Error creating product:', error);
+      if (error instanceof AxiosError) {
+        const errorMsg = error.response?.data || error.message;
+        toast.error(errorMsg);
+      }
     }
   };
 
@@ -146,6 +155,27 @@ const CreateProductForm = () => {
             className="mt-1"
           />
         </div>
+
+        {/* Render the FileViewer component */}
+
+        {fileProducts.length > 0 && (
+          <div className="my-6">
+            <h2>Uploaded Files</h2>
+            <ul>
+              {fileProducts.map((file, index) => (
+                <li key={index}>
+                  {file.name}
+                  <button
+                    className="bg-red-600"
+                    onClick={() => handleFileDelete(index)}
+                  >
+                    Delete
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {/* Submit Button */}
         <div className="flex justify-end mt-6">

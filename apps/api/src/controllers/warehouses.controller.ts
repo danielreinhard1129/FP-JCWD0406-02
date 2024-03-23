@@ -32,6 +32,8 @@ import { getStockMutationByInitialWarehouseAction } from '@/actions/warehouse/st
 import { journalStockReportByWarehouseAction } from '@/actions/stockReport/journalStockReportByWarehouseAction';
 import { journalStockReportFixAction } from '@/actions/stockReport/journalStockReportFix';
 import { getWarehouseByUserIdAction } from '@/actions/warehouse/warehouse/getWarehouseByUserIdAction';
+import { updateReqStockStatusAction } from '@/actions/superAdmin/updateReqStockStatusAction';
+import { getReqStockByWarehouseIdAction } from '@/actions/warehouse/admin/getReqStockByWarehouseIdAction';
 
 export class WarehouseController {
   async getProducts(req: Request, res: Response, next: NextFunction) {
@@ -52,27 +54,36 @@ export class WarehouseController {
 
       const files = req.files;
 
+      console.log('checkk filee : ', files);
+      console.log('check req bodyy : ', req.body);
+
       if (!files || !Array.isArray(files)) {
         // Handle case where multer encountered an error or no files were uploaded
-        return res
-          .status(400)
-          .json({ success: false, error: 'No files uploaded' });
+        throw new Error('Please input file for photo product');
+      }
+
+      if (files.length === 0) {
+        throw new Error('Please input file for photo product');
+      }
+
+      for (const file of files) {
+        const maxSize = 1 * 1024 * 1024;
+        if (file.size > maxSize) {
+          throw new Error(`${file.originalname} size is too large!`);
+        }
       }
 
       const checkTitle = await getProductByTitle(title);
 
       if (checkTitle) {
         if (checkTitle.isDeleted) {
-          await updateProduct({ ...checkTitle, isDeleted: false });
-          return res.status(200).json({
-            success: true,
-            message: 'Product with the same title was restored',
+          const restoreProduct = await updateProduct({
+            ...checkTitle,
+            isDeleted: false,
           });
+          res.status(200).send(restoreProduct);
         } else {
-          return res.status(400).json({
-            success: false,
-            error: `Product with this ${title} title already exists`,
-          });
+          throw new Error(`Product with Title ${title} already exist`);
         }
       }
 
@@ -475,6 +486,32 @@ export class WarehouseController {
 
       const usereWarehouse = await getWarehouseByUserIdAction(Number(userId));
       res.status(200).send(usereWarehouse);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updateReqStockStatus(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const data = req.body;
+
+      const reqStock = await updateReqStockStatusAction(Number(id), data);
+      res.status(200).send(reqStock);
+    } catch (error) {
+      next(error);
+    }
+  }
+  async getReqStockByWarehouseId(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const { id } = req.params;
+
+      const reqStock = await getReqStockByWarehouseIdAction(Number(id));
+      res.status(200).send(reqStock);
     } catch (error) {
       next(error);
     }

@@ -1,11 +1,39 @@
+import { baseUrl } from '@/app/utils/database';
+import axios, { AxiosError } from 'axios';
 import React, { useState } from 'react';
 import { FaLock } from 'react-icons/fa'; // Assuming you're using Font Awesome icons
+import { useSelector } from 'react-redux';
+import { toast } from 'sonner';
+
+interface IUser {
+  user: any;
+  id: number;
+  first_name: string;
+  last_name: string;
+  username: string;
+  email: string;
+  contact: number;
+  profile_picture?: string;
+}
 
 const ChangePasswordConfirmSendEmail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // console.log('check email fomr passing : ', user);
+  const userData = useSelector((state: IUser) => state.user);
 
-  const handleConfirmChangePassword = () => {
+  const handleConfirmChangePassword = async () => {
     // Simulate sending a change password request
+    try {
+      const response = await axios.post(`${baseUrl}/users/forgot-password`, {
+        email: userData.email,
+      });
+      toast.success(response.data.message);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const errorMsg = error.response?.data || error.message;
+        alert(errorMsg);
+      }
+    }
     console.log('Password change requested.');
     setIsModalOpen(false);
     // Here, you would actually send a request to change the password

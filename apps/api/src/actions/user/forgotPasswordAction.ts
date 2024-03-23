@@ -34,7 +34,7 @@ export const forgotPasswordAction = async (email: string) => {
     });
 
     return {
-      message: 'Send Email Success',
+      message: 'Check your email to change password',
       token: token,
     };
   } catch (error) {

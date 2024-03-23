@@ -16,7 +16,7 @@ export class WarehouseRouter {
     this.router.get('/products', this.warehouseController.getProducts);
     this.router.post(
       '/create-product',
-      uploader('IMG', '/photo-product').array('files', 4),
+      uploader('IMG', '/photo-product').array('files', 6),
       this.warehouseController.createProduct,
     );
     this.router.patch(
@@ -109,6 +109,14 @@ export class WarehouseRouter {
     this.router.get(
       '/user-warehouse',
       this.warehouseController.getWarehouseByUserId,
+    );
+    this.router.patch(
+      '/update-req-stock-status/:id',
+      this.warehouseController.updateReqStockStatus,
+    );
+    this.router.get(
+      '/req-stock-warehouse/:id',
+      this.warehouseController.getReqStockByWarehouseId,
     );
   }
 
