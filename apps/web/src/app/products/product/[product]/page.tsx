@@ -38,8 +38,9 @@ interface IProduct {
 const ProductDetailPage: React.FC = () => {
   const [product, setProduct] = useState<IProduct | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [randomProducts, setRandomProducts] = useState<IProduct[]>([]);
   const params = useParams();
-  const altText = 'Sample Product Image';
+
   useEffect(() => {
     const fetchProductDetails = async () => {
       setIsLoading(true);
@@ -47,7 +48,6 @@ const ProductDetailPage: React.FC = () => {
         const response = await axios.get(
           `${baseUrl}/warehouses/product/${params.product}`,
         );
-        console.log('ini dataaaaa');
 
         setProduct(response.data.data);
       } catch (error) {
@@ -60,6 +60,21 @@ const ProductDetailPage: React.FC = () => {
     }
   }, [params.product]);
 
+  useEffect(() => {
+    const fetchRandomProducts = async () => {
+      try {
+        const response = await axios.get(
+          `${baseUrl}/warehouses/random-products`,
+        );
+        setRandomProducts(response.data.data);
+      } catch (error) {
+        console.error('Failed to fetch random products:', error);
+      }
+    };
+
+    fetchRandomProducts();
+  }, []);
+
   if (!product) {
     return (
       <div className="flex justify-center items-center h-full">
@@ -70,8 +85,8 @@ const ProductDetailPage: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 min-h-screen sm:px-6 lg:px-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-16 py-8">
-        <ProductImageGallery product={product} altText={altText} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-12 py-8">
+        <ProductImageGallery product={product} />
 
         <ProductDetails detailProduct={product} />
       </div>

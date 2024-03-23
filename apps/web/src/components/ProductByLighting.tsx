@@ -28,18 +28,15 @@ export interface IProduct {
   totalQuantity: number;
 }
 
-const ProductSecurity: React.FC = () => {
+const ProductLighting: React.FC = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
-  //   console.log('securoty', products);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const responseData = await axios.get(
-          `${baseUrl}/warehouses/catalog?category=Security`,
+          `${baseUrl}/warehouses/catalog?category=Lighting`,
         );
-
-        console.log('checkkk Seciueuytey', responseData.data.data);
 
         setProducts(responseData.data.data);
       } catch (error) {
@@ -50,20 +47,22 @@ const ProductSecurity: React.FC = () => {
     fetchData();
   }, []);
 
-  const displayedProducts = products.slice(0, 3);
+  const displayedProducts = products.slice(0, 5);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-4 md:grid-cols-5 md:gap-4 gap-y-4 gap-x-1 md:items-center ">
       {displayedProducts.map((product, index) => {
-        // If it's the first item, make it larger using col-span to take up more columns.
-        const colSpan =
+        // Apply different order and spans for different screen sizes
+        const orderClasses = index === 0 ? 'md:order-last' : '';
+        const spanClasses =
           index === 0
-            ? ' sm:col-span-2 lg:col-span-2'
-            : ' sm:col-span-2 lg:col-span-1';
+            ? 'md:col-span-3 md:row-span-2 sm:col-span-2 col-span-4 row-span-1'
+            : 'col-span-1 row-span-1';
+
         return (
           <div
-            key={index}
-            className={`bg-white rounded-lg overflow-hidden shadow-lg${colSpan}`}
+            key={product.id}
+            className={`bg-white rounded-lg overflow-hidden shadow-sm transform transition-all hover:scale-105 duration-300 ${spanClasses} ${orderClasses}`}
           >
             <ProductCardByCategory key={product.id} product={product} />
           </div>
@@ -73,4 +72,4 @@ const ProductSecurity: React.FC = () => {
   );
 };
 
-export default ProductSecurity;
+export default ProductLighting;

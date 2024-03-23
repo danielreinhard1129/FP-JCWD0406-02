@@ -24,7 +24,7 @@ const BottomNavbar: React.FC = () => {
           className="flex flex-col items-center"
         >
           <CgSmartHomeLight className="text-2xl" />
-          <span className="block text-xs">Products</span>
+          <span className="block text-xs">Catalogs</span>
         </button>
         <button
           onClick={() => router.push('/order')}

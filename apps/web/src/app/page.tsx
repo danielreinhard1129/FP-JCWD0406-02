@@ -7,7 +7,9 @@ import FilterCategory from '@/components/FilterCategory';
 import ProductCard, { Category } from './products/components/ProductCard';
 import { Banner } from '@/components/Banner';
 import { IStock } from '@/types/warehouse.types';
-import ProductSecurity from '@/components/ProductByCategory';
+import ProductSecurity from '@/components/ProductBySecurity';
+import BannerInfo from '@/components/BannerInfo';
+import ProductLighting from '@/components/ProductByLighting';
 
 export interface ProductPhoto {
   id: number;
@@ -48,25 +50,46 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="max-w-7xl w-full mx-auto">
+    <div className=" w-full mx-auto">
       <Carousel />
       <Banner />
       <FilterCategory />
-      <div className="w-full px-4 h-fit space-y-10">
-        <div>
-          <h2 className="text-lg font-bold tracking-tight text-gray-900">
-            Security
-          </h2>
-          <div className="items-center mt-4 flex gap-y-8 w-full">
-            <ProductSecurity />
+      <div className="w-full px-2 md:px-0 h-fit space-y-10">
+        <div className="bg-amber-100 p-2 md:p-8 ">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-lg font-bold tracking-tight text-gray-900">
+              SECURITY
+            </h2>
+            <div className="items-center mt-4 flex gap-y-8 w-full">
+              <ProductSecurity />
+            </div>
           </div>
         </div>
         <div>
-          <h2 className="text-lg font-bold tracking-tight text-gray-900">
-            More Products
-          </h2>
-          <div className="items-center mt-4 flex gap-y-8 w-full">
-            <ProductCard productsData={randomProducts} />
+          <div className="max-w-7xl mx-auto">
+            <div className="items-center mt-4 flex gap-y-8 w-full">
+              <BannerInfo />
+            </div>
+          </div>
+        </div>
+        <div className="bg-teal-50 p-2 md:p-8 ">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-lg font-bold tracking-tight text-gray-900">
+              LIGHTING
+            </h2>
+            <div className="items-center mt-4 flex gap-y-8 w-full">
+              <ProductLighting />
+            </div>
+          </div>
+        </div>
+        <div>
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-lg font-bold tracking-tight text-gray-900">
+              MORE PRODUCTS
+            </h2>
+            <div className="items-center mt-4 flex gap-y-8 w-full">
+              <ProductCard productsData={randomProducts} />
+            </div>
           </div>
         </div>
       </div>
