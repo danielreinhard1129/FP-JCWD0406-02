@@ -7,6 +7,7 @@ import axios, { AxiosError } from 'axios';
 import { baseUrl } from '@/app/utils/database';
 import { AuthGuard } from '@/components/protected-route/components/AuthGuard';
 import { toast } from 'sonner';
+import TabsNotificationManagement from './components/TabNotificationManagement';
 
 // These interfaces should ideally be moved to a separate types.ts file
 interface IWarehouse {
@@ -26,7 +27,7 @@ interface IReqStock {
   quantity: number;
   createdAt: string;
   updatedAt: string;
-  status: 'PENDING' | 'APPROVED' | 'DENIED';
+  status: string;
 }
 
 const NotificationSuperAdmin = () => {
@@ -57,9 +58,7 @@ const NotificationSuperAdmin = () => {
       <AdminSidebar />
       <div className="w-full space-y-2">
         <HeaderNotificationSuperAdmin />
-        {requestStock.map((reqStock) => (
-          <ReqStockCard key={reqStock.id} reqStock={reqStock} />
-        ))}
+        <TabsNotificationManagement reqStocks={requestStock} />
       </div>
     </div>
   );

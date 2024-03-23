@@ -20,21 +20,10 @@ interface IReqStock {
   quantity: number;
   createdAt: string;
   updatedAt: string;
-  status: 'PENDING' | 'APPROVED' | 'DENIED';
+  status: string;
 }
 
 const ReqStockCard: React.FC<{ reqStock: IReqStock }> = ({ reqStock }) => {
-  const getStatusLabel = (
-    status: 'PENDING' | 'APPROVED' | 'DENIED',
-  ): string => {
-    const statusLabels: Record<typeof status, string> = {
-      PENDING: 'Pending Approval',
-      APPROVED: 'Approved',
-      DENIED: 'Denied',
-    };
-    return statusLabels[status] || status;
-  };
-
   const handleAccept = async () => {
     try {
       const response = await axios.patch(
@@ -49,7 +38,6 @@ const ReqStockCard: React.FC<{ reqStock: IReqStock }> = ({ reqStock }) => {
     }
   };
 
-  // Function to handle reject action
   const handleReject = async () => {
     try {
       const response = await axios.patch(
@@ -67,24 +55,22 @@ const ReqStockCard: React.FC<{ reqStock: IReqStock }> = ({ reqStock }) => {
         <div>
           <h2 className="text-md font-bold text-teal-700">Request Stock</h2>
         </div>
-        {reqStock.status === 'PENDING' && (
-          <div className="flex justify-end gap-2">
-            <button
-              onClick={handleAccept}
-              className="bg-teal-500 text-xs hover:bg-teal-700 text-white font-normal py-1 px-4 rounded-lg focus:outline-none focus:shadow-outline"
-              type="button"
-            >
-              Accept
-            </button>
-            <button
-              onClick={handleReject}
-              className="bg-red-500 text-xs hover:bg-red-700 text-white font-normal py-1 px-4 rounded-lg focus:outline-none focus:shadow-outline"
-              type="button"
-            >
-              Reject
-            </button>
-          </div>
-        )}
+        <div className="flex justify-end gap-2">
+          <button
+            onClick={handleAccept}
+            className="bg-teal-500 text-xs hover:bg-teal-700 text-white font-normal py-1 px-4 rounded-lg focus:outline-none focus:shadow-outline"
+            type="button"
+          >
+            Accept
+          </button>
+          <button
+            onClick={handleReject}
+            className="bg-red-500 text-xs hover:bg-red-700 text-white font-normal py-1 px-4 rounded-lg focus:outline-none focus:shadow-outline"
+            type="button"
+          >
+            Reject
+          </button>
+        </div>
       </div>
       <div className="flex justify-between items-center">
         <span
@@ -96,7 +82,7 @@ const ReqStockCard: React.FC<{ reqStock: IReqStock }> = ({ reqStock }) => {
                 : 'bg-yellow-100 text-yellow-800'
           }`}
         >
-          {getStatusLabel(reqStock.status)}
+          {reqStock.status}
         </span>
       </div>
       <div className="grid grid-cols-2 gap">

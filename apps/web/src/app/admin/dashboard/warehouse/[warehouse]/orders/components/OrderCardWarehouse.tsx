@@ -109,7 +109,7 @@ const OrderCardWarehouse: React.FC<{ order: IOrder }> = ({ order }) => {
             </button>
           </div>
         )}
-        <div className="flex justify-between items-center mt-2">
+        <div className="grid grid-cols-8 items-center mt-2">
           <div>
             <p className="text-xs font-semibold text-gray-800">Total Payment</p>
             <p className="text-sm font-bold text-teal-600">
@@ -120,11 +120,11 @@ const OrderCardWarehouse: React.FC<{ order: IOrder }> = ({ order }) => {
             <p className="text-xs text-gray-500">Address</p>
             <p className="text-sm text-gray-400">Buyer Address</p>
           </div>
-          <div>
+          <div className="col-span-2">
             <p className="text-xs text-gray-500">Status</p>
             <p className="text-sm text-gray-700">{order.TransactionStatus}</p>
           </div>
-          <div>
+          <div className="col-span-3">
             <p className="text-xs text-gray-500">Transaction Code</p>
             <p className="text-sm text-gray-700">{order.uuid}</p>
           </div>

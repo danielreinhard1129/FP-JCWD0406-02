@@ -2,13 +2,7 @@ import { baseUrll } from '@/app/utils/database';
 import { Button, FileInput, Label } from 'flowbite-react';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import {
-  FaMapMarkerAlt,
-  FaPhone,
-  FaEnvelope,
-  FaUserCircle,
-  FaCamera,
-} from 'react-icons/fa';
+import { FaPhone, FaEnvelope, FaUserCircle } from 'react-icons/fa';
 
 import ModalNonAsignAdmin from './ModalNonAsignAdmin';
 import { useSelector } from 'react-redux';
@@ -17,7 +11,7 @@ import { toast } from 'sonner';
 
 interface IRole {
   id: number;
-  role_name: string; // Use 'string' instead of 'String'
+  role_name: string;
 }
 
 interface IUser {
@@ -50,7 +44,7 @@ const AdminIdentityCard: React.FC<AdminIdentityCardProps> = ({
     if (roleId === 1) {
       setModalOpen(true);
     } else {
-      toast.error('ADMIN BIASA LO YE!! JAN BELAGU SOK-SOK MO GANTI ADMIN!!');
+      toast.error('Cannot Access!!');
     }
   };
 

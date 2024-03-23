@@ -98,50 +98,55 @@ const CardProductManagement: React.FC<CardProductManagementProps> = ({
               />
               <div className="flex-grow">
                 <h3 className="text-md font-medium mr-4">{product.title}</h3>
-                <p className="text-sm text-gray-500">
-                  Rp{product.price.toLocaleString()}
-                </p>
-                <p className="text-sm text-gray-500">
-                  Weight: {product.weight} gram
-                </p>
-              </div>
-              <div className="mr-4">
-                <p className="text-sm text-gray-500">
-                  Stock: {product.totalQuantity}
-                </p>
-              </div>
-
-              <div className="relative">
-                <button
-                  className="border px-3 py-1 rounded-lg shadow-sm text-xs bg-white flex items-center"
-                  onClick={() => toggleDropdown(product.id)}
-                >
-                  Manage <FaCaretDown className="ml-2" />
-                </button>
-                {openDropdowns.includes(product.id) && (
-                  <div className="absolute right-0 mt-1 w-40 bg-white border rounded shadow-xl z-10">
-                    <ul className="text-xs text-gray-700">
-                      <li
-                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center"
-                        onClick={() => openCreateStockModal(product.id)}
-                      >
-                        <PiArchiveBoxBold className="mr-2 text-sm " /> Create
-                        Stock
-                      </li>
-
-                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center">
-                        <PiArchiveBoxBold className="mr-2 text-sm " /> Update
-                        Stock
-                      </li>
-
-                      <EditProduct product={product} onSuccess={parseProduct} />
-                      <DeleteProduct
-                        productId={product.id}
-                        onSuccess={parseProduct}
-                      />
-                    </ul>
+                <div className="grid grid-cols-6">
+                  <p className="text-sm text-gray-500 col-span-3">
+                    <strong>Rp {product.price.toLocaleString()}</strong>
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    Weight: <strong> {product.weight} </strong>
+                    gram
+                  </p>
+                  <div className="mr-4">
+                    <p className="text-sm text-gray-500">
+                      Stock: <strong>{product.totalQuantity}</strong>
+                    </p>
                   </div>
-                )}
+                  <div className="relative flex justify-end">
+                    <button
+                      className="border px-3 py-1 rounded-lg shadow-sm text-xs bg-white flex items-center"
+                      onClick={() => toggleDropdown(product.id)}
+                    >
+                      Manage <FaCaretDown className="ml-2" />
+                    </button>
+                    {openDropdowns.includes(product.id) && (
+                      <div className="absolute right-0 mt-1 w-40 bg-white border rounded shadow-xl z-10">
+                        <ul className="text-xs text-gray-700">
+                          <li
+                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center"
+                            onClick={() => openCreateStockModal(product.id)}
+                          >
+                            <PiArchiveBoxBold className="mr-2 text-sm " />{' '}
+                            Create Stock
+                          </li>
+
+                          <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center">
+                            <PiArchiveBoxBold className="mr-2 text-sm " />{' '}
+                            Update Stock
+                          </li>
+
+                          <EditProduct
+                            product={product}
+                            onSuccess={parseProduct}
+                          />
+                          <DeleteProduct
+                            productId={product.id}
+                            onSuccess={parseProduct}
+                          />
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           ))}
