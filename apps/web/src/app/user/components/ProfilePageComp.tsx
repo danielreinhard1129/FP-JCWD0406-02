@@ -12,6 +12,7 @@ import ModalChangeEmail from './ModalChangeEmail';
 import SendEmailVerifyButton from './SendEmailVerifyButton';
 import { logoutAction } from '@/lib/features/userSlice';
 import { useDispatch } from 'react-redux';
+import ChangePasswordConfirmSendEmail from './ChangePasswordConfirmSendEmail';
 
 interface IUser {
   data: any;
@@ -115,6 +116,10 @@ const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
               <div className="flex justify-between items-center md:items-start md:col-span-1">
                 <span className="font-semibold text-gray-700">Contact:</span>
                 <span>{dataUser?.contact || userGoogle?.contact}</span>
+              </div>
+              <div className="flex justify-between items-center md:items-start md:col-span-1">
+                <span className="font-semibold text-gray-700">Password:</span>
+                <ChangePasswordConfirmSendEmail />
               </div>
               <div className="flex justify-between items-start md:col-span-1">
                 <span className="font-semibold text-gray-700">Email:</span>

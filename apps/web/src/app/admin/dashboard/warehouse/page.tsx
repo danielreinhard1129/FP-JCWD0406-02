@@ -8,6 +8,7 @@ import HeaderWarehouseManagement from './components/HeaderWarehouseManagement';
 import { baseUrl } from '@/app/utils/database';
 import { WarehouseCard } from './components/CardWarehouse';
 import { toast } from 'sonner';
+import { AuthGuard } from '@/components/protected-route/components/AuthGuard';
 
 const Warehouse = () => {
   const [warehouses, setWarehouses] = useState([]);
@@ -49,4 +50,4 @@ const Warehouse = () => {
   );
 };
 
-export default Warehouse;
+export default AuthGuard(Warehouse);

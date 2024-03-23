@@ -8,6 +8,7 @@ import AddressCardComp from './components/AddressCard';
 import HeaderAddress from './components/HeaderAddress';
 import Image from 'next/image';
 import isAuth from '@/components/isAuth';
+import { NotLoginGuard } from '@/components/protected-route/components/NotLoginGuard';
 
 export interface ICity {
   id: string;
@@ -105,4 +106,4 @@ const UserAddress: React.FC = () => {
   );
 };
 
-export default UserAddress;
+export default NotLoginGuard(UserAddress);

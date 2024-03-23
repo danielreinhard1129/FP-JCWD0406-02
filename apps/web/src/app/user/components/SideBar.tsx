@@ -16,12 +16,12 @@ const Sidebar = () => {
     <div className="md:w-64 w-full bg-white p-4 md:border-r-2 border-gray-200 lg:mt-20 mt-2">
       <div className="flex flex-col items-center mb-6">
         {/* Profile icon */}
-        <div className="bg-teal-500 rounded-full overflow-hidden w-44 h-44 mb-3 transform transition-all hover:scale-105 duration-300 ">
+        <div className=" rounded-full overflow-hidden w-44 h-44 mb-3 transform transition-all hover:scale-105 duration-300 ">
           <Image
             src={
               user?.profile_picture
                 ? `${baseUrll}/photo-profile/${user.profile_picture}`
-                : '/default_avatar.png'
+                : '/default-avatar.png'
             }
             alt="Profile Picture"
             width={200}

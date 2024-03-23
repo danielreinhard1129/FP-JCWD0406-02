@@ -11,6 +11,7 @@ interface UserState {
   profile_picture: string;
   first_name: string;
   last_name: string;
+  isVerified: boolean;
 }
 
 const initialState: UserState = {
@@ -22,6 +23,7 @@ const initialState: UserState = {
   profile_picture: '',
   first_name: '',
   last_name: '',
+  isVerified: false,
 };
 
 const getRoleName = (roleId: number): string => {
@@ -49,6 +51,7 @@ export const userSlice = createSlice({
         profile_picture,
         first_name,
         last_name,
+        isVerified,
       } = action.payload;
       state.id = id;
       state.username = username;
@@ -58,6 +61,7 @@ export const userSlice = createSlice({
       state.profile_picture = profile_picture;
       state.first_name = first_name;
       state.last_name = last_name;
+      state.isVerified = isVerified;
     },
     logoutAction: (state) => {
       state.id = 0;
@@ -67,6 +71,7 @@ export const userSlice = createSlice({
       state.profile_picture = '';
       state.first_name = '';
       state.last_name = '';
+      state.isVerified = false;
     },
   },
 });

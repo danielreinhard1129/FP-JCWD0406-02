@@ -1,7 +1,9 @@
+'use client';
 import React from 'react';
 import AdminSidebar from '../../components/SidebarDashboard';
 import HeaderStockMutationSuperAdmin from './components/HeaderStockMutation';
 import StockMutation from './components/StockMutation';
+import { AuthGuard } from '@/components/protected-route/components/AuthGuard';
 
 const StockMutationPage = () => {
   return (
@@ -17,4 +19,4 @@ const StockMutationPage = () => {
   );
 };
 
-export default StockMutationPage;
+export default AuthGuard(StockMutationPage);

@@ -1,4 +1,5 @@
 'use client';
+import { AuthGuard } from '@/components/protected-route/components/AuthGuard';
 import AdminSidebar from '../../components/SidebarDashboard';
 import HeaderJournal from './components/HeaderJournal';
 import JournalPicker from './components/JournalPicker';
@@ -17,4 +18,4 @@ const JournalPage = () => {
   );
 };
 
-export default JournalPage;
+export default AuthGuard(JournalPage);

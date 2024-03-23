@@ -10,6 +10,7 @@ import { baseUrl } from '@/app/utils/database';
 import { toast } from 'sonner';
 
 import { IStock } from '@/types/warehouse.types';
+import { AuthGuard } from '@/components/protected-route/components/AuthGuard';
 
 interface ProductPhoto {
   id: number;
@@ -67,4 +68,4 @@ const ProductManagementSuperAdmin = () => {
   );
 };
 
-export default ProductManagementSuperAdmin;
+export default AuthGuard(ProductManagementSuperAdmin);

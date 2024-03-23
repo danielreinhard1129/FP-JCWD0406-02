@@ -5,6 +5,7 @@ import OrderCard from './components/OrderCard';
 import axios from 'axios';
 import { baseUrl } from '@/app/utils/database';
 import HeaderOrderManagement from './components/HeaderOrderManagement';
+import { AuthGuard } from '@/components/protected-route/components/AuthGuard';
 
 interface IOrderDetail {
   productId: number;
@@ -29,7 +30,7 @@ interface IOrder {
   paymentImg?: string;
 }
 
-const NotificationSuperAdmin = () => {
+const OrderSuperAdmin = () => {
   const [orderList, setOrderList] = useState<IOrder[]>([]);
 
   const fetchData = async () => {
@@ -60,4 +61,4 @@ const NotificationSuperAdmin = () => {
   );
 };
 
-export default NotificationSuperAdmin;
+export default AuthGuard(OrderSuperAdmin);

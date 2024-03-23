@@ -5,6 +5,7 @@ import { baseUrl } from '@/app/utils/database'; // Ensure this matches your dire
 import AdminSidebar from '../../components/SidebarDashboard';
 import CardAllUser from './components/CardAllUser';
 import HeaderUserManagement from './components/HeaderUserManagement';
+import { AuthGuard } from '@/components/protected-route/components/AuthGuard';
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
@@ -42,4 +43,4 @@ const UserManagement = () => {
   );
 };
 
-export default UserManagement;
+export default AuthGuard(UserManagement);

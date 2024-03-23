@@ -48,7 +48,7 @@ const AddressCardComp: React.FC<AddressCardCompProps> = ({
       {addressData.map((address) => (
         <div
           key={address.id}
-          className="bg-white  p-4 my-2 flex flex-col md:flex-row justify-between items-start md:items-center rounded-xl shadow-lg z-0"
+          className="bg-white p-4 my-2 flex flex-col md:flex-row justify-between items-start md:items-center rounded-xl shadow-lg z-0"
         >
           <div className="flex flex-row items-center w-full md:w-auto">
             <Image

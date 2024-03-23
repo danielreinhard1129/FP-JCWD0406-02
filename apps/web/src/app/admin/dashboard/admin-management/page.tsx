@@ -5,6 +5,7 @@ import HeaderAdminManagement from './components/HeaderAdminManagement';
 import CardAllUser from '../user-management/components/CardAllUser';
 import { baseUrl } from '@/app/utils/database';
 import axios from 'axios';
+import { AuthGuard } from '@/components/protected-route/components/AuthGuard';
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
@@ -45,4 +46,4 @@ const UserManagement = () => {
   );
 };
 
-export default UserManagement;
+export default AuthGuard(UserManagement);
