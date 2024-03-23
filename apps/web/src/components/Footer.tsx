@@ -18,6 +18,7 @@ export const FooterComp = () => {
             <FooterLink href="/tos">Privacy Policy</FooterLink>
             <FooterLink href="/tos">Licensing</FooterLink>
             <FooterLink href="/tos">Contact</FooterLink>
+            <FooterLink href="/tos">Help Center</FooterLink>
           </FooterLinkGroup>
         </div>
         <FooterDivider />

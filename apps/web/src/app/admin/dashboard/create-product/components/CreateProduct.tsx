@@ -157,16 +157,18 @@ const CreateProductForm = () => {
         </div>
 
         {/* Render the FileViewer component */}
-
         {fileProducts.length > 0 && (
-          <div className="my-6">
-            <h2>Uploaded Files</h2>
-            <ul>
+          <div className="my-6 p-4 border border-gray-200 rounded-md">
+            <h2 className="font-semibold mb-3">Uploaded Files</h2>
+            <ul className="space-y-1">
               {fileProducts.map((file, index) => (
-                <li key={index}>
-                  {file.name}
+                <li
+                  key={index}
+                  className="flex justify-between items-center border-t py-1"
+                >
+                  <span className="text-gray-700">{file.name}</span>
                   <button
-                    className="bg-red-600"
+                    className="bg-red-600 text-white py-1 px-2 text-xs rounded-lg"
                     onClick={() => handleFileDelete(index)}
                   >
                     Delete

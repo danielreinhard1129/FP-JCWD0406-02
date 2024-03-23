@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import AdminSidebar from '../../components/SidebarDashboard';
 import { baseUrl } from '@/app/utils/database';
 import CategoryCard from './components/CategoryCard';
 import HeaderCategoryManagement from './components/HeaderCategoryManagement';
 import SelectOptionCategory from './components/SelectOptionCategory';
 import { AuthGuard } from '@/components/protected-route/components/AuthGuard';
+import { toast } from 'sonner';
 
 interface Category {
   id: number;
@@ -26,9 +27,11 @@ const CategoryManagement = () => {
     try {
       const response = await axios.get(`${baseUrl}/warehouses/categories`);
       setCategories(response.data.data);
-    } catch (err) {
-      console.error('Error fetching categories:', err);
-      setError('Failed to fetch categories');
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const errorMsg = error.response?.data || error.message;
+        toast.error(errorMsg);
+      }
     }
   };
 

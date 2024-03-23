@@ -2,10 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import AdminSidebar from '../../components/SidebarDashboard';
 import OrderCard from './components/OrderCard';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { baseUrl } from '@/app/utils/database';
 import HeaderOrderManagement from './components/HeaderOrderManagement';
 import { AuthGuard } from '@/components/protected-route/components/AuthGuard';
+import TabOrderManagement from './components/TabOrderManagement';
+import { toast } from 'sonner';
 
 interface IOrderDetail {
   productId: number;
@@ -15,11 +17,19 @@ interface IOrderDetail {
     price: number;
   };
 }
+enum TransactionStatus {
+  WAITING_FOR_PAYMENT = 'WAITING_FOR_PAYMENT',
+  WAITING_PAYMENT_CONFIRMATION = 'WAITING_PAYMENT_CONFIRMATION',
+  IN_PROGRESS = 'IN_PROGRESS',
+  SHIPPED = 'SHIPPED',
+  ORDER_CONFIRMED = 'ORDER_CONFIRMED',
+  CANCELLED = 'CANCELLED',
+}
 
 interface IOrder {
   id: number;
   uuid: string;
-  TransactionStatus: string;
+  TransactionStatus: TransactionStatus;
   Warehouse: {
     name: string;
     city: string;
@@ -37,10 +47,12 @@ const OrderSuperAdmin = () => {
     try {
       const response = await axios.get(`${baseUrl}/transactions/order-list`);
 
-      console.log('structure order card', response.data);
       setOrderList(response.data.data);
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        const errorMsg = error.response?.data || error.message;
+        toast.error(errorMsg);
+      }
     }
   };
 
@@ -53,9 +65,7 @@ const OrderSuperAdmin = () => {
       <AdminSidebar />
       <div className="w-full space-y-2">
         <HeaderOrderManagement />
-        {orderList.map((order) => (
-          <OrderCard key={order.id} order={order} /> // Pass the order as a prop
-        ))}
+        <TabOrderManagement orders={orderList} />
       </div>
     </div>
   );

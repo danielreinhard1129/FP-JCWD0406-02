@@ -38,11 +38,13 @@ const ProductManagementSuperAdmin = () => {
     try {
       const response = await axios.get(`${baseUrl}/warehouses/products`);
       const fetchProducts = response.data.data;
-      console.log('ini stockId', response.data.data.Stock);
 
       setProducts(fetchProducts);
-    } catch (err) {
-      console.error('Error fetching products:', err);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const errorMsg = error.response?.data || error.message;
+        toast.error(errorMsg);
+      }
     }
   };
 

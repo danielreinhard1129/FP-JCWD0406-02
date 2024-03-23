@@ -1,7 +1,7 @@
 import { baseUrl } from '@/app/utils/database';
 import axios, { AxiosError } from 'axios';
 import React, { useState } from 'react';
-import { FaLock } from 'react-icons/fa'; // Assuming you're using Font Awesome icons
+import { FaLock, FaMailBulk } from 'react-icons/fa'; // Assuming you're using Font Awesome icons
 import { useSelector } from 'react-redux';
 import { toast } from 'sonner';
 
@@ -18,16 +18,20 @@ interface IUser {
 
 const ChangePasswordConfirmSendEmail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // console.log('check email fomr passing : ', user);
+
   const userData = useSelector((state: IUser) => state.user);
+  const [isCekEmail, setIsCekEmail] = useState(false);
 
   const handleConfirmChangePassword = async () => {
-    // Simulate sending a change password request
     try {
       const response = await axios.post(`${baseUrl}/users/forgot-password`, {
         email: userData.email,
       });
       toast.success(response.data.message);
+      setIsCekEmail(true);
+      setTimeout(() => {
+        setIsCekEmail(false); // Close the verification modal after some time
+      }, 5000);
     } catch (error) {
       if (error instanceof AxiosError) {
         const errorMsg = error.response?.data || error.message;
@@ -36,7 +40,6 @@ const ChangePasswordConfirmSendEmail = () => {
     }
     console.log('Password change requested.');
     setIsModalOpen(false);
-    // Here, you would actually send a request to change the password
   };
 
   return (
@@ -71,6 +74,27 @@ const ChangePasswordConfirmSendEmail = () => {
               >
                 Yes, Send Link
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {isCekEmail && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50 animate-fadeIn">
+          <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-lg text-center border-t-4 border-teal-500">
+            <div className="text-teal-500 items-center mb-4">
+              <FaMailBulk />
+            </div>
+            <h3 className="text-xl font-semibold mb-2">
+              Check Your Email to Verify
+            </h3>
+            <p className="mb-6">
+              We have sent a verification email to you. Check your inbox and
+              click on the verification link.
+            </p>
+            <div className="animate-pulse">
+              <p className="text-sm text-gray-500">
+                This window will close automatically.
+              </p>
             </div>
           </div>
         </div>

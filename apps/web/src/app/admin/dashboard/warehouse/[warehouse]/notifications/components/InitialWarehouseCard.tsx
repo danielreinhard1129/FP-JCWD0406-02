@@ -38,36 +38,30 @@ interface InitialWarehouseCardProps {
 const InitialWarehouseCard: React.FC<InitialWarehouseCardProps> = ({
   mutation,
 }) => {
-  // Function to handle accept action
   const handleAccept = async () => {
     try {
       await axios.patch(
         `${baseUrl}/warehouses/update-status-stock/${mutation.id}`,
         {
-          status: 'CONFIRM', // Update status to CONFIRM when accepted
+          status: 'CONFIRM',
         },
       );
       toast.success('Stock movement has been Confirmed');
-      // Implement any UI update or notification upon successful acceptance
     } catch (error) {
-      // Handle error
       console.error('Error accepting stock mutation:', error);
     }
   };
 
-  // Function to handle reject action
   const handleReject = async () => {
     try {
       await axios.patch(
         `${baseUrl}/warehouses/update-status-stock/${mutation.id}`,
         {
-          status: 'CANCELLED', // Update status to CANCELLED when rejected
+          status: 'CANCELLED',
         },
       );
       toast.error('Stock movement has been cancelled');
-      // Implement any UI update or notification upon successful rejection
     } catch (error) {
-      // Handle error
       console.error('Error rejecting stock mutation:', error);
     }
   };

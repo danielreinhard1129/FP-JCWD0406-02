@@ -119,7 +119,9 @@ const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
               </div>
               <div className="flex justify-between items-center md:items-start md:col-span-1">
                 <span className="font-semibold text-gray-700">Password:</span>
-                <ChangePasswordConfirmSendEmail />
+                <div className="self-center">
+                  <ChangePasswordConfirmSendEmail />
+                </div>
               </div>
               <div className="flex justify-between items-start md:col-span-1">
                 <span className="font-semibold text-gray-700">Email:</span>
