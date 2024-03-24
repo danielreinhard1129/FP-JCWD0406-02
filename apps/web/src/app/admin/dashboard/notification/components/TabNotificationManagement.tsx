@@ -29,7 +29,8 @@ enum NotificationStatus {
 }
 const TabsNotificationManagement: React.FC<{
   reqStocks: IReqStock[];
-}> = ({ reqStocks }) => {
+  fetchData: () => void;
+}> = ({ reqStocks, fetchData }) => {
   const [activeTab, setActiveTab] = useState<NotificationStatus>(
     NotificationStatus.ALL,
   );
@@ -65,7 +66,11 @@ const TabsNotificationManagement: React.FC<{
       </div>
       <div className="space-y-4">
         {notificationsToShow.map((reqStock) => (
-          <ReqStockCard key={reqStock.id} reqStock={reqStock} />
+          <ReqStockCard
+            key={reqStock.id}
+            reqStock={reqStock}
+            fetchData={fetchData}
+          />
         ))}
       </div>
     </div>

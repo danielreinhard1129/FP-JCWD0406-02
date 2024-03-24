@@ -23,7 +23,10 @@ interface IReqStock {
   status: string;
 }
 
-const ReqStockCard: React.FC<{ reqStock: IReqStock }> = ({ reqStock }) => {
+const ReqStockCard: React.FC<{
+  reqStock: IReqStock;
+  fetchData: () => void;
+}> = ({ reqStock, fetchData }) => {
   const handleAccept = async () => {
     try {
       const response = await axios.patch(
@@ -32,6 +35,7 @@ const ReqStockCard: React.FC<{ reqStock: IReqStock }> = ({ reqStock }) => {
           status: 'CONFIRM',
         },
       );
+      fetchData();
       toast.success('Request approved');
     } catch (error) {
       console.log(error);
@@ -46,6 +50,7 @@ const ReqStockCard: React.FC<{ reqStock: IReqStock }> = ({ reqStock }) => {
           status: 'CANCELLED',
         },
       );
+      fetchData();
       toast.error('Request denied');
     } catch (error) {}
   };

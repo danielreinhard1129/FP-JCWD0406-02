@@ -34,6 +34,7 @@ import { journalStockReportFixAction } from '@/actions/stockReport/journalStockR
 import { getWarehouseByUserIdAction } from '@/actions/warehouse/warehouse/getWarehouseByUserIdAction';
 import { updateReqStockStatusAction } from '@/actions/superAdmin/updateReqStockStatusAction';
 import { getReqStockByWarehouseIdAction } from '@/actions/warehouse/admin/getReqStockByWarehouseIdAction';
+import { deleteWarehouseAction } from '@/actions/warehouse/warehouse/deleteWarehouseAction';
 
 export class WarehouseController {
   async getProducts(req: Request, res: Response, next: NextFunction) {
@@ -512,6 +513,16 @@ export class WarehouseController {
 
       const reqStock = await getReqStockByWarehouseIdAction(Number(id));
       res.status(200).send(reqStock);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async deleteWarehouse(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const warehouse = await deleteWarehouseAction(Number(id));
+      res.status(200).send(warehouse);
     } catch (error) {
       next(error);
     }

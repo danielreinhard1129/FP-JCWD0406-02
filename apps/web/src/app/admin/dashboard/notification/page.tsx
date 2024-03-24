@@ -58,7 +58,10 @@ const NotificationSuperAdmin = () => {
       <AdminSidebar />
       <div className="w-full space-y-2">
         <HeaderNotificationSuperAdmin />
-        <TabsNotificationManagement reqStocks={requestStock} />
+        <TabsNotificationManagement
+          reqStocks={requestStock}
+          fetchData={fetchData}
+        />
       </div>
     </div>
   );

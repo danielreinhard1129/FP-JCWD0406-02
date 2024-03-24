@@ -118,6 +118,10 @@ export class WarehouseRouter {
       '/req-stock-warehouse/:id',
       this.warehouseController.getReqStockByWarehouseId,
     );
+    this.router.delete(
+      '/delete-warehouse/:id',
+      this.warehouseController.deleteWarehouse,
+    );
   }
 
   getRouter(): Router {
