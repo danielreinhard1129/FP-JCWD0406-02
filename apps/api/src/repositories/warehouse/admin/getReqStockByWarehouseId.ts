@@ -9,6 +9,9 @@ export const getReqStockByWarehouseId = async (warehouseId: number) => {
       orderBy: {
         createdAt: 'desc',
       },
+      include: {
+        product: true,
+      },
     });
     return reqStock;
   } catch (error) {

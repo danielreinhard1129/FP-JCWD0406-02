@@ -72,7 +72,7 @@ const InitialWarehouseCard: React.FC<InitialWarehouseCardProps> = ({
   };
 
   return (
-    <div className=" overflow-hidden shadow-sm space-y-1 border px-4 rounded-xl py-2">
+    <div className=" overflow-hidden shadow-sm space-y-1 border-l-8 border-teal-500 px-4 rounded-lg py-2">
       <h3 className="text-sm text-teal-600 font-normal">Request Stock from</h3>
       <div>
         <div className=" text-gray-900 flex justify-between">

@@ -7,7 +7,7 @@ const HeaderWarehouseStatus: React.FC = () => {
   const router = useRouter();
 
   const goBack = () => {
-    router.back(); // This will take you back to the previous page
+    router.back();
   };
 
   return (

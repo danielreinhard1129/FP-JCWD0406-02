@@ -50,7 +50,7 @@ const ReqStockCard: React.FC<{ reqStock: IReqStock }> = ({ reqStock }) => {
     } catch (error) {}
   };
   return (
-    <div className="bg-white rounded-lg shadow px-4 py-2 border-l-4 border-teal-500 space-y-2">
+    <div className="bg-white rounded-lg shadow px-4 py-2 border-l-8 border-teal-500 space-y-2">
       <div className="flex justify-between">
         <div>
           <h2 className="text-md font-bold text-teal-700">Request Stock</h2>
