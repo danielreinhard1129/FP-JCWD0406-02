@@ -1,6 +1,9 @@
 import React from 'react';
 import HeaderWarehouseStatistic from './components/HeaderWarehouseStatistic';
 import AdminSidebar from '@/app/admin/components/SidebarDashboard';
+import SalesPickerByWarehouse from './components/SalesPickerByWarehouse';
+import SalesPickerCategoryWarehouse from './components/SalesPickerCategoryWarehouse';
+import SalesPickerProductWarehouse from './components/SalesPickerProductWarehouse';
 
 const WarehouseStatistic = () => {
   return (
@@ -8,7 +11,9 @@ const WarehouseStatistic = () => {
       <AdminSidebar />
       <div className="w-full space-y-10">
         <HeaderWarehouseStatistic />
-        <h1>INI BGAIAN STATISTIC</h1>
+        <SalesPickerByWarehouse />
+        <SalesPickerCategoryWarehouse />
+        <SalesPickerProductWarehouse />
       </div>
     </div>
   );

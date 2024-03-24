@@ -8,7 +8,6 @@ import StockCreationModal from './CreateStock';
 import { PiArchiveBoxBold, PiHandCoinsBold } from 'react-icons/pi';
 import { fetchAllProducts } from '@/app/utils/helper/fetchAllProduct';
 import RequestStockModal from './RequestStock';
-import { promises } from 'dns';
 
 interface ProductPhoto {
   id: number;
@@ -44,7 +43,7 @@ const CardAllProductWarehouse: React.FC<CardProductManagementProps> = ({
   refreshWarehouse,
   getWarehouseDetails,
 }) => {
-  // console.log('this is data stock : ', allStock);
+  console.log('this is data stock : ', productsData);
 
   const [openDropdowns, setOpenDropdowns] = useState<number[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -86,7 +85,7 @@ const CardAllProductWarehouse: React.FC<CardProductManagementProps> = ({
     <div className="bg-white w-full">
       <div className="mx-auto">
         <div className="mt-4 flex flex-col gap-2">
-          {productsData.map((product) => {
+          {productsData?.map((product) => {
             const stockItem = allStock.find(
               (item) => item.productId === product.id,
             );

@@ -54,7 +54,7 @@ const TabsNotificationManagement: React.FC<{
           <button
             key={status}
             onClick={() => setActiveTab(status)}
-            className={`whitespace-nowrap px-4 py-2 rounded-lg text-sm font-medium border transition-colors duration-300 ${
+            className={`whitespace-nowrap px-4 py-1 rounded-lg text-xs font-medium border transition-colors duration-300 ${
               activeTab === status
                 ? 'bg-teal-500 text-white border-transparent'
                 : 'text-teal-600 bg-white border-teal-300 hover:bg-teal-50'
