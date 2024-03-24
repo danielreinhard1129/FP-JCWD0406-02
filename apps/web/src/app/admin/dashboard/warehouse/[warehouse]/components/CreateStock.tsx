@@ -1,6 +1,6 @@
 // StockCreationModal.tsx
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { baseUrl } from '@/app/utils/database';
 import { toast } from 'sonner';
@@ -45,6 +45,14 @@ const StockCreationModal: React.FC<StockCreationModalProps> = ({
       }
     }
   };
+
+  const fetchRefresh = async () => {
+    await getWarehouseDetails();
+  };
+
+  useEffect(() => {
+    fetchRefresh();
+  }, []);
 
   return (
     <div
