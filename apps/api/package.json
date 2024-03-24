@@ -5,7 +5,8 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "cross-env NODE_ENV=development ts-node-dev -r tsconfig-paths/register --files src/index.ts",
-    "build": "tsc && tsc-alias",
+    "build": "tsc && tsc-alias && npm run copy-templates",
+    "copy-templates": "cpx \"./src/templates/**/*\" ./dist/templates",
     "serve": "cross-env NODE_ENV=production node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prisma": "npx prisma"
@@ -19,6 +20,7 @@
     "bcrypt": "^5.1.1",
     "core-util-is": "^1.0.3",
     "cors": "^2.8.5",
+    "cpx": "^1.5.0",
     "cross-env": "^7.0.3",
     "date-fns": "^3.3.0",
     "dotenv": "^16.3.1",
