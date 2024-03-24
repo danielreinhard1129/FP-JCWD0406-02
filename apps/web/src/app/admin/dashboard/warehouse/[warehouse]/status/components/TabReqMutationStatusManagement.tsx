@@ -64,7 +64,7 @@ const TabReqMutationStatusManagement: React.FC<StatusTabsProps> = ({
           </button>
         ))}
       </div>
-      <div className="space-y-4">
+      <div className="space-y-2">
         {filteredDataReqStock.map((reqStock) => (
           <CardReqStockStatusDestination key={reqStock.id} data={reqStock} />
         ))}

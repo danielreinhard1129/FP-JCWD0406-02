@@ -8,6 +8,8 @@ import ModalNonAsignAdmin from './ModalNonAsignAdmin';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
 import { toast } from 'sonner';
+import UnSetAdmin from './UnsetAdminWarehouse';
+import { PiUserSwitch } from 'react-icons/pi';
 
 interface IRole {
   id: number;
@@ -53,35 +55,46 @@ const AdminIdentityCard: React.FC<AdminIdentityCardProps> = ({
   return (
     <div>
       {admin ? (
-        <div
-          className="relative flex items-center cursor-pointer h-40 bg-white shadow-md rounded-xl pr-4"
-          onClick={openModal}
-        >
-          <div className="relative w-40 h-40 overflow-hidden rounded-l-xl">
-            <Image
-              src={
-                admin?.profile_picture
-                  ? `${baseUrll}/photo-profile/${admin.profile_picture}`
-                  : '/default-avatar.png'
-              }
-              alt="Admin"
-              fill
-              objectFit="cover"
-              className="rounded-l-xl"
-            />
-          </div>
-          <div className="pl-4 flex flex-col justify-between flex-grow">
-            <div className="gap-2 items-center">
-              <h2 className="text-lg font-medium">{`${admin.first_name} ${admin.last_name}`}</h2>
-              <p className="text-sm text-gray-500">{admin.Role?.role_name}</p>
+        <div className="relative group">
+          <div className="relative flex items-center cursor-pointer h-40 bg-white shadow-md rounded-xl pr-4">
+            <div className="relative w-40 h-40 overflow-hidden rounded-l-xl">
+              <Image
+                src={
+                  admin?.profile_picture
+                    ? `${baseUrll}/photo-profile/${admin.profile_picture}`
+                    : '/default-avatar.png'
+                }
+                alt="Admin"
+                fill
+                objectFit="cover"
+                className="rounded-l-xl"
+                onClick={openModal}
+              />
             </div>
-            <div className="flex items-center text-sm text-gray-600 mt-2">
-              <FaEnvelope className="mr-2" />
-              {admin.email}
-            </div>
-            <div className="flex items-center text-sm text-gray-600 mt-1">
-              <FaPhone className="mr-2" />
-              {admin.contact}
+            {roleId === 1 ? (
+              <div className="absolute right-2 top-1 flex items-center space-x-2">
+                <UnSetAdmin
+                  onSuccess={refreshWarehouse}
+                  warehouseId={warehouseData}
+                />
+              </div>
+            ) : null}
+            <div
+              className="pl-4 flex flex-col justify-between flex-grow"
+              onClick={openModal}
+            >
+              <div className="gap-2 items-center">
+                <h2 className="text-lg font-medium">{`${admin.first_name} ${admin.last_name}`}</h2>
+                <p className="text-sm text-gray-500">{admin.Role?.role_name}</p>
+              </div>
+              <div className="flex items-center text-sm text-gray-600 mt-2">
+                <FaEnvelope className="mr-2" />
+                {admin.email}
+              </div>
+              <div className="flex items-center text-sm text-gray-600 mt-1">
+                <FaPhone className="mr-2" />
+                {admin.contact}
+              </div>
             </div>
           </div>
         </div>
@@ -91,7 +104,7 @@ const AdminIdentityCard: React.FC<AdminIdentityCardProps> = ({
           onClick={openModal}
         >
           <div className="p-4 relative flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-            <FaUserCircle className="text-gray-300 h-16 w-16 md:h-16 md:w-16 " />
+            <PiUserSwitch className="text-gray-300 h-16 w-16 md:h-16 md:w-16 " />
             <p className="text-xs text-gray-500 mt-1 text-center p-1">
               There is no Admin In this warehouse. Set one to manage.
             </p>

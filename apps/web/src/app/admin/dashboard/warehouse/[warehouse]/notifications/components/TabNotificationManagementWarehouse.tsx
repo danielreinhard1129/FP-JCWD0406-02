@@ -75,7 +75,7 @@ const TabsNotificationManagementWarehouse: React.FC<
           </button>
         ))}
       </div>
-      <div className="space-y-4">
+      <div className="space-y-2">
         {getNotificationsByStatus(activeTab).map((notification) => (
           <InitialWarehouseCard key={notification.id} mutation={notification} />
         ))}
