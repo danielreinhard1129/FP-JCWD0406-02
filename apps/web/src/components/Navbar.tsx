@@ -163,7 +163,7 @@ export const Navbar = () => {
   return (
     <header className="bg-white sticky top-0 z-50">
       {showLoginAlert && (
-        <div className="fixed top-10 left-6 z-50">
+        <div className="fixed top-10 md:left-6 z-50">
           <Alert
             color="warning"
             icon={HiInformationCircle}
@@ -175,7 +175,7 @@ export const Navbar = () => {
         </div>
       )}
       {showVerificationAlert && (
-        <div className="max-w-7xl mx-auto fixed top-16 left-6 z-50">
+        <div className="max-w-7xl mx-auto fixed top-16 md:left-6 z-50">
           <Alert
             color="warning"
             icon={HiInformationCircle}

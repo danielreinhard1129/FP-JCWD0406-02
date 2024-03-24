@@ -31,6 +31,8 @@ interface CartItem {
 
 const CartPage: React.FC = () => {
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+  const user = useSelector((state: RootState) => state.user);
+  const userId = user.id;
   const router = useRouter();
   const dispatch = useDispatch();
   const formatPrice = (price: number) => {
@@ -87,6 +89,7 @@ const CartPage: React.FC = () => {
       total + item.Product.price * item.quantity,
     0,
   );
+
   return (
     <div className="min-h-screen max-w-5xl mx-auto px-4">
       <div className="container mx-auto md:py-8 py-4">

@@ -8,11 +8,11 @@ import { useRouter } from 'next/navigation';
 const LoginPage = () => {
   const user = useAppSelector((state) => state.user);
   const router = useRouter();
-  useEffect(() => {
-    if (user?.id) {
-      router.push('/');
-    }
-  });
+  // useEffect(() => {
+  //   if (user?.id) {
+  //     router.push('/');
+  //   }
+  // });
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="w-full max-w-md px-4">

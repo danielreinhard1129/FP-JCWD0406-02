@@ -8,6 +8,7 @@ import ProfilePageComp from './components/ProfilePageComp';
 import Sidebar from './components/SideBar';
 import { NotLoginGuard } from '@/components/protected-route/components/NotLoginGuard';
 import isAuth from '@/components/isAuth';
+import { useRouter } from 'next/navigation';
 
 export interface IUser {
   user: any;
@@ -29,7 +30,7 @@ export interface IUser {
 
 const ProfilePage: React.FC = () => {
   const userId = useSelector((state: IUser) => state.user.id);
-
+  const router = useRouter();
   const [userData, setUserData] = useState<Partial<IUser> | null>(null);
 
   const getDataUser = useCallback(async () => {
@@ -39,11 +40,17 @@ const ProfilePage: React.FC = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [userId]); // Dependencies for useCallback
+  }, [userId]);
 
   useEffect(() => {
     getDataUser();
   }, [getDataUser]); //
+
+  useEffect(() => {
+    if (!userId) {
+      router.push('/');
+    }
+  });
 
   const refreshProfile = async () => {
     getDataUser();
@@ -64,4 +71,4 @@ const ProfilePage: React.FC = () => {
   );
 };
 
-export default NotLoginGuard(ProfilePage);
+export default ProfilePage;

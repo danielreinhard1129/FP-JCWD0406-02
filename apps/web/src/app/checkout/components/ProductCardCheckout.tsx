@@ -13,7 +13,7 @@ const ProductCardCheckout: React.FC = () => {
       {cartItems.map((item, index) => (
         <div
           key={index}
-          className="flex justify-between items-center border-b pb-1 mb-2"
+          className="flex justify-between items-center border-t pb-1 mb-2"
         >
           <div className="flex items-center">
             <div className=" relative w-[40px] h-[40px]">

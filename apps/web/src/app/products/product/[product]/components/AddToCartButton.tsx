@@ -3,11 +3,11 @@ import axios from 'axios';
 import { baseUrl } from '@/app/utils/database';
 import { useSelector } from 'react-redux';
 import { toast } from 'sonner';
-// Import your authentication context or another method of retrieving the user ID
-// import { AuthContext } from 'path/to/your/context';
+import Link from 'next/link';
+import { UserAuth } from '@/app/utils/context/authContext';
 
 interface AddToCartButtonProps {
-  productId: number; // Assuming you will pass productId as prop
+  productId: number;
   productName: string;
   category: string;
   price: number;
@@ -23,6 +23,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
 }) => {
   const [quantity, setQuantity] = useState(1);
   const userId = useSelector((state: any) => state.user.id);
+  const { userGoogle } = UserAuth();
   console.log(totalStock);
 
   const decrementQuantity = () => {
@@ -104,17 +105,28 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
         </div>
       </div>
 
-      <button
-        disabled={totalStock === 0}
-        onClick={handleAddToCart}
-        className={`w-full py-2 rounded-lg transform transition-all hover:scale-105 duration-300 ${
-          totalStock === 0
-            ? 'bg-gray-200 text-gray-500 cursor-not-allowed' // Change color to light grey when disabled
-            : 'bg-teal-600 text-white'
-        }`}
-      >
-        ADD TO CART
-      </button>
+      {userId || userGoogle ? (
+        <button
+          disabled={totalStock === 0}
+          onClick={handleAddToCart}
+          className={`w-full py-2 rounded-lg transform transition-all hover:scale-105 duration-300 ${
+            totalStock === 0
+              ? 'bg-gray-200 text-gray-500 cursor-not-allowed' // Change color to light grey when disabled
+              : 'bg-teal-600 text-white'
+          }`}
+        >
+          ADD TO CART
+        </button>
+      ) : (
+        <button className="w-full py-2 bg-teal-600 rounded-lg transform transition-all hover:scale-105 duration-300">
+          <Link
+            href="/login"
+            className="text-sm font-semibold leading-6 text-gray-900 "
+          >
+            <span className="block text-sm text-white">LOGIN</span>
+          </Link>
+        </button>
+      )}
     </div>
   );
 };
