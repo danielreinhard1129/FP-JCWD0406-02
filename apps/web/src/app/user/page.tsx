@@ -57,8 +57,8 @@ const ProfilePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex max-w-7xl flex-col mb-20 md:mb-0 lg:flex-row gap-4 mx-auto px-4 lg:px-8 mt-8">
-      <div className="w-full lg:w-1/4 xl:w-1/5">
+    <div className="min-h-screen flex max-w-7xl flex-col mb-20 md:mb-0 lg:flex-row gap-4 mx-auto px-4 lg:px-8 md:mt-8">
+      <div className="lg:w-1/4 xl:w-1/5">
         <Sidebar />
       </div>
       <div className="flex-1 space-y-4">
