@@ -2,7 +2,7 @@
 import { baseUrll } from '@/app/utils/database';
 import { IStock } from '@/types/warehouse.types';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaCaretDown, FaEdit } from 'react-icons/fa';
 import StockCreationModal from './CreateStock';
 import { PiArchiveBoxBold, PiHandCoinsBold } from 'react-icons/pi';
@@ -80,6 +80,13 @@ const CardAllProductWarehouse: React.FC<CardProductManagementProps> = ({
     setIsRequestStockModalOpen(false);
     setSelectedProductId(null);
   };
+
+  const refreshData = async () => {
+    await getWarehouseDetails();
+  };
+  useEffect(() => {
+    refreshData();
+  }, []);
 
   return (
     <div className="bg-white w-full">
