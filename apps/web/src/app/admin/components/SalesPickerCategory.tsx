@@ -50,9 +50,17 @@ interface CategoryChartData {
 const SalesPickerCategory = () => {
   const [salesReport, setSalesReport] = useState<any>([]);
   const [chartData, setChartData] = useState<CategoryChartData[]>([]);
-  const [selectedCategoryId, setSelectedCategoryId] = useState('');
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>('4');
+  const [startDate, setStartDate] = useState<Date>(() => {
+    const today = new Date();
+    const oneMonthAgo = new Date(
+      today.getFullYear(),
+      today.getMonth() - 1,
+      today.getDate(),
+    );
+    return oneMonthAgo;
+  });
+  const [endDate, setEndDate] = useState<Date>(() => new Date());
 
   useEffect(() => {
     const salesReportByCategory = async () => {

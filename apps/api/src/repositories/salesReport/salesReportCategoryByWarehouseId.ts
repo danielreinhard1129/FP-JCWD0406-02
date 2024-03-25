@@ -38,6 +38,7 @@ export const salesReportCategoryByWarehouseId = async (
         },
       },
     });
+    return salesReportCategory;
   } catch (error) {
     throw error;
   }

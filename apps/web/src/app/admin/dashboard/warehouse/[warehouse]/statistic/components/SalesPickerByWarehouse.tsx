@@ -60,8 +60,16 @@ const SalesPickerByWarehouse = () => {
   const [selectedWarehouse, setSelectedWarehouse] = useState<number | null>(
     null,
   );
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [startDate, setStartDate] = useState<Date>(() => {
+    const today = new Date();
+    const oneMonthAgo = new Date(
+      today.getFullYear(),
+      today.getMonth() - 1,
+      today.getDate(),
+    );
+    return oneMonthAgo;
+  });
+  const [endDate, setEndDate] = useState<Date>(() => new Date());
 
   useEffect(() => {
     const warehouseId = Number(params.warehouse);
@@ -105,24 +113,10 @@ const SalesPickerByWarehouse = () => {
   };
 
   useEffect(() => {
-    if (salesReport.length > 0) {
+    if (salesReport?.length > 0) {
       processChartData(salesReport);
     }
   }, [salesReport]);
-
-  const salesReportAllWarehouse = async () => {
-    try {
-      const response = await axios.get(
-        `${baseUrl}/transactions/sales-report?start=${startDate}&end=${endDate}`,
-      );
-
-      console.log(response.data);
-
-      setSalesReport(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <div className="space-y-2">

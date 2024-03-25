@@ -14,6 +14,7 @@ import {
   YAxis,
 } from 'recharts';
 import ProductSelect from '../../../components/ProductSelect';
+import { useParams } from 'next/navigation';
 
 interface Transaction {
   createdAt: string;
@@ -46,15 +47,25 @@ interface ProductChartData {
 const SalesPickerProductWarehouse = () => {
   const [salesReport, setSalesReport] = useState<Product[]>([]);
   const [chartData, setChartData] = useState<ProductChartData[]>([]);
-  const [selectedProduct, setSelectedProduct] = useState<number | null>(null);
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<number | null>(37);
+  const [startDate, setStartDate] = useState<Date>(() => {
+    const today = new Date();
+    const oneMonthAgo = new Date(
+      today.getFullYear(),
+      today.getMonth() - 1,
+      today.getDate(),
+    );
+    return oneMonthAgo;
+  });
+  const [endDate, setEndDate] = useState<Date>(() => new Date());
+  const params = useParams();
+  const warehouseId = params.warehouse;
 
   useEffect(() => {
     const salesReportByProduct = async () => {
       try {
         const response = await axios.get(
-          `${baseUrl}/transactions/sales-report?productId=1&start=${startDate}&end=${endDate}`,
+          `${baseUrl}/transactions/sales-report-warehouse?productId=${selectedProduct}&warehouseId=${warehouseId}&start=${startDate}&end=${endDate}`,
         );
 
         console.log('product', response.data.data);
@@ -66,7 +77,7 @@ const SalesPickerProductWarehouse = () => {
     };
 
     salesReportByProduct();
-  }, [selectedProduct, startDate, endDate]);
+  }, [selectedProduct, warehouseId, startDate, endDate]);
 
   const processChartData = (products: Product[]) => {
     const processedData: ProductChartData[] = products.map((product) => {

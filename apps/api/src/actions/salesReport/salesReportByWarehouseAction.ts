@@ -10,19 +10,6 @@ export const salesReportByWarehouse = async (
   endDate: string,
 ) => {
   try {
-    if (warehouseId && startDate && endDate) {
-      const report = await salesReportByWarehouseId(
-        warehouseId,
-        startDate,
-        endDate,
-      );
-
-      return {
-        message: 'Sales report by warehouse Id',
-        data: report,
-      };
-    }
-
     if (categoryId && warehouseId && startDate && endDate) {
       const report = await salesReportCategoryByWarehouseId(
         categoryId,
@@ -46,6 +33,18 @@ export const salesReportByWarehouse = async (
 
       return {
         message: 'Sales report warehouse by ',
+        data: report,
+      };
+    }
+    if (warehouseId && startDate && endDate) {
+      const report = await salesReportByWarehouseId(
+        warehouseId,
+        startDate,
+        endDate,
+      );
+
+      return {
+        message: 'Sales report by warehouse Id',
         data: report,
       };
     }

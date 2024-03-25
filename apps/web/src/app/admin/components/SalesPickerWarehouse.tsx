@@ -52,11 +52,17 @@ interface ChartData {
 const SalesPickerNew = () => {
   const [salesReport, setSalesReport] = useState<Warehouse[]>([]);
   const [chartData, setChartData] = useState<ChartData[]>([]);
-  const [selectedWarehouse, setSelectedWarehouse] = useState<number | null>(
-    null,
-  );
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [selectedWarehouse, setSelectedWarehouse] = useState<number | null>(1);
+  const [startDate, setStartDate] = useState<Date>(() => {
+    const today = new Date();
+    const oneMonthAgo = new Date(
+      today.getFullYear(),
+      today.getMonth() - 1,
+      today.getDate(),
+    );
+    return oneMonthAgo;
+  });
+  const [endDate, setEndDate] = useState<Date>(() => new Date());
 
   useEffect(() => {
     const salesReportByWarehouse = async () => {
@@ -84,6 +90,7 @@ const SalesPickerNew = () => {
         { totalPrice: 0, shippingCost: 0 },
       );
 
+      console.log('check totals : ', totals);
       return {
         name: warehouse.name,
         totalPrice: totals.totalPrice,

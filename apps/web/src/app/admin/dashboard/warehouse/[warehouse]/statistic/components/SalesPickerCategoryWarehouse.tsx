@@ -3,6 +3,7 @@ import SelectOptionCategory from '@/app/admin/dashboard/category-management/comp
 import { baseUrl } from '@/app/utils/database';
 import axios from 'axios';
 import { Datepicker } from 'flowbite-react';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import {
   Bar,
@@ -48,17 +49,27 @@ interface CategoryChartData {
 }
 
 const SalesPickerCategoryWarehouse = () => {
+  const params = useParams();
   const [salesReport, setSalesReport] = useState<any>([]);
   const [chartData, setChartData] = useState<CategoryChartData[]>([]);
-  const [selectedCategoryId, setSelectedCategoryId] = useState('');
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [selectedCategoryId, setSelectedCategoryId] = useState('4');
+  const [startDate, setStartDate] = useState<Date>(() => {
+    const today = new Date();
+    const oneMonthAgo = new Date(
+      today.getFullYear(),
+      today.getMonth() - 1,
+      today.getDate(),
+    );
+    return oneMonthAgo;
+  });
+  const [endDate, setEndDate] = useState<Date>(() => new Date());
+  const warehouseId = params.warehouse;
 
   useEffect(() => {
     const salesReportByCategory = async () => {
       try {
         const response = await axios.get(
-          `${baseUrl}/transactions/sales-report?categoryId=${selectedCategoryId}&start=${startDate}&end=${endDate}`,
+          `${baseUrl}/transactions/sales-report-warehouse?categoryId=${selectedCategoryId}&warehouseId=${warehouseId}&start=${startDate}&end=${endDate}`,
         );
         console.log('response category', response.data.data);
 
@@ -69,7 +80,7 @@ const SalesPickerCategoryWarehouse = () => {
     };
 
     salesReportByCategory();
-  }, [selectedCategoryId, startDate, endDate]);
+  }, [selectedCategoryId, warehouseId, startDate, endDate]);
 
   const processChartData = (categories: Category[]) => {
     const processedData = categories.map((category) => {
