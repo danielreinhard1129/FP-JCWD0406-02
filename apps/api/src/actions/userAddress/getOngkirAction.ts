@@ -18,22 +18,20 @@ export const getOngkirAction = async (data: IOngkir) => {
       courier,
     );
 
-    // Make the POST request to the RajaOngkir API
     const response = await axios.post(
       `https://api.rajaongkir.com/starter/${endpoint}`,
       payload,
       {
         headers: {
-          key: '3aae682b2cc7df987792a5c9021016ed', // Your RajaOngkir API key
+          key: '3aae682b2cc7df987792a5c9021016ed',
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       },
     );
 
-    // Assuming the response structure you need is directly from the API response
     return {
       message: 'Success get Ongkir',
-      data: response.data, // Adjust according to the actual API response structure
+      data: response.data,
     };
   } catch (error) {
     throw error;

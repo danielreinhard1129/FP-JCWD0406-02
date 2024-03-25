@@ -6,7 +6,6 @@ import { toast } from 'sonner';
 interface IProduct {
   id: number;
   title: string;
-  // Add other fields as necessary
 }
 
 interface ProductSelectProps {

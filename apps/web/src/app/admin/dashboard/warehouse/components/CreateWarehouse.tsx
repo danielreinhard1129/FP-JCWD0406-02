@@ -25,7 +25,10 @@ const validationSchema = yup.object({
   village: yup.string().required('Village is required'),
 });
 
-const CreateWarehouseForm: React.FC = () => {
+interface CreateWarehouseProps {
+  onSuccess: () => Promise<void>;
+}
+const CreateWarehouseForm: React.FC<CreateWarehouseProps> = ({ onSuccess }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const formik = useFormik({
@@ -52,6 +55,7 @@ const CreateWarehouseForm: React.FC = () => {
           values,
         );
         console.log(response.data);
+        onSuccess;
         toast.success('Warehouse created successfully');
         setIsModalOpen(false); // Close modal on successful submission
         formik.resetForm(); // Reset form values

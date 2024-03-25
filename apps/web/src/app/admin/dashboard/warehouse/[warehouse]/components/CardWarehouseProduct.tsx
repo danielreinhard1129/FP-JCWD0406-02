@@ -5,7 +5,6 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { FaCaretDown, FaEdit, FaTrashAlt } from 'react-icons/fa';
 import UpdateStockModal from './UpdateStock';
-// import DeleteStockWarehouse from './DeleteStockWarehouse';
 
 interface ProductPhoto {
   id: number;
@@ -69,12 +68,6 @@ const CardWarehouseProduct: React.FC<CardProductManagementProps> = ({
     setSelectedProductForUpdate(null);
   };
 
-  // const handleDeleteClick = (product: IProduct) => {
-  //   setSelectedProductForDeletion(product); // Set the ID of the product to be deleted
-  //   setIsDeleteModalOpen(true); // Open the delete confirmation modal
-  //   toggleDropdown(product.id);
-  // };
-
   return (
     <div className="bg-white w-full">
       <div className="mx-auto">
@@ -128,13 +121,6 @@ const CardWarehouseProduct: React.FC<CardProductManagementProps> = ({
                           <FaEdit className="mr-2" />
                           <h5 className="text-xs w-full">Update Stock</h5>
                         </li>
-                        {/* <li
-                          className="px-4 py-2 w-full hover:bg-gray-100 cursor-pointer flex items-center"
-                          onClick={() => handleDeleteClick(product)}
-                        >
-                          <FaTrashAlt className="mr-2" />
-                          <h5 className="text-xs w-full">Delete Stock</h5>
-                        </li> */}
                       </div>
                     )}
                   </div>
@@ -152,16 +138,6 @@ const CardWarehouseProduct: React.FC<CardProductManagementProps> = ({
           onSuccess={refreshWarehouse}
         />
       )}
-
-      {/* {isDeleteModalOpen && selectedProductForDeletion && (
-        <DeleteStockWarehouse
-          stockId={selectedProductForDeletion.id}
-          onSuccess={() => {
-            refreshWarehouse(); // Refresh after successful deletion
-            setIsDeleteModalOpen(false); // Close the modal
-          }}
-        />
-      )} */}
     </div>
   );
 };

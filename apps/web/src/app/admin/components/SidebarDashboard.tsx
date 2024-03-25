@@ -44,6 +44,8 @@ const AdminSidebar: React.FC = () => {
     setIsSidebarExpanded(!isSidebarExpanded);
   };
 
+  console.log(user);
+
   return (
     <div className="w-60 min-h-screen bg-white text-gray-800 flex flex-col shadow">
       {/* Admin Profile */}

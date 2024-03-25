@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
+import ConfirmDeleteWarehouse from './DeleteWarehouse';
 
 interface Warehouse {
   id: number;
@@ -17,12 +18,12 @@ interface Warehouse {
 
 interface WarehouseCardProps {
   warehouseData: Warehouse[];
-  refreshWarehousePage: () => void;
+  getWarehouses: () => Promise<void>;
 }
 
-export const WarehouseCard: React.FC<WarehouseCardProps> = ({
+const WarehouseCard: React.FC<WarehouseCardProps> = ({
   warehouseData,
-  refreshWarehousePage,
+  getWarehouses,
 }) => {
   return (
     <div>
@@ -30,8 +31,14 @@ export const WarehouseCard: React.FC<WarehouseCardProps> = ({
         {warehouseData.map((warehouse) => (
           <div
             key={warehouse.id}
-            className=" bg-amber-100 rounded-lg shadow-md overflow-hidden m-4 border-l-8 border-teal-500"
+            className=" relative bg-amber-100 rounded-lg shadow-md overflow-hidden m-4 border-l-8 border-teal-500"
           >
+            <div className="absolute right-2 top-1 flex items-center space-x-2">
+              <ConfirmDeleteWarehouse
+                warehouseId={warehouse.id}
+                onSuccess={getWarehouses}
+              />
+            </div>
             <Link href={`/admin/dashboard/warehouse/${warehouse.id}`}>
               <div className="p-4">
                 <h3 className="text-lg font-semibold">{warehouse.name}</h3>
@@ -51,3 +58,5 @@ export const WarehouseCard: React.FC<WarehouseCardProps> = ({
     </div>
   );
 };
+
+export default WarehouseCard;
