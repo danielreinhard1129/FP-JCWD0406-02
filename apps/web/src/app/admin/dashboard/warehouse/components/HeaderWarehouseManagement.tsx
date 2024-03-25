@@ -16,7 +16,13 @@ export interface IUser {
   roleId: number;
 }
 
-const HeaderWarehouseManagement: React.FC = () => {
+interface CreateWarehouseProps {
+  getWarehouses: () => Promise<void>;
+}
+
+const HeaderWarehouseManagement: React.FC<CreateWarehouseProps> = ({
+  getWarehouses,
+}) => {
   const user = useSelector((state: IUser) => state.user);
 
   return (
@@ -26,7 +32,7 @@ const HeaderWarehouseManagement: React.FC = () => {
       </h1>
       {user.roleId === 1 ? (
         <div className="flex items-center">
-          <CreateWarehouseForm />
+          <CreateWarehouseForm onSuccess={getWarehouses} />
         </div>
       ) : null}
     </div>

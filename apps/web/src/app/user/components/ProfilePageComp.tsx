@@ -1,11 +1,12 @@
 'use client';
 
 import { UserAuth } from '@/app/utils/context/authContext';
-import { baseUrl } from '@/app/utils/database';
+import { baseUrl, baseUrll } from '@/app/utils/database';
 import axios, { AxiosError } from 'axios';
 import { FileInput, Label } from 'flowbite-react';
 import { ChangeEvent, useState } from 'react';
-import { FaCamera, FaUserCircle } from 'react-icons/fa';
+import { FaCamera, FaEdit, FaUserCircle } from 'react-icons/fa';
+import { RiVerifiedBadgeFill } from 'react-icons/ri';
 import { toast } from 'sonner';
 import EditProfileComp from './EditProfile';
 import ModalChangeEmail from './ModalChangeEmail';
@@ -13,6 +14,7 @@ import SendEmailVerifyButton from './SendEmailVerifyButton';
 import { logoutAction } from '@/lib/features/userSlice';
 import { useDispatch } from 'react-redux';
 import ChangePasswordConfirmSendEmail from './ChangePasswordConfirmSendEmail';
+import Image from 'next/image';
 
 interface IUser {
   data: any;
@@ -97,61 +99,113 @@ const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
           <EditProfileComp user={dataUser} onSuccess={onSuccess} />
         </div>
       </div>
-      <div className="flex w-full ">
-        <div className="flex-1">
-          <div className="grid md:grid-cols-2 ">
-            <div className="flex flex-col space-y-4 md:space-y-0 md:grid md:grid-cols-1 md:gap-4 md:gap-x-20 px-4 md:px-10">
-              <div className="flex justify-between items-center md:items-start md:col-span-1">
-                <span className="font-semibold text-gray-700">First Name:</span>
-                <span>{dataUser?.first_name}</span>
-              </div>
-              <div className="flex justify-between items-center md:items-start md:col-span-1">
-                <span className="font-semibold text-gray-700">Last Name:</span>
-                <span>{dataUser?.last_name}</span>
-              </div>
-              <div className="flex justify-between items-center md:items-start md:col-span-1">
-                <span className="font-semibold text-gray-700">Username:</span>
-                <span>{dataUser?.username || userGoogle?.displayName}</span>
-              </div>
-              <div className="flex justify-between items-center md:items-start md:col-span-1">
-                <span className="font-semibold text-gray-700">Contact:</span>
-                <span>{dataUser?.contact || userGoogle?.contact}</span>
-              </div>
-              <div className="flex justify-between items-center md:items-start md:col-span-1">
-                <span className="font-semibold text-gray-700">Password:</span>
-                <div className="self-center">
-                  <ChangePasswordConfirmSendEmail />
-                </div>
-              </div>
-              <div className="flex justify-between items-start md:col-span-1">
-                <span className="font-semibold text-gray-700">Email:</span>
-                <div className="flex flex-col items-end">
-                  <span>{dataUser?.email || userGoogle?.email}</span>
-                  <ModalChangeEmail user={dataUser} onSuccess={onSuccess} />
-                </div>
-              </div>
-
-              <div className="flex justify-between items-start md:col-span-1">
-                <span className="font-semibold text-gray-700">Status:</span>
-                <div className="flex flex-col items-end ">
-                  <span
-                    className={
-                      dataUser.isVerified
-                        ? 'text-green-500 font-bold'
-                        : 'text-red-500'
+      <div className="md:px-6 ">
+        <div className="">
+          <div className="md:flex items-center gap-5">
+            <div className="flex flex-col items-center mb-6">
+              {/* Profile icon */}
+              <div className="relative group cursor-pointer">
+                <label
+                  htmlFor="file-upload"
+                  className="rounded-full overflow-hidden w-44 h-44 block"
+                >
+                  <Image
+                    src={
+                      dataUser?.profile_picture
+                        ? `${baseUrll}/photo-profile/${dataUser.profile_picture}`
+                        : '/default-avatar.png'
                     }
-                  >
-                    {dataUser.isVerified ? 'Verified' : 'Not Verified'}
-                  </span>
-                  {/* <VerificationEmail /> */}
-                  {!dataUser.isVerified && (
-                    <SendEmailVerifyButton user={dataUser} />
-                  )}
-                </div>
+                    alt="Profile Picture"
+                    width={200}
+                    height={200}
+                    className="object-cover"
+                  />
+                  <div className="cursor-pointer absolute inset-0 rounded-full flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50">
+                    <FaEdit className="text-white text-xl" />
+                  </div>
+                </label>
+                <input
+                  id="file-upload"
+                  name="file"
+                  type="file"
+                  className="hidden"
+                  onChange={onChangeFile}
+                  accept=".jpg, .jpeg, .png"
+                />
               </div>
             </div>
+            <div className="mb-6 px-4">
+              <div className="flex gap-3 text-4xl font-bold flex-wrap items-center">
+                <span>{dataUser?.first_name}</span>
+                <span>{dataUser?.last_name}</span>
+                {dataUser?.isVerified && (
+                  <span className="shrink-0 self-center">
+                    <RiVerifiedBadgeFill className="text-teal-500 inline-block" />
+                  </span>
+                )}
+              </div>
+              <div className="text-lg md:text-xl lg:text-2xl font-medium">
+                <span>@{dataUser?.username || userGoogle?.displayName}</span>
+              </div>
+            </div>
+          </div>
+          <div className="space-y-4 p-4 border-4 rounded-xl border-slate-200">
+            <h1 className="text-lg font-bold border-b-2">
+              Personal Information
+            </h1>
+
+            {/* Contact & Email Section */}
+            <div className="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-4">
+              <div className="col-span-1 text-xs md:text-base font-semibold text-gray-500">
+                Contact :
+              </div>
+              <div className="md:col-span-2 font-semibold ">
+                {dataUser?.contact || userGoogle?.contact}
+              </div>
+
+              <div className="col-span-1 text-xs md:text-base font-semibold text-gray-500">
+                Email :
+              </div>
+              <div className="md:col-span-2 font-semibold flex justify-between items-center">
+                <span>{dataUser?.email || userGoogle?.email}</span>
+                <ModalChangeEmail user={dataUser} onSuccess={onSuccess} />
+              </div>
+            </div>
+
+            {/* Password Section */}
+            <div className="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-4 my-4 items-center">
+              <div className="col-span-1 text-xs md:text-base font-semibold text-gray-500">
+                Password :
+              </div>
+              <div className="md:col-span-2 font-semibold flex justify-between items-center">
+                <span>**************</span>
+                <ChangePasswordConfirmSendEmail />
+              </div>
+            </div>
+
+            {/* Status Section */}
+            <div className="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-4 my-4 items-center">
+              <div className="col-span-1 font-semibold text-xs md:text-base text-gray-500">
+                Status :
+              </div>
+              <div className="md:col-span-2 flex justify-between items-center">
+                <span
+                  className={`${
+                    dataUser?.isVerified ? 'text-teal-500' : 'text-red-500'
+                  } font-bold`}
+                >
+                  {dataUser?.isVerified ? 'Verified' : 'Not Verified'}
+                </span>
+                {!dataUser?.isVerified && (
+                  <SendEmailVerifyButton user={dataUser} />
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 ">
             <div className="relative mx-auto mt-5 md:mt-0">
-              <div className="flex-cols text-center space-y-2 transform transition-all hover:scale-105 duration-300">
+              {/* <div className="flex-cols text-center space-y-2 transform transition-all hover:scale-105 duration-300">
                 <label className="text-gray-500">
                   Update Your Profile Picture
                 </label>
@@ -188,7 +242,7 @@ const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
                     />
                   </Label>
                 </div>
-              </div>
+              </div> */}
 
               <div className="space-y-5 mx-auto block md:hidden">
                 <button
@@ -239,7 +293,7 @@ const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
                         <button
                           onClick={handleConfirmation}
                           type="button"
-                          className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                          className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-teal-600 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:ml-3 sm:w-auto sm:text-sm"
                         >
                           Confirm
                         </button>

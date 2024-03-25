@@ -18,13 +18,12 @@ interface IWarehouse {
 }
 
 interface WarehouseSelectProps {
-  onChange: (warehouseId: number) => void; // Function to lift state up
+  onChange: (warehouseId: number) => void;
 }
 
 const WarehouseSelect: React.FC<WarehouseSelectProps> = ({ onChange }) => {
   const [warehouses, setWarehouses] = useState<IWarehouse[]>([]);
   const [selectedWarehouseId, setSelectedWarehouseId] = useState('');
-  // console.log(selectedWarehouseId);
 
   const fetchWarehouses = async () => {
     try {
