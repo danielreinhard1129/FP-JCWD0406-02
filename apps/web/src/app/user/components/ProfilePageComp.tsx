@@ -135,22 +135,23 @@ const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
               </div>
             </div>
             <div className="mb-6 px-4">
-              <div className="flex gap-3 text-4xl font-bold flex-wrap items-center">
+              {/* Adjust alignment and flex direction based on screen size */}
+              <div className="flex md:flex-row md:gap-2 gap-1 text-xl md:text-2xl font-bold items-center justify-center md:justify-start text-center md:text-left">
                 <span>{dataUser?.first_name}</span>
                 <span>{dataUser?.last_name}</span>
                 {dataUser?.isVerified && (
-                  <span className="shrink-0 self-center">
-                    <RiVerifiedBadgeFill className="text-teal-500 inline-block" />
+                  <span className="shrink-0">
+                    <RiVerifiedBadgeFill className="text-teal-500" />
                   </span>
                 )}
               </div>
-              <div className="text-lg md:text-xl lg:text-2xl font-medium">
+              <div className="text-base md:text-lg font-normal text-center md:text-left">
                 <span>@{dataUser?.username || userGoogle?.displayName}</span>
               </div>
             </div>
           </div>
           <div className="space-y-4 p-4 border-4 rounded-xl border-slate-200">
-            <h1 className="text-lg font-bold border-b-2">
+            <h1 className="md:text-lg text-base font-bold border-b-2">
               Personal Information
             </h1>
 
@@ -205,45 +206,6 @@ const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
 
           <div className="grid md:grid-cols-2 ">
             <div className="relative mx-auto mt-5 md:mt-0">
-              {/* <div className="flex-cols text-center space-y-2 transform transition-all hover:scale-105 duration-300">
-                <label className="text-gray-500">
-                  Update Your Profile Picture
-                </label>
-                <div className="flex flex-col items-center justify-center border border-gray-300 rounded-lg shadow-sm bg-white">
-                  <Label
-                    htmlFor="dropzone-file"
-                    className="relative flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-                  >
-                    <div className="relative">
-                      <FaUserCircle className="text-gray-300 h-16 w-16 md:h-24 md:w-24 mt-5" />
-                      <label
-                        htmlFor="file-upload"
-                        className="absolute bottom-0 right-0 bg-teal-600 text-white p-2 rounded-full cursor-pointer"
-                      >
-                        <FaCamera className="h-5 w-5 md:h-6 md:w-6" />
-                      </label>
-                      <input
-                        id="file-upload"
-                        name="file"
-                        type="file"
-                        className="hidden"
-                        onChange={onChangeFile}
-                        accept=".jpg, .jpeg, .png" // only allow specific file types
-                      />
-                    </div>
-                    <p className="text-xs text-gray-500 mt-2 text-center p-4 ">
-                      Max File Size: 1MB, only JPG, JPEG, PNG are supported.
-                    </p>
-                    <FileInput
-                      id="dropzone-file"
-                      className="hidden"
-                      name="file"
-                      onChange={onChangeFile}
-                    />
-                  </Label>
-                </div>
-              </div> */}
-
               <div className="space-y-5 mx-auto block md:hidden">
                 <button
                   onClick={handleLogout}

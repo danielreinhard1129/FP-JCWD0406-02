@@ -49,13 +49,17 @@ export default function ResetPasswordCard() {
   return (
     <div className="relative h-fit md:h-screen">
       {/* Full Picture */}
-      <Image
-        src="/register/register6.jpg"
-        alt="Background Visual"
-        className="absolute inset-0 w-full h-full object-contain hidden md:block"
-        width={100}
-        height={100}
-      />
+      <div>
+        <Image
+          src="/register/register6.jpg"
+          alt="Background Visual"
+          className="absolute inset-0 w-full h-full object-contain hidden md:block"
+          width={501}
+          height={501}
+          quality={100}
+          priority
+        />
+      </div>
 
       {/* Overlay */}
       <div className="absolute inset-0 bg-white bg-opacity-30"></div>

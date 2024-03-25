@@ -32,12 +32,12 @@ const Sidebar: React.FC = () => {
 
   return (
     <>
-      <div className="md:w-64 w-full bg-white p-4 md:border-r-2 border-gray-200 lg:mt-20 mt-2">
+      <div className="md:w-64 w-full bg-white p-4 md:border-r-2 border-gray-200 lg:mt-20">
         {/* Navigation */}
-        <div className="flex flex-col">
+        <div className="flex md:flex-col justify-center gap-5 md:gap-0 ">
           <button
             onClick={() => router.push('/user')}
-            className="flex items-center font-semibold px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md mb-2 transform transition-all hover:scale-105 duration-300 "
+            className="flex items-center font-semibold px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md md:mb-2 transform transition-all hover:scale-105 duration-300 "
             style={{ backgroundColor: '#e5e7eb' }}
           >
             <FaUser className="mr-2" /> Profile

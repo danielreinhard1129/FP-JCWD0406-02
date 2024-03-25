@@ -49,21 +49,28 @@ const AdminSidebar: React.FC = () => {
   return (
     <div className="w-60 min-h-screen bg-white text-gray-800 flex flex-col shadow">
       {/* Admin Profile */}
-      <div className="p-4 flex space-x-4 items-center">
-        <Image
-          src={
-            user?.profile_picture
-              ? `${baseUrll}/photo-profile/${user.profile_picture}`
-              : '/default-avatar.png'
-          }
-          alt="Profile Picture"
-          width={100}
-          height={100}
-          className="object-cover rounded-full w-16 h-16"
-        />
+      <div className="flex gap-2 items-center">
+        <div className="my-2 ml-2 relative space-x-4 w-16 h-16 items-center">
+          <Image
+            src={
+              user?.profile_picture
+                ? `${baseUrll}/photo-profile/${user.profile_picture}`
+                : '/default-avatar.png'
+            }
+            alt="Profile Picture"
+            fill
+            className="object-cover rounded-full"
+          />
+        </div>
         <div>
-          <p className="font-semibold text-gray-800">{user.username}</p>
-          <p className="text-sm text-gray-600">{user.role}</p>
+          <div>
+            <p className="font-semibold text-sm text-gray-800">
+              {user.username ? user.username : 'Username'}
+            </p>
+            <p className="text-xs text-gray-600">
+              {user.role ? user.role : 'Admin'}
+            </p>
+          </div>
         </div>
       </div>
 

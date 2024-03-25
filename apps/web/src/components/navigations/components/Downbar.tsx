@@ -8,6 +8,7 @@ import { CgSmartHomeLight } from 'react-icons/cg';
 import { useAppSelector } from '@/lib/hooks';
 import Link from 'next/link';
 import { UserAuth } from '@/app/utils/context/authContext';
+import { PiSignInDuotone } from 'react-icons/pi';
 
 const BottomNavbar: React.FC = () => {
   const user = useAppSelector((state) => state.user);
@@ -52,7 +53,7 @@ const BottomNavbar: React.FC = () => {
               href="/login"
               className="text-sm font-semibold leading-6 text-gray-900 "
             >
-              <IoPersonOutline className="text-2xl" />
+              <PiSignInDuotone className="text-2xl" />
               <span className="block text-xs">Login</span>
             </Link>
           </button>

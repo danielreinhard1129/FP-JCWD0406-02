@@ -34,13 +34,17 @@ export default function ForgotPasswordCard() {
   return (
     <div className="relative h-fit md:h-screen">
       {/* Full Picture as Background */}
-      <Image
-        src="/register/register6.jpg"
-        alt="Background Visual"
-        className="absolute inset-0 w-full h-full object-contain hidden md:block"
-        width={100}
-        height={100}
-      />
+      <div>
+        <Image
+          src="/register/register6.jpg"
+          alt="Background Visual"
+          className="absolute inset-0 w-full h-full object-contain hidden md:block"
+          width={500}
+          height={500}
+          priority
+          quality={100}
+        />
+      </div>
 
       {/* Overlay with Opacity */}
       <div className="absolute inset-0 bg-white bg-opacity-30"></div>
