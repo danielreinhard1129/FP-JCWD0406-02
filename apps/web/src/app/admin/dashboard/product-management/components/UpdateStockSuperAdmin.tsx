@@ -7,7 +7,7 @@ import WarehouseSelect from '../../warehouse/components/WarehouseSelect';
 import { IStock } from '@/types/warehouse.types';
 
 interface UpdateStockModalProps {
-  stockId: number; // Passed as a prop for identifying which stock to update
+  stockId: number;
   onClose: () => void;
   onStockUpdated: () => void;
 }

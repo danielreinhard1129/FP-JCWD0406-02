@@ -170,7 +170,7 @@ const RegisterCardInputEmail = () => {
               className="bg-amber-100 hover:bg-amber-200 text-gray-700 font-semibold text-sm py-2 px-4 rounded-xl w-full mb-3"
               onClick={() => handleLoginbyGoogle()}
             >
-              Sign in with Google{' '}
+              Sign Up with Google{' '}
             </button>
           </div>
           <p className="text-xs text-center text-gray-500 mt-4">

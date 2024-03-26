@@ -29,8 +29,10 @@ export const Banner = () => {
                             src="/product/airPurifierBRDL.jpg"
                             alt=""
                             className="h-full w-full object-cover object-center"
-                            width={100}
-                            height={100}
+                            width={200}
+                            height={200}
+                            quality={100}
+                            priority
                           />
                         </div>
                         <div className="h-32 w-24 sm:h-64 sm:w-44 overflow-hidden rounded-lg transform transition-all hover:scale-105 duration-300">
@@ -38,8 +40,10 @@ export const Banner = () => {
                             src="/product/handleDoorBRDL.jpg"
                             alt=""
                             className="h-full w-full object-cover object-center"
-                            width={100}
-                            height={100}
+                            width={200}
+                            height={200}
+                            quality={100}
+                            priority
                           />
                         </div>
                       </div>
@@ -49,8 +53,10 @@ export const Banner = () => {
                             src="/product/cctvOutdoorPtzBRDL.jpg"
                             alt=""
                             className="h-full w-full object-cover object-center"
-                            width={100}
-                            height={100}
+                            width={200}
+                            height={200}
+                            quality={100}
+                            priority
                           />
                         </div>
                         <div className="h-32 w-24 sm:h-44 sm:w-44 overflow-hidden rounded-lg transform transition-all hover:scale-105 duration-300">
@@ -58,8 +64,10 @@ export const Banner = () => {
                             src="/product/ColokanBRDL.png"
                             alt=""
                             className="h-full w-full object-contain object-center"
-                            width={100}
-                            height={100}
+                            width={200}
+                            height={200}
+                            quality={100}
+                            priority
                           />
                         </div>
                         <div className="h-32 w-24 sm:h-64 sm:w-44 overflow-hidden rounded-lg transform transition-all hover:scale-105 duration-300">
@@ -67,8 +75,10 @@ export const Banner = () => {
                             src="/product/CctvPtzBrdl.jpg"
                             alt=""
                             className="h-full w-full object-cover object-center"
-                            width={100}
-                            height={100}
+                            width={200}
+                            height={200}
+                            quality={100}
+                            priority
                           />
                         </div>
                       </div>
@@ -78,8 +88,10 @@ export const Banner = () => {
                             src="/product/terminalBRDL.jpg"
                             alt=""
                             className="h-full w-full object-cover object-center"
-                            width={100}
-                            height={100}
+                            width={200}
+                            height={200}
+                            quality={100}
+                            priority
                           />
                         </div>
                         <div className="h-32 w-24 sm:h-64 sm:w-44 overflow-hidden rounded-lg transform transition-all hover:scale-105 duration-300">
@@ -87,8 +99,10 @@ export const Banner = () => {
                             src="/product/BOKLAMBRDL12W.png"
                             alt=""
                             className="h-full w-full object-cover object-center"
-                            width={100}
-                            height={100}
+                            width={200}
+                            height={200}
+                            quality={100}
+                            priority
                           />
                         </div>
                       </div>

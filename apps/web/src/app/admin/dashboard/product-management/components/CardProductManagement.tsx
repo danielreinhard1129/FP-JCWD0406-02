@@ -45,12 +45,17 @@ const CardProductManagement: React.FC<CardProductManagementProps> = ({
   productsData,
   parseProduct,
 }) => {
+  console.log(productsData);
+
   const [openDropdowns, setOpenDropdowns] = useState<number[]>([]);
   const [isCreateStockModalOpen, setIsCreateStockModalOpen] =
     useState<boolean>(false);
   const [selectedProductId, setSelectedProductId] = useState<number | null>(
     null,
   );
+  const [isUpdateStockModalOpen, setIsUpdateStockModalOpen] =
+    useState<boolean>(false);
+  const [selectedStockId, setSelectedStockId] = useState<number | null>(null);
 
   const toggleDropdown = (productId: number) => {
     if (openDropdowns.includes(productId)) {
@@ -63,12 +68,24 @@ const CardProductManagement: React.FC<CardProductManagementProps> = ({
   const openCreateStockModal = (productId: number) => {
     setSelectedProductId(productId);
     setIsCreateStockModalOpen(true);
-    toggleDropdown(productId); // Close the dropdown when opening the modal
+    toggleDropdown(productId);
   };
 
   const closeCreateStockModal = () => {
     setIsCreateStockModalOpen(false);
     setSelectedProductId(null);
+  };
+
+  const openUpdateStockModal = (stockId: number) => {
+    setSelectedStockId(stockId);
+    setIsUpdateStockModalOpen(true);
+  };
+
+  // Close update stock modal
+  const closeUpdateStockModal = () => {
+    setIsUpdateStockModalOpen(false);
+    setSelectedStockId(null);
+    parseProduct();
   };
 
   const handleStockCreated = () => {
@@ -92,8 +109,8 @@ const CardProductManagement: React.FC<CardProductManagementProps> = ({
                     : '/default-product.webp'
                 }
                 alt={product.title}
-                width={112} // Set desired width (in pixels)
-                height={112} // Set desired height (in pixels)
+                width={112}
+                height={112}
                 className="h-28 w-28 object-cover rounded-l-lg mr-4"
               />
               <div className="flex-grow">
@@ -128,12 +145,6 @@ const CardProductManagement: React.FC<CardProductManagementProps> = ({
                             <PiArchiveBoxBold className="mr-2 text-sm " />{' '}
                             Create Stock
                           </li>
-
-                          <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center">
-                            <PiArchiveBoxBold className="mr-2 text-sm " />{' '}
-                            Update Stock
-                          </li>
-
                           <EditProduct
                             product={product}
                             onSuccess={parseProduct}

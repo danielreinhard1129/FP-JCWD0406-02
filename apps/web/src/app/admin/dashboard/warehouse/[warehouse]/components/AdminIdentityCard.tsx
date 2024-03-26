@@ -84,7 +84,9 @@ const AdminIdentityCard: React.FC<AdminIdentityCardProps> = ({
               onClick={openModal}
             >
               <div className="gap-2 items-center">
-                <h2 className="text-lg font-medium">{`${admin.first_name} ${admin.last_name}`}</h2>
+                <h2 className="text-lg font-medium">{`${
+                  admin.first_name ? admin.first_name : 'Admin'
+                } ${admin.last_name ? admin.last_name : 'Name'}`}</h2>
                 <p className="text-sm text-gray-500">{admin.Role?.role_name}</p>
               </div>
               <div className="flex items-center text-sm text-gray-600 mt-2">

@@ -22,7 +22,8 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   totalStock,
 }) => {
   const [quantity, setQuantity] = useState(1);
-  const userId = useSelector((state: any) => state.user.id);
+  const user = useSelector((state: any) => state.user);
+  const userId = user.id;
   const { userGoogle } = UserAuth();
   console.log(totalStock);
 
@@ -35,8 +36,11 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   };
 
   const handleAddToCart = async () => {
+    if (!user?.isVerified) {
+      toast.error('You must be verified to add items to the cart.');
+      return;
+    }
     try {
-      // Replace baseUrl with your actual baseURL
       const response = await axios.post(`${baseUrl}/transactions/add-to-cart`, {
         userId,
         productId,
@@ -49,7 +53,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
       console.error('Error add to cart:', error);
     }
   };
-  // Calculate subtotal based on quantity and price
+
   const subtotal = quantity * price;
 
   return (
@@ -107,10 +111,10 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
 
       {userId || userGoogle ? (
         <button
-          disabled={totalStock === 0}
+          disabled={totalStock === 0 || !user?.isVerified}
           onClick={handleAddToCart}
           className={`w-full py-2 rounded-lg transform transition-all hover:scale-105 duration-300 ${
-            totalStock === 0
+            totalStock === 0 || !user?.isVerified
               ? 'bg-gray-200 text-gray-500 cursor-not-allowed' // Change color to light grey when disabled
               : 'bg-teal-600 text-white'
           }`}
@@ -121,9 +125,9 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
         <button className="w-full py-2 bg-teal-600 rounded-lg transform transition-all hover:scale-105 duration-300">
           <Link
             href="/login"
-            className="text-sm font-semibold leading-6 text-gray-900 "
+            className="text-sm font-semibold leading-6 text-white"
           >
-            <span className="block text-sm text-white">LOGIN</span>
+            LOGIN
           </Link>
         </button>
       )}

@@ -51,8 +51,8 @@ const Carousel: React.FC = () => {
                 src={src}
                 alt={`Slide ${index}`}
                 className="w-full object-cover"
-                width={501}
-                height={501}
+                width={701}
+                height={701}
                 quality={100}
                 priority
               />

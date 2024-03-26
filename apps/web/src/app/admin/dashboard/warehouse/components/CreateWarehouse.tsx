@@ -54,11 +54,11 @@ const CreateWarehouseForm: React.FC<CreateWarehouseProps> = ({ onSuccess }) => {
           `${baseUrl}/warehouses/create-warehouse`,
           values,
         );
-        console.log(response.data);
-        onSuccess;
+        // console.log(response.data);
         toast.success('Warehouse created successfully');
-        setIsModalOpen(false); // Close modal on successful submission
-        formik.resetForm(); // Reset form values
+        setIsModalOpen(false);
+        formik.resetForm();
+        onSuccess;
       } catch (error) {
         console.error('Error creating warehouse:', error);
         toast.error('Failed to create warehouse');
@@ -68,9 +68,7 @@ const CreateWarehouseForm: React.FC<CreateWarehouseProps> = ({ onSuccess }) => {
 
   const handleCitySelect = (cityId: string, cityName: string) => {
     formik.setFieldValue('city', cityName);
-    console.log('ini city name', cityName);
     formik.setFieldValue('cityId', cityId);
-    console.log('ini city id', cityId);
   };
 
   const handleAutocompleteState = (provinceName: string) => {
@@ -107,7 +105,7 @@ const CreateWarehouseForm: React.FC<CreateWarehouseProps> = ({ onSuccess }) => {
               </button>
             </div>
             <form className="space-y-2 mt-4" onSubmit={formik.handleSubmit}>
-              {/* Form fields here */}
+              {/* Form fields */}
               <div>
                 <label
                   htmlFor="name"
