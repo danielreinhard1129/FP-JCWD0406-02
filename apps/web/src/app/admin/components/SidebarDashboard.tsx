@@ -231,12 +231,6 @@ const AdminSidebar: React.FC = () => {
                 >
                   Warehouse Management
                 </Link>
-                <Link
-                  href="/admin/dashboard/warehouse"
-                  className="cursor-pointer hover:text-teal-600 transform transition-all hover:scale-105 duration-300"
-                >
-                  Warehouse Branch
-                </Link>
               </ul>
             )}
           </li>

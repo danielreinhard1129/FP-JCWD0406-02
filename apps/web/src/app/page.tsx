@@ -40,7 +40,8 @@ export default function Home() {
         const response = await axios.get(
           `${baseUrl}/warehouses/random-products`,
         );
-        setRandomProducts(response.data.data);
+        const limitedProducts = response.data.data.slice(0, 10);
+        setRandomProducts(limitedProducts);
       } catch (error) {
         console.error('Failed to fetch random products:', error);
       }

@@ -13,7 +13,6 @@ export default function ForgotPasswordCard() {
       email: '',
     },
     onSubmit: async (values) => {
-      // TODO: Implement forgot password functionality.
       try {
         const { email } = values;
 

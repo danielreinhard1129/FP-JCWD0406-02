@@ -137,8 +137,12 @@ const ProfilePageComp: React.FC<ProfilePageCompProps> = ({
             <div className="mb-6 px-4">
               {/* Adjust alignment and flex direction based on screen size */}
               <div className="flex md:flex-row md:gap-2 gap-1 text-xl md:text-2xl font-bold items-center justify-center md:justify-start text-center md:text-left">
-                <span>{dataUser?.first_name}</span>
-                <span>{dataUser?.last_name}</span>
+                <span>
+                  {dataUser?.first_name ? dataUser?.first_name : 'User'}
+                </span>
+                <span>
+                  {dataUser?.last_name ? dataUser?.last_name : 'Name'}
+                </span>
                 {dataUser?.isVerified && (
                   <span className="shrink-0">
                     <RiVerifiedBadgeFill className="text-teal-500" />
