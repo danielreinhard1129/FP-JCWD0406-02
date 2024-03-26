@@ -16,7 +16,6 @@ const DeleteUserComp: React.FC<DeleteUserProps> = ({ userId, onSuccess }) => {
   const handleDelete = async () => {
     try {
       await axios.delete(`${baseUrl}/users/delete-user/${userId}`);
-      console.log('manaaaaaaa', handleDelete);
 
       setIsModalOpen(false);
       onSuccess();

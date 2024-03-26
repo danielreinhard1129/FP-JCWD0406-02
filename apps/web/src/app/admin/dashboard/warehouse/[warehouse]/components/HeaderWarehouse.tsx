@@ -7,7 +7,6 @@ import { BsFillJournalBookmarkFill } from 'react-icons/bs';
 
 const HeaderWarehouse: React.FC = () => {
   const params = useParams();
-  // console.log('hesderr', params.warehouse);
   const paramsId = params.warehouse;
 
   return (
