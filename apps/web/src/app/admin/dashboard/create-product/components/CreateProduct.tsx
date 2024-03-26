@@ -9,8 +9,6 @@ import SelectOptionCategory from '../../category-management/components/SelectOpt
 const CreateProductForm = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState('');
   const [fileProducts, setFileProducts] = useState<File[]>([]);
-  console.log('check filee', fileProducts);
-  console.log('check beforee filee', setFileProducts);
 
   // Function to handle file change
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
