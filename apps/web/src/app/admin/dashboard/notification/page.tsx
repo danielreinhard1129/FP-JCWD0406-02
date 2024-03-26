@@ -31,8 +31,6 @@ interface IReqStock {
 const NotificationSuperAdmin = () => {
   const [requestStock, setRequestStock] = useState<IReqStock[]>([]);
 
-  console.log('ini req', requestStock);
-
   const fetchData = async () => {
     try {
       const response = await axios.get(`${baseUrl}/warehouses/req-stock`);
