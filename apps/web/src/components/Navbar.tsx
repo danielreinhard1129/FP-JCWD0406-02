@@ -230,7 +230,7 @@ export const Navbar = () => {
             </span>
           )}
         </Link>
-        {/* <CartHoverPopup /> */}
+
         <Link
           href="/"
           className="hidden lg:block px-6 lg:gap-x-12 items-center transform transition-all hover:scale-105 duration-300"
