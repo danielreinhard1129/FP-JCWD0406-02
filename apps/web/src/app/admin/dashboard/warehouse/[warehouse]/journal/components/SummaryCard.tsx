@@ -29,8 +29,6 @@ interface SummaryCardProps {
 }
 
 const SummaryCard: React.FC<SummaryCardProps> = ({ journalStock }) => {
-  console.log('ini apa?', journalStock);
-
   const [showJournalDetails, setShowJournalDetails] = useState(false);
   const stockJournal = journalStock?.Product?.Stock?.[0]?.journal || [];
 

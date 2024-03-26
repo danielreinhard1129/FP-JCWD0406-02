@@ -24,7 +24,6 @@ interface sendEmailProps {
 const SendEmailVerifyButton: React.FC<sendEmailProps> = ({ user }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCekEmail, setIsCekEmail] = useState(false);
-  console.log('check email fomr passing : ', user);
 
   const sendEmailVerify = async () => {
     try {
@@ -33,7 +32,6 @@ const SendEmailVerifyButton: React.FC<sendEmailProps> = ({ user }) => {
         { email: user.email },
       );
 
-      console.log(response);
       if (response.status === 200) {
         const successMsg = response.data.message;
         setIsCekEmail(true);

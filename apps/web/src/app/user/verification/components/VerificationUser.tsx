@@ -25,7 +25,6 @@ const VerificationUser = () => {
         },
       );
 
-      console.log('Verification response:', response.data);
       toast.success(response.data.message);
       router.push(`/login`);
     } catch (error) {
